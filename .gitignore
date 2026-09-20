@@ -1,0 +1,15 @@
+# Environnement Python (lourd, jamais sur GitHub)
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Caches de tests
+.pytest_cache/
+
+# Données (se re-téléchargent avec load_ames.py)
+ames.csv
+
+# Fichiers système
+.DS_Store
+Thumbs.db

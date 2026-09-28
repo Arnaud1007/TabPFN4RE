@@ -1,0 +1,70 @@
+source_id: hillsborough_clerk_official_records
+status: candidate_documentation_audited_not_ingested
+publisher: Hillsborough County Clerk of Court and Comptroller
+dataset_name: Official Records Public Search and Daily Index Files
+publisher_page: https://www.hillsclerk.com/propertyrecords-and-recording
+public_search: https://publicaccess.hillsclerk.com/oripublicaccess/
+instrument_lookup_pattern: https://publicaccess.hillsclerk.com/oripublicaccess/?instrument={instrument_number}
+public_data_file_guide: https://hillsclerk.com/records-and-reports/public-data-files
+daily_index_directory: https://publicrec.hillsclerk.com/OfficialRecords/DailyIndexes/
+search_guide: https://www.hillsclerk.com/documents/d/guest/ecertify-user-guide-for-court-and-official-records-11292022-pdf?download=true
+retrieved_on: 2026-09-28
+geography: Hillsborough County, Florida
+documented_search_history: Official Records Index 1965-present, subject to source access rules
+row_grain: official recorded instrument; parcel or home count per instrument requires review
+candidate_linkage_fields: [instrument_number, official_record_book, official_record_page]
+search_result_fields: [recording_date, document_type, book, page, legal_description, instrument_number]
+search_result_personal_names: >-
+  Grantor and grantee may appear in public search results. Do not collect them
+  in the ordinary HCPA source-quality audit unless an explicit protected
+  identity review requires them.
+documented_date_meaning: Clerk recording date
+verified_close_date_meaning: false
+daily_index_file_types:
+  D: documents recorded or modified on a given day
+  P: related parties
+  M: mapping of document codes to standard types
+daily_D_layout_status: >-
+  An example official D file visibly contains instrument numbers, document
+  types, legal descriptions, recording date/time and some prices, but its
+  readme/layout was not retrieved. Field positions are not yet an adapter
+  contract.
+daily_index_online_retention: at least two months, according to publisher guide
+daily_index_directory_observed_on: 2026-09-28
+daily_index_directory_observed_range: D file names 2026-07-27 through 2026-09-17
+directory_observation_note: >-
+  A current directory listing is not a historical first-publication record.
+  File modification timestamps can reflect later corrections or server moves.
+historical_daily_index_availability: not established beyond current online window
+first_available_at: >-
+  A locally captured daily D file could bound prospective availability after
+  retrieval time. The current public index does not reconstruct each old
+  instrument's first public availability.
+source_lag: not measured
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+planned_use: >-
+  Manually cross-check the private HCPA 200-record audit sample by instrument
+  number or book/page. Compare identifiers, document type, recording date,
+  parcel or transaction scope, and displayed consideration where available.
+  Do not treat recording date as closing date.
+partial_sample_comparison: runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.md
+partial_sample_comparisons: 1
+completed_full_manual_reviews: 0
+access_notes: >-
+  The publisher describes free online Official Records Index search without
+  a certified copy. Anonymous/unregistered access excludes restricted records.
+  The search guide requires narrowed queries when results exceed 5000.
+rights_basis: >-
+  Public search availability and public data files establish an audit route,
+  not a data-product redistribution or commercial reuse grant.
+permitted_use_decision: source_audit_only_pending_specific_reuse_review
+redistribution: not_established
+not_done: >-
+  One sampled instrument lookup and one readme.txt download were attempted
+  from this environment on 2026-09-28, but both timed out. A second sampled
+  instrument was found in a public daily D file through read-only web
+  retrieval. This is partial linkage evidence, not a completed unit, close
+  date or arm's-length review. No bulk daily index was downloaded, no account
+  or paid access was used, and no Clerk-derived training label or feature was
+  created.

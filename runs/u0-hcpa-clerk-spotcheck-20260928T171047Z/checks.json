@@ -1,0 +1,16 @@
+{
+  "run_id": "u0-hcpa-clerk-spotcheck-20260928T171047Z",
+  "selected_entries_attempted": 2,
+  "public_search_timeouts": 1,
+  "official_daily_index_matches": 1,
+  "matched_instrument_numbers": 1,
+  "matched_numeric_amounts": 1,
+  "hcpa_sale_date_before_clerk_recording_date": 1,
+  "clerk_description_indicating_condominium": 1,
+  "verified_property_or_unit_identity": 0,
+  "verified_closing_dates": 0,
+  "verified_arm_length_status": 0,
+  "completed_manual_review_rubrics": 0,
+  "clerk_source_file_hashes_obtained": 0,
+  "interpretation": "One partially linked source entry; no eligible model label, sale-date semantics or source availability certified"
+}

@@ -46,6 +46,8 @@ class Property:
     living_area: Decimal | None = None
     living_area_unit: str | None = None
     living_area_state: str | None = None
+    latitude: Decimal | None = None
+    longitude: Decimal | None = None
 
     def __post_init__(self) -> None:
         for name in ("property_id", "property_type", "source_id"):
@@ -62,6 +64,18 @@ class Property:
             _decimal(self.living_area, "living_area")
             if self.living_area_unit not in {"sqft", "sqm"}:
                 raise ValueError("living_area_unit must be sqft or sqm")
+        if (self.latitude is None) != (self.longitude is None):
+            raise ValueError("latitude and longitude must be supplied together")
+        for name, value, limit in (
+            ("latitude", self.latitude, Decimal("90")),
+            ("longitude", self.longitude, Decimal("180")),
+        ):
+            if value is not None and (
+                not isinstance(value, Decimal)
+                or not value.is_finite()
+                or abs(value) > limit
+            ):
+                raise ValueError(f"{name} must be a finite decimal within range")
 
 
 @dataclass(frozen=True)

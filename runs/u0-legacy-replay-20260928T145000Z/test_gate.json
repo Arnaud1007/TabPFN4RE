@@ -1,0 +1,79 @@
+{
+    "run_id":  "u0-legacy-replay-20260928T145000Z",
+    "milestone":  "U0",
+    "status":  "engineering_verified_historical_xgboost_reproduction_failed",
+    "certification_eligible":  false,
+    "code_commit":  "b92b606474c3b2c125006f1a1e5405e2e1d98cb4",
+    "dirty_tree":  true,
+    "source_snapshot_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "legacy_environment_lock_sha256":  "a165ac8d49bfa7d2b4d42f46db2d6e33883fe78662df0cee9846828ba2a2aa6f",
+    "replay_environment_packages_sha256":  "628b4af006c58618a014c1c6f34a59706843dafe137513b0e404f47c2ebe64c4",
+    "split_hash":  "153612c8c3d1a6e7fd5ce5f60b8f3940e2ef623f900506f2763e0565a7aae173",
+    "feature_policy_hash":  "966cb84acf1d560b80155ccadcd60c6b04c4ec26bdabb9494c76f097238d65bd",
+    "configuration_hash":  "3f44321d21ea963f8c285732a986419556dc5dffdafe6f6afd93e7dedd005c06",
+    "checkpoint_identity":  null,
+    "script_sha256":  "e29730c5b7eff828c73e30a35958d58e95519cd344d4c88959ceda617ad8d60f",
+    "final_replay_manifest_sha256":  "8524214b0b4a17b97a1f37e99c05d77b0d1a2916e5b0ed23a1a3e18034c7bc2c",
+    "comparison_sha256":  "82ddf65a0d02c6125bcc1d260945c3c70363484e7285dcfaf6ee14f799eec467",
+    "tests_run":  206,
+    "tests_skipped":  0,
+    "statement_coverage_percent":  90.649350649350652,
+    "results":  [
+                    {
+                        "name":  "tests",
+                        "command":  ".venv/Scripts/python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+                        "exit_code":  0,
+                        "duration_seconds":  13.7615295,
+                        "output":  "tests_v9.log",
+                        "output_sha256":  "7b3e45b0ac8038e62126acd8655a28d6b16be0f48e9aeb2c3c7dfb55ed581181"
+                    },
+                    {
+                        "name":  "coverage_report",
+                        "command":  ".venv/Scripts/python.exe -m coverage report --show-missing",
+                        "exit_code":  0,
+                        "duration_seconds":  0.4932147,
+                        "output":  "coverage_v9.log",
+                        "output_sha256":  "586f15b4d65c7767c2cef2478395ffc1ec190837eb5d48a8aab603540c22c0d0"
+                    },
+                    {
+                        "name":  "coverage_json",
+                        "command":  ".venv/Scripts/python.exe -m coverage json -o runs/u0-legacy-replay-20260928T145000Z/coverage_v9.json",
+                        "exit_code":  0,
+                        "duration_seconds":  0.5097949,
+                        "output":  "coverage_v9_json.log",
+                        "output_sha256":  "9733b846c5fb3227970d76b853a6303717a116d975bfdd3fa051c5328578ce36"
+                    },
+                    {
+                        "name":  "lint",
+                        "command":  "python -m ruff check src tests scripts",
+                        "exit_code":  0,
+                        "duration_seconds":  0.234912,
+                        "output":  "lint_v9.log",
+                        "output_sha256":  "af352a86840ad0af3d37ea0d9197f868363a6dac6b1c2ef5d2722f6b41d2d9af"
+                    },
+                    {
+                        "name":  "format",
+                        "command":  "python -m ruff format --check src tests scripts",
+                        "exit_code":  0,
+                        "duration_seconds":  0.2235051,
+                        "output":  "format_v9.log",
+                        "output_sha256":  "22801dd0faa4c11373af7fea0ab3727ab604313c96d8ff5a09bff9831983f223"
+                    },
+                    {
+                        "name":  "replay_pip_check",
+                        "command":  "data/raw/legacy-replay/.venv/Scripts/python.exe -m pip check",
+                        "exit_code":  0,
+                        "duration_seconds":  0.7875769,
+                        "output":  "replay_pip_check.log",
+                        "output_sha256":  "6326999b2d47daff6338070efad9139a62dd802f33019eab621859ade33fc907"
+                    },
+                    {
+                        "name":  "replay_dependency_audit",
+                        "command":  ".venv/Scripts/python.exe -m pip_audit -r runs/u0-legacy-replay-20260928T145000Z/replay_environment_requirements_all.txt --disable-pip --no-deps --progress-spinner off",
+                        "exit_code":  0,
+                        "duration_seconds":  1.8634514,
+                        "output":  "replay_dependency_audit_all.log",
+                        "output_sha256":  "fdc679a989f74bc998d2387d6a89b290fabc20101e4ad985892a4f407faed5da"
+                    }
+                ]
+}

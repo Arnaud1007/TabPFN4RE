@@ -1,0 +1,51 @@
+{
+  "status": "recovered_original_aggregate_artifacts",
+  "retrieved_at_utc": "2026-09-28",
+  "source_repository": "https://github.com/Arnaud1007/tabular-fm-housing-poc.git",
+  "source_commit": "60580b6f4350a70617c6edf45d2b95ac53ebec0b",
+  "source_tree_clean_at_copy": true,
+  "artifacts": [
+    {
+      "path": "data/legacy/holdout_ids.csv",
+      "source_path": "holdout_ids.csv",
+      "sha256": "cafd7740c28130d1e7db58166a00f77257b8eea6e0f33863c529bcb8c77e9306",
+      "bytes": 1539,
+      "meaning": "Original saved 292 zero-based row indices, in legacy split order"
+    },
+    {
+      "path": "data/legacy/baseline_cv_scores.csv",
+      "source_path": "cv_scores.csv",
+      "sha256": "fdd71cbc244bfdbf19305e5f823cd68d5d55f3fb6856799119ea9962ec8bfdca",
+      "bytes": 212,
+      "meaning": "Legacy baseline five-fold development MAE scores"
+    },
+    {
+      "path": "data/legacy/day8_cv_scores.csv",
+      "source_path": "artifacts/cv_scores.csv",
+      "sha256": "a7f7666e71701ccb1f3d452b68f58515b329f037d86d3fecd0664bd61d20a8dd",
+      "bytes": 959,
+      "meaning": "Legacy Day 8 five-fold development scores"
+    },
+    {
+      "path": "data/legacy/day8_metrics.csv",
+      "source_path": "artifacts/metrics.csv",
+      "sha256": "f36c0d08dc71173787a833b7bd92a238b2ef4236c570808f18e8f480c28161e3",
+      "bytes": 216,
+      "meaning": "Legacy Day 8 mean development scores"
+    }
+  ],
+  "source_environment_lock": {
+    "path_in_private_repository": "uv.lock",
+    "sha256": "a165ac8d49bfa7d2b4d42f46db2d6e33883fe78662df0cee9846828ba2a2aa6f"
+  },
+  "missing_from_private_repository": [
+    "ames.csv",
+    "feature_catalog.csv",
+    "original Word specification",
+    "row-level predictions",
+    "fitted model checkpoint",
+    "historical execution manifest"
+  ],
+  "evaluation_status": "retrospective_development_only",
+  "holdout_exposure": "unknown"
+}

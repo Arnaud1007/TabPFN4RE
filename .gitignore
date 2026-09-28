@@ -26,6 +26,7 @@ checkpoints/
 *.pkl
 runs/**/source.arff
 runs/**/predictions.csv
+**/dev_fold_predictions.csv
 
 # Visual Studio and operating system files
 .vs/

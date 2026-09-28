@@ -1,0 +1,20 @@
+{
+  "development_rows": 1168,
+  "holdout_sha256": "cafd7740c28130d1e7db58166a00f77257b8eea6e0f33863c529bcb8c77e9306",
+  "input_reconstruction": "Source ARFF development rows parsed as CSV with ? missing; exact original fetch_openml CSV unavailable.",
+  "legacy_protocol": "day8_single_shuffled_5fold_seed42",
+  "numpy_version": "2.4.6",
+  "outputs": {
+    "cv_scores.csv": "936299d635f9ac8c9104d143cc0da8ff8bbe8a8c57fe142cf89d18d09abdb386",
+    "dev_fold_predictions.csv": "c325e410b6e5873c78f8c614abca11b48aacbc096a2e10c4ab10b22c64d68f9b",
+    "metrics.csv": "a3bf649962c644a0c2de0b54bcebe52b5f58e590b4be709394503886cf4e0a1f"
+  },
+  "pandas_version": "3.0.5",
+  "python_version": "3.11.6",
+  "reserved_rows_unparsed": 292,
+  "scikit_learn_version": "1.9.1",
+  "source_rows": 1460,
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "status": "retrospective_development_only",
+  "xgboost_version": "3.2.0"
+}

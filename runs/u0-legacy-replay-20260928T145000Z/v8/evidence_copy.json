@@ -1,0 +1,14 @@
+{
+  "copy_status": "redacted_evidence_copy",
+  "source_run_id": "dev-only-20260928-v8",
+  "source_full_run_path": "data/raw/legacy-replay/dev-only-20260928-v8",
+  "full_run_manifest_sha256": "09454cf818bc2593ea6e875fd3feca59d661ce5924dc653c5a554bf9da0e62c9",
+  "omitted_from_this_copy": [
+    {
+      "file": "dev_fold_predictions.csv",
+      "reason": "Contains development row-level sale labels; retained only in the Git-ignored full run",
+      "sha256": "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+    }
+  ],
+  "interpretation": "The copied manifest describes the complete local run; this committed evidence copy is redacted and cannot alone verify the row-level output."
+}

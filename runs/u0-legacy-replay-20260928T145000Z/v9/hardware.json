@@ -1,0 +1,23 @@
+{
+    "captured_at_utc":  "2026-09-28T15:13:55.9608075Z",
+    "os":  "Microsoft Windows NT 10.0.26200.0",
+    "cpu":  {
+                "Name":  "12th Gen Intel(R) Core(TM) i7-12700H",
+                "NumberOfCores":  14,
+                "NumberOfLogicalProcessors":  20
+            },
+    "physical_memory_bytes":  34029162496,
+    "nvidia_gpu":  {
+                       "Name":  "NVIDIA GeForce RTX 3060 Laptop GPU",
+                       "DriverVersion":  "32.0.15.9608",
+                       "AdapterRAM":  4293918720
+                   },
+    "nvidia_smi":  {
+                         "Name":  "NVIDIA GeForce RTX 3060 Laptop GPU",
+                         "VRAM_MiB":  6144,
+                         "DriverVersion":  "596.08"
+                     },
+    "adapter_ram_note":  "Windows WMI AdapterRAM truncates this GPU's memory; use nvidia-smi VRAM_MiB above.",
+    "replay_execution":  "CPU, XGBoost n_jobs=-1; no GPU method configured",
+    "scope":  "companion U0 hardware evidence captured after v9 replay"
+}

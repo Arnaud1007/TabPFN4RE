@@ -1,0 +1,140 @@
+{
+    "source":  "data/legacy/day8_cv_scores.csv",
+    "replay":  "runs/u0-legacy-replay-20260928T145000Z/v9/cv_scores.csv",
+    "score_type":  "retrospective development 5-fold",
+    "certification_eligible":  false,
+    "rows":  [
+                 {
+                     "model":  "Dummy",
+                     "fold":  1,
+                     "saved_mae":  59576.84202675744,
+                     "replay_mae":  59576.84202675744,
+                     "mae_difference":  0,
+                     "rmse_difference":  0,
+                     "rmsle_difference":  0,
+                     "r2_difference":  0
+                 },
+                 {
+                     "model":  "Dummy",
+                     "fold":  2,
+                     "saved_mae":  58663.609143651971,
+                     "replay_mae":  58663.609143651971,
+                     "mae_difference":  0,
+                     "rmse_difference":  0,
+                     "rmsle_difference":  0,
+                     "r2_difference":  0
+                 },
+                 {
+                     "model":  "Dummy",
+                     "fold":  3,
+                     "saved_mae":  56690.290936876583,
+                     "replay_mae":  56690.290936876583,
+                     "mae_difference":  0,
+                     "rmse_difference":  0,
+                     "rmsle_difference":  0,
+                     "r2_difference":  0
+                 },
+                 {
+                     "model":  "Dummy",
+                     "fold":  4,
+                     "saved_mae":  53296.4267287875,
+                     "replay_mae":  53296.4267287875,
+                     "mae_difference":  0,
+                     "rmse_difference":  0,
+                     "rmsle_difference":  0,
+                     "r2_difference":  0
+                 },
+                 {
+                     "model":  "Dummy",
+                     "fold":  5,
+                     "saved_mae":  53363.992550090654,
+                     "replay_mae":  53363.992550090654,
+                     "mae_difference":  0,
+                     "rmse_difference":  0,
+                     "rmsle_difference":  0,
+                     "r2_difference":  0
+                 },
+                 {
+                     "model":  "XGBoost",
+                     "fold":  1,
+                     "saved_mae":  15489.565504807691,
+                     "replay_mae":  14836.199836404914,
+                     "mae_difference":  -653.36566840277737,
+                     "rmse_difference":  -40.8907318516176,
+                     "rmsle_difference":  -0.0014653858074217818,
+                     "r2_difference":  0.00032082359787255488
+                 },
+                 {
+                     "model":  "XGBoost",
+                     "fold":  2,
+                     "saved_mae":  16044.418402777777,
+                     "replay_mae":  16608.612313034188,
+                     "mae_difference":  564.19391025641016,
+                     "rmse_difference":  1169.3693238560663,
+                     "rmsle_difference":  0.0026076493229942044,
+                     "r2_difference":  -0.013448719640438478
+                 },
+                 {
+                     "model":  "XGBoost",
+                     "fold":  3,
+                     "saved_mae":  17464.847756410258,
+                     "replay_mae":  17415.177266960469,
+                     "mae_difference":  -49.670489449788874,
+                     "rmse_difference":  309.23230644655268,
+                     "rmsle_difference":  -0.0004022742068079399,
+                     "r2_difference":  -0.0030874323600361686
+                 },
+                 {
+                     "model":  "XGBoost",
+                     "fold":  4,
+                     "saved_mae":  15111.658161212446,
+                     "replay_mae":  14931.583942462446,
+                     "mae_difference":  -180.07421875,
+                     "rmse_difference":  12.113337837676227,
+                     "rmsle_difference":  -0.0006792409703728769,
+                     "r2_difference":  -9.98379805755567E-05
+                 },
+                 {
+                     "model":  "XGBoost",
+                     "fold":  5,
+                     "saved_mae":  14011.885193133046,
+                     "replay_mae":  13707.134723712446,
+                     "mae_difference":  -304.7504694206,
+                     "rmse_difference":  -689.09342684165676,
+                     "rmsle_difference":  -0.0024450483240251453,
+                     "r2_difference":  0.0054676962603805723
+                 }
+             ],
+    "dummy_max_abs_mae":  0,
+    "xgboost_max_abs_mae":  653.36566840277737,
+    "xgboost_saved_mean_mae":  15624.475003668244,
+    "xgboost_replay_mean_mae":  15499.741616514893,
+    "verdict":  "historic_xgboost_not_reproduced",
+    "repeat_prediction_hashes":  [
+                                     {
+                                         "run":  "v4",
+                                         "sha256":  "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+                                     },
+                                     {
+                                         "run":  "v5",
+                                         "sha256":  "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+                                     },
+                                     {
+                                         "run":  "v6",
+                                         "sha256":  "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+                                     },
+                                     {
+                                         "run":  "v7",
+                                         "sha256":  "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+                                     },
+                                     {
+                                         "run":  "v8",
+                                         "sha256":  "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+                                     },
+                                     {
+                                         "run":  "v9",
+                                         "sha256":  "a1f3ffda2c25dcda9c7f8bf30df9253dc1b587afb0203f50047660d251f245f4"
+                                     }
+                                 ],
+    "repeat_predictions_identical":  true
+}

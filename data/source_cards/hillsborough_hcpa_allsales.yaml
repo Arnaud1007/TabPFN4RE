@@ -43,7 +43,10 @@ publication_lag: >-
 historical_vintages: dated current files visible on downloads page; archive continuity unverified
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false
-rights_basis: public download; specific commercial and redistribution permissions unresolved
+rights_basis: >-
+  Public download page (https://downloads.hcpafl.org/) displays a 2026
+  Hillsborough County Property Appraiser All Rights Reserved footer. The page
+  does not state dataset-specific commercial or redistribution permission.
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-

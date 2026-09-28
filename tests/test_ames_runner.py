@@ -303,6 +303,60 @@ class AmesRunnerTests(unittest.TestCase):
         self.assertIsNone(manifest["code_commit"])
         self.assertIs(manifest["replayable"], False)
 
+    def test_ignored_untracked_lock_and_policy_cannot_be_attested_by_clean_commit(self) -> None:
+        project_root = self.work_dir / "ignored_config_repo"
+        project_root.mkdir()
+
+        def git(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
+            return subprocess.run(
+                ["git", "-C", str(project_root), *args],
+                check=check, capture_output=True, text=True,
+            )
+
+        git("init", "-q")
+        (project_root / ".gitignore").write_text("locks/\npolicies/\n", encoding="utf-8")
+        module_dir = project_root / "src" / "tabpfn4realestate"
+        module_dir.mkdir(parents=True)
+        ames_copy = module_dir / "ames.py"
+        runner_copy = module_dir / "ames_smoke.py"
+        ames_copy.write_bytes(Path(ames_module.__file__).read_bytes())
+        runner_copy.write_bytes(Path(ames_smoke.__file__).read_bytes())
+        lock = project_root / "locks" / "ames-smoke-environment.json"
+        policy = project_root / "policies" / "ames-smoke.json"
+        lock.parent.mkdir()
+        policy.parent.mkdir()
+        lock.write_bytes((PROJECT_ROOT / "locks" / lock.name).read_bytes())
+        policy.write_bytes((PROJECT_ROOT / "policies" / policy.name).read_bytes())
+        git("add", ".gitignore", "src/tabpfn4realestate/ames.py",
+            "src/tabpfn4realestate/ames_smoke.py")
+        git(
+            "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+            "commit", "-q", "-m", "tracked code only",
+        )
+
+        commit, dirty = ames_smoke._git_state(project_root)
+        self.assertRegex(commit or "", r"^[0-9a-f]{40}$")
+        self.assertIs(dirty, False)
+        for path in ("locks/ames-smoke-environment.json", "policies/ames-smoke.json"):
+            self.assertNotEqual(git("ls-files", "--error-unmatch", path, check=False).returncode, 0)
+            self.assertEqual(git("check-ignore", path).returncode, 0)
+
+        # The copied code bytes are tracked, so the only provenance defect is
+        # that required configuration bytes are absent from the claimed commit.
+        with patch.object(ames_module, "__file__", str(ames_copy)), \
+             patch.object(ames_smoke, "__file__", str(runner_copy)):
+            run_dir = run_smoke(
+                self.source,
+                self.output_dir,
+                expected_sha256=sha256(self.source),
+                project_root=project_root,
+            )
+
+        manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
+        self.assertIs(manifest["dirty_tree"], False)
+        self.assertIs(manifest["replayable"], False)
+        self.assertIsNone(manifest["code_commit"])
+
     def test_source_change_after_load_cannot_complete_run(self) -> None:
         original_load = ames_smoke.load_ames_arff
 

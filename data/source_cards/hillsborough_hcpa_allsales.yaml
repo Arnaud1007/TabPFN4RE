@@ -1,0 +1,34 @@
+source_id: hillsborough_hcpa_allsales
+status: candidate_documentation_audited_not_ingested
+publisher: Hillsborough County Property Appraiser
+dataset_name: All Sales public download
+publisher_page: https://downloads.hcpafl.org/Default.aspx
+retrieved_on: 2026-09-28
+listed_archive: allsales_09_18_2026.zip
+listed_archive_sha256: 847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7
+embedded_documentation: allsales.doc
+embedded_documentation_sha256: 8975be10a94a581a76a2a9a9370eda16c3b1730cc54ecc3e9f2afb2998b62175
+geography: Hillsborough County, Florida only
+row_grain: sale entry linked to parcel; transaction uniqueness not yet audited
+candidate_fields: [PIN, FOLIO, S_DATE, S_AMT, QU, VI, REA_CD, S_TYPE, OR_BK, OR_PG, DOC_NUM]
+date_field: S_DATE
+documented_date_meaning: date of sale
+verified_close_date_meaning: false
+first_available_at: absent_from_download_layout
+publication_lag: >-
+  Embedded allsales.doc says sales are entered after receipt from the Clerk's
+  Office and staff review, which may take several weeks.
+historical_vintages: dated current files visible on downloads page; archive continuity unverified
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+rights_basis: public download; specific commercial and redistribution permissions unresolved
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+next_checks: >-
+  Resolve S_DATE against execution/closing evidence, archive dated source files
+  from now on for observed first availability, audit 200 records and economic
+  duplicate linkage, determine historical vintages and source-specific rights.
+notes: >-
+  The archive and documentation were downloaded to a local temporary audit
+  location, hashed, and inspected. Property rows were not ingested or trained.
+  The public page uses postback downloads rather than stable file URLs.

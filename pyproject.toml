@@ -8,7 +8,7 @@ version = "0.0.1"
 description = "Evidence-first real estate sale-price research"
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
-dependencies = []
+dependencies = ["tzdata==2026.4"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

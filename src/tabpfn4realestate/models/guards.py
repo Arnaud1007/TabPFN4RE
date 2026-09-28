@@ -3,7 +3,95 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Mapping, Sequence
+
+
+_FORBIDDEN_FEATURES = {
+    "saleprice",
+    "sale_price",
+    "target",
+    "f172",
+    "f349",
+    "f350",
+    "rendement_locatif",
+    "note_attractivite_marche",
+    "note_potentiel_d_investissement",
+    "future_market_average",
+    "final_days_on_market",
+}
+
+
+@dataclass(frozen=True)
+class FeatureDefinition:
+    name: str
+    dependencies: tuple[str, ...] = ()
+    modes: tuple[str, ...] = ("OFF",)
+
+    def __post_init__(self) -> None:
+        if (
+            not isinstance(self.name, str)
+            or not self.name
+            or self.name != self.name.strip()
+        ):
+            raise ValueError("Feature name must be canonical")
+        if not isinstance(self.dependencies, tuple) or not isinstance(
+            self.modes, tuple
+        ):
+            raise ValueError("Feature dependencies and modes must be immutable tuples")
+        if len(set(self.dependencies)) != len(self.dependencies):
+            raise ValueError("Feature dependencies must be unique")
+        if not self.modes or any(mode not in {"OFF", "ON"} for mode in self.modes):
+            raise ValueError("Feature modes must be OFF or ON")
+
+
+def validate_feature_columns(
+    names: Sequence[str],
+    definitions: Mapping[str, FeatureDefinition],
+    *,
+    mode: str = "OFF",
+) -> None:
+    """Fail closed when a predictive input or its dependency is disallowed."""
+    if mode not in {"OFF", "ON"}:
+        raise ValueError("Unsupported information mode")
+    if len(set(names)) != len(names):
+        raise ValueError("Duplicate model feature")
+    visiting: set[str] = set()
+    validated: set[str] = set()
+
+    def visit(name: str) -> None:
+        if not isinstance(name, str):
+            raise ValueError("Feature name must be a string")
+        lowered = name.casefold()
+        if lowered in _FORBIDDEN_FEATURES or lowered.startswith(
+            (
+                "saleprice_",
+                "sale_price_",
+                "target_",
+                "f172_",
+                "f349_",
+                "f350_",
+            )
+        ):
+            raise ValueError(f"Forbidden model feature: {name}")
+        if name in visiting:
+            raise ValueError(f"Feature dependency cycle: {name}")
+        if name in validated:
+            return
+        definition = definitions.get(name)
+        if definition is None or definition.name != name:
+            raise ValueError(f"Unregistered model feature: {name}")
+        if mode not in definition.modes and not (
+            mode == "ON" and "OFF" in definition.modes
+        ):
+            raise ValueError(f"Feature {name} is unavailable in {mode}")
+        visiting.add(name)
+        for dependency in definition.dependencies:
+            visit(dependency)
+        visiting.remove(name)
+        validated.add(name)
+
+    for name in names:
+        visit(name)
 
 
 @dataclass(frozen=True)

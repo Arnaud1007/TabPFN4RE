@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from hashlib import sha256
 import json
 from typing import Sequence
 
-from tabpfn4realestate.data.schema import _identifier, _instant
+from tabpfn4realestate.data.schema import (
+    _identifier,
+    _instant,
+    _matches_utc_horizon,
+    _utc,
+)
 
 
 @dataclass(frozen=True)
@@ -53,10 +58,6 @@ class TemporalFold:
     split_hash: str
 
 
-def _utc(value: datetime) -> datetime:
-    return value.astimezone(timezone.utc)
-
-
 def _utc_iso(value: datetime) -> str:
     return _utc(value).isoformat()
 
@@ -75,6 +76,8 @@ def _validate_fold_bounds(
     ):
         _instant(value, name)
     _identifier(protocol_id, "protocol_id")
+    if protocol_id != "us_synthetic_rolling_v2":
+        raise ValueError("This builder supports only the synthetic protocol")
     if type(horizon_days) is not int or horizon_days <= 0:
         raise ValueError("horizon_days must be a positive integer")
     if _utc(training_cutoff) > _utc(validation_start) or _utc(validation_start) >= _utc(
@@ -106,8 +109,9 @@ def _index_training_maturity(
             raise ValueError("Training maturity records must be unique")
         if label.row_id not in training_candidate_ids:
             raise ValueError("Maturity supplied for a reserved or unknown row")
-        expected_close = origins[label.row_id].origin + timedelta(days=horizon_days)
-        if _utc(label.close_at) != _utc(expected_close):
+        if not _matches_utc_horizon(
+            origins[label.row_id].origin, label.close_at, horizon_days
+        ):
             raise ValueError(
                 "Sale close date does not match the registered origin horizon"
             )
@@ -156,7 +160,7 @@ def build_temporal_fold(
     validation_start: datetime,
     validation_end: datetime,
     horizon_days: int = 90,
-    protocol_id: str = "us_synthetic_rolling_v1",
+    protocol_id: str = "us_synthetic_rolling_v2",
 ) -> TemporalFold:
     """Freeze an origin-based fold without opening validation-row labels."""
     _validate_fold_bounds(

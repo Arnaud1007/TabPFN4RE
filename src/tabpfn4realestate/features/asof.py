@@ -18,6 +18,7 @@ from tabpfn4realestate.data.schema import (
     Transaction,
     canonicalize_transactions,
     _instant,
+    _utc,
 )
 
 
@@ -76,20 +77,20 @@ def _snapshot_hash(
 ) -> str:
     payload = {
         "property_id": property_id,
-        "origin": origin.isoformat(),
+        "origin": _utc(origin).isoformat(),
         "mode": "OFF",
         "source_snapshot": {
             "snapshot_id": source_snapshot.snapshot_id,
             "source_ids": source_snapshot.source_ids,
-            "as_of": source_snapshot.as_of.isoformat(),
+            "as_of": _utc(source_snapshot.as_of).isoformat(),
         },
         "features": [
             {
                 "name": name,
                 "value": str(values[name]),
                 "source_id": lineage[name].source_id,
-                "observed_at": lineage[name].observed_at.isoformat(),
-                "available_at": lineage[name].available_at.isoformat(),
+                "observed_at": _utc(lineage[name].observed_at).isoformat(),
+                "available_at": _utc(lineage[name].available_at).isoformat(),
             }
             for name in sorted(values)
         ],
@@ -117,10 +118,10 @@ def assemble_snapshot(
         raise NotImplementedError("ON requires authorised historical listing snapshots")
     if mode != "OFF":
         raise ValueError(f"Unsupported information mode: {mode}")
-    cutoff = min(origin, source_snapshot.as_of)
+    cutoff = min(_utc(origin), _utc(source_snapshot.as_of))
     if property.source_id not in source_snapshot.source_ids:
         raise ValueError("Property source is absent from snapshot manifest")
-    if property.observed_at > cutoff or property.available_at > cutoff:
+    if _utc(property.observed_at) > cutoff or _utc(property.available_at) > cutoff:
         raise ValueError("Property version was unavailable at origin")
 
     property_lineage = Lineage(
@@ -148,20 +149,23 @@ def assemble_snapshot(
         if observation.source_id not in source_snapshot.source_ids:
             raise ValueError("Attribute source is absent from snapshot manifest")
         _validate_attribute(observation)
-        if observation.observed_at > cutoff or observation.available_at > cutoff:
+        if (
+            _utc(observation.observed_at) > cutoff
+            or _utc(observation.available_at) > cutoff
+        ):
             continue
         earlier = chosen.get(observation.name)
-        if earlier is None or observation.observed_at > earlier.observed_at:
+        if earlier is None or _utc(observation.observed_at) > _utc(earlier.observed_at):
             chosen[observation.name] = observation
-        elif observation.observed_at == earlier.observed_at:
+        elif _utc(observation.observed_at) == _utc(earlier.observed_at):
             if (
                 observation.value != earlier.value
                 or observation.unit != earlier.unit
                 or observation.missing_state != earlier.missing_state
             ):
                 raise ValueError(f"Ambiguous attribute: {observation.name}")
-            if (observation.available_at, observation.source_id) < (
-                earlier.available_at,
+            if (_utc(observation.available_at), observation.source_id) < (
+                _utc(earlier.available_at),
                 earlier.source_id,
             ):
                 chosen[observation.name] = observation
@@ -212,13 +216,16 @@ def assemble_snapshot(
             raise ValueError("Transaction source is absent from snapshot manifest")
         if sale.economic_transfer_id == excluded_transfer:
             continue
-        if sale.close_at <= cutoff and sale.available_at <= cutoff:
+        if _utc(sale.close_at) <= cutoff and _utc(sale.available_at) <= cutoff:
             prior.append(sale)
     if prior:
         canonical = canonicalize_transactions(prior)
         eligible = tuple(sale for sale in canonical if sale.eligible_prior_sale)
         if eligible:
-            latest = max(eligible, key=lambda row: (row.close_at, row.available_at))
+            latest = max(
+                eligible,
+                key=lambda row: (_utc(row.close_at), _utc(row.available_at)),
+            )
             values["prior_sale_price"] = latest.price
             lineage["prior_sale_price"] = Lineage(
                 latest.source_id, latest.close_at, latest.available_at

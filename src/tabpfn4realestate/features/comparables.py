@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from calendar import monthrange
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 from decimal import Decimal
 from math import asin, cos, isfinite, radians, sin, sqrt
@@ -14,6 +14,7 @@ from tabpfn4realestate.data.schema import (
     SourceSnapshot,
     Transaction,
     _instant,
+    _utc,
     canonicalize_transactions,
 )
 
@@ -29,10 +30,10 @@ def eligible_comparable_sales(
 ) -> tuple[Transaction, ...]:
     """Return eligible, visible, non-subject transfers in deterministic order."""
     _instant(origin, "origin")
-    cutoff = min(origin, source_snapshot.as_of)
+    cutoff = min(_utc(origin), _utc(source_snapshot.as_of))
     if subject.source_id not in source_snapshot.source_ids:
         raise ValueError("Subject property source is absent from snapshot manifest")
-    if subject.observed_at > cutoff or subject.available_at > cutoff:
+    if _utc(subject.observed_at) > cutoff or _utc(subject.available_at) > cutoff:
         raise ValueError("Subject property version was unavailable at origin")
 
     candidates: dict[str, Property] = {}
@@ -51,15 +52,15 @@ def eligible_comparable_sales(
         if property_id != subject.property_id
         and property.country == subject.country
         and property.property_type == subject.property_type
-        and property.observed_at <= cutoff
-        and property.available_at <= cutoff
+        and _utc(property.observed_at) <= cutoff
+        and _utc(property.available_at) <= cutoff
     }
     visible_sales = tuple(
         sale
         for sale in transactions
         if sale.source_id in source_snapshot.source_ids
-        and sale.close_at <= cutoff
-        and sale.available_at <= cutoff
+        and _utc(sale.close_at) <= cutoff
+        and _utc(sale.available_at) <= cutoff
     )
     canonical = canonicalize_transactions(visible_sales)
     return tuple(
@@ -71,7 +72,7 @@ def eligible_comparable_sales(
                 and sale.economic_transfer_id != subject_economic_transfer_id
                 and sale.eligible_prior_sale
             ),
-            key=lambda sale: (sale.close_at, sale.economic_transfer_id),
+            key=lambda sale: (_utc(sale.close_at), sale.economic_transfer_id),
         )
     )
 
@@ -213,18 +214,18 @@ def retrieve_comparables(
         )
     properties = {property.property_id: property for property in candidate_properties}
     latest_by_property: dict[str, Transaction] = {}
-    window_start = _months_before(origin, config.sale_window_months)
+    window_start = _months_before(_utc(origin), config.sale_window_months)
     for sale in eligible:
-        if sale.close_at < window_start:
+        if _utc(sale.close_at) < window_start:
             continue
         previous = latest_by_property.get(sale.property_id)
         if previous is None or (
-            sale.close_at,
-            sale.available_at,
+            _utc(sale.close_at),
+            _utc(sale.available_at),
             sale.economic_transfer_id,
         ) > (
-            previous.close_at,
-            previous.available_at,
+            _utc(previous.close_at),
+            _utc(previous.available_at),
             previous.economic_transfer_id,
         ):
             latest_by_property[sale.property_id] = sale
@@ -237,12 +238,12 @@ def retrieve_comparables(
             candidate_area is None
             or property.latitude is None
             or property.longitude is None
-            or property.observed_at > sale.close_at
-            or property.available_at > sale.close_at
+            or _utc(property.observed_at) > _utc(sale.close_at)
+            or _utc(property.available_at) > _utc(sale.close_at)
         ):
             continue
         distance = _distance_km(subject, property)
-        recency_days = (origin - sale.close_at).total_seconds() / 86400
+        recency_days = (_utc(origin) - _utc(sale.close_at)).total_seconds() / 86400
         area_difference = float(abs(candidate_area.ln() - subject_area.ln()))
         score = (
             distance / config.distance_scale_km
@@ -282,10 +283,20 @@ def comparable_price_per_area(
     result: ComparableResult,
 ) -> Decimal | None:
     """Weighted median USD per square foot times subject area, if support suffices."""
+    _instant(origin, "origin")
     if (
-        subject != result.subject
-        or origin != result.origin
-        or source_snapshot != result.source_snapshot
+        replace(
+            subject,
+            observed_at=result.subject.observed_at,
+            available_at=result.subject.available_at,
+        )
+        != result.subject
+        or _utc(origin) != _utc(result.origin)
+        or replace(source_snapshot, as_of=result.source_snapshot.as_of)
+        != result.source_snapshot
+        or _utc(subject.observed_at) != _utc(result.subject.observed_at)
+        or _utc(subject.available_at) != _utc(result.subject.available_at)
+        or _utc(source_snapshot.as_of) != _utc(result.source_snapshot.as_of)
     ):
         raise ValueError("Comparable result belongs to a different input context")
     subject_area = _square_feet(subject)

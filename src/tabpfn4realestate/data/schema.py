@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Sequence
 
@@ -18,6 +18,18 @@ def _instant(value: datetime, name: str) -> None:
         raise ValueError(f"{name} must be a timezone-aware datetime")
     if value.utcoffset() is None:
         raise ValueError(f"{name} must have a defined UTC offset")
+
+
+def _utc(value: datetime) -> datetime:
+    """Compare instants in UTC so a repeated local hour retains its fold."""
+    return value.astimezone(timezone.utc)
+
+
+def _matches_utc_horizon(origin: datetime, close: datetime, days: int) -> bool:
+    """Check the synthetic exact-time horizon in UTC, independent of input zone."""
+    _instant(origin, "origin")
+    _instant(close, "close")
+    return _utc(origin) + timedelta(days=days) == _utc(close)
 
 
 def _decimal(value: Decimal, name: str) -> None:
@@ -219,7 +231,6 @@ def canonicalize_transactions(
             continue
         shared_facts = (
             "property_id",
-            "close_at",
             "price",
             "currency",
             "scope",
@@ -227,10 +238,12 @@ def canonicalize_transactions(
             "arm_length_status",
             "adjustment_flags",
         )
-        if any(getattr(earlier, name) != getattr(row, name) for name in shared_facts):
+        if _utc(earlier.close_at) != _utc(row.close_at) or any(
+            getattr(earlier, name) != getattr(row, name) for name in shared_facts
+        ):
             raise ValueError("Conflicting duplicate economic transfer; quarantine")
-        if (row.available_at, row.source_id, row.transaction_id) < (
-            earlier.available_at,
+        if (_utc(row.available_at), row.source_id, row.transaction_id) < (
+            _utc(earlier.available_at),
             earlier.source_id,
             earlier.transaction_id,
         ):

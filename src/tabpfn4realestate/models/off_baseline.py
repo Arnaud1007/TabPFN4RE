@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import Decimal
 import re
 from statistics import median
@@ -16,6 +16,8 @@ from tabpfn4realestate.data.schema import (
     SourceSnapshot,
     Transaction,
     _instant,
+    _matches_utc_horizon,
+    _utc,
 )
 from tabpfn4realestate.features.asof import FeatureSnapshot, assemble_snapshot
 from tabpfn4realestate.models.guards import (
@@ -79,13 +81,13 @@ def _checked_snapshot(snapshot: FeatureSnapshot, source: SourceSnapshot) -> None
     validate_feature_columns(tuple(snapshot.values), CORE_OFF_FEATURES, mode="OFF")
     if set(snapshot.values) != set(snapshot.lineage):
         raise ValueError("Feature values and lineage do not match")
-    cutoff = min(snapshot.origin, source.as_of)
+    cutoff = min(_utc(snapshot.origin), _utc(source.as_of))
     if snapshot.source_snapshot_id != source.snapshot_id:
         raise ValueError("Feature source snapshot does not match request")
     if any(
         entry.source_id not in source.source_ids
-        or entry.observed_at > cutoff
-        or entry.available_at > cutoff
+        or _utc(entry.observed_at) > cutoff
+        or _utc(entry.available_at) > cutoff
         for entry in snapshot.lineage.values()
     ):
         raise ValueError("OFF feature has invalid source or future lineage")
@@ -157,12 +159,12 @@ class GuardedOffMedian:
                 raise ValueError("Training label property does not match subject")
             if row.label.source_id not in row.source_snapshot.source_ids:
                 raise ValueError("Training label source is absent from manifest")
-            if row.label.close_at != row.origin + timedelta(days=90):
+            if not _matches_utc_horizon(row.origin, row.label.close_at, 90):
                 raise ValueError("Training label does not match 90-day origin")
             if (
-                row.label.available_at <= row.origin
-                or row.label.close_at > training_cutoff
-                or row.label.available_at > training_cutoff
+                _utc(row.label.available_at) <= _utc(row.origin)
+                or _utc(row.label.close_at) > _utc(training_cutoff)
+                or _utc(row.label.available_at) > _utc(training_cutoff)
                 or not row.label.eligible_prior_sale
             ):
                 raise ValueError("Training label is unavailable or ineligible")
@@ -193,7 +195,7 @@ class GuardedOffMedian:
         subject_economic_transfer_id: str | None = None,
     ) -> OffPrediction:
         _instant(origin, "origin")
-        if origin < self.training_cutoff:
+        if _utc(origin) < _utc(self.training_cutoff):
             raise ValueError("Prediction origin predates model training cutoff")
         snapshot = assemble_snapshot(
             property,

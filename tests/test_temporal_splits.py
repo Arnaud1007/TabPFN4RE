@@ -59,12 +59,22 @@ def fold(origins, maturities, *, cutoff_day=120, start_day=130, end_day=160, **c
         "validation_start": BASE + timedelta(days=start_day),
         "validation_end": BASE + timedelta(days=end_day),
         "horizon_days": 90,
-        "protocol_id": "us_synthetic_rolling_v1",
+        "protocol_id": "us_synthetic_rolling_v2",
     }
     return build_temporal_fold(origins, maturities, **(fields | changes))
 
 
 class TemporalFoldTests(unittest.TestCase):
+    def test_real_protocol_id_cannot_use_synthetic_builder(self):
+        train = origin_ref("transfer-train", 0)
+        validation = origin_ref("transfer-validation", 130)
+        with self.assertRaisesRegex(ValueError, "synthetic protocol"):
+            fold(
+                (train, validation),
+                (maturity(train),),
+                protocol_id="us_real_v1",
+            )
+
     def test_fallback_fold_does_not_mature_a_future_label(self):
         zone = FallBackTimezone()
         close = datetime(2024, 11, 3, 1, 15, tzinfo=zone, fold=0)

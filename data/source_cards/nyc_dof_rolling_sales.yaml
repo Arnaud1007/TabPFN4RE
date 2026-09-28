@@ -27,8 +27,11 @@ date_semantics: DOF glossary says date the property sold; contract and close map
 property_fields: [building_class_at_time_of_sale, building_class_at_present, gross_square_feet, land_square_feet, year_built]
 area_semantics: gross building area and land area; neither is verified living area
 availability_field: absent
-historical_vintages: current rolling window only; archived monthly extracts not recovered
-correction_policy: NYC Open Data terms permit updates and overwrites; older versions are not retained by the portal
+historical_vintages: eight dated Export Archive entries visible in portal changelog; CSV bytes not recovered or verified
+correction_policy: current view can change; archived dataset versions are visible but row-level correction history is not audited
+archive_evidence: decisions/0019-nyc-rolling-archive-correction.md
+archive_inspected_on: 2026-09-29
+archive_access: export route and anonymous access not yet verified; public page text may require sign-in
 licence_field_in_metadata: null
 rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
@@ -39,3 +42,5 @@ notes: >-
   OFF label candidate only. The publication schedule does not provide each row's
   first availability. Current property attributes cannot be attached to earlier
   valuation origins without independently evidenced historical vintages.
+  A visible archived revision is not yet a locally verified row snapshot and
+  does not establish the first availability of each transaction row.

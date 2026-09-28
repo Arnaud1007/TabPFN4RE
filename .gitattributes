@@ -12,3 +12,6 @@
 /decisions/0017-hcpa-pin-crosswalk-validation.md -text
 /decisions/0018-hcpa-crosswalk-gap-diagnostic.md -text
 /locks/hcpa-pin-validation-environment.json -text
+/scripts/capture_nyc_rolling_snapshot.py -text
+/tests/test_capture_nyc_rolling_snapshot.py -text
+/decisions/0019-nyc-rolling-archive-correction.md -text

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "purpose": "Read-only HCPA DBF audit sampling into an ignored local review file",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": [],
+  "tooling": "Python standard library only"
+}

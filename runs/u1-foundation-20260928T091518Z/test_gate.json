@@ -1,0 +1,46 @@
+{
+  "artifacts": {
+    "coverage.json": "540a52c6e4419d6b90df8ceba9c42df8961dbaedbfba94d8f5a1eeeb7f67355b",
+    "coverage_json.log": "a5c80c2844306f3987e6fe1c5e6b5ca6cb14cb2565ebeca123761be1fb895290",
+    "coverage_report.log": "802ca68e5132df3ff783d8af85da1f3aa728988eed758cbb1f1f16c12b0dfb8c",
+    "lint.log": "de05e451ae4f767d6b98021e5e71c7449d895113f2c4c92617b5e1e80a7fc122",
+    "test_output.log": "4dcf86324293ef8f2d555fdce8248761df85d1f116abfc71387c341eaa8ae351"
+  },
+  "code_commit": "c85abb299034d12c32ac097b1a5f4d79c564bb6a",
+  "milestone": "U1-foundation-partial",
+  "python_version": "3.11.6",
+  "results": [
+    {
+      "command": "-m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+      "duration_seconds": 11.875,
+      "exit_code": 0,
+      "name": "tests",
+      "output": "test_output.log"
+    },
+    {
+      "command": "-m coverage report --show-missing",
+      "duration_seconds": 0.5150000001303852,
+      "exit_code": 0,
+      "name": "coverage_report",
+      "output": "coverage_report.log"
+    },
+    {
+      "command": "-m coverage json -o C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u1-foundation-20260928T091518Z\\coverage.json",
+      "duration_seconds": 0.6409999998286366,
+      "exit_code": 0,
+      "name": "coverage_json",
+      "output": "coverage_json.log"
+    },
+    {
+      "command": "-m ruff check src tests",
+      "duration_seconds": 0.10900000017136335,
+      "exit_code": 1,
+      "name": "lint",
+      "output": "lint.log"
+    }
+  ],
+  "run_id": "u1-foundation-20260928T091518Z",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "started_at_utc": "2026-09-28T09:15:19.012790+00:00",
+  "status": "failed"
+}

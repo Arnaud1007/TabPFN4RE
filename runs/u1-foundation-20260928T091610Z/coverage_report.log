@@ -1,0 +1,11 @@
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+src\tabpfn4realestate\__init__.py                0      0   100%
+src\tabpfn4realestate\ames.py                  114      8    93%   23, 51, 69, 74, 77, 95, 106, 153
+src\tabpfn4realestate\ames_smoke.py            149     18    88%   110, 147, 151, 154, 164, 205, 228, 329-344, 348
+src\tabpfn4realestate\data\__init__.py           0      0   100%
+src\tabpfn4realestate\data\schema.py           153     13    92%   20, 35, 54, 60, 101, 108, 112, 114, 145, 147, 180, 182, 200
+src\tabpfn4realestate\features\__init__.py       0      0   100%
+src\tabpfn4realestate\features\asof.py         110     15    86%   59, 61, 67, 119, 122, 147, 156-167, 195, 201, 210, 212
+--------------------------------------------------------------------------
+TOTAL                                          526     54    90%

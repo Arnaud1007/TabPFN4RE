@@ -8,13 +8,13 @@ status_meanings:
 requirements:
   US01: {title: US product scope, status: planned, implementation: [], tests: [], evidence: []}
   US02: {title: Legacy audit and migration, status: planned, implementation: [src/tabpfn4realestate/ames.py, src/tabpfn4realestate/ames_smoke.py], tests: [tests/test_ames_smoke.py, tests/test_ames_runner.py], evidence: [migration_report.md, data/source_cards/openml_42165.yaml, runs/u0-smoke-20260928T082634Z-ef55636ed896/report.md, runs/u0-smoke-20260928T082634Z-ef55636ed896/manifest.json]}
-  US03: {title: Targets and information modes, status: planned, implementation: [], tests: [], evidence: []}
-  US04: {title: Property and listing lifecycle, status: planned, implementation: [], tests: [], evidence: []}
+  US03: {title: Targets and information modes, status: planned, implementation: [src/tabpfn4realestate/data/schema.py, src/tabpfn4realestate/features/asof.py], tests: [tests/test_u1_foundation.py], evidence: [runs/u1-foundation-20260928T091610Z/report.md]}
+  US04: {title: Property and listing lifecycle, status: planned, implementation: [src/tabpfn4realestate/data/schema.py], tests: [tests/test_u1_foundation.py], evidence: [runs/u1-foundation-20260928T091610Z/report.md]}
   US05: {title: US acquisition and coverage, status: planned, implementation: [], tests: [], evidence: []}
-  US06: {title: Canonical schema and immutable layers, status: planned, implementation: [], tests: [], evidence: []}
-  US07: {title: Quality and eligibility, status: planned, implementation: [], tests: [], evidence: []}
-  US08: {title: As-of features, status: planned, implementation: [], tests: [], evidence: []}
-  US09: {title: Feature policy, status: planned, implementation: [policies/ames-smoke.json], tests: [], evidence: [policies/ames-smoke.json]}
+  US06: {title: Canonical schema and immutable layers, status: planned, implementation: [src/tabpfn4realestate/data/schema.py], tests: [tests/test_u1_foundation.py], evidence: [decisions/0002-u1-synthetic-us-contract.md, runs/u1-foundation-20260928T091610Z/test_gate.json]}
+  US07: {title: Quality and eligibility, status: planned, implementation: [src/tabpfn4realestate/data/schema.py], tests: [tests/test_u1_foundation.py], evidence: [runs/u1-foundation-20260928T091610Z/report.md]}
+  US08: {title: As-of features, status: planned, implementation: [src/tabpfn4realestate/features/asof.py], tests: [tests/test_u1_foundation.py], evidence: [runs/u1-foundation-20260928T091610Z/test_gate.json]}
+  US09: {title: Feature policy, status: planned, implementation: [policies/ames-smoke.json, src/tabpfn4realestate/features/asof.py], tests: [tests/test_u1_foundation.py], evidence: [policies/ames-smoke.json, runs/u1-foundation-20260928T091610Z/report.md]}
   US10: {title: Comparable sales, status: planned, implementation: [], tests: [], evidence: []}
   US11: {title: Temporal and geographic evaluation, status: planned, implementation: [], tests: [], evidence: []}
   US12: {title: Metrics and denominators, status: planned, implementation: [src/tabpfn4realestate/ames.py], tests: [tests/test_ames_smoke.py], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/metrics.json]}
@@ -27,9 +27,9 @@ requirements:
   US19: {title: Prediction intervals, status: planned, implementation: [], tests: [], evidence: []}
   US20: {title: Diagnostics fairness and support, status: planned, implementation: [], tests: [], evidence: []}
   US21: {title: Prediction interface, status: planned, implementation: [], tests: [], evidence: []}
-  US22: {title: Architecture and reproducibility, status: planned, implementation: [pyproject.toml, locks/ames-smoke-environment.json, src/tabpfn4realestate/ames_smoke.py], tests: [tests/test_ames_runner.py], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/manifest.json]}
-  US23: {title: Acceptance tests, status: planned, implementation: [], tests: [tests/test_ames_smoke.py, tests/test_ames_runner.py], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/test_gate.json, runs/u0-smoke-20260928T082634Z-ef55636ed896/coverage.json]}
-  US24: {title: US milestones, status: planned, implementation: [], tests: [], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/report.md, next_action.md]}
+  US22: {title: Architecture and reproducibility, status: planned, implementation: [pyproject.toml, locks/ames-smoke-environment.json, src/tabpfn4realestate/ames_smoke.py, src/tabpfn4realestate/data/schema.py, src/tabpfn4realestate/features/asof.py], tests: [tests/test_ames_runner.py, tests/test_u1_foundation.py], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/manifest.json, runs/u1-foundation-20260928T091610Z/test_gate.json]}
+  US23: {title: Acceptance tests, status: planned, implementation: [], tests: [tests/test_ames_smoke.py, tests/test_ames_runner.py, tests/test_u1_foundation.py], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/test_gate.json, runs/u0-smoke-20260928T082634Z-ef55636ed896/coverage.json, runs/u1-foundation-20260928T091610Z/test_gate.json]}
+  US24: {title: US milestones, status: planned, implementation: [], tests: [], evidence: [runs/u0-smoke-20260928T082634Z-ef55636ed896/report.md, runs/u1-foundation-20260928T091610Z/report.md, next_action.md]}
   US25: {title: Competitor evidence, status: planned, implementation: [], tests: [], evidence: []}
   INT01: {title: Country expansion dependency, status: planned, implementation: [], tests: [], evidence: []}
   INT02: {title: International semantics, status: planned, implementation: [], tests: [], evidence: []}

@@ -1,0 +1,94 @@
+{
+  "artifacts": {
+    "coverage.json": "87ed19f34dd9e1d8fc58e6fcc635ced097147f1f7cbbcb0bf85d2596c1b836f0",
+    "coverage_json.log": "cfb242ec647f693986908d237c8c91854a3177d3224e5d56bd9c77007220631c",
+    "coverage_report.log": "802ca68e5132df3ff783d8af85da1f3aa728988eed758cbb1f1f16c12b0dfb8c",
+    "format.log": "a69837e5076ef12241581591171de529fd26d5157fc32761175f83b0501cd41d",
+    "lint.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "test_output.log": "3e8dc996a6922128d06adade5ceb6e14d819c996a4a1847fd90cd26d8eef8b55"
+  },
+  "code_commit": "c85abb299034d12c32ac097b1a5f4d79c564bb6a",
+  "milestone": "U1-foundation-partial",
+  "python_version": "3.11.6",
+  "results": [
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "run",
+        "--source=tabpfn4realestate",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "duration_seconds": 11.125,
+      "exit_code": 0,
+      "name": "tests",
+      "output": "test_output.log"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "--show-missing"
+      ],
+      "duration_seconds": 0.29600000008940697,
+      "exit_code": 0,
+      "name": "coverage_report",
+      "output": "coverage_report.log"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "json",
+        "-o",
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u1-foundation-20260928T091610Z\\coverage.json"
+      ],
+      "duration_seconds": 0.28199999989010394,
+      "exit_code": 0,
+      "name": "coverage_json",
+      "output": "coverage_json.log"
+    },
+    {
+      "command": [
+        "C:\\Python314\\python.EXE",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests"
+      ],
+      "duration_seconds": 0.1720000000204891,
+      "exit_code": 0,
+      "name": "lint",
+      "output": "lint.log"
+    },
+    {
+      "command": [
+        "C:\\Python314\\python.EXE",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests"
+      ],
+      "duration_seconds": 0.1869999999180436,
+      "exit_code": 0,
+      "name": "format",
+      "output": "format.log"
+    }
+  ],
+  "run_id": "u1-foundation-20260928T091610Z",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "started_at_utc": "2026-09-28T09:16:10.224018+00:00",
+  "status": "complete"
+}

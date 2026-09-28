@@ -1,0 +1,20 @@
+{
+  "aggregate_replay_sha256": "6a5a7c57f21ae5a213a00545034fd2cd3c1bb4128d17b56cb1b26f8bedf692ef",
+  "aggregate_sha256": "6a5a7c57f21ae5a213a00545034fd2cd3c1bb4128d17b56cb1b26f8bedf692ef",
+  "all_denominators_reconcile": true,
+  "borough_sum": 82345,
+  "byte_identical_replay": true,
+  "class_sum": 82345,
+  "duplicate_group_arithmetic": true,
+  "edge_bucket_counts_at_least_10": {
+    "exact_duplicate_groups": true,
+    "gross_area": true,
+    "identity": true,
+    "newest_month": true,
+    "oldest_month": true,
+    "price": true
+  },
+  "price_state_sum": 82345,
+  "structural_cells_at_least_15": true,
+  "structural_joint_sum": 82345
+}

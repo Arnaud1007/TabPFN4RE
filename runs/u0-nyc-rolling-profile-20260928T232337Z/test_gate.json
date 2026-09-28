@@ -1,0 +1,48 @@
+{
+  "checks": [
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=profile_nyc_rolling_snapshot -m unittest tests.test_profile_nyc_rolling_snapshot -q",
+        ".\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80 scripts/profile_nyc_rolling_snapshot.py"
+      ],
+      "duration_seconds": 0.8536,
+      "exit_code": 0,
+      "name": "focused_synthetic_tests_and_coverage",
+      "output_artifact": "focused_tests.log"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q"
+      ],
+      "duration_seconds": 19.9045,
+      "exit_code": 0,
+      "name": "full_suite",
+      "output_artifact": "full_tests.log"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m ruff check scripts tests src",
+        ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts tests src"
+      ],
+      "duration_seconds": 0.2724,
+      "exit_code": 0,
+      "name": "ruff",
+      "output_artifact": "ruff.log"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m pip check",
+        ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt"
+      ],
+      "duration_seconds": 2.0662,
+      "exit_code": 0,
+      "name": "dependency_checks",
+      "output_artifact": "dependencies.log"
+    }
+  ],
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6; code commit ef3638f",
+  "g_us_status": "PENDING",
+  "run_id": "u0-nyc-rolling-profile-20260928T232337Z",
+  "skipped_mandatory_tests": 0,
+  "u0_accepted": false
+}

@@ -1,0 +1,7 @@
+$ -m unittest discover -s tests -q
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: '<LOCAL_TEMP>\\tmpkvgc1tiv\\.report.json-zxv40bel.tmp' -> '<LOCAL_TEMP>\\tmpkvgc1tiv\\report.json'
+----------------------------------------------------------------------
+Ran 384 tests in 19.543s
+
+OK

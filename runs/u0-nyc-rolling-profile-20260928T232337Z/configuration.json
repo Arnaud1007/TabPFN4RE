@@ -1,0 +1,10 @@
+{
+  "code_commit": "ef3638f7d4a00c7e17aa200878f0c085ae206265",
+  "command_template": ".\\.venv\\Scripts\\python.exe scripts/profile_nyc_rolling_snapshot.py --snapshot runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json --output data/raw/nyc_dof/<unique-private-profile>.json",
+  "duplicate_key_policy": "trim-only raw borough, block, lot, sale date and sale price",
+  "max_csv_bytes": 134217728,
+  "output_1": "profile-usep-8jbt-20260928T232337Z.json",
+  "output_2_replay": "profile-usep-8jbt-20260928T232337Z-replay.json",
+  "snapshot_manifest": "runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json",
+  "source_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2"
+}

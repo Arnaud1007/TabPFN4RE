@@ -20,6 +20,12 @@ private_snapshot_bytes: 10397977
 private_snapshot_rows: 82345
 private_snapshot_known_by_utc: 2026-09-28T22:55:43.929203Z
 private_snapshot_status: inventory_only_not_asof_eligible
+aggregate_profile: runs/u0-nyc-rolling-profile-20260928T232337Z/aggregate.json
+aggregate_profile_report: runs/u0-nyc-rolling-profile-20260928T232337Z/report.md
+aggregate_profile_status: source_inventory_only_not_sale_eligibility
+aggregate_profile_zero_price_rows: 28332
+aggregate_profile_positive_price_rows: 54013
+aggregate_profile_exact_string_duplicate_candidate_groups: 339
 geography: New York City, five boroughs
 documented_date_range_at_retrieval: September 2025 through August 2026
 refresh_schedule: monthly; around the 15th for sales recorded through the preceding month

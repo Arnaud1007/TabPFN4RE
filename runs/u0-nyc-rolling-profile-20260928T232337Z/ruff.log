@@ -1,0 +1,5 @@
+$ -m ruff check scripts tests src
+All checks passed!
+
+$ -m ruff format --check scripts tests src
+50 files already formatted

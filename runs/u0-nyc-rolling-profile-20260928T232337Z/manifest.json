@@ -1,0 +1,44 @@
+{
+  "checkpoint_identity": null,
+  "code_commit_at_profile": "ef3638f7d4a00c7e17aa200878f0c085ae206265",
+  "configuration_hash": "fed20a6d7220bda00bd101c57b4bba3a08d884a2ef76179d4d60b568c7644ed2",
+  "data_snapshot_hash": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "environment_lock_path": "locks/nyc-profile-environment.json",
+  "environment_lock_sha256": "9d5055e6214c73cb01a9681e72c9589d196f4b9383ab34db6ca40f00091c5742",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "immutable_run_files_sha256": {
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/aggregate.json": "6a5a7c57f21ae5a213a00545034fd2cd3c1bb4128d17b56cb1b26f8bedf692ef",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/aggregate_initial_crlf.json": "ca204cf1b9e39195c280bdc04e3004c2528de8922c5d663e3a00f154c07654cb",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/aggregate_replay.json": "6a5a7c57f21ae5a213a00545034fd2cd3c1bb4128d17b56cb1b26f8bedf692ef",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/configuration.json": "fed20a6d7220bda00bd101c57b4bba3a08d884a2ef76179d4d60b568c7644ed2",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/dependencies.log": "96082046599c6bb36de711c51186b59dcef06df9be1687727c2912969eb182c2",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/focused_tests.log": "be99847f78e944090343be4c3797b86d95e6d148960955c21bace163410e4573",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/full_tests.log": "d6fb58a17bb5edbcd04617d72ff61fc0fc27a4a18196d67af3f851d639096fb0",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/report.md": "9c00004733337750bfbac8d0ff0128a7772d2f179778ce8c1f3e6d482febcf2e",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/ruff.log": "19e198b143700eb8273ef881280602a02f114cfb31dd0ca7f91fd601d550016c",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/test_gate.json": "b59e8975a0dad0be1521126b89a06df453e08b632db366fab944a0e6364ed393",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/verification.json": "a9cc32851736a3c21884436023888f26671b36a9999ef30f81032fac0bcfbdef",
+    "runs/u0-nyc-rolling-profile-20260928T232337Z/verify_artifacts.ps1": "168f320ff4ba0fe5e022acdeec171911dd0d4f4c464db6c610bb13f731e91d0a",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json": "45049ce1622ba4a819f29c79097869c9f3601d049139869982ec7327ee11962b"
+  },
+  "no_model_training": true,
+  "private_profile_filenames": [
+    "profile-usep-8jbt-20260928T232337Z.json",
+    "profile-usep-8jbt-20260928T232337Z-replay.json"
+  ],
+  "raw_data_tracked": false,
+  "requirements": [
+    "US05",
+    "US06",
+    "US07",
+    "US22",
+    "US23",
+    "US24"
+  ],
+  "run_id": "u0-nyc-rolling-profile-20260928T232337Z",
+  "source_snapshot_manifest": "runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json",
+  "split_hash": null,
+  "status": "verified_source_inventory_only",
+  "u0_accepted": false
+}

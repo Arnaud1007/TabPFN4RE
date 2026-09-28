@@ -1,0 +1,12 @@
+$ -m coverage run --branch --source=profile_nyc_rolling_snapshot -m unittest tests.test_profile_nyc_rolling_snapshot -q
+----------------------------------------------------------------------
+Ran 12 tests in 0.214s
+
+OK
+
+$ -m coverage report -m --fail-under=80 scripts/profile_nyc_rolling_snapshot.py
+Name                                      Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------
+scripts/profile_nyc_rolling_snapshot.py     224     22     96     12    89%   93, 96-97, 99, 105, 110, 117, 121, 133-134, 145, 264, 298, 301, 325, 349, 380-384, 388
+-------------------------------------------------------------------------------------
+TOTAL                                       224     22     96     12    89%

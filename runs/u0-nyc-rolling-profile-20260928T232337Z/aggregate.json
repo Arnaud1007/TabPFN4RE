@@ -1,0 +1,243 @@
+{
+  "apartment_missing_by_class": {
+    "A": {
+      "missing": 16974,
+      "rows": 16974
+    },
+    "R": {
+      "missing": 1549,
+      "rows": 22266
+    },
+    "missing": {
+      "missing": 0,
+      "rows": 0
+    },
+    "other": {
+      "missing": 43105,
+      "rows": 43105
+    }
+  },
+  "borough_counts": {
+    "1": 19553,
+    "2": 6424,
+    "3": 23041,
+    "4": 26461,
+    "5": 6866,
+    "unknown": 0
+  },
+  "building_class_prefix_counts": {
+    "A": 16974,
+    "R": 22266,
+    "missing": 0,
+    "other": 43105
+  },
+  "duplicate_key_policy": "trim-only on raw BOROUGH, BLOCK, LOT, SALE DATE, SALE PRICE; no semantic normalization",
+  "exact_source_string_duplicate_candidates": {
+    "complete_key_rows": 82345,
+    "excess_rows": 1108,
+    "incomplete_key_rows": 0,
+    "repeated_groups": 339,
+    "rows_in_repeated_groups": 1447
+  },
+  "gross_area_review_buckets": {
+    "invalid": 0,
+    "missing": 37929,
+    "nonpositive": 1777
+  },
+  "identity_review_buckets": {
+    "missing_block": 0,
+    "missing_lot": 0,
+    "r_class_missing_apartment": 1549
+  },
+  "missing_area_counts": {
+    "gross": 37929,
+    "land": 37929
+  },
+  "one_family_by_borough": {
+    "1": {
+      "candidate": 152,
+      "other_or_ambiguous": 19401
+    },
+    "2": {
+      "candidate": 1315,
+      "other_or_ambiguous": 5109
+    },
+    "3": {
+      "candidate": 3303,
+      "other_or_ambiguous": 19738
+    },
+    "4": {
+      "candidate": 8437,
+      "other_or_ambiguous": 18024
+    },
+    "5": {
+      "candidate": 3767,
+      "other_or_ambiguous": 3099
+    },
+    "unknown": {
+      "candidate": 0,
+      "other_or_ambiguous": 0
+    }
+  },
+  "one_family_class_disagreements": 330,
+  "positive_at_most_1000_rule": "investigative USD bucket; no row exclusion",
+  "price_review_buckets": {
+    "invalid": 0,
+    "missing": 0,
+    "negative": 0,
+    "positive_at_most_1000": 1552,
+    "zero": 28332
+  },
+  "rows": 82345,
+  "sale_month_bounds": {
+    "invalid_or_missing": 0,
+    "newest": "2026-08",
+    "newest_rows": 4509,
+    "oldest": "2025-09",
+    "oldest_rows": 7325
+  },
+  "sale_price_parse_state": {
+    "invalid": 0,
+    "missing": 0,
+    "negative": 0,
+    "positive": 54013,
+    "zero": 28332
+  },
+  "screening_by_borough_and_class": {
+    "1": {
+      "A": {
+        "positive_price": 115,
+        "positive_price_with_gross_area": 115,
+        "rows": 152
+      },
+      "R": {
+        "positive_price": 7986,
+        "positive_price_with_gross_area": 88,
+        "rows": 10370
+      },
+      "missing": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "other": {
+        "positive_price": 7141,
+        "positive_price_with_gross_area": 1025,
+        "rows": 9031
+      }
+    },
+    "2": {
+      "A": {
+        "positive_price": 832,
+        "positive_price_with_gross_area": 801,
+        "rows": 1315
+      },
+      "R": {
+        "positive_price": 354,
+        "positive_price_with_gross_area": 1,
+        "rows": 530
+      },
+      "missing": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "other": {
+        "positive_price": 2923,
+        "positive_price_with_gross_area": 1894,
+        "rows": 4579
+      }
+    },
+    "3": {
+      "A": {
+        "positive_price": 1821,
+        "positive_price_with_gross_area": 1820,
+        "rows": 3303
+      },
+      "R": {
+        "positive_price": 4426,
+        "positive_price_with_gross_area": 28,
+        "rows": 5937
+      },
+      "missing": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "other": {
+        "positive_price": 7919,
+        "positive_price_with_gross_area": 5401,
+        "rows": 13801
+      }
+    },
+    "4": {
+      "A": {
+        "positive_price": 4650,
+        "positive_price_with_gross_area": 4586,
+        "rows": 8437
+      },
+      "R": {
+        "positive_price": 3521,
+        "positive_price_with_gross_area": 11,
+        "rows": 4798
+      },
+      "missing": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "other": {
+        "positive_price": 8062,
+        "positive_price_with_gross_area": 4277,
+        "rows": 13226
+      }
+    },
+    "5": {
+      "A": {
+        "positive_price": 2340,
+        "positive_price_with_gross_area": 2338,
+        "rows": 3767
+      },
+      "R": {
+        "positive_price": 448,
+        "positive_price_with_gross_area": 0,
+        "rows": 631
+      },
+      "missing": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "other": {
+        "positive_price": 1475,
+        "positive_price_with_gross_area": 1129,
+        "rows": 2468
+      }
+    },
+    "unknown": {
+      "A": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "R": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "missing": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      },
+      "other": {
+        "positive_price": 0,
+        "positive_price_with_gross_area": 0,
+        "rows": 0
+      }
+    }
+  },
+  "snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "source_id": "nyc_dof_rolling_usep_8jbt",
+  "status": "source_inventory_only_not_sale_eligibility"
+}

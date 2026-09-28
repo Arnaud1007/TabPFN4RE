@@ -1,0 +1,7 @@
+﻿{
+    "command":  ".\\.venv\\Scripts\\python.exe scripts/profile_hcpa_document_groups.py data/raw/hcpa/allsales_09_18_2026.zip data/raw/hcpa/audit-sample-20260928-888226e.jsonl data/raw/hcpa/document-group-flags-replay-20260928.jsonl runs/u0-hcpa-document-groups-20260928T181606Z/aggregate_replay.json",
+    "duration_seconds":  37.606,
+    "started_utc":  "2026-09-28T18:17:36.3479652Z",
+    "exit_code":  0,
+    "finished_utc":  "2026-09-28T18:18:13.9545819Z"
+}

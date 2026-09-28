@@ -11,7 +11,9 @@ local_raw_copy_status: unchanged_sha256_verified_ignored_by_git
 embedded_documentation: allsales.doc
 embedded_documentation_sha256: 8975be10a94a581a76a2a9a9370eda16c3b1730cc54ecc3e9f2afb2998b62175
 geography: Hillsborough County, Florida only
-row_grain: sale entry linked to parcel; transaction uniqueness not yet audited
+row_grain: >-
+  Sale entry linked to parcel. Instrument-number groups are counted, but their
+  economic transaction grain and single-dwelling price scope remain unverified.
 candidate_fields: [PIN, FOLIO, S_DATE, S_AMT, QU, VI, REA_CD, S_TYPE, OR_BK, OR_PG, DOC_NUM]
 archive_member: allsales.dbf
 dbf_header_record_count: 2453187
@@ -27,6 +29,19 @@ profile_observed_rows: 2453187
 profile_valid_sale_dates: 2453187
 profile_positive_parseable_sale_amounts: 2453187
 profile_missing_clerk_document_number: 269947
+document_group_audit_protocol: decisions/0015-hcpa-document-group-audit.md
+document_group_audit_run: runs/u0-hcpa-document-groups-20260928T181606Z/report.md
+document_group_aggregate: runs/u0-hcpa-document-groups-20260928T181606Z/aggregate.json
+document_group_nonblank_rows: 2183240
+document_group_distinct_nonblank_numbers: 1784697
+document_group_repeated_groups: 53850
+document_group_rows_in_repeated_groups: 452393
+document_group_sample_repeated_rows: 36
+document_group_interpretation: >-
+  Exact instrument-number repetition is a linkage candidate, not proof of a
+  duplicate economic sale, multi-parcel transfer, eligible price, or close date.
+  The 200-row sample deliberately enriches edge cases and cannot estimate
+  county prevalence.
 profile_qualification_code_counts: {Q: 1090999, U: 1362188}
 profile_vacant_improved_code_counts: {I: 1871500, V: 512547, blank: 69140}
 profile_caution: >-
@@ -67,8 +82,10 @@ permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
   Resolve S_DATE against execution/closing evidence, archive dated source files
-  from now on for observed first availability, audit 200 records and economic
-  duplicate linkage, determine historical vintages and source-specific rights.
+  from now on for observed first availability, audit 200 records with priority
+  to the 36 sampled rows in repeated instrument groups, verify their price
+  scope and parcel linkage, determine historical vintages and source-specific
+  rights.
 manual_audit_protocol: decisions/0013-hcpa-manual-audit-sample.md
 sample_run: runs/u0-hcpa-audit-sample-20260928T160539Z/report.md
 sample_selected_records: 200

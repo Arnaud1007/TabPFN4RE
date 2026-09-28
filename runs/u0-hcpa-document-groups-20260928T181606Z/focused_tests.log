@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:2 char:53
++ ... (); $output=& .\.venv\Scripts\python.exe -m unittest discover -s test ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Ran 14 tests in 0.604s
+
+OK

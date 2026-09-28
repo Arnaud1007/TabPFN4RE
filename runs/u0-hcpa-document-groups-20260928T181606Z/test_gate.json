@@ -1,0 +1,90 @@
+{
+  "run_id": "u0-hcpa-document-groups-20260928T181606Z",
+  "status": "engineering_checks_pass_manual_source_audit_pending",
+  "environment": {
+    "python": "CPython 3.11.6",
+    "coverage": "coverage.py 7.6.12",
+    "ruff": "0.13.0",
+    "pip_audit": "2.10.1",
+    "powershell": "5.1.26100.9444",
+    "environment_lock": "locks/hcpa-document-groups-environment.json",
+    "ames_arff_path_configured_for_full_suite": true
+  },
+  "checks": [
+    {
+      "name": "focused_synthetic_grouping",
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -p test_hcpa_document_groups.py -q",
+      "exit_code": 0,
+      "duration_seconds": 0.824,
+      "output_artifact": "focused_tests.log",
+      "result": "14 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "full_engineering_suite",
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m coverage run --branch --source=scripts -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 12.488,
+      "output_artifact": "full_tests.log",
+      "result": "259 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "script_coverage",
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage report -m scripts/profile_hcpa_document_groups.py",
+      "exit_code": 0,
+      "duration_seconds": 0.357,
+      "output_artifact": "script_coverage.log",
+      "result": "87% combined statement and branch coverage"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.217,
+      "output_artifact": "ruff_lint.log",
+      "result": "All checks passed"
+    },
+    {
+      "name": "ruff_format",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check --no-cache src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.201,
+      "output_artifact": "ruff_format.log",
+      "result": "34 files already formatted"
+    },
+    {
+      "name": "pinned_runtime_dependency_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "exit_code": 0,
+      "duration_seconds": 1.868,
+      "output_artifact": "dependency_audit.log",
+      "result": "No known vulnerabilities in pinned no-deps scope; this is not a full transitive audit"
+    },
+    {
+      "name": "full_archive_scan",
+      "command_artifact": "scan_execution.json",
+      "exit_code": 0,
+      "duration_seconds": 38.183,
+      "output_artifacts": ["aggregate.json", "scan_stdout.log"],
+      "result": "2,453,187 rows reconciled to pinned source profile"
+    },
+    {
+      "name": "byte_identical_replay",
+      "command_artifact": "replay_execution.json",
+      "exit_code": 0,
+      "duration_seconds": 37.606,
+      "output_artifacts": ["aggregate_replay.json", "replay_stdout.log", "integrity.log"],
+      "result": "Aggregate and 200-row private flags reproduce byte-identically"
+    },
+    {
+      "name": "artifact_integrity_and_aggregate_privacy",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/u0-hcpa-document-groups-20260928T181606Z/verify_artifacts.ps1",
+      "exit_code": 0,
+      "duration_seconds": 0.621,
+      "output_artifacts": ["artifact_verification.log", "verify_artifacts.ps1"],
+      "result": "Pinned hashes, byte-identical replay, declared aggregate counts, source/sample reconciliation, private-path ignore and spool cleanup passed"
+    }
+  ],
+  "manual_review_rubrics_completed": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

@@ -62,6 +62,8 @@ The Python 3.11 test gate on that commit passed 33 tests with no skips and 90% m
 
 The legacy split, runs, feature catalogue and old specification are unavailable, so legacy reproduction remains **PENDING**. The historical holdout's exposure status is unknown and it cannot certify a release. US coverage, calibration and prospective accuracy remain unmeasured. The next dependent action is to obtain an accessible legacy repository or artifact bundle and recover exact membership and historical predictions. Independent core OFF engineering can continue while that access is pending.
 
+The synthetic rolling-origin helper was versioned from `us_synthetic_rolling_v1` to `us_synthetic_rolling_v2` after a repeated-hour timestamp audit. V2 compares instants in UTC and uses an exact 90-day UTC engineering horizon; it rejects real-protocol IDs. V1 gate evidence remains unchanged. Neither version is a source-local 90-calendar-day certification protocol; ADR 0010 and the later gate report record the distinction.
+
 ## Additional U0 source feasibility audit
 
 On 28 September 2026, the official Cook County [parcel sales](https://datacatalog.cookcountyil.gov/d/wvhk-k5uv) and [improvement characteristics](https://datacatalog.cookcountyil.gov/d/x54s-btds) metadata were retrieved and hashed. Source cards in `data/source_cards/` record the exact IDs, field semantics, links, local metadata checksums and unresolved rights and timing questions. No property-level source rows were ingested or used for training.

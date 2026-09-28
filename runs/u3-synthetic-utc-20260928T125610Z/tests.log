@@ -1,0 +1,10 @@
+﻿python.exe : ----------------------------------------------------------------------
+At C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\runs\u3-synthetic-utc-20260928T125610Z\run_gate.ps1:19 char:5
++     & $Executable @Arguments 2>&1 | Out-File -LiteralPath $outputPath ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 171 tests in 13.436s
+
+OK

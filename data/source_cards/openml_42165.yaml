@@ -1,0 +1,26 @@
+source_id: openml_42165_v1
+publisher: OpenML
+dataset_name: house_prices
+dataset_id: 42165
+version: 1
+metadata_url: https://www.openml.org/api/v1/json/data/42165
+download_url: https://openml.org/data/v1/download/21754539/house_prices.arff
+retrieved_on: 2026-09-28
+format: arff
+source_md5: d5ca59f8d02b1b1c127034392c0f995f
+download_sha256: 10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279
+local_raw_path: data/raw/openml/house_prices-42165.arff
+row_grain: one labelled Ames competition record
+rows: 1460
+attributes: 81
+identifier: Id
+target: SalePrice
+target_currency: USD
+source_licence_field: NA
+permitted_use: engineering_fixture_only_pending_rights_review
+redistribution: not_established
+availability_dates: absent
+certification_eligible: false
+notes: >-
+  The downloaded file matched OpenML's MD5. All 1460 rows have unique Id values
+  and positive SalePrice values. This historical fixture cannot satisfy G-US.

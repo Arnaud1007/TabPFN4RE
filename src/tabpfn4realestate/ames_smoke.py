@@ -32,6 +32,10 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
 def _json_bytes(value: Any) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
 
@@ -55,7 +59,9 @@ def _git_state(project_root: Path) -> tuple[str | None, bool]:
     return commit.stdout.strip(), bool(status.stdout.strip())
 
 
-def _executed_modules(project_root: Path) -> tuple[dict[str, str], bool]:
+def _executed_modules(
+    project_root: Path,
+) -> tuple[dict[str, str], bool, dict[str, bytes]]:
     module_files = {
         "tabpfn4realestate.ames": Path(ames_module.__file__).resolve(),
         "tabpfn4realestate.ames_smoke": Path(__file__).resolve(),
@@ -64,9 +70,43 @@ def _executed_modules(project_root: Path) -> tuple[dict[str, str], bool]:
         "tabpfn4realestate.ames": project_root / "src" / "tabpfn4realestate" / "ames.py",
         "tabpfn4realestate.ames_smoke": project_root / "src" / "tabpfn4realestate" / "ames_smoke.py",
     }
-    hashes = {name: _sha256(path) for name, path in module_files.items()}
+    contents = {name: path.read_bytes() for name, path in module_files.items()}
+    hashes = {name: _sha256_bytes(value) for name, value in contents.items()}
     in_project = all(path == expected[name].resolve() for name, path in module_files.items())
-    return hashes, in_project
+    return hashes, in_project, contents
+
+
+def _committed_inputs_match(
+    project_root: Path,
+    commit: str | None,
+    module_bytes: dict[str, bytes],
+    lock_bytes: bytes,
+    policy_bytes: bytes,
+) -> bool:
+    if commit is None:
+        return False
+    required = {
+        "src/tabpfn4realestate/ames.py": module_bytes["tabpfn4realestate.ames"],
+        "src/tabpfn4realestate/ames_smoke.py": module_bytes["tabpfn4realestate.ames_smoke"],
+        "locks/ames-smoke-environment.json": lock_bytes,
+        "policies/ames-smoke.json": policy_bytes,
+    }
+    for relative, content in required.items():
+        head = subprocess.run(
+            ["git", "rev-parse", f"{commit}:{relative}"],
+            cwd=project_root, capture_output=True, check=False,
+        )
+        current = subprocess.run(
+            ["git", "hash-object", "--stdin", f"--path={relative}"],
+            cwd=project_root, input=content, capture_output=True, check=False,
+        )
+        if (
+            head.returncode != 0
+            or current.returncode != 0
+            or head.stdout.strip() != current.stdout.strip()
+        ):
+            return False
+    return True
 
 
 def _locked_inputs(project_root: Path) -> tuple[bytes, bytes, dict[str, Any]]:
@@ -116,9 +156,9 @@ def run_smoke(
     started = time.monotonic()
     root = Path(project_root) if project_root is not None else Path.cwd()
     project_commit, dirty_tree = _git_state(root)
-    module_hashes, code_in_project = _executed_modules(root)
-    commit = project_commit if code_in_project else None
-    replayable = not dirty_tree and commit is not None
+    module_hashes, code_in_project, module_bytes = _executed_modules(root)
+    commit = None
+    replayable = False
     run_id = f"u0-smoke-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid4().hex[:12]}"
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -130,6 +170,11 @@ def run_smoke(
         if sample_size < 2:
             raise ValueError("sample_size must be at least 2 rows")
         lock_bytes, policy_bytes, policy = _locked_inputs(root)
+        committed_inputs = code_in_project and _committed_inputs_match(
+            root, project_commit, module_bytes, lock_bytes, policy_bytes
+        )
+        commit = project_commit if committed_inputs else None
+        replayable = not dirty_tree and committed_inputs
         source = Path(source_path)
         rows = load_ames_arff(source, expected_sha256=expected_sha256)
         _copy_source_bounded(source, staging / "source.arff")

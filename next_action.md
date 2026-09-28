@@ -4,7 +4,7 @@ Active milestone: U0 remains pending recovery of the owner's legacy project arti
 
 ## Next dependency-ready task
 
-Continue U0 source feasibility by resolving the specific Cook County data reuse terms, obtaining genuine close/contract dates or an approved monthly-origin alternative, and locating historical source snapshots or first-publication timestamps. The source cards and ADR 0005 record why the current extracts cannot certify the 90-day pre-close benchmark. If those inputs are unavailable, assess the next official US source under the same rules. Do not train a real-world temporal model until source timing and label eligibility are demonstrated.
+Continue U0 source qualification from `data/acquisition_backlog.md`. NYC DOF is the next candidate: establish a source-specific reuse decision, find archived monthly rolling files or begin a prospective snapshot process after that decision, and verify close-date/first-availability rules. Cook County and King County have distinct recorded-date, access and join dependencies in ADRs 0005 and 0006. If a source cannot provide a 90-day pre-close history, register a separate monthly-origin research protocol; do not present it as G-US evidence. Do not train a real-world temporal model until source timing and label eligibility are demonstrated.
 
 Resume from the project root in PowerShell:
 
@@ -22,5 +22,7 @@ Latest complete gate: `runs/u1-canaries-20260928T113723Z/test_gate.json` (131 te
 - Rights decision for any releasable use of the Ames file; its OpenML licence field is `NA`.
 - Multi-market time-stamped US transactions and prospective labels for G-US. ON additionally needs authorised historical listing snapshots.
 - For Cook County specifically, dataset-level reuse rights, exact transaction/close-date semantics, historical field availability and a safe parcel-to-building join. Current API metadata lacks these proofs.
+- For NYC, dataset-level reuse decision, historical publication snapshots or defensible first-availability reconstruction, close-date semantics, and tax-lot/unit identity audit. Current annualized and rolling extracts are not enough for a certified as-of backtest.
+- For King County, an authorised Assessor data route, source-specific rights, close-date and availability evidence, and multi-parcel/multi-building reconciliation. The documented GIS derivatives are marked Not Public.
 
 These block legacy reproduction and the US release gate, but not U0 source feasibility work. No model was trained on a modern multi-market US cohort.

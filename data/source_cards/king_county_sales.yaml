@@ -1,0 +1,31 @@
+source_id: king_county_rpsale_extr
+status: candidate_documentation_audited_not_ingested
+publisher: King County Assessor; GIS Center derivative documented separately
+dataset_name: Real Property Sale Record Assessor extract table
+documentation_url: https://www5.kingcounty.gov/sdc?Layer=rpsale_extr
+authoritative_download_route: https://info.kingcounty.gov/assessor/DataDownload/default.aspx
+glossary_url: https://info.kingcounty.gov/assessor/esales/Glossary.aspx?type=k
+retrieved_on: 2026-09-28
+geography: King County, Washington
+refresh_schedule: GIS derivative weekly; authoritative Assessor schedule not verified
+row_grain: one or more parcel records per sale
+documented_key: [EXCISETAXNUM, MAJOR, MINOR]
+linkage_fields: [EXCISETAXNUM, MAJOR, MINOR, RECNUMBER]
+target_field: SALEPRICE
+target_currency: USD
+target_semantics: amount on recorded excise tax affidavit; multi-property allocation requires audit
+date_field: SALEDATE
+date_semantics: date associated with excise tax affidavit; exact closing date unverified
+eligibility_fields: [PROPERTYTYPE, PRINCIPALUSE, SALEREASON, SALERELATEDPARTY, SALEWARNING]
+availability_field: absent_in_documented_derivative
+historical_vintages: historical first-publication snapshots not recovered
+derivative_access: GIS catalog marks this layer Not Public
+rights_reference: https://kingcounty.gov/en/dept/kcit/data-information-services/gis-center/about/terms-conditions-copyrights
+permitted_use_decision: source_inventory_only_pending_access_and_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  The GIS layer is a non-authoritative derivative and is marked Not Public.
+  The Assessor download route has its own terms. Do not infer that one row is
+  one dwelling sale or use the affidavit date as a verified close date.

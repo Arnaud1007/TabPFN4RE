@@ -1,0 +1,23 @@
+source_id: king_county_resbldg_extr
+status: candidate_documentation_audited_not_ingested
+publisher: King County Assessor; GIS Center derivative documented separately
+dataset_name: Residential Building Assessor extract table
+documentation_url: https://www5.kingcounty.gov/sdc?Layer=resbldg_extr
+authoritative_download_route: https://info.kingcounty.gov/assessor/DataDownload/default.aspx
+retrieved_on: 2026-09-28
+geography: King County, Washington
+refresh_schedule: GIS derivative weekly; authoritative Assessor schedule not verified
+row_grain: one row per residential building; multiple buildings per parcel possible
+logical_join_key: [MAJOR, MINOR, BLDGNBR]
+attribute_fields: [SQFTTOTLIVING, BEDROOMS, BATHHALFCOUNT, BATH3QTRCOUNT, BATHFULLCOUNT, BLDGGRADE, BLDGCONDITION, YRBUILT, YRRENOVATED]
+area_semantics: SQFTTOTLIVING is living area in square feet in the documented derivative
+availability_field: absent_in_documented_derivative
+historical_vintages: historical first-publication and attribute versions not recovered
+derivative_access: GIS catalog marks this layer Not Public
+rights_reference: https://kingcounty.gov/en/dept/kcit/data-information-services/gis-center/about/terms-conditions-copyrights
+permitted_use_decision: source_inventory_only_pending_access_and_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+notes: >-
+  A parcel-to-building join can multiply a sale label. The current weekly extract
+  cannot establish what building attributes were known before a historical sale.

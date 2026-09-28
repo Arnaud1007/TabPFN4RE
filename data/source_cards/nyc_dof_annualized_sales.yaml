@@ -1,0 +1,37 @@
+source_id: nyc_dof_annualized_w2pb_icbu
+status: candidate_metadata_audited_not_ingested
+publisher: New York City Department of Finance
+dataset_name: NYC Citywide Annualized Calendar Sales Update
+dataset_id: w2pb-icbu
+landing_page: https://data.cityofnewyork.us/City-Government/NYC-Citywide-Annualized-Calendar-Sales-Update/w2pb-icbu
+publisher_page: https://www.nyc.gov/site/finance/property/property-annualized-sales-update.page
+metadata_url: https://data.cityofnewyork.us/api/views/w2pb-icbu
+retrieved_on: 2026-09-28
+local_metadata_path: data/raw/nyc_dof/w2pb-icbu-metadata.json
+metadata_sha256: 6bf011f37911c25edc57aef72a446dba9c265350278db2aec09650ec71ca0985
+metadata_last_updated: 2026-06-09
+geography: New York City, five boroughs
+documented_date_range: annual sales files since 2003; verify coverage by file and class
+refresh_schedule: annually
+row_grain: published property sales-file row; one economic transfer per row not verified
+linkage_fields: [borough, block, lot, apartment_number, bbl, bin, address]
+target_field: sale_price
+target_currency: USD
+target_semantics: DOF glossary says price paid for the property; transfer scope requires audit
+date_field: sale_date
+date_semantics: DOF glossary says date the property sold; contract and close mapping unverified
+property_fields: [building_class_at_time_of_sale, building_class_as_of_final_roll, gross_square_feet, land_square_feet, year_built]
+area_semantics: gross building area and land area; neither is verified living area
+availability_field: absent
+historical_vintages: present file does not establish first publication of each row or attribute
+correction_policy: NYC Open Data terms permit updates and overwrites; older versions are not retained by the portal
+licence_field_in_metadata: null
+rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  The as-of-final-roll fields explicitly describe a later tax-roll state and must
+  not be treated as historical pre-sale features. A present-day annualized extract
+  cannot prove which transaction or attribute values were available at a past origin.

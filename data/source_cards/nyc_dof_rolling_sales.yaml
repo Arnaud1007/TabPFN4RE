@@ -1,0 +1,37 @@
+source_id: nyc_dof_rolling_usep_8jbt
+status: candidate_metadata_audited_not_ingested
+publisher: New York City Department of Finance
+dataset_name: NYC Citywide Rolling Calendar Sales
+dataset_id: usep-8jbt
+landing_page: https://data.cityofnewyork.us/City-Government/NYC-Citywide-Rolling-Calendar-Sales/usep-8jbt
+publisher_page: https://www.nyc.gov/site/finance/property/property-rolling-sales-data.page
+metadata_url: https://data.cityofnewyork.us/api/views/usep-8jbt
+retrieved_on: 2026-09-28
+local_metadata_path: data/raw/nyc_dof/usep-8jbt-metadata.json
+metadata_sha256: a251f7433ffe74a8c17dbf9d626242101949a34481ad515166d3b4d3b579f888
+metadata_last_updated: 2026-09-15
+geography: New York City, five boroughs
+documented_date_range_at_retrieval: September 2025 through August 2026
+refresh_schedule: monthly; around the 15th for sales recorded through the preceding month
+row_grain: published property sales-file row; one economic transfer per row not verified
+linkage_fields: [borough, block, lot, apartment_number, address]
+target_field: sale_price
+target_currency: USD
+target_semantics: DOF glossary says price paid for the property; transfer scope requires audit
+date_field: sale_date
+date_semantics: DOF glossary says date the property sold; contract and close mapping unverified
+property_fields: [building_class_at_time_of_sale, building_class_at_present, gross_square_feet, land_square_feet, year_built]
+area_semantics: gross building area and land area; neither is verified living area
+availability_field: absent
+historical_vintages: current rolling window only; archived monthly extracts not recovered
+correction_policy: NYC Open Data terms permit updates and overwrites; older versions are not retained by the portal
+licence_field_in_metadata: null
+rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  OFF label candidate only. The publication schedule does not provide each row's
+  first availability. Current property attributes cannot be attached to earlier
+  valuation origins without independently evidenced historical vintages.

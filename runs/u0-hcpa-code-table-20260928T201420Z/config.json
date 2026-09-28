@@ -1,0 +1,10 @@
+{
+  "audit_kind": "current_hcpa_parcel_code_table_only",
+  "source_archive_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8",
+  "required_member_basename": "parcel_dor_names.dbf",
+  "selected_codes": ["0100", "0400", "0800"],
+  "max_archive_bytes": 500000000,
+  "max_member_bytes": 1000000,
+  "max_dbf_rows": 10000,
+  "property_or_sale_rows_exported": false
+}

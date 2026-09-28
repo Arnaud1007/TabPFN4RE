@@ -1,0 +1,27 @@
+{
+  "active_rows": 304,
+  "dbf_bytes": 16818,
+  "dbf_sha256": "0df47f3ba5b380d4e6b81994422023fa596ff3499ef38f0f4ba749494028e54d",
+  "dbf_version": "dBASE III",
+  "deleted_rows": 0,
+  "fields": [
+    {
+      "name": "DORCODE",
+      "type": "C",
+      "width": 4
+    },
+    {
+      "name": "DORDESCR",
+      "type": "C",
+      "width": 50
+    }
+  ],
+  "header_record_count": 304,
+  "member": "parcel_09_25_2026/parcel_dor_names.dbf",
+  "selected_code_labels": {
+    "0100": "SINGLE FAMILY R",
+    "0400": "CONDOMINIUM",
+    "0800": "MFR <10 UNITS"
+  },
+  "source_archive_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8"
+}

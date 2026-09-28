@@ -1,0 +1,111 @@
+{
+  "run_id": "u0-hcpa-code-table-20260928T201420Z",
+  "status": "engineering_checks_pass_source_qualification_pending",
+  "environment_lock": "locks/hcpa-code-table-environment.json",
+  "checks": [
+    {
+      "name": "focused_synthetic_tests",
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -p test_hcpa_code_table.py -q",
+      "exit_code": 0,
+      "duration_seconds": 1.043,
+      "output_artifact": "focused_tests.log",
+      "result": "16 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "focused_branch_coverage_tests",
+      "command": "$env:COVERAGE_FILE = '.coverage.hcpa_code_table'; .\\.venv\\Scripts\\python.exe -m coverage run --branch --source=scripts -m unittest discover -s tests -p test_hcpa_code_table.py -q",
+      "exit_code": 0,
+      "duration_seconds": 1.096,
+      "output_artifact": "focused_coverage_tests.log",
+      "result": "16 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "script_branch_coverage",
+      "command": "$env:COVERAGE_FILE = '.coverage.hcpa_code_table'; .\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80 scripts/audit_hcpa_code_table.py",
+      "exit_code": 0,
+      "duration_seconds": 0.329,
+      "output_artifact": "script_coverage.log",
+      "result": "88% combined statement and branch coverage"
+    },
+    {
+      "name": "full_engineering_suite",
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; $env:COVERAGE_FILE = '.coverage.package'; .\\.venv\\Scripts\\python.exe -m coverage run --branch --source=src/tabpfn4realestate -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 16.119,
+      "output_artifact": "full_tests_final.log",
+      "result": "293 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "package_branch_coverage",
+      "command": "$env:COVERAGE_FILE = '.coverage.package'; .\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80",
+      "exit_code": 0,
+      "duration_seconds": 0.546,
+      "output_artifact": "package_coverage.log",
+      "result": "88% combined statement and branch coverage"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.194,
+      "output_artifact": "ruff_check_final.log",
+      "result": "All checks passed"
+    },
+    {
+      "name": "ruff_format",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check --no-cache src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.213,
+      "output_artifact": "ruff_format_final.log",
+      "result": "38 files already formatted"
+    },
+    {
+      "name": "pip_check",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "duration_seconds": 1.131,
+      "output_artifact": "pip_check.log",
+      "result": "No broken requirements found"
+    },
+    {
+      "name": "scoped_pinned_dependency_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt --progress-spinner off",
+      "exit_code": 0,
+      "duration_seconds": 1.738,
+      "output_artifact": "pip_audit.log",
+      "result": "No known vulnerabilities in the pinned no-deps scope; not a full transitive audit"
+    },
+    {
+      "name": "source_zip_integrity",
+      "command": ".\\.venv\\Scripts\\python.exe -c \"import sys, zipfile; z=zipfile.ZipFile(sys.argv[1]); print(len(z.infolist()), z.testzip())\" data/raw/hcpa/parcel_09_25_2026.zip",
+      "exit_code": 0,
+      "duration_seconds": 3.554,
+      "output_artifact": "archive_integrity_final.log",
+      "result": "11 ZIP entries, no corrupt member"
+    },
+    {
+      "name": "pinned_code_table_audit",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_hcpa_code_table.py --archive data/raw/hcpa/parcel_09_25_2026.zip --archive-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --output runs/u0-hcpa-code-table-20260928T201420Z/aggregate.json",
+      "exit_code": 0,
+      "duration_seconds": 0.577,
+      "output_artifact": "aggregate.json",
+      "result": "304 active code rows and selected labels"
+    },
+    {
+      "name": "byte_identical_replay",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_hcpa_code_table.py --archive data/raw/hcpa/parcel_09_25_2026.zip --archive-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --output runs/u0-hcpa-code-table-20260928T201420Z/aggregate_replay.json",
+      "exit_code": 0,
+      "duration_seconds": 0.482,
+      "output_artifact": "aggregate_replay.json",
+      "result": "Byte-identical to aggregate.json"
+    }
+  ],
+  "preliminary_failures_resolved": [
+    "The first Ruff format check found two files; formatting was applied and the final check passed.",
+    "A combined coverage report passed a directory as a source file; separate focused-script and full-package reports passed.",
+    "The first ZIP integrity one-liner had shell quoting syntax error; the corrected check passed."
+  ],
+  "manual_review_rubrics_completed": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

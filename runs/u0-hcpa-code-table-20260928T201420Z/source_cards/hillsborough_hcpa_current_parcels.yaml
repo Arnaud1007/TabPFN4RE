@@ -1,0 +1,42 @@
+source_id: hillsborough_hcpa_current_parcels_20260925
+status: candidate_code_table_audited_parcel_rows_not_ingested
+publisher: Hillsborough County Property Appraiser
+dataset_name: Current parcel public download
+publisher_page: https://downloads.hcpafl.org/
+listed_archive: parcel_09_25_2026.zip
+retrieved_on: 2026-09-28
+local_raw_copy: data/raw/hcpa/parcel_09_25_2026.zip
+archive_bytes: 131850054
+archive_sha256: 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8
+zip_integrity: passed
+inspected_member: parcel_09_25_2026/parcel_dor_names.dbf
+member_bytes: 16818
+member_sha256: 0df47f3ba5b380d4e6b81994422023fa596ff3499ef38f0f4ba749494028e54d
+member_crc32: '223906d1'
+member_header_date: 2026-09-22
+member_active_rows: 304
+member_deleted_rows: 0
+member_fields: {DORCODE: 'C(4)', DORDESCR: 'C(50)'}
+checked_code_descriptions:
+  '0100': SINGLE FAMILY R
+  '0400': CONDOMINIUM
+  '0800': MFR <10 UNITS
+inspected_member_row_grain: parcel code-name lookup; no property or sale rows admitted
+code_semantics: >-
+  This current code table corroborates the county DOR manual's examples but
+  does not verify the historical DOR_CODE of each All Sales entry, whether a
+  parcel contains one dwelling, or whether a deed price belongs to that home.
+first_available_at: >-
+  The current archive was observed and retrieved on 2026-09-28. The ZIP member
+  and DBF header dates are source metadata, not proof of public publication at
+  those times or of any row's availability at an earlier valuation origin.
+historical_asof_eligible: false
+rights_basis: >-
+  Public download availability and the site footer do not establish a
+  dataset-specific commercial AVM or redistribution permission.
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+next_checks: >-
+  Verify the All Sales-to-parcel code relationship and join cardinality on a
+  manual sample, inspect dated historical parcel vintages and publication,
+  and obtain a source-specific use-rights decision before model use.

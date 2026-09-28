@@ -1,0 +1,41 @@
+source_id: cook_county_parcel_sales_wvhk_k5uv
+status: candidate_metadata_audited_not_ingested
+publisher: Cook County Assessor's Office Data Department
+dataset_name: Assessor - Parcel Sales
+dataset_id: wvhk-k5uv
+landing_page: https://datacatalog.cookcountyil.gov/d/wvhk-k5uv
+metadata_url: https://datacatalog.cookcountyil.gov/api/views/wvhk-k5uv.json
+source_documentation: https://catalog.data.gov/dataset/assessor-parcel-sales
+retrieved_on: 2026-09-28
+local_metadata_path: data/raw/cook_county/wvhk-k5uv-metadata.json
+metadata_sha256: 06e770af65d099fd43fd2782050fecf6cfca79dfa9d13c0524e54bde01491943
+metadata_last_updated: 2026-09-15
+geography: Cook County, Illinois
+documented_date_range: 1999-present
+row_grain: parcel sale record
+documented_key: row_id
+linkage_fields: [pin, doc_no]
+target_field: sale_price
+target_currency: USD
+target_semantics: sale price; consideration scope needs row-level validation
+date_field: sale_date
+date_semantics: recorded date, not executed/close date
+date_quality_note: older sale dates may have been truncated to first of month; is_mydec_date flags more precise replacements
+availability_field: absent
+publication_lag: county says records may arrive months after official recording
+correction_policy: current extract may contain later date corrections; historical versions not recovered
+multi_parcel_fields: [is_multisale, num_parcels_sale]
+arm_length_fields: [deed_type, mydec_deed_type, sale_type, sale_filter_same_sale_within_365, sale_filter_less_than_10k, sale_filter_deed_type]
+identifier_note: PIN must remain 14-character text with leading zeros
+licence_field_in_metadata: absent
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  The current published extract is a concrete acquisition candidate, not a certified
+  label source. The portal's own description says sale_date is recorded rather than
+  executed, older dates may be monthly, and many rows reach the Assessor months late.
+  No per-record first-publication timestamp or historical extract was found in the
+  retrieved schema. Do not map sale_date to a precise close_date or infer unknown
+  concessions and arm's-length status from price alone.

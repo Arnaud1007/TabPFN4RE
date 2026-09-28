@@ -1,0 +1,94 @@
+{
+  "artifacts": {
+    "coverage.json": "26fcf9b7e22a0bba5007160abe9cf61d2b68a0db8798eaf0bb34e0a58f0a5ac5",
+    "coverage_json.log": "e5cceb535b79f8ec17b902d5cb3c11a4258fe17f7ce69deb402ca4b30b536e18",
+    "coverage_report.log": "3019cd30a93c74edab41180cd079693e4e8748e6f57649fd68bb131a2a02900d",
+    "format.log": "ff48816299c0229eee091029455819afe09b19b5aa20c598a0be2a61d4635da3",
+    "lint.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "test_output.log": "e0198627a70ff5ef1561fe4f4bd8d0ee89d337ab5322c39336915a0502d54a2d"
+  },
+  "code_commit": "08b2b55fe7cd94eddd7a5ea5cbc1cf98d0b30f86",
+  "milestone": "U1-integrity-partial",
+  "python_version": "3.11.6",
+  "results": [
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "run",
+        "--source=tabpfn4realestate",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "duration_seconds": 11.343000000109896,
+      "exit_code": 0,
+      "name": "tests",
+      "output": "test_output.log"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "--show-missing"
+      ],
+      "duration_seconds": 0.3279999999795109,
+      "exit_code": 0,
+      "name": "coverage_report",
+      "output": "coverage_report.log"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "json",
+        "-o",
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u1-integrity-20260928T093259Z\\coverage.json"
+      ],
+      "duration_seconds": 0.31299999984912574,
+      "exit_code": 0,
+      "name": "coverage_json",
+      "output": "coverage_json.log"
+    },
+    {
+      "command": [
+        "C:\\Python314\\python.EXE",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests"
+      ],
+      "duration_seconds": 0.125,
+      "exit_code": 0,
+      "name": "lint",
+      "output": "lint.log"
+    },
+    {
+      "command": [
+        "C:\\Python314\\python.EXE",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests"
+      ],
+      "duration_seconds": 0.1410000000614673,
+      "exit_code": 0,
+      "name": "format",
+      "output": "format.log"
+    }
+  ],
+  "run_id": "u1-integrity-20260928T093259Z",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "started_at_utc": "2026-09-28T09:32:59.360891+00:00",
+  "status": "complete"
+}

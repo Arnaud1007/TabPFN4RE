@@ -8,24 +8,19 @@ import hashlib
 import json
 from pathlib import Path
 import platform
-import shutil
 import subprocess
 import time
 from typing import Any
 from uuid import uuid4
 
 from .ames import (
+    MAX_AMES_BYTES,
     engineering_split,
     fit_median_baseline,
     load_ames_arff,
     median_absolute_percentage_error,
     signed_percentage_error,
 )
-
-
-_ROOT = Path(__file__).resolve().parents[2]
-_POLICY = _ROOT / "policies" / "ames-smoke.json"
-_LOCK = _ROOT / "locks" / "ames-smoke-environment.json"
 
 
 def _sha256(path: Path) -> str:
@@ -44,12 +39,13 @@ def _write_json(path: Path, value: Any) -> None:
     path.write_bytes(_json_bytes(value))
 
 
-def _git_state() -> tuple[str | None, bool]:
+def _git_state(project_root: Path) -> tuple[str | None, bool]:
     commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=_ROOT, capture_output=True, text=True, check=False
+        ["git", "rev-parse", "HEAD"], cwd=project_root, capture_output=True, text=True,
+        check=False,
     )
     status = subprocess.run(
-        ["git", "status", "--porcelain"], cwd=_ROOT, capture_output=True, text=True,
+        ["git", "status", "--porcelain"], cwd=project_root, capture_output=True, text=True,
         check=False,
     )
     if commit.returncode != 0 or status.returncode != 0:
@@ -57,9 +53,9 @@ def _git_state() -> tuple[str | None, bool]:
     return commit.stdout.strip(), bool(status.stdout.strip())
 
 
-def _locked_inputs() -> tuple[bytes, bytes, dict[str, Any]]:
-    lock_bytes = _LOCK.read_bytes()
-    policy_bytes = _POLICY.read_bytes()
+def _locked_inputs(project_root: Path) -> tuple[bytes, bytes, dict[str, Any]]:
+    lock_bytes = (project_root / "locks" / "ames-smoke-environment.json").read_bytes()
+    policy_bytes = (project_root / "policies" / "ames-smoke.json").read_bytes()
     lock = json.loads(lock_bytes)
     if lock["python_implementation"] != platform.python_implementation():
         raise RuntimeError("Ames smoke Python implementation differs from environment lock")
@@ -69,6 +65,16 @@ def _locked_inputs() -> tuple[bytes, bytes, dict[str, Any]]:
     if policy["protocol_id"] != "ames_engineering_v1" or policy["model_input_features"]:
         raise RuntimeError("Ames smoke feature policy is incompatible")
     return lock_bytes, policy_bytes, policy
+
+
+def _copy_source_bounded(source: Path, destination: Path) -> None:
+    total = 0
+    with source.open("rb") as incoming, destination.open("wb") as saved:
+        for chunk in iter(lambda: incoming.read(1024 * 1024), b""):
+            total += len(chunk)
+            if total > MAX_AMES_BYTES:
+                raise ValueError("Source exceeds the Ames size limit")
+            saved.write(chunk)
 
 
 def _write_predictions(path: Path, reserved_rows: list[dict[str, str]], price: float) -> None:
@@ -88,10 +94,12 @@ def run_smoke(
     expected_sha256: str,
     sample_size: int = 200,
     seed: int = 42,
+    project_root: str | Path | None = None,
 ) -> Path:
     """Run one engineering check and retain its evidence under a unique ID."""
     started = time.monotonic()
-    commit, dirty_tree = _git_state()
+    root = Path(project_root) if project_root is not None else Path.cwd()
+    commit, dirty_tree = _git_state(root)
     run_id = f"u0-smoke-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid4().hex[:12]}"
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -102,10 +110,10 @@ def run_smoke(
     try:
         if sample_size < 2:
             raise ValueError("sample_size must be at least 2 rows")
-        lock_bytes, policy_bytes, policy = _locked_inputs()
+        lock_bytes, policy_bytes, policy = _locked_inputs(root)
         source = Path(source_path)
         rows = load_ames_arff(source, expected_sha256=expected_sha256)
-        shutil.copyfile(source, staging / "source.arff")
+        _copy_source_bounded(source, staging / "source.arff")
         source_sha256 = _sha256(staging / "source.arff")
         if source_sha256 != expected_sha256.lower():
             raise ValueError("Source SHA-256 changed after verified load")
@@ -116,6 +124,8 @@ def run_smoke(
             and len(rows) == policy["official_source_rows"]
         )
         source_identity = "openml_42165_v1" if is_official else "unverified_fixture"
+        if is_official and (dirty_tree or commit is None):
+            raise RuntimeError("Official Ames run requires a clean committed project")
         (staging / "environment.lock.json").write_bytes(lock_bytes)
         (staging / "feature_policy.json").write_bytes(policy_bytes)
         selected = rows[:sample_size]
@@ -124,6 +134,14 @@ def run_smoke(
         reserved = set(split.reserved_ids)
         train_rows = [row for row in selected if row["Id"] in development]
         reserved_rows = [row for row in selected if row["Id"] in reserved]
+        selected_ids = {row["Id"] for row in selected}
+        if (
+            development & reserved
+            or development | reserved != selected_ids
+            or len(train_rows) != len(split.development_ids)
+            or len(reserved_rows) != len(split.reserved_ids)
+        ):
+            raise ValueError("Engineering split partition does not match selected Id values")
         model = fit_median_baseline(train_rows, split=split)
         predictions = model.predict(reserved_rows)
         actuals = [float(row["SalePrice"]) for row in reserved_rows]
@@ -158,6 +176,7 @@ def run_smoke(
             "source_identity": source_identity,
             "code_commit": commit,
             "dirty_tree": dirty_tree,
+            "replayable": not dirty_tree and commit is not None,
             "source_sha256": source_sha256,
             "data_snapshot_hash": source_sha256,
             "split_sha256": _sha256(staging / "split.json"),
@@ -196,9 +215,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path)
     parser.add_argument("--sha256", required=True)
-    parser.add_argument("--output", type=Path, default=_ROOT / "runs")
+    parser.add_argument("--output", type=Path, default=Path("runs"))
+    parser.add_argument("--project-root", type=Path, default=Path.cwd())
     arguments = parser.parse_args()
-    run_dir = run_smoke(arguments.source, arguments.output, expected_sha256=arguments.sha256)
+    run_dir = run_smoke(
+        arguments.source,
+        arguments.output,
+        expected_sha256=arguments.sha256,
+        project_root=arguments.project_root,
+    )
     print(run_dir)
     return 0
 

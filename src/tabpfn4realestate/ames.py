@@ -15,7 +15,7 @@ from typing import Mapping, Sequence
 
 
 _ATTRIBUTE = re.compile(r"@attribute\s+(?:'([^']+)'|\"([^\"]+)\"|(\S+))", re.I)
-_MAX_AMES_BYTES = 10_000_000
+MAX_AMES_BYTES = 10_000_000
 
 
 def _positive_number(value: object, field: str) -> float:
@@ -43,12 +43,12 @@ def load_ames_arff(
     *,
     expected_rows: int | None = None,
     expected_sha256: str | None = None,
-    max_bytes: int = _MAX_AMES_BYTES,
+    max_bytes: int = MAX_AMES_BYTES,
 ) -> list[dict[str, str]]:
     """Load the original ARFF without inferring dates or a legacy split."""
     source_path = Path(path)
-    if max_bytes <= 0 or max_bytes > _MAX_AMES_BYTES:
-        raise ValueError(f"ARFF size limit must be within 1..{_MAX_AMES_BYTES} bytes")
+    if max_bytes <= 0 or max_bytes > MAX_AMES_BYTES:
+        raise ValueError(f"ARFF size limit must be within 1..{MAX_AMES_BYTES} bytes")
     with source_path.open("rb") as source_file:
         source_bytes = source_file.read(max_bytes + 1)
     if len(source_bytes) > max_bytes:
@@ -87,13 +87,13 @@ def load_ames_arff(
         for index, record in enumerate(records, start=1):
             if len(record) != len(attributes):
                 raise ValueError(f"ARFF row {index} has {len(record)} fields, expected {len(attributes)}")
-            row = dict(zip(attributes, record, strict=True))
-            identifier = _row_id(row)
+            raw_row = dict(zip(attributes, record, strict=True))
+            identifier = _row_id(raw_row)
             if identifier in identifiers:
                 raise ValueError(f"Duplicate Id: {identifier}")
-            _positive_number(row["SalePrice"], "SalePrice")
+            _positive_number(raw_row["SalePrice"], "SalePrice")
             identifiers.add(identifier)
-            rows.append(row)
+            rows.append({**raw_row, "Id": identifier})
             if expected_rows is not None and len(rows) > expected_rows:
                 raise ValueError(f"Expected {expected_rows} rows, found more")
 

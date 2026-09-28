@@ -19,7 +19,9 @@ import tempfile
 from zipfile import ZipFile
 
 
-EXPECTED_ARCHIVE_SHA256 = "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7"
+EXPECTED_ARCHIVE_SHA256 = (
+    "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7"
+)
 EXPECTED_MEMBER_BYTES = 679_533_377
 PRIVATE_ROOT = Path(__file__).resolve().parents[1] / "data" / "raw" / "hcpa"
 MAX_ARCHIVE_BYTES = 100_000_000
@@ -29,12 +31,35 @@ SEED = 42
 ROWS_PER_CELL = 20
 EDGE_PER_CELL = 10
 OUTPUT_FIELDS = (
-    "PIN", "FOLIO", "S_DATE", "S_AMT", "QU", "VI", "REA_CD",
-    "S_TYPE", "DOR_CODE", "DOC_NUM", "OR_BK", "OR_PG",
+    "PIN",
+    "FOLIO",
+    "S_DATE",
+    "S_AMT",
+    "QU",
+    "VI",
+    "REA_CD",
+    "S_TYPE",
+    "DOR_CODE",
+    "DOC_NUM",
+    "OR_BK",
+    "OR_PG",
 )
 REVIEW_FIELDS = (
-    "source_evidence", "identity", "sale_date_semantics", "price_semantics",
-    "eligibility", "notes",
+    "source_evidence",
+    "document_match",
+    "parcel_unit_identity",
+    "price_scope_multi_parcel",
+    "date_vs_deed_execution",
+    "date_vs_recording",
+    "date_vs_closing",
+    "qualification_reason_interpretation",
+    "duplicate_status",
+    "evidence_quality",
+    "identity",
+    "sale_date_semantics",
+    "price_semantics",
+    "eligibility",
+    "notes",
 )
 BANDS = ("before_2000", "2000_2009", "2010_2019", "2020_2023", "2024_2026")
 
@@ -61,7 +86,9 @@ def _fields(descriptors: bytes, row_length: int) -> dict[str, tuple[int, int]]:
         fields[name] = (offset, width)
         offset += width
     if offset != row_length or not set(OUTPUT_FIELDS).issubset(fields):
-        raise ValueError("DBF field widths or required columns violate the audit contract")
+        raise ValueError(
+            "DBF field widths or required columns violate the audit contract"
+        )
     return fields
 
 
@@ -110,8 +137,13 @@ def _rank(source_sha: str, ordinal: int) -> int:
     return int.from_bytes(sha256(canonical).digest(), "big")
 
 
-def _offer(heap: list[tuple[int, int, dict[str, str]]], row: dict[str, str],
-           ordinal: int, rank: int, capacity: int) -> None:
+def _offer(
+    heap: list[tuple[int, int, dict[str, str]]],
+    row: dict[str, str],
+    ordinal: int,
+    rank: int,
+    capacity: int,
+) -> None:
     item = (-rank, ordinal, row)
     if len(heap) < capacity:
         heapq.heappush(heap, item)
@@ -125,8 +157,11 @@ def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int)
     excluded = Counter()
     with ZipFile(archive) as zipped:
         info = zipped.getinfo("allsales.dbf")
-        if (info.file_size != expected_member_bytes or info.compress_size <= 0
-                or info.file_size / info.compress_size > 20):
+        if (
+            info.file_size != expected_member_bytes
+            or info.compress_size <= 0
+            or info.file_size / info.compress_size > 20
+        ):
             raise ValueError("DBF member size or compression ratio is unexpected")
         with zipped.open(info) as source:
             header = source.read(32)
@@ -135,8 +170,11 @@ def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int)
             row_count = int.from_bytes(header[4:8], "little")
             header_length = int.from_bytes(header[8:10], "little")
             row_length = int.from_bytes(header[10:12], "little")
-            if not (0 < row_count <= MAX_RECORDS and 33 <= header_length <= 4096
-                    and 1 < row_length <= 512):
+            if not (
+                0 < row_count <= MAX_RECORDS
+                and 33 <= header_length <= 4096
+                and 1 < row_length <= 512
+            ):
                 raise ValueError("DBF header dimensions exceed the audit contract")
             if header_length + row_count * row_length + 1 != info.file_size:
                 raise ValueError("DBF header count disagrees with member size")
@@ -163,7 +201,9 @@ def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int)
                 key = (band, qu)
                 eligible[key] += 1
                 rank = _rank(source_sha, ordinal)
-                _offer(heaps[key]["all"], row, ordinal, rank, ROWS_PER_CELL + EDGE_PER_CELL)
+                _offer(
+                    heaps[key]["all"], row, ordinal, rank, ROWS_PER_CELL + EDGE_PER_CELL
+                )
                 if _is_edge(row):
                     _offer(heaps[key]["edge"], row, ordinal, rank, EDGE_PER_CELL)
             if source.read(2) != b"\x1a":
@@ -171,7 +211,9 @@ def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int)
     return heaps, eligible, excluded, row_count, info
 
 
-def _selected(heaps, eligible: Counter) -> tuple[list[dict[str, object]], dict[str, dict[str, int]]]:
+def _selected(
+    heaps, eligible: Counter
+) -> tuple[list[dict[str, object]], dict[str, dict[str, int]]]:
     selected: list[dict[str, object]] = []
     cell_counts: dict[str, dict[str, int]] = {}
     for band in BANDS:
@@ -179,16 +221,20 @@ def _selected(heaps, eligible: Counter) -> tuple[list[dict[str, object]], dict[s
             key = (band, qu)
             label = f"{band}_{qu}"
             if eligible[key] < ROWS_PER_CELL:
-                raise ValueError(f"Insufficient HCPA sample quota in {label}: {eligible[key]}/{ROWS_PER_CELL}")
+                raise ValueError(
+                    f"Insufficient HCPA sample quota in {label}: {eligible[key]}/{ROWS_PER_CELL}"
+                )
             edges = sorted(heaps[key]["edge"], reverse=True)
             edge_ordinals = {item[1] for item in edges}
             remaining = sorted(
                 (item for item in heaps[key]["all"] if item[1] not in edge_ordinals),
                 reverse=True,
-            )[:ROWS_PER_CELL - len(edges)]
+            )[: ROWS_PER_CELL - len(edges)]
             picks = sorted(edges + remaining, reverse=True)
             if len(picks) != ROWS_PER_CELL:
-                raise ValueError(f"Insufficient HCPA sample quota in {label} after selection")
+                raise ValueError(
+                    f"Insufficient HCPA sample quota in {label} after selection"
+                )
             cell_counts[label] = {
                 "eligible": eligible[key],
                 "selected": len(picks),
@@ -196,27 +242,37 @@ def _selected(heaps, eligible: Counter) -> tuple[list[dict[str, object]], dict[s
                 "edge_reserved": len(edges),
             }
             for _, ordinal, row in picks:
-                selected.append({
-                    "record_ordinal": ordinal,
-                    **row,
-                    "manual_review": dict.fromkeys(REVIEW_FIELDS),
-                })
+                selected.append(
+                    {
+                        "record_ordinal": ordinal,
+                        **row,
+                        "manual_review": dict.fromkeys(REVIEW_FIELDS),
+                    }
+                )
     return selected, cell_counts
 
 
-def _write_atomic(output: Path, manifest: Path, sample_bytes: bytes, manifest_bytes: bytes) -> None:
+def _write_atomic(
+    output: Path, manifest: Path, sample_bytes: bytes, manifest_bytes: bytes
+) -> None:
     staged: list[Path] = []
     installed: list[Path] = []
     try:
-        for destination, content in ((output, sample_bytes), (manifest, manifest_bytes)):
-            with tempfile.NamedTemporaryFile(dir=destination.parent, prefix=".hcpa-audit-",
-                                             delete=False) as stream:
+        for destination, content in (
+            (output, sample_bytes),
+            (manifest, manifest_bytes),
+        ):
+            with tempfile.NamedTemporaryFile(
+                dir=destination.parent, prefix=".hcpa-audit-", delete=False
+            ) as stream:
                 staged.append(Path(stream.name))
                 stream.write(content)
                 stream.flush()
                 os.fsync(stream.fileno())
         for temporary, destination in zip(staged, (output, manifest)):
-            os.link(temporary, destination)  # Atomic and refuses an existing destination.
+            os.link(
+                temporary, destination
+            )  # Atomic and refuses an existing destination.
             installed.append(destination)
     except BaseException:
         for destination in installed:
@@ -251,10 +307,14 @@ def sample_archive(
     if source_sha != expected_sha256:
         raise ValueError("Archive checksum differs from the audited source")
     heaps, eligible, excluded, row_count, info = _read_candidates(
-        archive, source_sha, expected_member_bytes,
+        archive,
+        source_sha,
+        expected_member_bytes,
     )
     rows, cells = _selected(heaps, eligible)
-    sample_bytes = "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows).encode("utf-8")
+    sample_bytes = "".join(
+        json.dumps(row, sort_keys=True) + "\n" for row in rows
+    ).encode("utf-8")
     result: dict[str, object] = {
         "source_archive_sha256": source_sha,
         "member": "allsales.dbf",
@@ -273,12 +333,21 @@ def sample_archive(
         "sample_sha256": sha256(sample_bytes).hexdigest(),
         "sample_status": "selected_for_manual_review; no manual review or eligibility decision implied",
     }
-    manifest_bytes = (json.dumps(result, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    manifest_bytes = (json.dumps(result, indent=2, sort_keys=True) + "\n").encode(
+        "utf-8"
+    )
     _write_atomic(output, manifest, sample_bytes, manifest_bytes)
     return result
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        raise SystemExit("Usage: sample_hcpa_audit.py ARCHIVE.zip PRIVATE_SAMPLE.jsonl AGGREGATE_MANIFEST.json")
-    print(json.dumps(sample_archive(Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])), sort_keys=True))
+        raise SystemExit(
+            "Usage: sample_hcpa_audit.py ARCHIVE.zip PRIVATE_SAMPLE.jsonl AGGREGATE_MANIFEST.json"
+        )
+    print(
+        json.dumps(
+            sample_archive(Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])),
+            sort_keys=True,
+        )
+    )

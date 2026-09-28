@@ -19,10 +19,22 @@ sampler = module_from_spec(spec)
 spec.loader.exec_module(sampler)
 
 FIELDS = (
-    ("PIN", 12), ("FOLIO", 12), ("S_DATE", 8), ("S_AMT", 12),
-    ("QU", 1), ("VI", 1), ("REA_CD", 3), ("S_TYPE", 3),
-    ("DOR_CODE", 4), ("DOC_NUM", 12), ("OR_BK", 8), ("OR_PG", 8),
-    ("GRANTOR", 20), ("GRANTEE", 20), ("STR", 20), ("SUB", 20),
+    ("PIN", 12),
+    ("FOLIO", 12),
+    ("S_DATE", 8),
+    ("S_AMT", 12),
+    ("QU", 1),
+    ("VI", 1),
+    ("REA_CD", 3),
+    ("S_TYPE", 3),
+    ("DOR_CODE", 4),
+    ("DOC_NUM", 12),
+    ("OR_BK", 8),
+    ("OR_PG", 8),
+    ("GRANTOR", 20),
+    ("GRANTEE", 20),
+    ("STR", 20),
+    ("SUB", 20),
 )
 YEARS = (1999, 2005, 2015, 2022, 2025)
 
@@ -32,21 +44,26 @@ def make_rows(per_cell: int = 25) -> list[dict[str, str]]:
     for year in YEARS:
         for qualification in ("Q", "U"):
             for index in range(per_cell):
-                rows.append({
-                    "PIN": f"P{year}{qualification}{index}",
-                    "FOLIO": f"F{year}{qualification}{index}",
-                    "S_DATE": f"{year}0601",
-                    "S_AMT": str(250000 + index),
-                    "QU": qualification,
-                    "VI": "V" if index < 3 else "I",
-                    "REA_CD": "A",
-                    "S_TYPE": "WD",
-                    "DOR_CODE": "0100",
-                    "DOC_NUM": f"D{year}{qualification}{index}",
-                    "OR_BK": "123", "OR_PG": "45",
-                    "GRANTOR": "PRIVATE SELLER", "GRANTEE": "PRIVATE BUYER",
-                    "STR": "SECRET STREET", "SUB": "SECRET SUBDIVISION",
-                })
+                rows.append(
+                    {
+                        "PIN": f"P{year}{qualification}{index}",
+                        "FOLIO": f"F{year}{qualification}{index}",
+                        "S_DATE": f"{year}0601",
+                        "S_AMT": str(250000 + index),
+                        "QU": qualification,
+                        "VI": "V" if index < 3 else "I",
+                        "REA_CD": "A",
+                        "S_TYPE": "WD",
+                        "DOR_CODE": "0100",
+                        "DOC_NUM": f"D{year}{qualification}{index}",
+                        "OR_BK": "123",
+                        "OR_PG": "45",
+                        "GRANTOR": "PRIVATE SELLER",
+                        "GRANTEE": "PRIVATE BUYER",
+                        "STR": "SECRET STREET",
+                        "SUB": "SECRET SUBDIVISION",
+                    }
+                )
     return rows
 
 
@@ -114,34 +131,90 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.assertEqual(len({row["record_ordinal"] for row in lines}), 200)
         for year in YEARS:
             for qualification in ("Q", "U"):
-                cell = [row for row in lines if row["S_DATE"].startswith(str(year)) and row["QU"] == qualification]
+                cell = [
+                    row
+                    for row in lines
+                    if row["S_DATE"].startswith(str(year))
+                    and row["QU"] == qualification
+                ]
                 self.assertEqual(len(cell), 20)
                 self.assertEqual(sum(row["VI"] == "V" for row in cell), 3)
-        self.assertEqual(first["sample_sha256"], sha256(self.output.read_bytes()).hexdigest())
+        self.assertEqual(
+            first["sample_sha256"], sha256(self.output.read_bytes()).hexdigest()
+        )
         self.assertEqual(first["ranking_version"], "hcpa-audit-v1")
         self.assertIn("hcpa-audit-v1|", first["ranking_formula"])
         second = self.sample(self.private / "again.jsonl", self.root / "again.json")
-        self.assertEqual(self.output.read_bytes(), (self.private / "again.jsonl").read_bytes())
+        self.assertEqual(
+            self.output.read_bytes(), (self.private / "again.jsonl").read_bytes()
+        )
         self.assertEqual(first, second)
 
     def test_output_has_only_allowed_fields_and_blank_review_slots(self) -> None:
         self.sample()
         content = self.output.read_text()
-        for secret in ("PRIVATE SELLER", "PRIVATE BUYER", "SECRET STREET", "SECRET SUBDIVISION"):
+        for secret in (
+            "PRIVATE SELLER",
+            "PRIVATE BUYER",
+            "SECRET STREET",
+            "SECRET SUBDIVISION",
+        ):
             self.assertNotIn(secret, content)
         row = json.loads(content.splitlines()[0])
-        self.assertEqual(set(row), {
-            "record_ordinal", "PIN", "FOLIO", "S_DATE", "S_AMT", "QU", "VI",
-            "REA_CD", "S_TYPE", "DOR_CODE", "DOC_NUM", "OR_BK", "OR_PG", "manual_review",
-        })
+        self.assertEqual(
+            set(row),
+            {
+                "record_ordinal",
+                "PIN",
+                "FOLIO",
+                "S_DATE",
+                "S_AMT",
+                "QU",
+                "VI",
+                "REA_CD",
+                "S_TYPE",
+                "DOR_CODE",
+                "DOC_NUM",
+                "OR_BK",
+                "OR_PG",
+                "manual_review",
+            },
+        )
         self.assertTrue(all(value is None for value in row["manual_review"].values()))
+        self.assertTrue({
+            "document_match", "parcel_unit_identity", "price_scope_multi_parcel",
+            "date_vs_deed_execution", "date_vs_recording", "date_vs_closing",
+            "qualification_reason_interpretation", "duplicate_status", "evidence_quality",
+        }.issubset(row["manual_review"]))
         manifest = json.loads(self.manifest.read_text())
         self.assertNotIn("PIN", manifest)
         self.assertNotIn("PRIVATE", self.manifest.read_text())
 
+    def test_edge_reserve_is_capped_and_uses_documented_rank(self) -> None:
+        rows = make_rows()
+        for row in rows:
+            if row["S_DATE"].startswith("1999") and row["QU"] == "Q":
+                index = int(row["PIN"].removeprefix("P1999Q"))
+                row["VI"] = "V" if index < 15 else "I"
+        self.expected_sha, self.expected_size = make_archive(self.archive, rows)
+        result = self.sample()
+        self.assertEqual(result["cell_counts"]["before_2000_Q"]["edge_reserved"], 10)
+        selected = {row["record_ordinal"] for row in map(json.loads, self.output.read_text().splitlines())}
+        ranked_edges = sorted(
+            range(1, 16),
+            key=lambda ordinal: sha256(
+                f"hcpa-audit-v1|{self.expected_sha}|42|{ordinal}".encode("ascii")
+            ).digest(),
+        )[:10]
+        self.assertTrue(set(ranked_edges).issubset(selected))
+
     def test_short_stratum_fails_without_any_output(self) -> None:
         rows = make_rows()
-        rows = [row for row in rows if not (row["S_DATE"].startswith("1999") and row["QU"] == "Q")][:]
+        rows = [
+            row
+            for row in rows
+            if not (row["S_DATE"].startswith("1999") and row["QU"] == "Q")
+        ][:]
         self.expected_sha, self.expected_size = make_archive(self.archive, rows)
         with self.assertRaisesRegex(ValueError, "quota"):
             self.sample()

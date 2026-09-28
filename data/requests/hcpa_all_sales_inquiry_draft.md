@@ -5,7 +5,7 @@ sending it, then chose a ready-to-send email handoff because no authenticated
 mail account or mail window is available in this workspace. Delivery by the
 owner is unverified.
 
-Proposed recipient: the HCPA records custodian listed in the
+To: shepherdw@hcpafl.org, the HCPA records custodian address listed in the
 [official custodian notice](https://www.hcpafl.org/Portals/HCPAFL/pdfs/RecordsCustodianforHCPA.pdf).
 
 ## Proposed message

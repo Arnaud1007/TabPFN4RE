@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --source=select_nyc_review_sample -m unittest tests.test_select_nyc_review_sample -q",
+      "duration_seconds": 0.985,
+      "exit_code": 0,
+      "name": "focused_synthetic_tests_and_coverage",
+      "output_artifact": "focused_tests.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage report -m --fail-under=80 scripts/select_nyc_review_sample.py",
+      "duration_seconds": 0.218,
+      "exit_code": 0,
+      "name": "focused_coverage_threshold",
+      "output_artifact": "coverage.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+      "duration_seconds": 22.547,
+      "exit_code": 0,
+      "name": "full_suite",
+      "output_artifact": "full_tests.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts tests src",
+      "duration_seconds": 0.157,
+      "exit_code": 0,
+      "name": "ruff_lint",
+      "output_artifact": "ruff_lint.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts tests src",
+      "duration_seconds": 0.125,
+      "exit_code": 0,
+      "name": "ruff_format",
+      "output_artifact": "ruff_format.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "duration_seconds": 0.891,
+      "exit_code": 0,
+      "name": "pip_check",
+      "output_artifact": "pip_check.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "duration_seconds": 1.265,
+      "exit_code": 0,
+      "name": "scoped_dependency_audit",
+      "output_artifact": "pip_audit.log"
+    }
+  ],
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6",
+  "g_us_status": "PENDING",
+  "optional_skip_reason": "AMES_ARFF_PATH not set for separate OpenML source integration test",
+  "optional_skipped_tests": 1,
+  "run_id": "u0-nyc-review-sample-20260928T234700Z",
+  "skipped_mandatory_tests": 0,
+  "u0_accepted": false
+}

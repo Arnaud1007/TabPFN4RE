@@ -1,0 +1,5 @@
+$ .venv/Scripts/python.exe -m coverage run --branch --source=select_nyc_review_sample -m unittest tests.test_select_nyc_review_sample -q
+----------------------------------------------------------------------
+Ran 10 tests in 0.614s
+
+OK

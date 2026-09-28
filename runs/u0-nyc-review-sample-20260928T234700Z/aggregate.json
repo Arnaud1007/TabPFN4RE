@@ -1,0 +1,50 @@
+{
+  "duplicate_candidate_rows": 1447,
+  "edge_flag_counts_in_sample": {
+    "gross_area": 75,
+    "identity": 10,
+    "newest_month": 14,
+    "oldest_month": 26,
+    "price": 71,
+    "repeated_source_key": 10
+  },
+  "ledger_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "primary_bucket_counts": {
+    "gross_area": 10,
+    "identity": 10,
+    "newest_month": 5,
+    "oldest_month": 5,
+    "price": 10,
+    "repeated_source_key": 10,
+    "structural": 150
+  },
+  "profile_sha256": "6a5a7c57f21ae5a213a00545034fd2cd3c1bb4128d17b56cb1b26f8bedf692ef",
+  "protocol": "nyc-review-v1",
+  "selected_rows": 200,
+  "snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "source_profile_reconciled": true,
+  "source_rows": 82345,
+  "status": "selected_for_private_manual_review_not_audited",
+  "structural_counts": {
+    "1": {
+      "candidate": 15,
+      "other_or_ambiguous": 15
+    },
+    "2": {
+      "candidate": 15,
+      "other_or_ambiguous": 15
+    },
+    "3": {
+      "candidate": 15,
+      "other_or_ambiguous": 15
+    },
+    "4": {
+      "candidate": 15,
+      "other_or_ambiguous": 15
+    },
+    "5": {
+      "candidate": 15,
+      "other_or_ambiguous": 15
+    }
+  }
+}

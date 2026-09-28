@@ -26,6 +26,11 @@ aggregate_profile_status: source_inventory_only_not_sale_eligibility
 aggregate_profile_zero_price_rows: 28332
 aggregate_profile_positive_price_rows: 54013
 aggregate_profile_exact_string_duplicate_candidate_groups: 339
+manual_audit_protocol: decisions/0021-nyc-manual-audit-sample.md
+manual_audit_sample_report: runs/u0-nyc-review-sample-20260928T234700Z/report.md
+manual_audit_selected_rows: 200
+manual_audit_completed_reviews: 0
+manual_audit_status: private_selection_only_no_eligibility_decision
 geography: New York City, five boroughs
 documented_date_range_at_retrieval: September 2025 through August 2026
 refresh_schedule: monthly; around the 15th for sales recorded through the preceding month

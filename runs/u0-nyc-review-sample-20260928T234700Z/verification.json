@@ -1,0 +1,14 @@
+{
+  "all_rank_hashes_match": true,
+  "byte_identical_replay": true,
+  "distinct_ordinals": 200,
+  "g_us_status": "PENDING",
+  "ledger_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "manual_reviewed_records": 0,
+  "primary_bucket_total": 200,
+  "private_ledger_files_git_ignored": true,
+  "selected_rows": 200,
+  "source_rows": 82345,
+  "structural_cell_total": 150,
+  "u0_accepted": false
+}

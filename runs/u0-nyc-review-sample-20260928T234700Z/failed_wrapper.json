@@ -1,0 +1,11 @@
+{
+  "attempt": "first independent replay-verification wrapper",
+  "stage": "PowerShell command parsing before Python process launch",
+  "exit_code": 1,
+  "failure_type": "ParserError",
+  "diagnostic": "Expressions are only allowed as the first element of a pipeline; PowerShell parsed pipe characters inside the attempted inline Python f-string",
+  "failed_command_fragment": "hashlib.sha256(f\\\"nyc-review-v1|{aggregate['snapshot_sha256']}|42|{x['ordinal']}\\\".encode())",
+  "exact_full_command_saved": false,
+  "effect_on_private_ledgers": "none; the original draw had already completed and the replay output had not been created",
+  "recovery": "reran independent verification using a PowerShell here-string piped to Python stdin; exit code 0"
+}

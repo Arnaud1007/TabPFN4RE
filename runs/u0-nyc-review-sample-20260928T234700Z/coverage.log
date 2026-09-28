@@ -1,0 +1,6 @@
+$ .venv/Scripts/python.exe -m coverage report -m --fail-under=80 scripts/select_nyc_review_sample.py
+Name                                  Stmts   Miss Branch BrPart  Cover   Missing
+---------------------------------------------------------------------------------
+scripts/select_nyc_review_sample.py     185     21     76     12    87%   77, 80, 82, 91, 93, 112, 116, 121-122, 210, 216, 224, 226, 268, 299-304, 312
+---------------------------------------------------------------------------------
+TOTAL                                   185     21     76     12    87%

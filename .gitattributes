@@ -22,3 +22,4 @@
 /locks/nyc-profile-environment.json -text
 /scripts/select_nyc_review_sample.py -text
 /tests/test_select_nyc_review_sample.py -text
+/locks/nyc-review-sample-environment.json -text

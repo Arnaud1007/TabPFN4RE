@@ -1,0 +1,2 @@
+$ .venv/Scripts/python.exe -m ruff format --check scripts tests src
+52 files already formatted

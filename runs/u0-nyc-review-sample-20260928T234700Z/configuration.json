@@ -1,0 +1,11 @@
+{
+  "code_commit": "2b579824171295d084170056e78e3434885d7fbc",
+  "command": ".\\.venv\\Scripts\\python.exe scripts/select_nyc_review_sample.py --snapshot runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json --profile runs/u0-nyc-rolling-profile-20260928T232337Z/aggregate.json --output data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z.jsonl",
+  "replay_output": "data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z-replay.jsonl",
+  "protocol": "nyc-review-v1",
+  "protocol_path": "decisions/0021-nyc-manual-audit-sample.md",
+  "protocol_sha256": "931086fb33b9ede0ab65bf3919cb957a21020b086551330c41c40de3959c8c6f",
+  "source_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "source_profile_sha256": "6a5a7c57f21ae5a213a00545034fd2cd3c1bb4128d17b56cb1b26f8bedf692ef2",
+  "seed": 42
+}

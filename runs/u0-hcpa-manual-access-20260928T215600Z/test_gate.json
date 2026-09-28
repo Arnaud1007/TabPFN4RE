@@ -1,0 +1,31 @@
+{
+  "run_id": "u0-hcpa-manual-access-20260928T215600Z",
+  "status": "source_access_failed_no_manual_review",
+  "checks": [
+    {
+      "name": "sampled_official_instrument_lookup",
+      "command": "Read-only urllib GET to https://publicaccess.hillsclerk.com/oripublicaccess/?instrument={private sampled DOC_NUM}; select newest unreviewed row with nonblank DOC_NUM from the frozen 200; timeout=8 seconds",
+      "process_exit_code": 0,
+      "request_status": "URLError caused by TimeoutError; no HTTP response",
+      "duration_seconds": 8.459,
+      "output_artifact": "report.md"
+    },
+    {
+      "name": "public_search_landing_retrieval",
+      "command": "Read-only web open https://publicaccess.hillsclerk.com/oripublicaccess/",
+      "request_status": "Landing page accessible; zero extractable page lines",
+      "duration_seconds": 1.3,
+      "output_artifact": "report.md"
+    },
+    {
+      "name": "interactive_browser_start",
+      "command": "Open the official public-search landing page in a visible in-app browser tab",
+      "request_status": "Tool initialization failed: missing kernel assets path; no tab opened",
+      "duration_seconds": 0.0996,
+      "output_artifact": "report.md"
+    }
+  ],
+  "new_complete_manual_rubrics": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

@@ -12,7 +12,7 @@ Active milestone: U0 remains pending source qualification and missing historical
 
 ## Next dependency-ready task
 
-The [county parcel-archive readme audit](runs/u0-hcpa-parcel-docs-20260928T193452Z/report.md) confirms that parcel area and room counts total all buildings. The disjoint identifier-format comparison is complete and its aggregate reproduces byte-identically. The next dependency-ready task is to investigate the 16 missing 2025 exact controls and six blank current PINs with private source evidence, and continue the 200-record manual sale/parcel/Clerk review; it still has zero complete rubrics. Ask the custodian to confirm the candidate mapping, sale-date meaning, first publication and permitted use when a delivery route is available. No local crosswalk success overrides these gates. A local HEAD request to the Clerk bulk readme timed out, so no bulk index was hashed.
+The [county parcel-archive readme audit](runs/u0-hcpa-parcel-docs-20260928T193452Z/report.md) confirms that parcel area and room counts total all buildings. The disjoint identifier-format comparison is complete and its aggregate reproduces byte-identically. The next dependency-ready task is to investigate the 16 missing 2025 exact controls and six blank current PINs with private source evidence, and continue the 200-record manual sale/parcel/Clerk review; it still has zero complete rubrics. A [second read-only instrument lookup](runs/u0-hcpa-manual-access-20260928T215600Z/report.md) timed out and the in-app browser could not initialize, so this session added no manual review. Ask the custodian to confirm the candidate mapping, sale-date meaning, first publication and permitted use when a delivery route is available. No local crosswalk success overrides these gates. A local HEAD request to the Clerk bulk readme timed out, so no bulk index was hashed.
 
 The HCPA archive's embedded `allsales.doc` identifies `DOR_CODE` as a Department of Revenue use code. The [official Florida DOR 2024 NAL/SDF guide](https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/User%20Guides/2024%20Users%20guide%20and%20quick%20reference/2024_NAL_SDF_NAP_Users_Guide.pdf) describes predominant parcel use, an explicit SDF multi-parcel flag and a qualification category where full consideration is repeated on each parcel. HCPA has four-character values such as `0100`; the guide's use codes have three digits, so a county mapping is still needed. This provides a concrete linkage question for the 36 repeated-group sample rows; it does not prove HCPA's `QU`, `REA_CD` or `S_AMT` semantics. The source card records the distinction. No sample rubric was completed by this document lookup.
 
@@ -36,6 +36,7 @@ Get-Content runs/u0-hcpa-pin-validation-sample-20260928T211600Z/report.md
 Get-Content runs/u0-hcpa-pin-validation-sample-20260928T211600Z/sample_manifest.json
 Get-Content runs/u0-hcpa-pin-crosswalk-20260928T214110Z/report.md
 Get-Content runs/u0-hcpa-pin-crosswalk-20260928T214110Z/aggregate.json
+Get-Content runs/u0-hcpa-manual-access-20260928T215600Z/report.md
 Get-Content decisions/0017-hcpa-pin-crosswalk-validation.md
 Get-Content runs/u0-hcpa-audit-sample-20260928T160539Z/report.md
 Get-Content runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.md

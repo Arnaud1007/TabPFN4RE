@@ -56,6 +56,13 @@ partial_sample_comparison: runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.
 partial_sample_comparisons: 1
 completed_full_manual_reviews: 0
 private_review_ledger_run: runs/u0-hcpa-review-ledger-20260928T174512Z/report.md
+manual_access_recheck_2026_09_28: >-
+  A second read-only sampled instrument GET from this environment timed out
+  after eight seconds without a response. The public-search landing page was
+  reachable by web retrieval but returned no extractable record lines; the
+  interactive browser tool failed to initialize before a tab opened. No
+  record was reviewed. See
+  runs/u0-hcpa-manual-access-20260928T215600Z/report.md.
 access_notes: >-
   The publisher describes free online Official Records Index search without
   a certified copy. Anonymous/unregistered access excludes restricted records.

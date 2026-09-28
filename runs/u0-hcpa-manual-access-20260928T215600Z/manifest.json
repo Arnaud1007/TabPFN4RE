@@ -1,0 +1,28 @@
+{
+  "checkpoint_identity": null,
+  "code_commit_at_execution": "0c68f53f43a79784cdae4b34c74edc1631ef0a8f",
+  "configuration_hash": "18446529270c52de136f0c10181feef07ce0ec2e99105147d7f4f4f179f12e8c",
+  "dirty_tree_at_execution": false,
+  "environment_lock": "locks/hcpa-pin-validation-environment.json",
+  "environment_lock_sha256": "bb7ce1df6f24b48188e1b8cbf03aba98f61be414b6274ec30adfff504066ea6e",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "immutable_run_files_sha256": {
+    "runs/u0-hcpa-manual-access-20260928T215600Z/report.md": "afd2e2735e20d3b6f7524854ab5c99049984fd49b2dbe2814dcc9c160e692e00",
+    "runs/u0-hcpa-manual-access-20260928T215600Z/test_gate.json": "18446529270c52de136f0c10181feef07ce0ec2e99105147d7f4f4f179f12e8c"
+  },
+  "new_complete_manual_rubrics": 0,
+  "no_model_training": true,
+  "not_applicable_note": "Read-only source access check; no modelling split, features or checkpoint.",
+  "private_review_ledger": "data/raw/hcpa/review-ledger-20260928.jsonl",
+  "private_review_ledger_sha256": "094cd62d4e4aba0b011af9160aa7a6188f1add66dc2eecd17be8d84d0efbfaa6",
+  "private_sample": "data/raw/hcpa/audit-sample-20260928-888226e.jsonl",
+  "private_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "recorded_at_utc": "2026-09-28T21:57:54+00:00",
+  "run_id": "u0-hcpa-manual-access-20260928T215600Z",
+  "selection_rule": "Most recent unreviewed frozen 200-sample row with nonblank DOC_NUM; identifier not tracked",
+  "source_url": "https://publicaccess.hillsclerk.com/oripublicaccess/",
+  "split_hash": null,
+  "status": "official_record_lookup_timed_out_browser_unavailable_no_review",
+  "u0_accepted": false
+}

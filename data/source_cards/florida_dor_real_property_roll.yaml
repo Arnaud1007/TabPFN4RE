@@ -1,0 +1,25 @@
+source_id: florida_dor_name_address_legal_roll
+status: candidate_documentation_audited_not_ingested
+publisher: Florida Department of Revenue, Property Tax Oversight
+dataset_name: Name Address Legal real property roll (NAL)
+publisher_page: https://floridarevenue.com/property/Pages/DataPortal_RequestAssessmentRollGISData.aspx
+standards_url: https://floridarevenue.com/property/Documents/2026FINALCompSubmStd.pdf
+retrieved_on: 2026-09-28
+geography: Florida counties
+documented_history: preliminary and final rolls 2002-present available by request
+refresh_schedule: preliminary July, initial final October, certified final later
+row_grain: assessment-roll parcel; verify county-specific key and splits
+linkage_fields: [county_number, parcel_id]
+candidate_attributes: [land_use, total_living_or_usable_area, construction_class, year_built, improvement_quality, neighborhood_code]
+area_semantics: distinguish living from usable area and verify county implementation
+availability_field: absent_from_documented_roll_layout
+historical_vintages: prior submitted rolls requestable; exact publication timestamp per row unverified
+rights_basis: published under Florida public-records law; exact project use and redistribution decision pending
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+notes: >-
+  A tax year alone does not establish when each attribute was visible. Prior roll
+  vintages and publication dates are required for historical feature assembly.
+  The NAL contains protected-owner exclusions in public versions; do not try to
+  reconstruct confidential identity fields from other sources.

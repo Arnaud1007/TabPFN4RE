@@ -1,0 +1,32 @@
+source_id: florida_dor_sale_data_file
+status: candidate_documentation_audited_not_ingested
+publisher: Florida Department of Revenue, Property Tax Oversight
+dataset_name: Sale Data File (SDF)
+publisher_page: https://floridarevenue.com/property/Pages/DataPortal_RequestAssessmentRollGISData.aspx
+standards_url: https://floridarevenue.com/property/Documents/2026FINALCompSubmStd.pdf
+retrieved_on: 2026-09-28
+geography: Florida counties, including metro and potential nonmetro strata
+documented_history: sale files 2009-present available by request; current roll posted
+refresh_schedule: preliminary July, initial final October, certified final later
+publication_lag: state review, acceptance and publication can take up to one month after submission
+row_grain: parcel transfer record; a multi-parcel deed can repeat the full sale price
+linkage_fields: [county_number, parcel_id, official_record_book_page_or_clerk_instrument_number]
+target_field: sale_price
+target_currency: USD
+target_semantics: sale price inferred from documentary stamps; qualification code requires review
+date_fields: [sale_year, sale_month]
+date_semantics: deed or instrument execution month, not recording or verified close date
+eligibility_fields: [real_property_transfer_code, vacant_or_improved_code, sale_property_change_code]
+availability_field: absent_from_documented_sale_layout
+historical_vintages: prior rolls can be requested; historical first-publication dates not yet recovered
+rights_basis: published under Florida public-records law; exact project use and redistribution decision pending
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  The SDF uses only sale year and month. Standards distinguish execution from
+  recording and direct multi-parcel transfers to carry the full price on each
+  parcel. Codes 39 and 43 warn about consideration differing from stamps and
+  allocated package prices. A county clerk or other authoritative source would
+  be needed for exact daily close/recording evidence before the primary benchmark.

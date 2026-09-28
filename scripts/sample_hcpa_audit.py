@@ -175,6 +175,7 @@ def _read_dbf_header(
 def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int):
     heaps = {(band, qu): {"all": [], "edge": []} for band in BANDS for qu in ("Q", "U")}
     eligible = Counter()
+    edge_eligible = Counter()
     excluded = Counter()
     with ZipFile(archive) as zipped:
         info = zipped.getinfo("allsales.dbf")
@@ -212,14 +213,15 @@ def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int)
                     heaps[key]["all"], row, ordinal, rank, ROWS_PER_CELL + EDGE_PER_CELL
                 )
                 if _is_edge(row):
+                    edge_eligible[key] += 1
                     _offer(heaps[key]["edge"], row, ordinal, rank, EDGE_PER_CELL)
             if source.read(2) != b"\x1a":
                 raise ValueError("Expected DBF end-of-file marker")
-    return heaps, eligible, excluded, row_count, info
+    return heaps, eligible, edge_eligible, excluded, row_count, info
 
 
 def _selected(
-    heaps, eligible: Counter
+    heaps, eligible: Counter, edge_eligible: Counter
 ) -> tuple[list[dict[str, object]], dict[str, dict[str, int]]]:
     selected: list[dict[str, object]] = []
     cell_counts: dict[str, dict[str, int]] = {}
@@ -244,6 +246,7 @@ def _selected(
                 )
             cell_counts[label] = {
                 "eligible": eligible[key],
+                "edge_eligible": edge_eligible[key],
                 "selected": len(picks),
                 "selected_edge": sum(_is_edge(row) for _, _, row in picks),
                 "edge_reserved": len(edges),
@@ -300,6 +303,8 @@ def sample_archive(
 ) -> dict[str, object]:
     """Return an aggregate manifest after writing a private sample and manifest."""
     archive, output, manifest = Path(archive), Path(output), Path(manifest)
+    if PRIVATE_ROOT.is_symlink():
+        raise ValueError("Private HCPA root must not be a symlink")
     if not output.resolve().is_relative_to(PRIVATE_ROOT.resolve()):
         raise ValueError("Row-level sample must be inside the private HCPA directory")
     if output.resolve() == manifest.resolve():
@@ -313,12 +318,12 @@ def sample_archive(
     source_sha = _archive_hash(archive)
     if source_sha != expected_sha256:
         raise ValueError("Archive checksum differs from the audited source")
-    heaps, eligible, excluded, row_count, info = _read_candidates(
+    heaps, eligible, edge_eligible, excluded, row_count, info = _read_candidates(
         archive,
         source_sha,
         expected_member_bytes,
     )
-    rows, cells = _selected(heaps, eligible)
+    rows, cells = _selected(heaps, eligible, edge_eligible)
     sample_bytes = "".join(
         json.dumps(row, sort_keys=True) + "\n" for row in rows
     ).encode("utf-8")
@@ -329,7 +334,10 @@ def sample_archive(
         "member_uncompressed_bytes": info.file_size,
         "header_record_count": row_count,
         "ranking_version": RANKING_VERSION,
-        "ranking_formula": "SHA256(ASCII('hcpa-audit-v1|{source_archive_sha256}|42|{1-based DBF record ordinal}')); ascending unsigned 256-bit integer",
+        "ranking_formula": (
+            f"SHA256(ASCII('{RANKING_VERSION}|{{source_archive_sha256}}|{SEED}|"
+            "{1-based DBF record ordinal}')); ascending unsigned 256-bit integer"
+        ),
         "sample_seed": SEED,
         "rows_per_cell": ROWS_PER_CELL,
         "edge_reserved_per_cell": EDGE_PER_CELL,

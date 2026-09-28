@@ -1,8 +1,11 @@
 # U2 synthetic comparable engineering report
 
-Run ID: `u2-synthetic-comparables-20260928T121309Z`  
-Code commit: `31e838684ef203b57df1e82a3f772a208345060e`  
-Status: **verified engineering increment; U2 and G-US remain pending**  
+Run ID: `u2-synthetic-comparables-20260928T121309Z`
+
+Code commit: `31e838684ef203b57df1e82a3f772a208345060e`
+
+Status: **verified engineering increment; U2 and G-US remain pending**
+
 Requirements: US06, US08, US10, US23
 
 ## Objective and changes

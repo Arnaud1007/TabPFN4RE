@@ -9,7 +9,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
+from zipfile import BadZipFile, ZIP_DEFLATED, ZipFile, ZipInfo
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "sample_hcpa_audit.py"
@@ -241,10 +241,32 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.assertFalse(self.manifest.exists())
         self.archive.write_bytes(b"not a ZIP")
         self.expected_sha = sha256(self.archive.read_bytes()).hexdigest()
-        with self.assertRaises(Exception):
+        with self.assertRaises(BadZipFile):
             self.sample()
         self.assertFalse(self.output.exists())
         self.assertFalse(self.manifest.exists())
+
+    def test_malformed_dbf_header_fails_before_writing(self) -> None:
+        dbf = bytearray(make_dbf(make_rows()))
+        dbf[0] = 0
+        with ZipFile(self.archive, "w") as archive:
+            member = ZipInfo("allsales.dbf", date_time=(2026, 9, 28, 0, 0, 0))
+            member.compress_type = ZIP_DEFLATED
+            archive.writestr(member, dbf)
+        self.expected_sha = sha256(self.archive.read_bytes()).hexdigest()
+        self.expected_size = len(dbf)
+        with self.assertRaisesRegex(ValueError, "dBASE III header"):
+            self.sample()
+        self.assertFalse(self.output.exists())
+        self.assertFalse(self.manifest.exists())
+
+    def test_manifest_ranking_formula_uses_active_version_and_seed(self) -> None:
+        with patch.object(sampler, "RANKING_VERSION", "hcpa-audit-test"), patch.object(
+            sampler, "SEED", 7
+        ):
+            result = self.sample()
+        self.assertIn("hcpa-audit-test", result["ranking_formula"])
+        self.assertIn("|7|", result["ranking_formula"])
 
     def test_existing_output_and_outside_private_root_are_rejected(self) -> None:
         self.output.write_text("existing")
@@ -254,6 +276,13 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.output.unlink()
         with self.assertRaisesRegex(ValueError, "private"):
             self.sample(self.root / "tracked.jsonl")
+        self.assertFalse(self.manifest.exists())
+
+    def test_symlinked_private_root_is_rejected_before_writing(self) -> None:
+        with patch.object(sampler.PRIVATE_ROOT.__class__, "is_symlink", return_value=True):
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                self.sample()
+        self.assertFalse(self.output.exists())
         self.assertFalse(self.manifest.exists())
 
 

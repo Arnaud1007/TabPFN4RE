@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "purpose": "U1 and U2 standard-library synthetic engineering gates",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": [],
+  "test_dependencies": ["coverage==7.6.12"],
+  "lint_tool": "ruff==0.15.18",
+  "build_dependencies": ["setuptools==65.5.0", "wheel==0.45.1"]
+}

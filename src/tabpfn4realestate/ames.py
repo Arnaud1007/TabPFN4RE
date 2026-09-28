@@ -32,9 +32,10 @@ def _positive_number(value: object, field: str) -> float:
 
 def _row_id(row: Mapping[str, object]) -> str:
     value = row.get("Id")
-    if value is None or not str(value).strip() or str(value).strip() == "?":
-        raise ValueError("Id is required")
-    return str(value).strip()
+    identifier = str(value).strip() if value is not None else ""
+    if not re.fullmatch(r"[1-9][0-9]*", identifier):
+        raise ValueError("Id must be a positive integer")
+    return identifier
 
 
 def load_ames_arff(
@@ -46,9 +47,10 @@ def load_ames_arff(
 ) -> list[dict[str, str]]:
     """Load the original ARFF without inferring dates or a legacy split."""
     source_path = Path(path)
-    if max_bytes <= 0 or source_path.stat().st_size > max_bytes:
-        raise ValueError(f"ARFF size exceeds {max_bytes} bytes")
-    source_bytes = source_path.read_bytes()
+    if max_bytes <= 0 or max_bytes > _MAX_AMES_BYTES:
+        raise ValueError(f"ARFF size limit must be within 1..{_MAX_AMES_BYTES} bytes")
+    with source_path.open("rb") as source_file:
+        source_bytes = source_file.read(max_bytes + 1)
     if len(source_bytes) > max_bytes:
         raise ValueError(f"ARFF size exceeds {max_bytes} bytes")
     source_sha256 = hashlib.sha256(source_bytes).hexdigest()
@@ -151,7 +153,10 @@ def fit_median_baseline(
 def signed_percentage_error(actual: object, predicted: object) -> float:
     actual_price = _positive_number(actual, "actual price")
     predicted_price = _positive_number(predicted, "predicted price")
-    return (predicted_price - actual_price) / actual_price
+    result = (predicted_price - actual_price) / actual_price
+    if not math.isfinite(result):
+        raise ValueError("Percentage error is not finite")
+    return result
 
 
 def median_absolute_percentage_error(

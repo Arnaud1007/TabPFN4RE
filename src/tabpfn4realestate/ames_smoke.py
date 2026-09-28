@@ -8,8 +8,8 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import shutil
 import subprocess
-import sys
 import time
 from typing import Any
 from uuid import uuid4
@@ -37,7 +37,7 @@ def _sha256(path: Path) -> str:
 
 
 def _json_bytes(value: Any) -> bytes:
-    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    return (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
 
 
 def _write_json(path: Path, value: Any) -> None:
@@ -57,16 +57,18 @@ def _git_state() -> tuple[str | None, bool]:
     return commit.stdout.strip(), bool(status.stdout.strip())
 
 
-def _locked_inputs() -> tuple[str, str]:
-    lock = json.loads(_LOCK.read_text(encoding="utf-8"))
+def _locked_inputs() -> tuple[bytes, bytes, dict[str, Any]]:
+    lock_bytes = _LOCK.read_bytes()
+    policy_bytes = _POLICY.read_bytes()
+    lock = json.loads(lock_bytes)
     if lock["python_implementation"] != platform.python_implementation():
         raise RuntimeError("Ames smoke Python implementation differs from environment lock")
     if lock["python_version"] != platform.python_version():
         raise RuntimeError("Ames smoke Python version differs from environment lock")
-    policy = json.loads(_POLICY.read_text(encoding="utf-8"))
+    policy = json.loads(policy_bytes)
     if policy["protocol_id"] != "ames_engineering_v1" or policy["model_input_features"]:
         raise RuntimeError("Ames smoke feature policy is incompatible")
-    return _sha256(_LOCK), _sha256(_POLICY)
+    return lock_bytes, policy_bytes, policy
 
 
 def _write_predictions(path: Path, reserved_rows: list[dict[str, str]], price: float) -> None:
@@ -90,7 +92,7 @@ def run_smoke(
     """Run one engineering check and retain its evidence under a unique ID."""
     started = time.monotonic()
     commit, dirty_tree = _git_state()
-    run_id = f"u0-ames-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid4().hex[:12]}"
+    run_id = f"u0-smoke-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid4().hex[:12]}"
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     staging = output / f".incomplete-{run_id}"
@@ -100,11 +102,22 @@ def run_smoke(
     try:
         if sample_size < 2:
             raise ValueError("sample_size must be at least 2 rows")
-        lock_sha256, policy_sha256 = _locked_inputs()
+        lock_bytes, policy_bytes, policy = _locked_inputs()
         source = Path(source_path)
         rows = load_ames_arff(source, expected_sha256=expected_sha256)
+        shutil.copyfile(source, staging / "source.arff")
+        source_sha256 = _sha256(staging / "source.arff")
+        if source_sha256 != expected_sha256.lower():
+            raise ValueError("Source SHA-256 changed after verified load")
         if len(rows) < sample_size:
             raise ValueError(f"Source has {len(rows)} rows, fewer than sample_size {sample_size}")
+        is_official = (
+            source_sha256 == policy["official_source_sha256"]
+            and len(rows) == policy["official_source_rows"]
+        )
+        source_identity = "openml_42165_v1" if is_official else "unverified_fixture"
+        (staging / "environment.lock.json").write_bytes(lock_bytes)
+        (staging / "feature_policy.json").write_bytes(policy_bytes)
         selected = rows[:sample_size]
         split = engineering_split(selected, seed=seed)
         development = set(split.development_ids)
@@ -137,28 +150,34 @@ def run_smoke(
             "mdape": median_absolute_percentage_error(actuals, predictions),
             "within_10": sum(abs(error) <= 0.10 for error in errors) / len(errors),
         })
-        _write_json(staging / "manifest.json", {
+        manifest = {
             "run_id": run_id,
-            "status": "complete",
+            "status": "incomplete",
             "protocol_id": split.protocol_id,
             "certification_eligible": False,
+            "source_identity": source_identity,
             "code_commit": commit,
             "dirty_tree": dirty_tree,
-            "source_sha256": _sha256(source),
-            "data_snapshot_hash": _sha256(source),
+            "source_sha256": source_sha256,
+            "data_snapshot_hash": source_sha256,
             "split_sha256": _sha256(staging / "split.json"),
             "config_sha256": _sha256(staging / "config.json"),
-            "feature_policy_sha256": policy_sha256,
-            "environment_lock_sha256": lock_sha256,
+            "feature_policy_sha256": _sha256(staging / "feature_policy.json"),
+            "environment_lock_sha256": _sha256(staging / "environment.lock.json"),
             "checkpoint_identity": "median_baseline_v1",
             "checkpoint_sha256": _sha256(staging / "baseline.json"),
             "predictions_sha256": _sha256(staging / "predictions.csv"),
+            "metrics_sha256": _sha256(staging / "metrics.json"),
             "duration_seconds": time.monotonic() - started,
-        })
+        }
+        _write_json(staging / "manifest.json", manifest)
         staging.rename(final)
+        _write_json(final / "manifest.complete.tmp", {**manifest, "status": "complete"})
+        (final / "manifest.complete.tmp").replace(final / "manifest.json")
         return final
     except Exception as error:
-        _write_json(staging / "manifest.json", {
+        failure_dir = final if final.exists() else staging
+        _write_json(failure_dir / "manifest.json", {
             "run_id": run_id,
             "status": "failed",
             "protocol_id": "ames_engineering_v1",

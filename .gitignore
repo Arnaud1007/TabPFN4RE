@@ -18,6 +18,15 @@ venv/
 .env.*
 !.env.example
 
+# Source data and local model artifacts
+data/raw/
+data/derived/
+checkpoints/
+*.joblib
+*.pkl
+runs/**/source.arff
+runs/**/predictions.csv
+
 # Visual Studio and operating system files
 .vs/
 *.user

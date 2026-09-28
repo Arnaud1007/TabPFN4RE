@@ -1,0 +1,27 @@
+﻿{
+    "run_id":  "u0-hcpa-profile-20260928T133100Z",
+    "status":  "complete",
+    "purpose":  "U0 read-only aggregate source feasibility audit",
+    "certification_eligible":  false,
+    "started_at_utc":  "2026-09-28T13:35:19.0384710Z",
+    "completed_at_utc":  "2026-09-28T13:36:16.0678180Z",
+    "duration_seconds":  56.477,
+    "command":  [
+                    ".\\.venv\\Scripts\\python.exe",
+                    "runs\\u0-hcpa-profile-20260928T133100Z\\profile.py",
+                    "[local HCPA archive]",
+                    "runs\\u0-hcpa-profile-20260928T133100Z\\profile.json"
+                ],
+    "exit_code":  0,
+    "code_commit":  "5b047a536971cb6d4b77653d2af75f4b7a943b9d",
+    "dirty_tree":  true,
+    "python_version":  "Python 3.11.6",
+    "source_snapshot_sha256":  "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7",
+    "script_sha256":  "7638717073b012a19807a3a2797d5df69d8f136e0c79c76876c573930ea2918c",
+    "output_sha256":  "2ac22d630f9ed4ec5f95028d511455e0653c379719013e64a9fb8b7ab81bba99",
+    "initial_output_sha256":  "2ac22d630f9ed4ec5f95028d511455e0653c379719013e64a9fb8b7ab81bba99",
+    "split_hash":  null,
+    "feature_policy_hash":  null,
+    "configuration_hash":  null,
+    "checkpoint_identity":  null
+}

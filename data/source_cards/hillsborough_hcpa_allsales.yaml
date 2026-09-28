@@ -6,11 +6,33 @@ publisher_page: https://downloads.hcpafl.org/Default.aspx
 retrieved_on: 2026-09-28
 listed_archive: allsales_09_18_2026.zip
 listed_archive_sha256: 847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7
+local_raw_copy: data/raw/hcpa/allsales_09_18_2026.zip
+local_raw_copy_status: unchanged_sha256_verified_ignored_by_git
 embedded_documentation: allsales.doc
 embedded_documentation_sha256: 8975be10a94a581a76a2a9a9370eda16c3b1730cc54ecc3e9f2afb2998b62175
 geography: Hillsborough County, Florida only
 row_grain: sale entry linked to parcel; transaction uniqueness not yet audited
 candidate_fields: [PIN, FOLIO, S_DATE, S_AMT, QU, VI, REA_CD, S_TYPE, OR_BK, OR_PG, DOC_NUM]
+archive_member: allsales.dbf
+dbf_header_record_count: 2453187
+dbf_header_last_update: 2026-09-17
+dbf_record_bytes: 277
+dbf_fields: [PIN, FOLIO, DOR_CODE, NBHC, S_DATE, VI, QU, REA_CD, S_AMT, SUB, STR, S_TYPE, OR_BK, OR_PG, GRANTOR, GRANTEE, DOC_NUM]
+personal_name_fields_excluded_from_models: [GRANTOR, GRANTEE]
+profile_run: runs/u0-hcpa-profile-20260928T133100Z/profile.json
+profile_manifest: runs/u0-hcpa-profile-20260928T133100Z/manifest.json
+profile_report: runs/u0-hcpa-profile-20260928T133100Z/report.md
+profile_scope: aggregate read-only scan of all DBF rows; no manual record audit
+profile_observed_rows: 2453187
+profile_valid_sale_dates: 2453187
+profile_positive_parseable_sale_amounts: 2453187
+profile_missing_clerk_document_number: 269947
+profile_qualification_code_counts: {Q: 1090999, U: 1362188}
+profile_vacant_improved_code_counts: {I: 1871500, V: 512547, blank: 69140}
+profile_caution: >-
+  These are raw source counts, not eligible single-family, arm's-length or
+  90-day as-of labels. Code meanings, duplicates and close-date semantics
+  require manual and official-source validation.
 date_field: S_DATE
 documented_date_meaning: date of sale
 verified_close_date_meaning: false
@@ -30,5 +52,7 @@ next_checks: >-
   duplicate linkage, determine historical vintages and source-specific rights.
 notes: >-
   The archive and documentation were downloaded to a local temporary audit
-  location, hashed, and inspected. Property rows were not ingested or trained.
-  The public page uses postback downloads rather than stable file URLs.
+  location, hashed, and inspected; an unchanged ZIP copy is kept under
+  Git-ignored data/raw/hcpa for replay. Property rows were not loaded into
+  canonical layers or trained. The public page uses postback downloads rather
+  than stable file URLs.

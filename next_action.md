@@ -6,6 +6,8 @@ Active milestone: U0 remains pending access to the owner's private legacy reposi
 
 When repository access is granted, run a read-only inventory of `github.com/Arnaud1007/tabular-fm-housing-poc` in an isolated checkout and update `migration_report.md`. Do not reconstruct absent legacy split or result artifacts as originals. Independently, continue U0 source qualification from `data/acquisition_backlog.md`: verify Hillsborough HCPA `S_DATE` against true close/deed semantics, first publication date and the right to use its data; determine whether stable dated snapshots can be collected. Florida DOR SDF remains a statewide linkage candidate but has year/month-only sale dates. NYC, Cook County and King County have distinct timing and join dependencies. Do not train a real-world temporal model until source timing and label eligibility are demonstrated.
 
+The read-only HCPA aggregate source scan in `runs/u0-hcpa-profile-20260928T133100Z/` reconciles 2,453,187 raw DBF records but establishes no eligible residential cohort. Before an adapter, perform the 200-record source audit, confirm document/parcel uniqueness, define a rights decision and recover historical availability snapshots. An unchanged source ZIP is kept under Git-ignored `data/raw/hcpa/`; it is not part of the releasable canonical data layer.
+
 Resume from the project root in PowerShell:
 
 ```powershell

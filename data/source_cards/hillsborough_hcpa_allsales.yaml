@@ -61,6 +61,13 @@ next_checks: >-
   from now on for observed first availability, audit 200 records and economic
   duplicate linkage, determine historical vintages and source-specific rights.
 manual_audit_protocol: decisions/0013-hcpa-manual-audit-sample.md
+sample_run: runs/u0-hcpa-audit-sample-20260928T160539Z/report.md
+sample_selected_records: 200
+manually_reviewed_records: 0
+sample_note: >-
+  The 200 distinct entries are selected for later source review. Their
+  row-level private JSONL is Git-ignored; selection is not an eligibility or
+  rights decision.
 notes: >-
   The archive and documentation were downloaded to a local temporary audit
   location, hashed, and inspected; an unchanged ZIP copy is kept under

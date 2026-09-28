@@ -1,0 +1,89 @@
+{
+  "cell_counts": {
+    "2000_2009_Q": {
+      "edge_eligible": 96439,
+      "edge_reserved": 10,
+      "eligible": 277094,
+      "selected": 20,
+      "selected_edge": 12
+    },
+    "2000_2009_U": {
+      "edge_eligible": 319074,
+      "edge_reserved": 10,
+      "eligible": 363673,
+      "selected": 20,
+      "selected_edge": 18
+    },
+    "2010_2019_Q": {
+      "edge_eligible": 76013,
+      "edge_reserved": 10,
+      "eligible": 247948,
+      "selected": 20,
+      "selected_edge": 10
+    },
+    "2010_2019_U": {
+      "edge_eligible": 327669,
+      "edge_reserved": 10,
+      "eligible": 373573,
+      "selected": 20,
+      "selected_edge": 18
+    },
+    "2020_2023_Q": {
+      "edge_eligible": 37289,
+      "edge_reserved": 10,
+      "eligible": 122111,
+      "selected": 20,
+      "selected_edge": 10
+    },
+    "2020_2023_U": {
+      "edge_eligible": 133265,
+      "edge_reserved": 10,
+      "eligible": 153505,
+      "selected": 20,
+      "selected_edge": 18
+    },
+    "2024_2026_Q": {
+      "edge_eligible": 18205,
+      "edge_reserved": 10,
+      "eligible": 59757,
+      "selected": 20,
+      "selected_edge": 10
+    },
+    "2024_2026_U": {
+      "edge_eligible": 77179,
+      "edge_reserved": 10,
+      "eligible": 83460,
+      "selected": 20,
+      "selected_edge": 18
+    },
+    "before_2000_Q": {
+      "edge_eligible": 219569,
+      "edge_reserved": 10,
+      "eligible": 384089,
+      "selected": 20,
+      "selected_edge": 14
+    },
+    "before_2000_U": {
+      "edge_eligible": 361631,
+      "edge_reserved": 10,
+      "eligible": 387977,
+      "selected": 20,
+      "selected_edge": 19
+    }
+  },
+  "edge_reserved_per_cell": 10,
+  "edge_rule": "VI != I OR missing DOC_NUM OR S_TYPE != WD OR finite S_AMT < 1000 OR DOR_CODE != 0100",
+  "excluded_counts": {},
+  "header_record_count": 2453187,
+  "member": "allsales.dbf",
+  "member_crc32": "1a2b0fa3",
+  "member_uncompressed_bytes": 679533377,
+  "ranking_formula": "SHA256(ASCII('hcpa-audit-v1|{source_archive_sha256}|42|{1-based DBF record ordinal}')); ascending unsigned 256-bit integer",
+  "ranking_version": "hcpa-audit-v1",
+  "rows_per_cell": 20,
+  "sample_rows": 200,
+  "sample_seed": 42,
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "sample_status": "selected_for_manual_review; no manual review or eligibility decision implied",
+  "source_archive_sha256": "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7"
+}

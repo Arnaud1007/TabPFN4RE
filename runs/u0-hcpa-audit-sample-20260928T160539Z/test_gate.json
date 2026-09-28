@@ -1,0 +1,66 @@
+{
+  "run_id": "u0-hcpa-audit-sample-20260928T160539Z",
+  "status": "engineering_checks_pass_manual_audit_pending",
+  "environment": {
+    "python": "CPython 3.11.6",
+    "coverage": "coverage.py 7.6.12",
+    "ruff": "0.15.18",
+    "pip_audit": "2.10.1",
+    "powershell": "5.1.26100.9444",
+    "runtime_lock": "locks/hcpa-audit-sampler-environment.json",
+    "runtime_lock_sha256": "51210ea8f3287598034ca5bccd4d38ef56ea821d2e83a68dcc18c9cf9b364545"
+  },
+  "checks": [
+    {
+      "name": "synthetic_sampler_contract",
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --include='*/scripts/sample_hcpa_audit.py' -m unittest discover -s tests -p test_hcpa_audit_sampler.py -q",
+      "exit_code": 0,
+      "duration_seconds": 0.792,
+      "output_artifacts": ["sampler_tests.log", "sampler_coverage.log"],
+      "result": "10 tests, 0 failures, 0 skipped; sampler statement coverage 84%"
+    },
+    {
+      "name": "full_engineering_suite",
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 16.979,
+      "output_artifacts": ["full_tests_with_coverage.log", "full_coverage.log"],
+      "result": "216 tests, 0 failures, 0 skipped; core package statement coverage 91%"
+    },
+    {
+      "name": "ruff_lint",
+      "command": "python -m ruff check src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.122,
+      "output_artifact": "ruff_lint.log",
+      "result": "All checks passed"
+    },
+    {
+      "name": "ruff_format",
+      "command": "python -m ruff format --check src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.118,
+      "output_artifact": "ruff_format.log",
+      "result": "30 files already formatted"
+    },
+    {
+      "name": "pinned_runtime_dependency_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "exit_code": 0,
+      "duration_seconds": 1.37,
+      "output_artifact": "dependency_audit.log",
+      "result": "No known vulnerabilities found; pip-audit warns that this no-deps invocation does not constitute a full transitive dependency audit"
+    },
+    {
+      "name": "private_sample_integrity",
+      "command": "$samplePath = 'data/raw/hcpa/audit-sample-20260928-888226e.jsonl'; $manifest = Get-Content -Raw 'runs/u0-hcpa-audit-sample-20260928T160539Z/sample_manifest.json' | ConvertFrom-Json; $rows = @(Get-Content -LiteralPath $samplePath | ConvertFrom-Json); $ordinals = @($rows | Select-Object -ExpandProperty record_ordinal | Sort-Object -Unique); $allowed = @('record_ordinal','PIN','FOLIO','S_DATE','S_AMT','QU','VI','REA_CD','S_TYPE','DOR_CODE','DOC_NUM','OR_BK','OR_PG','manual_review'); $unexpected = @($rows | ForEach-Object { $_.PSObject.Properties.Name } | Sort-Object -Unique | Where-Object { $_ -notin $allowed }); $cellTotal = 0; foreach ($property in $manifest.cell_counts.PSObject.Properties) { $cellTotal += $property.Value.eligible }; $checksPass = $rows.Count -eq 200 -and $ordinals.Count -eq 200 -and $unexpected.Count -eq 0 -and $cellTotal -eq $manifest.header_record_count -and (Get-FileHash -Algorithm SHA256 -LiteralPath $samplePath).Hash.ToLowerInvariant() -eq $manifest.sample_sha256 -and [bool](git check-ignore $samplePath); if (-not $checksPass) { throw 'HCPA sample integrity failure' }; Write-Output 'HCPA sample integrity passed'",
+      "exit_code": 0,
+      "duration_seconds": 0.188,
+      "output_artifact": "sample_integrity.log",
+      "result": "200 rows, 200 distinct ordinals, 0 unexpected columns, hash matches, ten cells sum to 2453187, output ignored"
+    }
+  ],
+  "manual_source_comparisons_completed": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

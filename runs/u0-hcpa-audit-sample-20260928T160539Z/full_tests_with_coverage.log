@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:4 char:11
++ $output = & .\.venv\Scripts\python.exe -m coverage run --source=tabpf ...
++           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Ran 216 tests in 16.362s
+
+OK

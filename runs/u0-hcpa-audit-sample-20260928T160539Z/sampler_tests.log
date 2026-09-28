@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:3 char:11
++ $output = & .\.venv\Scripts\python.exe -m coverage run --include='*/s ...
++           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Ran 10 tests in 0.387s
+
+OK

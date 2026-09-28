@@ -17,6 +17,14 @@ target_semantics: sale price inferred from documentary stamps; qualification cod
 date_fields: [sale_year, sale_month]
 date_semantics: deed or instrument execution month, not recording or verified close date
 eligibility_fields: [real_property_transfer_code, vacant_or_improved_code, sale_property_change_code]
+vacant_improved_semantics: >-
+  The 2026 DOR standards say V/I describes what the sale price includes, which
+  is not necessarily the property's condition at the time of sale. Do not
+  import the HCPA-local wording for this statewide field.
+sale_id_semantics: >-
+  SDF field 14 is a Sale Identification Code intended to persist for the same
+  sale across later submissions; verify actual stability before using it as a
+  transaction key.
 availability_field: absent_from_documented_sale_layout
 historical_vintages: prior rolls can be requested; historical first-publication dates not yet recovered
 rights_basis: published under Florida public-records law; exact project use and redistribution decision pending

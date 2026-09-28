@@ -33,6 +33,13 @@ profile_caution: >-
   These are raw source counts, not eligible single-family, arm's-length or
   90-day as-of labels. Code meanings, duplicates and close-date semantics
   require manual and official-source validation.
+source_field_semantics:
+  S_DATE: "Embedded allsales.doc: date of sale; no more precise event identified."
+  S_AMT: "Embedded allsales.doc: dollar amount of sale."
+  QU: "Embedded allsales.doc: qualified/free-market or unqualified; a Q code alone does not prove one-dwelling arm's-length eligibility."
+  VI: "Embedded allsales.doc: vacant or improved at time of sale."
+  REA_CD: "Embedded allsales.doc: reason code for QU."
+  DOC_NUM: "Embedded allsales.doc: instrument number from Clerk's Office."
 date_field: S_DATE
 documented_date_meaning: date of sale
 verified_close_date_meaning: false
@@ -53,6 +60,7 @@ next_checks: >-
   Resolve S_DATE against execution/closing evidence, archive dated source files
   from now on for observed first availability, audit 200 records and economic
   duplicate linkage, determine historical vintages and source-specific rights.
+manual_audit_protocol: decisions/0013-hcpa-manual-audit-sample.md
 notes: >-
   The archive and documentation were downloaded to a local temporary audit
   location, hashed, and inspected; an unchanged ZIP copy is kept under

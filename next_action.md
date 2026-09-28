@@ -14,7 +14,7 @@ $env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').P
 .\.venv\Scripts\python.exe -m unittest discover -s tests -q
 ```
 
-Latest complete gate: `runs/u1-canaries-20260928T113723Z/test_gate.json` (131 tests, 89% statement coverage). The prior capture `runs/u1-canaries-20260928T113634Z/` is incomplete and preserved. The local ARFF is ignored by Git; a fresh clone must download OpenML 42165 using `data/source_cards/openml_42165.yaml` and verify SHA-256 before replay. No releasable use of that file is asserted.
+Latest complete gate: `runs/u2-synthetic-comparables-20260928T121309Z/test_gate.json` (145 tests, 0 skipped, 90.02% statement coverage). Two earlier U2 gate launchers are incomplete and preserved under their run IDs. The local ARFF is ignored by Git; a fresh clone must download OpenML 42165 using `data/source_cards/openml_42165.yaml` and verify SHA-256 before replay. No releasable use of that file is asserted.
 
 ## Unresolved dependencies
 

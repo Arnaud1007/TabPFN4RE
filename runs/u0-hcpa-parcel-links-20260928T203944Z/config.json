@@ -1,0 +1,14 @@
+{
+  "audit_kind": "strict_current_hcpa_parcel_linkage",
+  "protocol": "decisions/0016-hcpa-current-parcel-linkage-audit.md",
+  "category_revision": "one_key_leads_and_area_sale_reference_semantics_corrected_before_final_run",
+  "archive_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8",
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "document_flags_sha256": "f7ef4afeabd33825741ec2655747b42bc4ae61b3a1cb25ab0e1093aa91975f33",
+  "sample_rows": 200,
+  "join_keys": ["PIN", "FOLIO"],
+  "accepted_join_rule": "both nonblank exact trimmed text with one candidate and no contradictory candidate",
+  "pin_conversion_applied": false,
+  "private_flags_path": "data/raw/hcpa/parcel-link-flags-20260928T203944Z-v2.jsonl",
+  "row_level_data_exported_to_git": false
+}

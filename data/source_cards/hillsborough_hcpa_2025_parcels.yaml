@@ -1,0 +1,47 @@
+source_id: hillsborough_hcpa_2025_10_parcels
+status: historical_archive_header_audited_rows_not_ingested
+publisher: Hillsborough County Property Appraiser
+dataset_name: October 2025 parcel shapefile archive
+publisher_page: https://downloads.hcpafl.org/?subfolder=_shapefile_archives
+listed_archive: 2025_10_parcels.zip
+listing_last_updated: 2025-11-07 06:12 local time, timezone not provided
+retrieved_on: 2026-09-28
+local_raw_copy: data/raw/hcpa/2025_10_parcels.zip
+archive_bytes: 102118177
+archive_sha256: 2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c
+zip_integrity: passed
+zip_members: 9
+dbf_member: 2025_10_parcel.dbf
+dbf_member_bytes: 559387918
+dbf_member_sha256: 60adc780260f7405da0a711723dbc156b97b7f39bb71d5ac5e1530796a7fb514
+dbf_member_crc32: '49a63ebf'
+dbf_header_date: 2025-09-12
+dbf_member_timestamp: 2025-09-12 04:21 local or unspecified timezone
+dbf_header_records: 527723
+dbf_header_fields: 47
+selected_field_contract:
+  FOLIO: C(10), text; preserve leading zeros
+  PIN: C(29), text; do not assume the current parcel PIN format
+  STRAP: C(22), unformatted parcel identifier per archive readme
+  DOR_C: C(4), primary parcel-use code
+  HEAT_AR: N(19,5), heated area over buildings on a parcel
+  tUNITS: N(15,2), total units over buildings on a parcel
+  tBLDGS: N(15,2), buildings on a parcel
+  S_DATE: D(8), documented as qualified-sale date, not verified closing date
+  S_AMT: N(19,5), sale amount in this archive; not a historical model feature
+code_lookup_status: no parcel_dor_names.dbf in this 2025 ZIP
+row_grain: parcel, not necessarily one dwelling or one eligible sale
+first_available_at: >-
+  The file is verified from the official current listing on 2026-09-28.
+  The ZIP/member dates and listing update field do not independently prove
+  original public availability at any earlier valuation origin.
+historical_asof_eligible: false
+rights_basis: >-
+  Public download availability and the All Rights Reserved footer do not
+  establish dataset-specific commercial AVM or redistribution permission.
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+next_checks: >-
+  Verify original publication/vintage records and field definitions, compare
+  identifiers and current archive schemas without assuming stable PIN formats,
+  manually audit parcel-to-sale and dwelling identity, and resolve reuse rights.

@@ -1,0 +1,126 @@
+{
+  "document_flags_sha256": "f7ef4afeabd33825741ec2655747b42bc4ae61b3a1cb25ab0e1093aa91975f33",
+  "interpretation": "Current parcel linkage leads only. No historical as-of, transaction-scope, sale eligibility, price, rights or population-prevalence inference.",
+  "member": "parcel_09_25_2026/parcel.dbf",
+  "member_crc32": "3d9144b2",
+  "member_uncompressed_bytes": 894705078,
+  "parcel": {
+    "active_rows": 531612,
+    "deleted_rows": 0,
+    "duplicate_two_key_rows": 0,
+    "header_record_count": 531612,
+    "incomplete_key_rows": 3152
+  },
+  "repeated_instrument_sample": {
+    "ambiguous_multiple_rows": 0,
+    "building_clues": {
+      "invalid": 0,
+      "multiple": 0,
+      "one": 0,
+      "unknown": 0,
+      "zero": 0
+    },
+    "dor_code": {
+      "agree": 0,
+      "disagree": 0,
+      "missing": 0
+    },
+    "folio_only_candidates": {
+      "many": 0,
+      "one": 36,
+      "zero": 0
+    },
+    "folio_only_lead_rows": 36,
+    "heated_area_clues": {
+      "invalid": 0,
+      "multiple": 0,
+      "one": 0,
+      "unknown": 0,
+      "zero": 0
+    },
+    "identifier_conflict_rows": 36,
+    "incomplete_key_rows": 0,
+    "pin_only_candidates": {
+      "many": 0,
+      "one": 0,
+      "zero": 36
+    },
+    "pin_only_lead_rows": 0,
+    "rows": 36,
+    "sale_document_match": {
+      "no": 0,
+      "unknown": 0,
+      "yes": 0
+    },
+    "two_key_matches": {
+      "many": 0,
+      "one": 0,
+      "zero": 36
+    },
+    "unique_current_candidates": 0,
+    "unit_clues": {
+      "invalid": 0,
+      "multiple": 0,
+      "one": 0,
+      "unknown": 0,
+      "zero": 0
+    }
+  },
+  "sample": {
+    "ambiguous_multiple_rows": 0,
+    "building_clues": {
+      "invalid": 0,
+      "multiple": 0,
+      "one": 0,
+      "unknown": 0,
+      "zero": 0
+    },
+    "dor_code": {
+      "agree": 0,
+      "disagree": 0,
+      "missing": 0
+    },
+    "folio_only_candidates": {
+      "many": 0,
+      "one": 200,
+      "zero": 0
+    },
+    "folio_only_lead_rows": 200,
+    "heated_area_clues": {
+      "invalid": 0,
+      "multiple": 0,
+      "one": 0,
+      "unknown": 0,
+      "zero": 0
+    },
+    "identifier_conflict_rows": 200,
+    "incomplete_key_rows": 0,
+    "pin_only_candidates": {
+      "many": 0,
+      "one": 0,
+      "zero": 200
+    },
+    "pin_only_lead_rows": 0,
+    "rows": 200,
+    "sale_document_match": {
+      "no": 0,
+      "unknown": 0,
+      "yes": 0
+    },
+    "two_key_matches": {
+      "many": 0,
+      "one": 0,
+      "zero": 200
+    },
+    "unique_current_candidates": 0,
+    "unit_clues": {
+      "invalid": 0,
+      "multiple": 0,
+      "one": 0,
+      "unknown": 0,
+      "zero": 0
+    }
+  },
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "source_archive_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8"
+}

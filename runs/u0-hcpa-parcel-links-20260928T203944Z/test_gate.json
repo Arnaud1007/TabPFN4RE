@@ -1,0 +1,92 @@
+{
+  "run_id": "u0-hcpa-parcel-links-20260928T203944Z",
+  "status": "engineering_checks_pass_source_qualification_pending",
+  "environment_lock": "locks/hcpa-parcel-links-environment.json",
+  "checks": [
+    {
+      "name": "focused_branch_tests",
+      "command": "$env:COVERAGE_FILE = '.coverage.parcel_links'; .\\.venv\\Scripts\\python.exe -m coverage run --branch --source=scripts -m unittest discover -s tests -p test_hcpa_parcel_links.py -q",
+      "exit_code": 0,
+      "duration_seconds": 1.743,
+      "output_artifact": "focused_tests_final.log",
+      "result": "15 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "script_coverage",
+      "command": "$env:COVERAGE_FILE = '.coverage.parcel_links'; .\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80 scripts/audit_hcpa_parcel_links.py",
+      "exit_code": 0,
+      "duration_seconds": 0.478,
+      "output_artifact": "script_coverage_final.log",
+      "result": "84% combined statement and branch coverage"
+    },
+    {
+      "name": "full_engineering_suite",
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; $env:COVERAGE_FILE = '.coverage.parcel_package'; .\\.venv\\Scripts\\python.exe -m coverage run --branch --source=src/tabpfn4realestate -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 25.042,
+      "output_artifact": "full_tests_final.log",
+      "result": "308 tests, 0 failures, 0 skips"
+    },
+    {
+      "name": "package_coverage",
+      "command": "$env:COVERAGE_FILE = '.coverage.parcel_package'; .\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80",
+      "exit_code": 0,
+      "duration_seconds": 2.722,
+      "output_artifact": "package_coverage_final.log",
+      "result": "88% combined statement and branch coverage"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 1.110,
+      "output_artifact": "ruff_check_final.log",
+      "result": "All checks passed"
+    },
+    {
+      "name": "ruff_format",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check --no-cache src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 1.047,
+      "output_artifact": "ruff_format_final.log",
+      "result": "40 files already formatted"
+    },
+    {
+      "name": "pip_check",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "duration_seconds": 1.389,
+      "output_artifact": "pip_check.log",
+      "result": "No broken requirements found"
+    },
+    {
+      "name": "scoped_pinned_dependency_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt --progress-spinner off",
+      "exit_code": 0,
+      "duration_seconds": 2.660,
+      "output_artifact": "pip_audit.log",
+      "result": "No known vulnerabilities in the pinned no-deps scope; not a full transitive audit"
+    },
+    {
+      "name": "pinned_strict_parcel_scan",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_hcpa_parcel_links.py --archive data/raw/hcpa/parcel_09_25_2026.zip --sample data/raw/hcpa/audit-sample-20260928-888226e.jsonl --document-flags data/raw/hcpa/document-group-flags-20260928.jsonl --private-flags data/raw/hcpa/parcel-link-flags-20260928T203944Z-v2.jsonl --aggregate runs/u0-hcpa-parcel-links-20260928T203944Z/aggregate.json --archive-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9 --document-flags-sha256 f7ef4afeabd33825741ec2655747b42bc4ae61b3a1cb25ab0e1093aa91975f33",
+      "exit_code": 0,
+      "duration_seconds": 15.407,
+      "output_artifact": "aggregate.json",
+      "private_output_sha256": "c0e393bc25eeb04fd0d97d1ec9ea21a07691306c5952f7f8e7546a1e43629dbc",
+      "result": "531612 parcels reconciled; 0 exact sampled two-key matches; 200 FOLIO-only leads"
+    },
+    {
+      "name": "byte_identical_replay",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_hcpa_parcel_links.py --archive data/raw/hcpa/parcel_09_25_2026.zip --sample data/raw/hcpa/audit-sample-20260928-888226e.jsonl --document-flags data/raw/hcpa/document-group-flags-20260928.jsonl --private-flags data/raw/hcpa/parcel-link-flags-replay-20260928T203944Z-v2.jsonl --aggregate runs/u0-hcpa-parcel-links-20260928T203944Z/aggregate_replay.json --archive-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9 --document-flags-sha256 f7ef4afeabd33825741ec2655747b42bc4ae61b3a1cb25ab0e1093aa91975f33",
+      "exit_code": 0,
+      "duration_seconds": 9.764,
+      "output_artifact": "aggregate_replay.json",
+      "result": "Aggregate and ignored private flags reproduce byte-identically"
+    }
+  ],
+  "rejected_preliminary_artifact": "preliminary_aggregate_rejected.json",
+  "manual_review_rubrics_completed": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

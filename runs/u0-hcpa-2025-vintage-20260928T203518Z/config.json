@@ -1,0 +1,7 @@
+{
+  "audit_kind": "2025_hcpa_parcel_archive_inventory_only",
+  "archive_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+  "expected_dbf_member": "2025_10_parcel.dbf",
+  "operations": ["archive_digest", "zip_integrity", "dbf_header", "selected_field_descriptors"],
+  "row_level_data_exported": false
+}

@@ -1,0 +1,31 @@
+{
+  "run_id": "u0-hcpa-2025-vintage-20260928T203518Z",
+  "recorded_at_utc": "2026-09-28T20:54:55Z",
+  "status": "historical_archive_file_and_header_verified_u0_pending",
+  "code_commit_at_execution": "0bebe705d2519bc73ff5929bc9de00fb7d36d8ac",
+  "dirty_tree_at_execution": true,
+  "environment_lock": "locks/hcpa-profile-environment.json",
+  "environment_lock_sha256": "39a90f697fa56ee35226c6930da76b7913a7f3300ea5ac26b09d783229010b12",
+  "source_snapshot": "data/raw/hcpa/2025_10_parcels.zip",
+  "source_snapshot_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+  "inspected_member": "2025_10_parcel.dbf",
+  "inspected_member_sha256": "60adc780260f7405da0a711723dbc156b97b7f39bb71d5ac5e1530796a7fb514",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "checkpoint_identity": null,
+  "configuration_path": "runs/u0-hcpa-2025-vintage-20260928T203518Z/config.json",
+  "configuration_hash": "0a5d39da317e8ab625717be81ce91e8bdb1eba8a585b1e9744cee96c43d7661e",
+  "immutable_run_files_sha256": {
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/archive_hash.log": "3639513592d2b6f2155f8a63e5c330dfc805eba30329c1713d4c3d4efe37d25d",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/config.json": "0a5d39da317e8ab625717be81ce91e8bdb1eba8a585b1e9744cee96c43d7661e",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/dbf_metadata.log": "7416d166dcc4363f94022671469d3f99ce8016aa6266e18a85578372810117e1",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/field_contract.log": "fd4683c06386237086cb67538b93ead3d92c5b6612de7f44ca9540aacabd526f",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/report.md": "f2bcf96906accb1e46d03ab33494918ec525f8d0f7895f6b825902e3b51c892b",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/test_gate.json": "03cf81dea8dd2905a4fc4d89d75d4201a366ade178fa58d73df4e39321320480",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/zip_integrity.log": "e2f55de63e3ebcf8ec99d8f1d43825068d789a9d63ce1d153996909eff1f9093",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/source_cards/hillsborough_hcpa_2025_parcels.yaml": "5ca091baecef28a2128e3c04dd7bd4296c857b3781fd46f232d5170194f02595",
+    "runs/u0-hcpa-2025-vintage-20260928T203518Z/source_cards/hillsborough_hcpa_parcel_archives.yaml": "8ab82a0c07a5bf082de42273e4f3cd1f42af6e51150077c66c1caab31dbca277"
+  },
+  "source_rights": "inventory_only_pending_specific_reuse_review",
+  "no_model_training": true
+}

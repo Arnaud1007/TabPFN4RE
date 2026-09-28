@@ -1,0 +1,49 @@
+{
+  "run_id": "u0-hcpa-2025-vintage-20260928T203518Z",
+  "status": "source_integrity_and_header_pass_not_milestone_accepted",
+  "environment": "CPython 3.11.6 and Windows PowerShell 5.1; Python standard library only",
+  "checks": [
+    {
+      "name": "archive_sha256",
+      "command": "Get-FileHash data/raw/hcpa/2025_10_parcels.zip -Algorithm SHA256",
+      "exit_code": 0,
+      "duration_seconds": 0.786,
+      "output_artifact": "archive_hash.log",
+      "result": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c"
+    },
+    {
+      "name": "zip_integrity",
+      "command": ".\\.venv\\Scripts\\python.exe -c \"import sys, zipfile; z=zipfile.ZipFile(sys.argv[1]); print(len(z.infolist()), z.testzip())\" data/raw/hcpa/2025_10_parcels.zip",
+      "exit_code": 0,
+      "duration_seconds": 3.488,
+      "output_artifact": "zip_integrity.log",
+      "result": "9 members, no corrupt member"
+    },
+    {
+      "name": "dbf_member_and_digest",
+      "command": ".\\.venv\\Scripts\\python.exe -c \"import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); i=z.getinfo(sys.argv[2]); f=z.open(i); h=f.read(32); print('member',i.filename,'bytes',i.file_size,'crc',hex(i.CRC),'rows',int.from_bytes(h[4:8],'little'),'header_bytes',int.from_bytes(h[8:10],'little'),'row_bytes',int.from_bytes(h[10:12],'little')); f.close(); print('sha256',hashlib.file_digest(z.open(i),'sha256').hexdigest())\" data/raw/hcpa/2025_10_parcels.zip 2025_10_parcel.dbf",
+      "exit_code": 0,
+      "duration_seconds": 2.562,
+      "output_artifact": "dbf_metadata.log",
+      "result": "527723 header rows; 559387918 bytes; member SHA-256 60adc780260f7405da0a711723dbc156b97b7f39bb71d5ac5e1530796a7fb514"
+    },
+    {
+      "name": "selected_field_contract",
+      "command": ".\\.venv\\Scripts\\python.exe -c \"import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); f=z.open(sys.argv[2]); h=f.read(32); d=f.read(int.from_bytes(h[8:10],'little')-32); v={d[i:i+11].split(bytes([0]))[0].decode():(chr(d[i+11]),d[i+16],d[i+17]) for i in range(0,len(d)-1,32)}; print('fields',len(v)); print({k:v.get(k) for k in ('FOLIO','PIN','STRAP','DOR_C','HEAT_AR','tUNITS','tBLDGS','S_DATE','S_AMT')})\" data/raw/hcpa/2025_10_parcels.zip 2025_10_parcel.dbf",
+      "exit_code": 0,
+      "duration_seconds": 0.342,
+      "output_artifact": "field_contract.log",
+      "result": "47 fields; selected types and widths recorded in source card"
+    },
+    {
+      "name": "private_archive_path",
+      "command": "git check-ignore data/raw/hcpa/2025_10_parcels.zip",
+      "exit_code": 0,
+      "output_artifact": null,
+      "result": "Source archive is Git-ignored"
+    }
+  ],
+  "parcel_rows_ingested": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

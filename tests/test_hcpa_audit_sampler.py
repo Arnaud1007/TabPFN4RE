@@ -288,6 +288,23 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.assertFalse(self.output.exists())
         self.assertFalse(self.manifest.exists())
 
+    def test_ancestor_redirect_is_rejected_before_writing(self) -> None:
+        real_resolve = Path.resolve
+        redirected_root = self.root / "tracked-area"
+
+        def resolve_with_redirect(path: Path, *args, **kwargs) -> Path:
+            if path == self.private:
+                return redirected_root
+            if path == self.output:
+                return redirected_root / self.output.name
+            return real_resolve(path, *args, **kwargs)
+
+        with patch.object(Path, "resolve", resolve_with_redirect):
+            with self.assertRaisesRegex(ValueError, "redirect"):
+                self.sample()
+        self.assertFalse(self.output.exists())
+        self.assertFalse(self.manifest.exists())
+
 
 if __name__ == "__main__":
     unittest.main()

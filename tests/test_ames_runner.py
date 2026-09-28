@@ -8,12 +8,14 @@ import statistics
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tabpfn4realestate.ames_smoke import run_smoke  # noqa: E402
+from tabpfn4realestate import ames_smoke  # noqa: E402
 
 
 def sha256(path: Path) -> str:
@@ -107,6 +109,7 @@ class AmesRunnerTests(unittest.TestCase):
         self.assertEqual(manifest["status"], "complete")
         self.assertEqual(manifest["protocol_id"], "ames_engineering_v1")
         self.assertIs(manifest["certification_eligible"], False)
+        self.assertEqual(manifest["source_identity"], "unverified_fixture")
         self.assertEqual(manifest["run_id"], run_dir.name)
         self.assertEqual(manifest["source_sha256"], sha256(self.source))
         self.assertEqual(manifest["split_sha256"], sha256(split_path))
@@ -168,6 +171,35 @@ class AmesRunnerTests(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "sample|row|200"):
             run_smoke(small_source, self.output_dir, expected_sha256=sha256(small_source))
+
+        self.assertEqual(self.completed_manifests(), [])
+
+    def test_source_change_after_load_cannot_complete_run(self) -> None:
+        original_load = ames_smoke.load_ames_arff
+
+        def change_source_after_load(path: Path, **kwargs: object) -> list[dict[str, str]]:
+            rows = original_load(path, **kwargs)
+            path.write_bytes(path.read_bytes() + b"\n% changed after verified load\n")
+            return rows
+
+        with patch.object(ames_smoke, "load_ames_arff", side_effect=change_source_after_load):
+            with self.assertRaises((ValueError, RuntimeError)):
+                self.run_fixture()
+
+        self.assertEqual(self.completed_manifests(), [])
+
+    def test_rename_error_cannot_leave_a_complete_manifest_anywhere(self) -> None:
+        original_rename = Path.rename
+
+        def move_then_report_failure(staging: Path, final: Path) -> None:
+            # A failed finalisation can be ambiguous: the move may already have
+            # happened when the caller observes an error.
+            original_rename(staging, final)
+            raise OSError("injected final rename failure")
+
+        with patch.object(Path, "rename", autospec=True, side_effect=move_then_report_failure):
+            with self.assertRaises(OSError):
+                self.run_fixture()
 
         self.assertEqual(self.completed_manifests(), [])
 

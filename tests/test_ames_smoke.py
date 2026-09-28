@@ -91,6 +91,16 @@ class AmesSourceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Id|duplicate"):
             load_ames_arff(path)
 
+    def test_rejects_nonnumeric_and_formula_leading_source_ids(self) -> None:
+        for bad_id in ("abc", "=1+1", "+1", "-2", "@SUM(1)"):
+            with self.subTest(identifier=bad_id):
+                path = self.write_arff(
+                    "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",
+                    f"{bad_id},100000\n",
+                )
+                with self.assertRaisesRegex(ValueError, "Id|identifier"):
+                    load_ames_arff(path)
+
     def test_verifies_source_checksum_and_size_before_parsing(self) -> None:
         path = self.write_arff(
             "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",
@@ -183,6 +193,10 @@ class MetricTests(unittest.TestCase):
             median_absolute_percentage_error([], [])
         with self.assertRaises(ValueError):
             median_absolute_percentage_error([100], [100, 200])
+
+    def test_rejects_percentage_error_overflow(self) -> None:
+        with self.assertRaises(ValueError):
+            signed_percentage_error(1e-320, 1e308)
 
 
 @unittest.skipUnless(os.environ.get("AMES_ARFF_PATH"), "set AMES_ARFF_PATH for source integration")

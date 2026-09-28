@@ -1,0 +1,32 @@
+{
+  "run_id": "u0-nyc-api-inventory-20260928T220444Z",
+  "captured_at_utc": "2026-09-28T22:04:44Z",
+  "scope": "bounded aggregate API inventory only; no transaction rows downloaded",
+  "sources": [
+    {
+      "dataset_id": "usep-8jbt",
+      "publisher": "New York City Department of Finance",
+      "query_url": "https://data.cityofnewyork.us/resource/usep-8jbt.json?%24select=count(*)%20as%20row_count%2Cmin(sale_date)%20as%20min_sale_date%2Cmax(sale_date)%20as%20max_sale_date",
+      "raw_response_path": "data/raw/nyc_dof/usep-8jbt-aggregate-20260929.json",
+      "raw_response_sha256": "324f55217d60019631d9fe2964c2c0c048a9f411e1c1aa0ee02470a4cdf67c87",
+      "row_count": 82345,
+      "min_sale_date": "2025-09-01T00:00:00.000",
+      "max_sale_date": "2026-08-31T00:00:00.000",
+      "metadata_sha256": "a251f7433ffe74a8c17dbf9d626242101949a34481ad515166d3b4d3b579f888"
+    },
+    {
+      "dataset_id": "w2pb-icbu",
+      "publisher": "New York City Department of Finance",
+      "query_url": "https://data.cityofnewyork.us/resource/w2pb-icbu.json?%24select=count(*)%20as%20row_count%2Cmin(sale_date)%20as%20min_sale_date%2Cmax(sale_date)%20as%20max_sale_date",
+      "raw_response_path": "data/raw/nyc_dof/w2pb-icbu-aggregate-20260929.json",
+      "raw_response_sha256": "0a6a4f8cafcb40f1a1c9e6117b1da5d159464634f2c5a91de841caa3a50462fa",
+      "row_count": 845607,
+      "min_sale_date": "2016-01-01T00:00:00.000",
+      "max_sale_date": "2025-12-31T00:00:00.000",
+      "metadata_sha256": "6bf011f37911c25edc57aef72a446dba9c265350278db2aec09650ec71ca0985"
+    }
+  ],
+  "status": "source_inventory_only",
+  "historical_asof_eligible": false,
+  "primary_90_day_close_origin_eligible": false
+}

@@ -1,0 +1,26 @@
+{
+  "run_id": "u0-nyc-api-inventory-20260928T220444Z",
+  "recorded_at_utc": "2026-09-28T22:04:44Z",
+  "status": "source_inventory_only",
+  "requirements": ["US05"],
+  "code_commit_at_capture": "7030f4f8456cf2858aee499102c7afe7b7c0a128",
+  "dirty_tree_at_capture": true,
+  "environment": "Windows PowerShell 5.1.26100.9444; Invoke-WebRequest; no model environment used",
+  "environment_lock_sha256": null,
+  "configuration_hash": "791c908b7950339dcd1e3d48ccbd9c54b1f6314c262db2ce8239ca132376077a",
+  "configuration_hash_rule": "SHA-256 of query_url values in inventory order, each followed by LF",
+  "data_snapshot_hashes": {
+    "rolling_aggregate_response_sha256": "324f55217d60019631d9fe2964c2c0c048a9f411e1c1aa0ee02470a4cdf67c87",
+    "annualized_aggregate_response_sha256": "0a6a4f8cafcb40f1a1c9e6117b1da5d159464634f2c5a91de841caa3a50462fa"
+  },
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "checkpoint_identity": null,
+  "immutable_run_files_sha256": {
+    "runs/u0-nyc-api-inventory-20260928T220444Z/inventory.json": "f7444a6fe50d27f78095e9740a99cc2cfd33d453a8fdab2ebba564dc1d162620",
+    "runs/u0-nyc-api-inventory-20260928T220444Z/report.md": "5b5474a09d379efcbf4d6912d069898d2ff2f67464ce9e351f7668e640fecfe6"
+  },
+  "no_model_training": true,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

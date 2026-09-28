@@ -10,6 +10,10 @@ retrieved_on: 2026-09-28
 local_metadata_path: data/raw/nyc_dof/usep-8jbt-metadata.json
 metadata_sha256: a251f7433ffe74a8c17dbf9d626242101949a34481ad515166d3b4d3b579f888
 metadata_last_updated: 2026-09-15
+aggregate_inventory: runs/u0-nyc-api-inventory-20260928T220444Z/inventory.json
+aggregate_api_rows_at_inventory: 82345
+aggregate_api_sale_date_range: ['2025-09-01', '2026-08-31']
+aggregate_count_semantics: mutable API rows, not eligible transfers or properties
 geography: New York City, five boroughs
 documented_date_range_at_retrieval: September 2025 through August 2026
 refresh_schedule: monthly; around the 15th for sales recorded through the preceding month

@@ -10,6 +10,10 @@ retrieved_on: 2026-09-28
 local_metadata_path: data/raw/nyc_dof/w2pb-icbu-metadata.json
 metadata_sha256: 6bf011f37911c25edc57aef72a446dba9c265350278db2aec09650ec71ca0985
 metadata_last_updated: 2026-06-09
+aggregate_inventory: runs/u0-nyc-api-inventory-20260928T220444Z/inventory.json
+aggregate_api_rows_at_inventory: 845607
+aggregate_api_sale_date_range: ['2016-01-01', '2025-12-31']
+aggregate_count_semantics: current API view rows, not all DOF annual files or eligible transfers
 geography: New York City, five boroughs
 documented_date_range: annual sales files since 2003; verify coverage by file and class
 refresh_schedule: annually
@@ -20,6 +24,7 @@ target_currency: USD
 target_semantics: DOF glossary says price paid for the property; transfer scope requires audit
 date_field: sale_date
 date_semantics: DOF glossary says date the property sold; contract and close mapping unverified
+date_metadata_caveat: annualized API metadata sale_date description repeats the $0-sale-price definition; use the DOF glossary pending publisher clarification
 property_fields: [building_class_at_time_of_sale, building_class_as_of_final_roll, gross_square_feet, land_square_feet, year_built]
 area_semantics: gross building area and land area; neither is verified living area
 availability_field: absent

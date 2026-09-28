@@ -1,0 +1,93 @@
+﻿{
+    "run_id":  "u1-canaries-20260928T113723Z",
+    "status":  "complete",
+    "milestone":  "U1-synthetic-integrity",
+    "started_at_utc":  "2026-09-28T11:37:23.4175519+00:00",
+    "code_commit":  "01eebfed08d793e824d68443f13137ba5270f801",
+    "python_version":  "3.11.6",
+    "source_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "environment_lock_sha256":  "b421be90d38fe202acef02c43d0cf9faffb4f5ecc32763a3a7123cd0adaf7b65",
+    "coverage_json_sha256":  "ee08a58eae0e18b9740af73e67b50ec75c9af4f070840a0a46a364f96d8dc4bf",
+    "results":  [
+                    {
+                        "name":  "tests",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "run",
+                                        "--source=tabpfn4realestate",
+                                        "-m",
+                                        "unittest",
+                                        "discover",
+                                        "-s",
+                                        "tests",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  11.561,
+                        "output":  "tests.log",
+                        "output_sha256":  "550a2ffe4673cd2164df3891244419940876f8d6b3b7e572a31e5c4b644513b9"
+                    },
+                    {
+                        "name":  "coverage_report",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "report",
+                                        "--show-missing"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.351,
+                        "output":  "coverage_report.log",
+                        "output_sha256":  "f719742595aa6e976f6a8226192ba45d68575d9f07b99e72c4cc73d8487bae0e"
+                    },
+                    {
+                        "name":  "coverage_json",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "json",
+                                        "-o",
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u1-canaries-20260928T113723Z\\coverage.json"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.353,
+                        "output":  "coverage_json.log",
+                        "output_sha256":  "d67e13f605c9f8c62e3035674636d47e22b7b49f44ae6732d59f7beb77969b16"
+                    },
+                    {
+                        "name":  "lint",
+                        "command":  [
+                                        "C:\\Python314\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.117,
+                        "output":  "lint.log",
+                        "output_sha256":  "af352a86840ad0af3d37ea0d9197f868363a6dac6b1c2ef5d2722f6b41d2d9af"
+                    },
+                    {
+                        "name":  "format",
+                        "command":  [
+                                        "C:\\Python314\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "format",
+                                        "--check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.116,
+                        "output":  "format.log",
+                        "output_sha256":  "31dafa48c546df657d772874ea9f4d2688d8f2046de85a1f8d93257097e7ec37"
+                    }
+                ]
+}

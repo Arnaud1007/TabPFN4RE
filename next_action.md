@@ -1,10 +1,10 @@
 # Next action
 
-Active milestones: U0 legacy recovery is pending inaccessible inputs; independent U1 work is in progress. The Ames smoke, synthetic canonical/as-of contract, training guards, split validator and shared US point scorecard are verified. U1 and G-US are pending.
+Active milestone: U0 remains pending recovery of the owner's legacy project artifacts. U1 engineering checks T01–T08 and a 200-row synthetic OFF flow are verified, but U1 cannot be accepted before U0. G-US is pending; international work is locked.
 
 ## Next dependency-ready task
 
-Complete U1's remaining acceptance wiring in test-first order: T03 must reject future or late-published sales from the deterministic comparable candidate set; T04 must reject target copies and forbidden F172/F349/F350 fields at the model-fit boundary, including derived dependencies. Then run a small synthetic end-to-end flow through canonicalisation, as-of assembly, guarded fit, prediction and the shared scorecard, preserving row IDs and hashes. Do not mark U1 accepted until these checks and its applicable integration tests pass.
+Continue U0 source feasibility: verify official Cook County residential sale and characteristic sources, exact release/version, permitted use, historical availability and identifier linkage. Record a source card and an acquisition decision. If those pass, prepare a small manually audited adapter fixture without treating current assessor attributes as historical. Do not train a real-world temporal model until source timing and label eligibility are demonstrated.
 
 Resume from the project root in PowerShell:
 
@@ -14,7 +14,7 @@ $env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').P
 .\.venv\Scripts\python.exe -m unittest discover -s tests -q
 ```
 
-The U0 baseline is in `runs/u0-smoke-20260928T082634Z-ef55636ed896/`; the U1 foundation gates are in `runs/u1-foundation-20260928T091610Z/` and `runs/u1-integrity-20260928T093259Z/`. The source ARFF and row-level predictions are local ignored files; a fresh clone must download OpenML 42165 using `data/source_cards/openml_42165.yaml` and verify SHA-256 before replay. No releasable use of this data is asserted.
+Latest complete gate: `runs/u1-canaries-20260928T113723Z/test_gate.json` (131 tests, 89% statement coverage). The prior capture `runs/u1-canaries-20260928T113634Z/` is incomplete and preserved. The local ARFF is ignored by Git; a fresh clone must download OpenML 42165 using `data/source_cards/openml_42165.yaml` and verify SHA-256 before replay. No releasable use of that file is asserted.
 
 ## Unresolved dependencies
 
@@ -22,4 +22,4 @@ The U0 baseline is in `runs/u0-smoke-20260928T082634Z-ef55636ed896/`; the U1 fou
 - Rights decision for any releasable use of the Ames file; its OpenML licence field is `NA`.
 - Multi-market time-stamped US transactions and prospective labels for G-US. ON additionally needs authorised historical listing snapshots.
 
-These block legacy reproduction and the US release gate, but not the remaining independent U1 checks. International implementation remains gated on G-US PASS.
+These block legacy reproduction and the US release gate, but not U0 source feasibility work. No model was trained on a modern multi-market US cohort.

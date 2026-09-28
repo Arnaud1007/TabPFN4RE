@@ -1,0 +1,7 @@
+﻿{
+    "run_id":  "u1-canaries-20260928T113634Z",
+    "status":  "incomplete",
+    "reason":  "PowerShell ErrorActionPreference Stop treated unittest stderr progress as a terminating NativeCommandError before result capture",
+    "code_commit":  "01eebfed08d793e824d68443f13137ba5270f801",
+    "tests_log":  "tests.log"
+}

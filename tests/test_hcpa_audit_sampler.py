@@ -207,6 +207,7 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.expected_sha, self.expected_size = make_archive(self.archive, rows)
         result = self.sample()
         self.assertEqual(result["cell_counts"]["before_2000_Q"]["edge_reserved"], 10)
+        self.assertEqual(result["cell_counts"]["before_2000_Q"]["edge_eligible"], 15)
         selected = {
             row["record_ordinal"]
             for row in map(json.loads, self.output.read_text().splitlines())

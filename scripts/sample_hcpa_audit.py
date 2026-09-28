@@ -151,6 +151,27 @@ def _offer(
         heapq.heapreplace(heap, item)
 
 
+def _read_dbf_header(
+    source, member_size: int
+) -> tuple[int, int, dict[str, tuple[int, int]]]:
+    header = source.read(32)
+    if len(header) != 32 or header[0] != 3:
+        raise ValueError("Expected an intact dBASE III header")
+    row_count = int.from_bytes(header[4:8], "little")
+    header_length = int.from_bytes(header[8:10], "little")
+    row_length = int.from_bytes(header[10:12], "little")
+    if not (
+        0 < row_count <= MAX_RECORDS
+        and 33 <= header_length <= 4096
+        and 1 < row_length <= 512
+    ):
+        raise ValueError("DBF header dimensions exceed the audit contract")
+    if header_length + row_count * row_length + 1 != member_size:
+        raise ValueError("DBF header count disagrees with member size")
+    fields = _fields(source.read(header_length - 32), row_length)
+    return row_count, row_length, fields
+
+
 def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int):
     heaps = {(band, qu): {"all": [], "edge": []} for band in BANDS for qu in ("Q", "U")}
     eligible = Counter()
@@ -164,21 +185,7 @@ def _read_candidates(archive: Path, source_sha: str, expected_member_bytes: int)
         ):
             raise ValueError("DBF member size or compression ratio is unexpected")
         with zipped.open(info) as source:
-            header = source.read(32)
-            if len(header) != 32 or header[0] != 3:
-                raise ValueError("Expected an intact dBASE III header")
-            row_count = int.from_bytes(header[4:8], "little")
-            header_length = int.from_bytes(header[8:10], "little")
-            row_length = int.from_bytes(header[10:12], "little")
-            if not (
-                0 < row_count <= MAX_RECORDS
-                and 33 <= header_length <= 4096
-                and 1 < row_length <= 512
-            ):
-                raise ValueError("DBF header dimensions exceed the audit contract")
-            if header_length + row_count * row_length + 1 != info.file_size:
-                raise ValueError("DBF header count disagrees with member size")
-            fields = _fields(source.read(header_length - 32), row_length)
+            row_count, row_length, fields = _read_dbf_header(source, info.file_size)
             for ordinal in range(1, row_count + 1):
                 record = source.read(row_length)
                 if len(record) != row_length:

@@ -181,11 +181,19 @@ class HcpaAuditSamplerTest(unittest.TestCase):
             },
         )
         self.assertTrue(all(value is None for value in row["manual_review"].values()))
-        self.assertTrue({
-            "document_match", "parcel_unit_identity", "price_scope_multi_parcel",
-            "date_vs_deed_execution", "date_vs_recording", "date_vs_closing",
-            "qualification_reason_interpretation", "duplicate_status", "evidence_quality",
-        }.issubset(row["manual_review"]))
+        self.assertTrue(
+            {
+                "document_match",
+                "parcel_unit_identity",
+                "price_scope_multi_parcel",
+                "date_vs_deed_execution",
+                "date_vs_recording",
+                "date_vs_closing",
+                "qualification_reason_interpretation",
+                "duplicate_status",
+                "evidence_quality",
+            }.issubset(row["manual_review"])
+        )
         manifest = json.loads(self.manifest.read_text())
         self.assertNotIn("PIN", manifest)
         self.assertNotIn("PRIVATE", self.manifest.read_text())
@@ -199,7 +207,10 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.expected_sha, self.expected_size = make_archive(self.archive, rows)
         result = self.sample()
         self.assertEqual(result["cell_counts"]["before_2000_Q"]["edge_reserved"], 10)
-        selected = {row["record_ordinal"] for row in map(json.loads, self.output.read_text().splitlines())}
+        selected = {
+            row["record_ordinal"]
+            for row in map(json.loads, self.output.read_text().splitlines())
+        }
         ranked_edges = sorted(
             range(1, 16),
             key=lambda ordinal: sha256(

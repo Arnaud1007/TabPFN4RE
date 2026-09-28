@@ -20,3 +20,5 @@
 /tests/test_profile_nyc_rolling_snapshot.py -text
 /decisions/0020-nyc-source-semantics-and-profile.md -text
 /locks/nyc-profile-environment.json -text
+/scripts/select_nyc_review_sample.py -text
+/tests/test_select_nyc_review_sample.py -text

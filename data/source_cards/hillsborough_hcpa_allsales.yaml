@@ -49,12 +49,34 @@ profile_caution: >-
   90-day as-of labels. Code meanings, duplicates and close-date semantics
   require manual and official-source validation.
 source_field_semantics:
+  DOR_CODE: >-
+    Embedded allsales.doc: Department of Revenue use code; the document points
+    to parcel_dor_names.dbf in the parcel shapefile archive for local names.
+    The selected value's historical availability and applicability to an
+    individual dwelling are unverified.
   S_DATE: "Embedded allsales.doc: date of sale; no more precise event identified."
   S_AMT: "Embedded allsales.doc: dollar amount of sale."
   QU: "Embedded allsales.doc: qualified/free-market or unqualified; a Q code alone does not prove one-dwelling arm's-length eligibility."
   VI: "Embedded allsales.doc: vacant or improved at time of sale."
   REA_CD: "Embedded allsales.doc: reason code for QU."
   DOC_NUM: "Embedded allsales.doc: instrument number from Clerk's Office."
+cross_source_dor_guide:
+  url: "https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/User%20Guides/2024%20Users%20guide%20and%20quick%20reference/2024_NAL_SDF_NAP_Users_Guide.pdf"
+  consulted_on: 2026-09-28
+  relevance: >-
+    Florida DOR's 2024 guide defines land-use code 001 as single family and
+    says a mixed-use parcel receives the predominant-use code. Its SDF
+    describes a multi-parcel flag keyed by a shared Clerk instrument and a
+    qualification category in which full sale consideration appears on every
+    parcel. The HCPA profile has four-character DOR_CODE values such as 0100,
+    whereas the DOR guide lists three-digit use codes such as 001; the county
+    code crosswalk is not established. These are DOR SDF rules and audit
+    hypotheses for HCPA All Sales, not a verified mapping of HCPA QU, REA_CD,
+    DOC_NUM or price scope.
+  implication: >-
+    Do not classify a dwelling or allocate a repeated HCPA S_AMT from
+    DOR_CODE or shared DOC_NUM alone. Check source vintages, county mapping,
+    deed scope and any linked SDF multi-parcel flag before eligibility.
 date_field: S_DATE
 documented_date_meaning: date of sale
 verified_close_date_meaning: false

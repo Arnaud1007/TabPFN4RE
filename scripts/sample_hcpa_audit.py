@@ -305,6 +305,10 @@ def sample_archive(
     archive, output, manifest = Path(archive), Path(output), Path(manifest)
     if PRIVATE_ROOT.is_symlink():
         raise ValueError("Private HCPA root must not be a symlink")
+    if os.path.normcase(str(PRIVATE_ROOT.absolute())) != os.path.normcase(
+        str(PRIVATE_ROOT.resolve(strict=True))
+    ):
+        raise ValueError("Private HCPA root or an ancestor redirects to another path")
     if not output.resolve().is_relative_to(PRIVATE_ROOT.resolve()):
         raise ValueError("Row-level sample must be inside the private HCPA directory")
     if output.resolve() == manifest.resolve():

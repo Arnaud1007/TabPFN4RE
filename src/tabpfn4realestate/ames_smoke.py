@@ -13,6 +13,7 @@ import time
 from typing import Any
 from uuid import uuid4
 
+from . import ames as ames_module
 from .ames import (
     MAX_AMES_BYTES,
     engineering_split,
@@ -45,12 +46,27 @@ def _git_state(project_root: Path) -> tuple[str | None, bool]:
         check=False,
     )
     status = subprocess.run(
-        ["git", "status", "--porcelain"], cwd=project_root, capture_output=True, text=True,
+        ["git", "status", "--porcelain", "--untracked-files=all", "--", ".", ":(exclude)runs"],
+        cwd=project_root, capture_output=True, text=True,
         check=False,
     )
     if commit.returncode != 0 or status.returncode != 0:
         return None, True
     return commit.stdout.strip(), bool(status.stdout.strip())
+
+
+def _executed_modules(project_root: Path) -> tuple[dict[str, str], bool]:
+    module_files = {
+        "tabpfn4realestate.ames": Path(ames_module.__file__).resolve(),
+        "tabpfn4realestate.ames_smoke": Path(__file__).resolve(),
+    }
+    expected = {
+        "tabpfn4realestate.ames": project_root / "src" / "tabpfn4realestate" / "ames.py",
+        "tabpfn4realestate.ames_smoke": project_root / "src" / "tabpfn4realestate" / "ames_smoke.py",
+    }
+    hashes = {name: _sha256(path) for name, path in module_files.items()}
+    in_project = all(path == expected[name].resolve() for name, path in module_files.items())
+    return hashes, in_project
 
 
 def _locked_inputs(project_root: Path) -> tuple[bytes, bytes, dict[str, Any]]:
@@ -99,7 +115,10 @@ def run_smoke(
     """Run one engineering check and retain its evidence under a unique ID."""
     started = time.monotonic()
     root = Path(project_root) if project_root is not None else Path.cwd()
-    commit, dirty_tree = _git_state(root)
+    project_commit, dirty_tree = _git_state(root)
+    module_hashes, code_in_project = _executed_modules(root)
+    commit = project_commit if code_in_project else None
+    replayable = not dirty_tree and commit is not None
     run_id = f"u0-smoke-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid4().hex[:12]}"
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -124,7 +143,7 @@ def run_smoke(
             and len(rows) == policy["official_source_rows"]
         )
         source_identity = "openml_42165_v1" if is_official else "unverified_fixture"
-        if is_official and (dirty_tree or commit is None):
+        if is_official and not replayable:
             raise RuntimeError("Official Ames run requires a clean committed project")
         (staging / "environment.lock.json").write_bytes(lock_bytes)
         (staging / "feature_policy.json").write_bytes(policy_bytes)
@@ -176,7 +195,8 @@ def run_smoke(
             "source_identity": source_identity,
             "code_commit": commit,
             "dirty_tree": dirty_tree,
-            "replayable": not dirty_tree and commit is not None,
+            "replayable": replayable,
+            "executed_module_sha256": module_hashes,
             "source_sha256": source_sha256,
             "data_snapshot_hash": source_sha256,
             "split_sha256": _sha256(staging / "split.json"),

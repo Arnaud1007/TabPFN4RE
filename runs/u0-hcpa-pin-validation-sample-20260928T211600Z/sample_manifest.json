@@ -1,0 +1,69 @@
+{
+  "cell_counts": {
+    "2000_2009_Q": {
+      "eligible_after_exclusion": 277074,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2000_2009_U": {
+      "eligible_after_exclusion": 363653,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2010_2019_Q": {
+      "eligible_after_exclusion": 247928,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2010_2019_U": {
+      "eligible_after_exclusion": 373553,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2020_2023_Q": {
+      "eligible_after_exclusion": 122091,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2020_2023_U": {
+      "eligible_after_exclusion": 153485,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2024_2026_Q": {
+      "eligible_after_exclusion": 59737,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "2024_2026_U": {
+      "eligible_after_exclusion": 83440,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "before_2000_Q": {
+      "eligible_after_exclusion": 384069,
+      "excluded_original_sample": 20,
+      "selected": 100
+    },
+    "before_2000_U": {
+      "eligible_after_exclusion": 387957,
+      "excluded_original_sample": 20,
+      "selected": 100
+    }
+  },
+  "excluded_counts": {},
+  "excluded_sample_rows_reconciled": 200,
+  "excluded_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "header_record_count": 2453187,
+  "member": "allsales.dbf",
+  "member_crc32": "1a2b0fa3",
+  "member_uncompressed_bytes": 679533377,
+  "ranking_formula": "SHA256(ASCII('hcpa-pin-validation-v1|{source_archive_sha256}|43|{one-based DBF ordinal}')); ascending unsigned 256-bit integer, ordinal tie-break",
+  "ranking_version": "hcpa-pin-validation-v1",
+  "rows_per_cell": 100,
+  "sample_rows": 1000,
+  "sample_seed": 43,
+  "sample_sha256": "35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9",
+  "sample_status": "Selected for identity-format validation only; no sale eligibility or historical availability implied",
+  "source_archive_sha256": "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7"
+}

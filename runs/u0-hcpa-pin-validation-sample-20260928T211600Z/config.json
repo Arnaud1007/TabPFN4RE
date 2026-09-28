@@ -1,0 +1,12 @@
+{
+  "protocol": "hcpa-pin-validation-v1",
+  "seed": 43,
+  "rows_per_cell": 100,
+  "date_bands": ["before_2000", "2000_2009", "2010_2019", "2020_2023", "2024_2026"],
+  "qualification_values": ["Q", "U"],
+  "source_archive_sha256": "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7",
+  "excluded_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "private_sample_sha256": "35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9",
+  "sample_manifest_sha256": "5248e21e21b41eec2e0ab97881ec619bf82f3669f76f35beacfadeb5e7756267",
+  "purpose": "Disjoint identity-format validation sample; no label eligibility or model training"
+}

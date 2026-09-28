@@ -3,3 +3,9 @@
 /decisions/0016-synthetic-split-conformal.md -text whitespace=-blank-at-eol
 /locks/local-date-requirements.txt -text whitespace=-blank-at-eol
 /runs/** -text whitespace=-blank-at-eol
+/scripts/select_hcpa_pin_validation_sample.py -text
+/scripts/audit_hcpa_pin_crosswalk.py -text
+/tests/test_hcpa_pin_validation_sample.py -text
+/tests/test_hcpa_pin_crosswalk.py -text
+/decisions/0017-hcpa-pin-crosswalk-validation.md -text
+/locks/hcpa-pin-validation-environment.json -text

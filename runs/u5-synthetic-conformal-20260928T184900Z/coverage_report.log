@@ -1,0 +1,20 @@
+Name                                              Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------
+src\tabpfn4realestate\__init__.py                     0      0   100%
+src\tabpfn4realestate\ames.py                       114      8    93%   23, 51, 69, 74, 77, 95, 106, 153
+src\tabpfn4realestate\ames_smoke.py                 149     18    88%   110, 147, 151, 154, 164, 205, 228, 329-344, 348
+src\tabpfn4realestate\data\__init__.py                0      0   100%
+src\tabpfn4realestate\data\schema.py                166     13    92%   20, 47, 68, 74, 127, 134, 138, 140, 171, 173, 206, 208, 226
+src\tabpfn4realestate\evaluation\__init__.py          0      0   100%
+src\tabpfn4realestate\evaluation\conformal.py       312     25    92%   63, 83, 103, 156, 158, 160, 226, 261, 273, 279, 288, 295, 297, 301, 306, 370, 405-406, 465, 496, 504, 533, 538, 540, 545
+src\tabpfn4realestate\evaluation\local_dates.py      87      7    92%   43-44, 74, 90, 131, 141-142
+src\tabpfn4realestate\evaluation\metrics.py         107     10    91%   44, 53, 58-60, 98, 104, 117, 173-174, 176
+src\tabpfn4realestate\evaluation\splits.py          100      5    95%   82, 96, 109, 120, 220
+src\tabpfn4realestate\features\__init__.py            0      0   100%
+src\tabpfn4realestate\features\asof.py              110     15    86%   60, 62, 68, 120, 123, 148, 160-171, 199, 205, 214, 216
+src\tabpfn4realestate\features\comparables.py       144     12    92%   42, 46, 105, 109, 120, 129, 157, 163, 170, 172, 309, 320
+src\tabpfn4realestate\models\__init__.py              0      0   100%
+src\tabpfn4realestate\models\guards.py               85     13    85%   36, 40, 42, 44, 55, 57, 63, 79, 108, 129, 142, 144, 150
+src\tabpfn4realestate\models\off_baseline.py         93      7    92%   83, 86, 93, 123, 140, 154, 163
+-------------------------------------------------------------------------------
+TOTAL                                              1467    133    91%

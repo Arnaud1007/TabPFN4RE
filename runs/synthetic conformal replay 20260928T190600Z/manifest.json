@@ -1,0 +1,17 @@
+{
+  "run_id": "synthetic conformal replay 20260928T190600Z",
+  "parent_run_id": "u5-synthetic-conformal-20260928T184900Z",
+  "status": "complete",
+  "purpose": "Verify immutable parent evidence and direct-child safe output with spaces",
+  "certification_eligible": false,
+  "source_snapshot_sha256": null,
+  "checkpoint_identity": null,
+  "artifacts": [
+    {"path": "runs/synthetic conformal replay 20260928T190600Z/run_gate_executed.ps1.txt", "sha256": "b722f1d33dfddfc21b78fac4ce799c663070a442c23ee3f75f8a1aa397c417df"},
+    {"path": "runs/synthetic conformal replay 20260928T190600Z/test_gate.json", "sha256": "89c4f7aabfaf754c5674d5679941baedd24348b55bf3ab8eb7c74a82e876be60"},
+    {"path": "runs/synthetic conformal replay 20260928T190600Z/coverage.json", "sha256": "25595b1734fa0e5fe491355ce63568c56b57cc21df6af4df9a43b8c99984cec6"},
+    {"path": "src/tabpfn4realestate/evaluation/conformal.py", "sha256": "1ac7e061ea61d8e13218411971fa7944283d6c0ad95e137d657868c412830e2f"},
+    {"path": "tests/test_conformal_calibration.py", "sha256": "48cb1c2b11bd9d2352965c5c381db8b5829002f80872164b8128d0da49acac8a"},
+    {"path": "decisions/0016-synthetic-split-conformal.md", "sha256": "a0b175c90fa8cfd48e9884f4ef584018581ba89265f1d50e47d64c9457625e0b"}
+  ]
+}

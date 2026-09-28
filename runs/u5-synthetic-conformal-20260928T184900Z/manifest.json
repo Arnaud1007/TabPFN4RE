@@ -1,0 +1,21 @@
+{
+  "run_id": "u5-synthetic-conformal-20260928T184900Z",
+  "protocol": "us_synthetic_off_90d_split_conformal_v2",
+  "status": "complete",
+  "certification_eligible": false,
+  "code_base_commit": "4d7527a3121ae7346cee326f36991a5c593857ff",
+  "dirty_tree_at_execution": true,
+  "source_snapshot_sha256": null,
+  "split_hash": null,
+  "checkpoint_identity": null,
+  "artifacts": [
+    {"path": "src/tabpfn4realestate/evaluation/conformal.py", "sha256": "1ac7e061ea61d8e13218411971fa7944283d6c0ad95e137d657868c412830e2f"},
+    {"path": "tests/test_conformal_calibration.py", "sha256": "48cb1c2b11bd9d2352965c5c381db8b5829002f80872164b8128d0da49acac8a"},
+    {"path": "decisions/0016-synthetic-split-conformal.md", "sha256": "a0b175c90fa8cfd48e9884f4ef584018581ba89265f1d50e47d64c9457625e0b"},
+    {"path": "runs/u5-synthetic-conformal-20260928T184900Z/run_gate_executed.ps1.txt", "sha256": "760ae0a618cebcb6cc6d67c348441c076bb771191ba1ba81a4dd73fc22c92321"},
+    {"path": "runs/u5-synthetic-conformal-20260928T184900Z/run_gate.ps1", "sha256": "78d583f3b388f7dc3734942c96c66a3b4c41eb6ff4c6a574940b7031de9737f0"},
+    {"path": "runs/u5-synthetic-conformal-20260928T184900Z/test_gate.json", "sha256": "2cfa12b80b98e7849d078255556de5af2da2719d26f6c7b6812d75ac226a26ca"},
+    {"path": "runs/u5-synthetic-conformal-20260928T184900Z/coverage.json", "sha256": "e4824160b4b08e29bff27f111430a36aa727ed05eed112527ed5ee3cd5436179"},
+    {"path": "locks/local-date-requirements.txt", "sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127"}
+  ]
+}

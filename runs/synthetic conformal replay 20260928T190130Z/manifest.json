@@ -1,0 +1,17 @@
+{
+  "run_id": "synthetic conformal replay 20260928T190130Z",
+  "parent_run_id": "u5-synthetic-conformal-20260928T184900Z",
+  "status": "complete",
+  "purpose": "Validate replay isolation and an output directory path containing spaces",
+  "certification_eligible": false,
+  "source_snapshot_sha256": null,
+  "checkpoint_identity": null,
+  "artifacts": [
+    {"path": "runs/synthetic conformal replay 20260928T190130Z/run_gate_executed.ps1.txt", "sha256": "27fa8f4d057d8645e2babfdd4801c695af48cae71a26279516c6b3f09c0351bb"},
+    {"path": "runs/synthetic conformal replay 20260928T190130Z/test_gate.json", "sha256": "530ef5a131c89ab67e4a6f289748df1ce124cadd44da7be7125bb13d0c4e39ed"},
+    {"path": "runs/synthetic conformal replay 20260928T190130Z/coverage.json", "sha256": "3dd45791b2fd24532662839fbcdb501af3aef646c8d846449448cea4a4121ba8"},
+    {"path": "src/tabpfn4realestate/evaluation/conformal.py", "sha256": "1ac7e061ea61d8e13218411971fa7944283d6c0ad95e137d657868c412830e2f"},
+    {"path": "tests/test_conformal_calibration.py", "sha256": "48cb1c2b11bd9d2352965c5c381db8b5829002f80872164b8128d0da49acac8a"},
+    {"path": "decisions/0016-synthetic-split-conformal.md", "sha256": "a0b175c90fa8cfd48e9884f4ef584018581ba89265f1d50e47d64c9457625e0b"}
+  ]
+}

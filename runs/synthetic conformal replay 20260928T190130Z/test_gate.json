@@ -1,0 +1,134 @@
+{
+    "run_id":  "synthetic conformal replay 20260928T190130Z",
+    "status":  "complete",
+    "milestone":  "U5-synthetic-interval-engineering",
+    "executed_at_utc":  "2026-09-28T19:02:03.5418143Z",
+    "code_commit":  "4d7527a3121ae7346cee326f36991a5c593857ff",
+    "dirty_tree":  true,
+    "environment_lock_sha256":  "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+    "source_snapshot_sha256":  null,
+    "synthetic_fixture_sha256":  "48cb1c2b11bd9d2352965c5c381db8b5829002f80872164b8128d0da49acac8a",
+    "split_hash":  null,
+    "feature_policy_hash":  null,
+    "configuration_hash":  "a0b175c90fa8cfd48e9884f4ef584018581ba89265f1d50e47d64c9457625e0b",
+    "checkpoint_identity":  null,
+    "certification_eligible":  false,
+    "python_version":  "Python 3.11.6",
+    "tests_observed":  277,
+    "tests_skipped":  false,
+    "statement_coverage_percent":  90.93387866394,
+    "coverage_json_sha256":  "3dd45791b2fd24532662839fbcdb501af3aef646c8d846449448cea4a4121ba8",
+    "results":  [
+                    {
+                        "name":  "tests",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "run",
+                                        "--source=tabpfn4realestate",
+                                        "-m",
+                                        "unittest",
+                                        "discover",
+                                        "-s",
+                                        "tests",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  14.162,
+                        "output":  "tests.log",
+                        "output_sha256":  "feaa7e78a601ad3535adb98db433b44ddea382c13606f8dbdb25dbc377c8c9e2"
+                    },
+                    {
+                        "name":  "coverage_report",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "report",
+                                        "--show-missing"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.017,
+                        "output":  "coverage_report.log",
+                        "output_sha256":  "895022a105c5a8f4b4ddea21230bc268e5724a048725cfa21f73e90161911d56"
+                    },
+                    {
+                        "name":  "coverage_json",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "json",
+                                        "-o",
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\synthetic conformal replay 20260928T190130Z\\coverage.json"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.033,
+                        "output":  "coverage_json.log",
+                        "output_sha256":  "039f8634861073213a88b6504cb2dde57b054ed1821f9ee6b05073dd273b6b1a"
+                    },
+                    {
+                        "name":  "lint",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.024,
+                        "output":  "lint.log",
+                        "output_sha256":  "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+                    },
+                    {
+                        "name":  "format",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "format",
+                                        "--check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.017,
+                        "output":  "format.log",
+                        "output_sha256":  "6ed8d1cb172b51dddf192664f6e4b2a6c56db357a990dcce6f028de11201bd61"
+                    },
+                    {
+                        "name":  "pip_check",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip",
+                                        "check"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.036,
+                        "output":  "pip_check.log",
+                        "output_sha256":  "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+                    },
+                    {
+                        "name":  "dependency_audit",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip_audit",
+                                        "-r",
+                                        "locks/local-date-requirements.txt",
+                                        "--disable-pip",
+                                        "--no-deps",
+                                        "--progress-spinner",
+                                        "off"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  2.044,
+                        "output":  "dependency_audit.log",
+                        "output_sha256":  "e82148c0c30269ca5a2c35420ece6af011a4faf5a375325d750e243ffdb10625"
+                    }
+                ]
+}

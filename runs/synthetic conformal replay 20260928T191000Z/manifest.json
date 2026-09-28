@@ -1,0 +1,17 @@
+{
+  "run_id": "synthetic conformal replay 20260928T191000Z",
+  "parent_run_id": "u5-synthetic-conformal-20260928T184900Z",
+  "status": "complete",
+  "purpose": "Verify the final isolated replay runner and its source-tree status capture",
+  "certification_eligible": false,
+  "source_snapshot_sha256": null,
+  "checkpoint_identity": null,
+  "artifacts": [
+    {"path": "runs/u5-synthetic-conformal-20260928T184900Z/run_gate.ps1", "sha256": "78d583f3b388f7dc3734942c96c66a3b4c41eb6ff4c6a574940b7031de9737f0"},
+    {"path": "runs/synthetic conformal replay 20260928T191000Z/test_gate.json", "sha256": "578f555765a194209b7f927c85bffa9d59bb0a95b80f84d2ff17f068035aabf8"},
+    {"path": "runs/synthetic conformal replay 20260928T191000Z/coverage.json", "sha256": "fda09dd364043d413270dbb16e014726494854d89da138eb7d8e9caaab46ffd8"},
+    {"path": "src/tabpfn4realestate/evaluation/conformal.py", "sha256": "1ac7e061ea61d8e13218411971fa7944283d6c0ad95e137d657868c412830e2f"},
+    {"path": "tests/test_conformal_calibration.py", "sha256": "48cb1c2b11bd9d2352965c5c381db8b5829002f80872164b8128d0da49acac8a"},
+    {"path": "decisions/0016-synthetic-split-conformal.md", "sha256": "a0b175c90fa8cfd48e9884f4ef584018581ba89265f1d50e47d64c9457625e0b"}
+  ]
+}

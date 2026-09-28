@@ -1,0 +1,104 @@
+﻿{
+    "run_id":  "u3-synthetic-temporal-20260928T123500Z",
+    "status":  "complete",
+    "milestone":  "U3-synthetic-temporal-engineering",
+    "executed_at_utc":  "2026-09-28T12:35:34.3128187Z",
+    "code_commit":  "ec7ce3537b1a00eaad01ee1a57449604bd90809f",
+    "dirty_tree":  true,
+    "environment_lock_sha256":  "5b1004ea15190cfa53b84f0ca6fba1401d117dd8c93fc4c67d693590f54d86cc",
+    "source_snapshot_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "synthetic_fixture_sha256":  "babd757891a83e44d5774d677fbbd56277bb182ee701eedb564e9a11b19cd332",
+    "split_hash":  null,
+    "feature_policy_hash":  "b4ee580121f954422be80cf040f93f1cc1889f5cbe2b23d8d216d867230dca59",
+    "configuration_hash":  "ec2ffc9c91c4a8c69d89ba9ec6191df4df8841abc5df4e48f3c021518261b3df",
+    "checkpoint_identity":  null,
+    "certification_eligible":  false,
+    "python_version":  "Python 3.11.6",
+    "ruff_version":  "ruff 0.15.18",
+    "results":  [
+                    {
+                        "name":  "tests",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "run",
+                                        "--source=tabpfn4realestate",
+                                        "-m",
+                                        "unittest",
+                                        "discover",
+                                        "-s",
+                                        "tests",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  11.834,
+                        "output":  "tests.log",
+                        "output_sha256":  "5cff73b6425248deab5c0dea5c205d25745c3e4dbfea91fa08dbc8b6908b447e"
+                    },
+                    {
+                        "name":  "coverage_report",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "report",
+                                        "--show-missing"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.348,
+                        "output":  "coverage_report.log",
+                        "output_sha256":  "ba8e4cdd83baf9d7fa6f08f7e8bb9f98b7d665f993e6a68a9190359ea2c8fee6"
+                    },
+                    {
+                        "name":  "coverage_json",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "json",
+                                        "-o",
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u3-synthetic-temporal-20260928T123500Z\\coverage.json"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.366,
+                        "output":  "coverage_json.log",
+                        "output_sha256":  "5f9754394ece5f7fcc3f4096feb9ad4391c40b87c584de91de33b3d733554b42"
+                    },
+                    {
+                        "name":  "lint",
+                        "command":  [
+                                        "python",
+                                        "-m",
+                                        "ruff",
+                                        "check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.137,
+                        "output":  "lint.log",
+                        "output_sha256":  "e0af5e08a7ef46da5421b01a4ef0562a8b8873ea00d36522b4c928b565eef4dd"
+                    },
+                    {
+                        "name":  "format",
+                        "command":  [
+                                        "python",
+                                        "-m",
+                                        "ruff",
+                                        "format",
+                                        "--check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.126,
+                        "output":  "format.log",
+                        "output_sha256":  "e0de952e7c6024a83ceabcfb1aa6404786887bab59e61e50ba6cf50f03d44014"
+                    }
+                ],
+    "tests_expected":  157,
+    "tests_skipped":  false,
+    "statement_coverage_percent":  90.3954802259887,
+    "coverage_json_sha256":  "140c7cd30eacf351a24de5d9202a3a657854f92d1dc3deffc23c5ee39df30623"
+}

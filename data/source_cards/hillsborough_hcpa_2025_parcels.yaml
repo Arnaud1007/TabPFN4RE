@@ -31,6 +31,14 @@ selected_field_contract:
   S_AMT: N(19,5), sale amount in this archive; not a historical model feature
 code_lookup_status: no parcel_dor_names.dbf in this 2025 ZIP
 row_grain: parcel, not necessarily one dwelling or one eligible sale
+empirical_sales_identifier_control: >-
+  A separately frozen, date/qualification-stratified 1,000-row All Sales
+  sample has 984 sale rows with one exact raw PIN+FOLIO match in this 2025
+  archive and 16 without one. The 984 rows represent 983 distinct controls
+  with nonblank STRAP; the candidate conversion agreed for all 983. This
+  selected-sample result is not a county-wide linkage rate or a verified
+  dwelling/transaction link. See
+  runs/u0-hcpa-pin-crosswalk-20260928T214110Z/report.md.
 first_available_at: >-
   The file is verified from the official current listing on 2026-09-28.
   The ZIP/member dates and listing update field do not independently prove
@@ -42,6 +50,7 @@ rights_basis: >-
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
-  Verify original publication/vintage records and field definitions, compare
-  identifiers and current archive schemas without assuming stable PIN formats,
-  manually audit parcel-to-sale and dwelling identity, and resolve reuse rights.
+  Verify original publication/vintage records and field definitions, seek
+  source confirmation of the empirical PIN format mapping, investigate 16
+  missing exact controls, manually audit parcel-to-sale and dwelling identity,
+  and resolve reuse rights.

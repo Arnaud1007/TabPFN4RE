@@ -38,6 +38,14 @@ all_sales_sample_linkage: >-
   pattern. This is not a county-level rate or proof of incompatible identity;
   PIN format appears to vary by archive vintage. See
   runs/u0-hcpa-parcel-links-20260928T203944Z/report.md.
+empirical_pin_crosswalk: >-
+  On a separately frozen 1,000-row All Sales sample that excluded the original
+  200 discovery rows, the predeclared PIN transform agreed with 994 of 994
+  nonblank current parcel PINs reached through a unique FOLIO lead; six more
+  current PINs were blank. The 2025 STRAP control agreed for 983 of 983
+  distinct nonblank controls. This is an empirical format result, not a
+  publisher-confirmed identifier contract or an accepted property join. See
+  runs/u0-hcpa-pin-crosswalk-20260928T214110Z/report.md.
 code_semantics: >-
   This current code table corroborates the county DOR manual's examples but
   does not verify the historical DOR_CODE of each All Sales entry, whether a
@@ -53,7 +61,7 @@ rights_basis: >-
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
-  Validate a separately registered PIN format crosswalk on disjoint All Sales
-  records and inspect dated historical parcel vintages and publication. Audit
-  dwelling and sale identity manually and obtain a source-specific use-rights
-  decision before model use.
+  Seek publisher confirmation of the empirically supported PIN conversion,
+  investigate six blank current PINs, and inspect dated historical parcel
+  vintages and publication. Audit dwelling and sale identity manually and
+  obtain a source-specific use-rights decision before model use.

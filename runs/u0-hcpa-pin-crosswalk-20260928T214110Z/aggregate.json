@@ -1,0 +1,108 @@
+{
+  "automatic_join_blockers": [
+    "source_contract_unconfirmed",
+    "historical_availability_unverified",
+    "rights_unresolved",
+    "sale_identity_and_eligibility_unverified"
+  ],
+  "automatic_join_status": "BLOCKED",
+  "cell_counts": {
+    "2000_2009_Q": 100,
+    "2000_2009_U": 100,
+    "2010_2019_Q": 100,
+    "2010_2019_U": 100,
+    "2020_2023_Q": 100,
+    "2020_2023_U": 100,
+    "2024_2026_Q": 100,
+    "2024_2026_U": 100,
+    "before_2000_Q": 100,
+    "before_2000_U": 100
+  },
+  "format_rule_numeric_status": "meets_numeric_criteria_pending_custodian",
+  "frozen_audit_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "interpretation": "PIN format validation only; no sale eligibility, historical availability, label semantics, reuse-rights or production source contract inferred.",
+  "sample": {
+    "distinct_source_identities": 999,
+    "malformed_pin_rows": 0,
+    "missing_folio_rows": 0,
+    "missing_pin_rows": 0,
+    "redacted_folio_rows": 0,
+    "rows": 1000
+  },
+  "source_2025": {
+    "active_rows": 527723,
+    "archive_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+    "deleted_rows": 0,
+    "header_rows": 527723,
+    "member": "2025_10_parcel.dbf",
+    "member_crc32": "49a63ebf",
+    "schema_sha256": "e1a26b7ba41fe5758a6019e6461b15b2d1024db459cb01ae0328d639c3f25c02"
+  },
+  "source_2026": {
+    "active_rows": 531612,
+    "archive_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8",
+    "deleted_rows": 0,
+    "header_rows": 531612,
+    "member": "parcel.dbf",
+    "member_crc32": "3d9144b2",
+    "schema_sha256": "4b46693035797d0bb238349e839fd18df685cf39d91ced7d15c5c082ca06b384"
+  },
+  "strap_control": {
+    "agree_distinct_controls": 983,
+    "agree_sale_rows": 984,
+    "malformed_sale_rows": 0,
+    "nonblank_distinct_controls": 983,
+    "nonblank_strap_sale_rows": 984,
+    "unique_exact_sale_rows": 984
+  },
+  "transformed_collisions": 0,
+  "validation_sample_sha256": "35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9",
+  "vintage_2025": {
+    "ambiguous_multiple_rows": 0,
+    "conflicting_rows": 0,
+    "duplicate_exact_key_rows": 0,
+    "exact_two_key": {
+      "many": 0,
+      "one": 984,
+      "zero": 16
+    },
+    "folio_only_candidates": {
+      "many": 0,
+      "one": 6,
+      "zero": 994
+    },
+    "folio_only_lead_rows": 6,
+    "pin_only_candidates": {
+      "many": 0,
+      "one": 0,
+      "zero": 1000
+    },
+    "pin_only_lead_rows": 0
+  },
+  "vintage_2026": {
+    "ambiguous_multiple_rows": 0,
+    "conflicting_rows": 0,
+    "duplicate_exact_key_rows": 0,
+    "exact_two_key": {
+      "many": 0,
+      "one": 994,
+      "zero": 6
+    },
+    "folio_only_candidates": {
+      "many": 0,
+      "one": 6,
+      "zero": 994
+    },
+    "folio_only_lead_rows": 6,
+    "pin_agrees_on_unique_folio_rows": 994,
+    "pin_disagrees_on_unique_folio_rows": 0,
+    "pin_only_candidates": {
+      "many": 0,
+      "one": 0,
+      "zero": 1000
+    },
+    "pin_only_lead_rows": 0,
+    "unique_folio_blank_pin_rows": 6,
+    "unique_folio_nonblank_pin_rows": 994
+  }
+}

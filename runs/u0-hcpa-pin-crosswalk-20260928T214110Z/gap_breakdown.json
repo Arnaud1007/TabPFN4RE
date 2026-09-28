@@ -1,0 +1,33 @@
+{
+  "blank_current_pin_on_unique_folio": {
+    "by_date_band": {
+      "2000_2009": 2,
+      "2010_2019": 1,
+      "before_2000": 3
+    },
+    "by_qu": {
+      "Q": 4,
+      "U": 2
+    },
+    "total": 6
+  },
+  "cross_vintage": {
+    "blank_current_pin_with_2025_folio_only_lead": 5,
+    "blank_current_pin_with_exact_2025_control": 1,
+    "no_exact_2025_with_blank_current_pin": 5,
+    "no_exact_2025_with_nonblank_agreeing_2026_pin": 11
+  },
+  "no_exact_2025": {
+    "by_date_band": {
+      "2000_2009": 2,
+      "2020_2023": 1,
+      "2024_2026": 9,
+      "before_2000": 4
+    },
+    "by_qu": {
+      "Q": 5,
+      "U": 11
+    },
+    "total": 16
+  }
+}

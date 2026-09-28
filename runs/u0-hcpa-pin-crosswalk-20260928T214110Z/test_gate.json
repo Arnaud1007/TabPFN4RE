@@ -1,0 +1,37 @@
+{
+  "run_id": "u0-hcpa-pin-crosswalk-20260928T214110Z",
+  "status": "identity_format_evidence_only_u0_pending",
+  "code_commit": "6d46b4e",
+  "inherited_engineering_gate": "runs/u0-hcpa-pin-validation-sample-20260928T211600Z/test_gate.json",
+  "inherited_gate_note": "Same committed audit code: 19 focused crosswalk tests, 338 full-suite tests without skips, 87% crosswalk branch coverage and 88% package branch coverage; not rerun for this source scan.",
+  "checks": [
+    {
+      "name": "pinned_real_crosswalk_audit",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_hcpa_pin_crosswalk.py --archive-2025 data/raw/hcpa/2025_10_parcels.zip --archive-2026 data/raw/hcpa/parcel_09_25_2026.zip --sample data/raw/hcpa/pin-validation-sample-20260928-v1.jsonl --old-sample data/raw/hcpa/audit-sample-20260928-888226e.jsonl --private-flags data/raw/hcpa/pin-crosswalk-flags-20260928T214110Z.jsonl --aggregate runs/u0-hcpa-pin-crosswalk-20260928T214110Z/aggregate.json --archive-2025-sha256 2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c --archive-2026-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --sample-sha256 35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9 --old-sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+      "exit_code": 0,
+      "duration_seconds": 5.98,
+      "output_artifact": "aggregate.json",
+      "private_flags_sha256": "add23b60b5d8cb1793d06a8f5a26f2c3c45f8863d44cbf521c33284ff18f2d79",
+      "result": "1,000 rows; 983/983 distinct 2025 STRAP controls agree; 994/994 nonblank 2026 PINs agree; automatic join BLOCKED"
+    },
+    {
+      "name": "byte_identical_replay",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_hcpa_pin_crosswalk.py --archive-2025 data/raw/hcpa/2025_10_parcels.zip --archive-2026 data/raw/hcpa/parcel_09_25_2026.zip --sample data/raw/hcpa/pin-validation-sample-20260928-v1.jsonl --old-sample data/raw/hcpa/audit-sample-20260928-888226e.jsonl --private-flags data/raw/hcpa/pin-crosswalk-flags-20260928T214110Z-replay.jsonl --aggregate runs/u0-hcpa-pin-crosswalk-20260928T214110Z/aggregate_replay.json --archive-2025-sha256 2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c --archive-2026-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --sample-sha256 35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9 --old-sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+      "exit_code": 0,
+      "duration_seconds": 13.126,
+      "output_artifact": "aggregate_replay.json",
+      "result": "Aggregate and ignored private flags byte identical"
+    },
+    {
+      "name": "replay_hash_check",
+      "command": "Compare SHA-256 from Get-FileHash on aggregate.json versus aggregate_replay.json, and private flags versus private replay flags",
+      "exit_code": 0,
+      "duration_seconds": 0.155,
+      "output_artifact": "replay_hash_check.txt",
+      "result": "Both comparisons True"
+    }
+  ],
+  "manual_review_rubrics_completed": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

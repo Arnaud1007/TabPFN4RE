@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import statistics
 import sys
 import tempfile
@@ -16,6 +17,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tabpfn4realestate.ames_smoke import run_smoke  # noqa: E402
 from tabpfn4realestate import ames_smoke  # noqa: E402
+from tabpfn4realestate import ames as ames_module  # noqa: E402
 from tabpfn4realestate.ames import Split  # noqa: E402
 
 
@@ -241,6 +243,64 @@ class AmesRunnerTests(unittest.TestCase):
 
         manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
         self.assertIs(manifest["dirty_tree"], True)
+        self.assertIs(manifest["replayable"], False)
+
+    def test_git_state_ignores_untracked_runs_but_detects_tracked_code_change(self) -> None:
+        repository = self.work_dir / "fixture_repo"
+        repository.mkdir()
+
+        def git(*args: str) -> None:
+            subprocess.run(
+                ["git", "-C", str(repository), *args],
+                check=True, capture_output=True, text=True,
+            )
+
+        git("init", "-q")
+        code = repository / "src" / "ames_smoke.py"
+        code.parent.mkdir()
+        code.write_text("BASELINE = 1\n", encoding="utf-8")
+        git("add", "src/ames_smoke.py")
+        git(
+            "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+            "commit", "-q", "-m", "base",
+        )
+
+        run_artifact = repository / "runs" / "u0-fixture" / "manifest.json"
+        run_artifact.parent.mkdir(parents=True)
+        run_artifact.write_text('{"status":"complete"}', encoding="utf-8")
+        commit, dirty = ames_smoke._git_state(repository)
+        self.assertRegex(commit or "", r"^[0-9a-f]{40}$")
+        self.assertIs(dirty, False)
+
+        code.write_text("BASELINE = 2\n", encoding="utf-8")
+        changed_commit, changed_dirty = ames_smoke._git_state(repository)
+        self.assertEqual(changed_commit, commit)
+        self.assertIs(changed_dirty, True)
+
+    def test_unrelated_clean_project_cannot_attest_executed_module_commit(self) -> None:
+        project_root = self.work_dir / "unrelated_project"
+        lock = project_root / "locks" / "ames-smoke-environment.json"
+        policy = project_root / "policies" / "ames-smoke.json"
+        lock.parent.mkdir(parents=True)
+        policy.parent.mkdir(parents=True)
+        lock.write_bytes((PROJECT_ROOT / "locks" / lock.name).read_bytes())
+        policy.write_bytes((PROJECT_ROOT / "policies" / policy.name).read_bytes())
+        expected_modules = {
+            "tabpfn4realestate.ames": sha256(Path(ames_module.__file__)),
+            "tabpfn4realestate.ames_smoke": sha256(Path(ames_smoke.__file__)),
+        }
+
+        with patch.object(ames_smoke, "_git_state", return_value=("a" * 40, False)):
+            run_dir = run_smoke(
+                self.source,
+                self.output_dir,
+                expected_sha256=sha256(self.source),
+                project_root=project_root,
+            )
+
+        manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["executed_module_sha256"], expected_modules)
+        self.assertIsNone(manifest["code_commit"])
         self.assertIs(manifest["replayable"], False)
 
     def test_source_change_after_load_cannot_complete_run(self) -> None:

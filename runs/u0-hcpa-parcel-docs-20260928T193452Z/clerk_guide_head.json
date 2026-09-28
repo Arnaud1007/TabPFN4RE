@@ -1,0 +1,7 @@
+{
+    "command":  "curl.exe -I --max-time 8 https://www.hillsclerk.com/records-and-reports/public-data-files",
+    "exit_code":  0,
+    "duration_seconds":  0.424,
+    "log":  "clerk_guide_head.txt",
+    "checked_at_utc":  "2026-09-28T19:39:51.0334119Z"
+}

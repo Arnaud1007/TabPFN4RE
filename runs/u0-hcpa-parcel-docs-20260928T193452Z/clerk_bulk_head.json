@@ -1,0 +1,7 @@
+{
+    "command":  "curl.exe -I --max-time 8 https://publicrec.hillsclerk.com/OfficialRecords/DailyIndexes/readme.txt",
+    "exit_code":  28,
+    "duration_seconds":  8.363,
+    "log":  "clerk_bulk_head.txt",
+    "checked_at_utc":  "2026-09-28T19:39:40.1533831Z"
+}

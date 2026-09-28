@@ -1,0 +1,27 @@
+{
+    "run_id":  "u0-hcpa-parcel-docs-20260928T193452Z",
+    "recorded_at_utc":  "2026-09-28T19:40:28.5900844Z",
+    "status":  "source_documentation_verified_not_milestone_accepted",
+    "code_commit":  "29d819ca120e9fed8d9c266c703f87399ee1682e",
+    "dirty_tree":  true,
+    "environment_lock":  "locks/hcpa-profile-environment.json",
+    "environment_lock_sha256":  "39a90f697fa56ee35226c6930da76b7913a7f3300ea5ac26b09d783229010b12",
+    "data_snapshot":  "data/raw/hcpa/READ_ME_shapefile_archives_20220511.docx",
+    "data_snapshot_sha256":  "b04476ab5586097b1f082a3acc3a135b04fbdb5e0862e9c27003f1f866420020",
+    "split_hash":  null,
+    "feature_policy_hash":  null,
+    "configuration_hash":  null,
+    "checkpoint_identity":  null,
+    "source_listing_url":  "https://downloads.hcpafl.org/?subfolder=_shapefile_archives",
+    "immutable_run_files_sha256":  {
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/report.md":  "bc595d74355d65f941fa7922d146c7585284cd7b3b2843944c6af27aad530213",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/source_cards/hillsborough_hcpa_parcel_archives.yaml":  "e6b66396bc26dab2d27de29e37350228c67a6c8b2aea61486e451d7b409e30af",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/source_cards/hillsborough_hcpa_allsales.yaml":  "cd4911defa4c236dcc4f2efe553a54cf9be69ba0cf205902f02e8ff606ee2102",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/source_cards/hillsborough_clerk_official_records.yaml":  "43b78f9003cc01b2856e661cd50bcd57a4bf9541b8c5da74b07f1beafb413781",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/clerk_bulk_head.json":  "b6905a25213d53ddfd1b39274fc50703af6bf1fa817111c63872bfcce149022b",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/clerk_bulk_head.txt":  "6826352d683ee56361cfc45accea0bb328169bed4acd46da46e955f1995a4c8d",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/clerk_guide_head.json":  "10e5fabd5f9716aca55e99e06b8c22894ff65101cf4f76feb4e34e3a21886b9f",
+                                       "runs/u0-hcpa-parcel-docs-20260928T193452Z/clerk_guide_head.txt":  "ceaa2cca4c783ac390d274d28c4f8817c0800e324a5198219b75c4b61d428e18"
+                                   },
+    "no_model_training":  true
+}

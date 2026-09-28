@@ -1,0 +1,47 @@
+source_id: hillsborough_hcpa_parcel_archives
+status: candidate_documentation_audited_not_ingested
+publisher: Hillsborough County Property Appraiser
+dataset_name: Annual fall parcel shapefile archives
+publisher_page: https://downloads.hcpafl.org/?subfolder=_shapefile_archives
+documentation_name: READ_ME_shapefile_archives.docx
+documentation_listed_update: 2022-05-11
+documentation_retrieved_on: 2026-09-28
+documentation_local_copy: data/raw/hcpa/READ_ME_shapefile_archives_20220511.docx
+documentation_sha256: b04476ab5586097b1f082a3acc3a135b04fbdb5e0862e9c27003f1f866420020
+geography: Hillsborough County, Florida
+listed_archive_years: 2004-2025
+archive_capture_status: documentation_only; no annual parcel ZIP ingested
+row_grain: parcel polygon, not necessarily a single dwelling or sale
+candidate_join_fields: [PIN, FOLIO]
+documented_field_semantics:
+  DOR_C: primary parcel use code; local descriptions are in parcel_dor_names.dbf
+  HEAT_AR: heated living square feet summed over all buildings on a parcel
+  tBEDS: bedrooms summed over all buildings on a parcel
+  tBATHS: bathrooms summed over all buildings on a parcel
+  tUNITS: living units summed over all buildings on a parcel
+  tBLDGS: number of buildings on the parcel
+  S_DATE: date of a qualified sale in this parcel archive, not verified closing date
+  AMT: qualified sale amount in this parcel archive, not an as-of property attribute
+code_mapping_status: >-
+  The readme lists 0100 among codes for which room/unit totals are generally
+  accurate and describes that list as private residential and smaller
+  multifamily parcels. It does not give the individual description of 0100.
+  parcel_dor_names.dbf has not been inspected, and a parcel-use code alone
+  cannot establish one eligible single-family dwelling.
+historical_vintage_caveat: >-
+  The readme warns that earlier shapefiles may lack fields and says parcels
+  are archived in the fall after tax-value notices, corrections and appeals.
+  The current listing's 2004-2021 files show 2021 update timestamps. Archive
+  year and current listing timestamp do not prove original first availability
+  or an attribute's availability at an earlier valuation origin.
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+rights_basis: >-
+  The public download listing has an All Rights Reserved footer. Dataset-specific
+  commercial AVM and redistribution permission has not been established.
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+next_checks: >-
+  Inspect parcel_dor_names.dbf from an authorised parcel archive; verify
+  identifier cardinality, room/area scope, source vintages, first availability,
+  and reuse rights before using these fields in historical model features.

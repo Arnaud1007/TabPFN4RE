@@ -1,0 +1,36 @@
+curl.exe :   % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+At line:2 char:102
++ ... StartNew(); & curl.exe -I --max-time 8 'https://www.hillsclerk.com/re ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  % Total    % ... Time   Current:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0                              0
+  0      0   0      0   0      0      0      0                              0
+HTTP/1.1 200 OK
+Date: Mon, 28 Sep 2026 19:39:51 GMT
+Content-Type: text/html;charset=UTF-8
+Vary: Accept-Encoding
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+set-cookie: JSESSIONID=13A223F2DE76982CE5EAE06DFABC6E8D; Path=/; Secure; HttpOnly
+set-cookie: COOKIE_SUPPORT=true; Max-Age=31536000; Expires=Tue, 28 Sep 2027 19:39:51 GMT; Path=/; Secure; HttpOnly
+set-cookie: GUEST_LANGUAGE_ID=en_US; Max-Age=31536000; Expires=Tue, 28 Sep 2027 19:39:51 GMT; Path=/; Secure; HttpOnly
+set-cookie: SERVER_ID=03f50396afe689bb; path=/; HttpOnly; Secure
+x-request-id: 67905837a7814587e26383b14371efb5
+expires: Thu, 01 Jan 1970 00:00:00 GMT
+cache-control: private, no-cache, no-store, must-revalidate
+pragma: no-cache
+x-liferay-request-company: 76340704477662
+x-liferay-request-group: 31834 2t 8x s
+x-liferay-request-guest-user: true
+x-liferay-request-user: 3c476de2d92f9444b4f1859f43a4a48d
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Referrer-Policy: strict-origin-when-cross-origin
+Via: 1.1 google
+Transfer-Encoding: chunked
+Alt-Svc: h3=":443"; ma=2592000

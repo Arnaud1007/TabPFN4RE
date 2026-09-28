@@ -16,6 +16,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from tabpfn4realestate.ames_smoke import run_smoke  # noqa: E402
 from tabpfn4realestate import ames_smoke  # noqa: E402
+from tabpfn4realestate.ames import Split  # noqa: E402
 
 
 def sha256(path: Path) -> str:
@@ -30,7 +31,9 @@ class AmesRunnerTests(unittest.TestCase):
         self.source = self.write_source(240)
         self.output_dir = self.work_dir / "runs"
 
-    def write_source(self, count: int, *, schema: str | None = None) -> Path:
+    def write_source(
+        self, count: int, *, schema: str | None = None, padded_ids: bool = False
+    ) -> Path:
         path = self.work_dir / f"ames_{count}.arff"
         header = schema or (
             "@RELATION house_prices\n"
@@ -40,7 +43,8 @@ class AmesRunnerTests(unittest.TestCase):
             "@DATA\n"
         )
         records = "".join(
-            f"{identifier},{1000 + identifier},{100000 + identifier * 1000}\n"
+            f"{' ' + str(identifier) + ' ' if padded_ids else identifier},"
+            f"{1000 + identifier},{100000 + identifier * 1000}\n"
             for identifier in range(1, count + 1)
         )
         path.write_bytes((header + records).encode("utf-8"))
@@ -173,6 +177,71 @@ class AmesRunnerTests(unittest.TestCase):
             run_smoke(small_source, self.output_dir, expected_sha256=sha256(small_source))
 
         self.assertEqual(self.completed_manifests(), [])
+
+    def test_padded_ids_produce_one_prediction_per_reserved_id(self) -> None:
+        self.source = self.write_source(240, padded_ids=True)
+
+        run_dir = self.run_fixture()
+
+        split = json.loads((run_dir / "split.json").read_text(encoding="utf-8"))
+        with (run_dir / "predictions.csv").open(encoding="utf-8", newline="") as stream:
+            predictions = list(csv.DictReader(stream))
+        reserved_ids = set(split["reserved_ids"])
+        self.assertEqual(len(predictions), 40)
+        self.assertEqual({row["Id"] for row in predictions}, reserved_ids)
+        self.assertEqual(len(reserved_ids), len(predictions))
+
+    def test_split_partition_mismatch_fails_without_completed_run(self) -> None:
+        original_split = ames_smoke.engineering_split
+
+        def mismatched_split(rows: object, *, seed: int) -> Split:
+            actual = original_split(rows, seed=seed)
+            return Split(
+                actual.development_ids,
+                (*actual.reserved_ids[:-1], "999999"),
+                actual.protocol_id,
+            )
+
+        with patch.object(ames_smoke, "engineering_split", side_effect=mismatched_split):
+            with self.assertRaisesRegex(ValueError, "partition|split|Id|membership"):
+                self.run_fixture()
+
+        self.assertEqual(self.completed_manifests(), [])
+
+    def test_explicit_project_root_supplies_lock_and_policy(self) -> None:
+        project_root = self.work_dir / "installed_project"
+        lock = project_root / "locks" / "ames-smoke-environment.json"
+        policy = project_root / "policies" / "ames-smoke.json"
+        lock.parent.mkdir(parents=True)
+        policy.parent.mkdir(parents=True)
+        for source, destination in (
+            (PROJECT_ROOT / "locks" / lock.name, lock),
+            (PROJECT_ROOT / "policies" / policy.name, policy),
+        ):
+            content = json.loads(source.read_text(encoding="utf-8"))
+            content["test_instance"] = "isolated_project_root"
+            destination.write_text(json.dumps(content), encoding="utf-8")
+
+        run_dir = run_smoke(
+            self.source,
+            self.output_dir,
+            expected_sha256=sha256(self.source),
+            project_root=project_root,
+        )
+
+        manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["environment_lock_sha256"], sha256(lock))
+        self.assertEqual(manifest["feature_policy_sha256"], sha256(policy))
+        self.assertEqual((run_dir / "environment.lock.json").read_bytes(), lock.read_bytes())
+        self.assertEqual((run_dir / "feature_policy.json").read_bytes(), policy.read_bytes())
+
+    def test_dirty_tree_is_explicitly_not_replayable(self) -> None:
+        with patch.object(ames_smoke, "_git_state", return_value=("a" * 40, True)):
+            run_dir = self.run_fixture()
+
+        manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
+        self.assertIs(manifest["dirty_tree"], True)
+        self.assertIs(manifest["replayable"], False)
 
     def test_source_change_after_load_cannot_complete_run(self) -> None:
         original_load = ames_smoke.load_ames_arff

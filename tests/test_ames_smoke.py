@@ -101,6 +101,20 @@ class AmesSourceTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Id|identifier"):
                     load_ames_arff(path)
 
+    def test_canonicalizes_padded_numeric_id_and_rejects_canonical_duplicate(self) -> None:
+        padded = self.write_arff(
+            "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",
+            " 1 ,100000\n 2 ,200000\n",
+        )
+        self.assertEqual([row["Id"] for row in load_ames_arff(padded)], ["1", "2"])
+
+        duplicate = self.write_arff(
+            "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",
+            "1,100000\n 1 ,200000\n",
+        )
+        with self.assertRaisesRegex(ValueError, "Id|duplicate"):
+            load_ames_arff(duplicate)
+
     def test_verifies_source_checksum_and_size_before_parsing(self) -> None:
         path = self.write_arff(
             "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",

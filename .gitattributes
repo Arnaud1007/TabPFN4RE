@@ -16,3 +16,6 @@
 /tests/test_capture_nyc_rolling_snapshot.py -text
 /decisions/0019-nyc-rolling-archive-correction.md -text
 /locks/nyc-capture-environment.json -text
+/scripts/profile_nyc_rolling_snapshot.py -text
+/tests/test_profile_nyc_rolling_snapshot.py -text
+/decisions/0020-nyc-source-semantics-and-profile.md -text

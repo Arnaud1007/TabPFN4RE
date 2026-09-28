@@ -1,0 +1,23 @@
+{
+    "run_id":  "u0-hcpa-dor-manual-20260928T195353Z",
+    "recorded_at_utc":  "2026-09-28T19:58:18.2130234Z",
+    "status":  "source_documentation_verified_not_milestone_accepted",
+    "code_commit":  "666a9808d486bb89957dd51e35b6c547337a1849",
+    "dirty_tree":  true,
+    "environment_lock":  "locks/hcpa-profile-environment.json",
+    "environment_lock_sha256":  "39a90f697fa56ee35226c6930da76b7913a7f3300ea5ac26b09d783229010b12",
+    "data_snapshot":  "data/raw/hcpa/_DOR_Code_Manual.docx",
+    "data_snapshot_sha256":  "cc10939078fd60ba41abdb555b6c34e3e2a3dc2a35bcf4f713114992b52599fe",
+    "split_hash":  null,
+    "feature_policy_hash":  null,
+    "configuration_hash":  null,
+    "checkpoint_identity":  null,
+    "source_listing_url":  "https://downloads.hcpafl.org/",
+    "immutable_run_files_sha256":  {
+                                       "runs/u0-hcpa-dor-manual-20260928T195353Z/report.md":  "a0cddb3102bf36d50dd2facd33c29c20bd768251aea1fb0e4193b50d387e508c",
+                                       "runs/u0-hcpa-dor-manual-20260928T195353Z/source_cards/hillsborough_hcpa_dor_manual.yaml":  "7e7fed9cf345c717b81dd56a831fd0ba0397cd481527aabeea8eb40952f30061",
+                                       "runs/u0-hcpa-dor-manual-20260928T195353Z/source_cards/hillsborough_hcpa_parcel_archives.yaml":  "fa191f2b6bdca4f7fcb02ef82ac233c8c2ae235d322e0f1aa0a381c331ec3123",
+                                       "runs/u0-hcpa-dor-manual-20260928T195353Z/source_cards/hillsborough_hcpa_allsales.yaml":  "c1a3083ca124d6cc2121fe3f50ab64cb1a3e21c6fee9799517908978e7ca6faa"
+                                   },
+    "no_model_training":  true
+}

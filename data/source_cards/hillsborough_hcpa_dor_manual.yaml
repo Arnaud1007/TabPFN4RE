@@ -1,0 +1,41 @@
+source_id: hillsborough_hcpa_dor_manual
+status: candidate_documentation_audited_not_ingested
+publisher: Hillsborough County Property Appraiser
+dataset_name: HCPA DOR Code Manual
+publisher_page: https://downloads.hcpafl.org/
+listed_filename: _DOR_Code_Manual.docx
+listed_update: 2021-10-07
+retrieved_on: 2026-09-28
+local_raw_copy: data/raw/hcpa/_DOR_Code_Manual.docx
+local_raw_copy_sha256: cc10939078fd60ba41abdb555b6c34e3e2a3dc2a35bcf4f713114992b52599fe
+manual_scope: >-
+  A supplement with explanatory text for selected four-character county DOR
+  codes. It says parcel_dor_names.dbf, extracted from the CAMA system, is the
+  definitive current code list and that this manual is not complete or
+  automatically updated.
+documented_code_examples:
+  '0100': detached single-family residential
+  '0102': single-family home built around a mobile home
+  '0106': townhouse or villa
+  '0200': mobile home
+  '0300': multifamily over nine units
+  '0400': condominium
+  '0500': cooperative
+  '0800': multifamily under ten units
+use_limit: >-
+  These are documentation examples, not a validated historical mapping for
+  every All Sales row. The code is primary parcel use, not proof that a deed
+  conveyed one eligible dwelling or that its amount is attributable to it.
+historical_availability: >-
+  The current listing's 2021 update date and document properties do not prove
+  when each code or sale row was publicly available at an earlier origin.
+historical_asof_eligible: false
+rights_basis: >-
+  The public downloads page carries an All Rights Reserved footer; exact
+  permission for a commercial AVM or redistribution remains unresolved.
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+next_checks: >-
+  Inspect parcel_dor_names.dbf and dated parcel vintages, audit parcel-to-sale
+  links and dwelling identity, and obtain source-specific reuse permission
+  before admitting this classification to a certified historical model.

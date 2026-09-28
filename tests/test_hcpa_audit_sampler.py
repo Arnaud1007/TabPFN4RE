@@ -261,8 +261,9 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.assertFalse(self.manifest.exists())
 
     def test_manifest_ranking_formula_uses_active_version_and_seed(self) -> None:
-        with patch.object(sampler, "RANKING_VERSION", "hcpa-audit-test"), patch.object(
-            sampler, "SEED", 7
+        with (
+            patch.object(sampler, "RANKING_VERSION", "hcpa-audit-test"),
+            patch.object(sampler, "SEED", 7),
         ):
             result = self.sample()
         self.assertIn("hcpa-audit-test", result["ranking_formula"])
@@ -279,7 +280,9 @@ class HcpaAuditSamplerTest(unittest.TestCase):
         self.assertFalse(self.manifest.exists())
 
     def test_symlinked_private_root_is_rejected_before_writing(self) -> None:
-        with patch.object(sampler.PRIVATE_ROOT.__class__, "is_symlink", return_value=True):
+        with patch.object(
+            sampler.PRIVATE_ROOT.__class__, "is_symlink", return_value=True
+        ):
             with self.assertRaisesRegex(ValueError, "symlink"):
                 self.sample()
         self.assertFalse(self.output.exists())

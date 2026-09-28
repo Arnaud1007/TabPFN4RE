@@ -5,6 +5,7 @@ downloads data or treats an engineering split as the historical holdout.
 """
 
 import math
+import hashlib
 import os
 from pathlib import Path
 import sys
@@ -15,6 +16,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from tabpfn4realestate.ames import (  # noqa: E402
+    Split,
     engineering_split,
     fit_median_baseline,
     load_ames_arff,
@@ -89,6 +91,27 @@ class AmesSourceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Id|duplicate"):
             load_ames_arff(path)
 
+    def test_verifies_source_checksum_and_size_before_parsing(self) -> None:
+        path = self.write_arff(
+            "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",
+            "1,100000\n",
+        )
+        expected = hashlib.sha256(path.read_bytes()).hexdigest()
+        self.assertEqual(len(load_ames_arff(path, expected_sha256=expected)), 1)
+        with self.assertRaisesRegex(ValueError, "SHA-256"):
+            load_ames_arff(path, expected_sha256="0" * 64)
+        with self.assertRaisesRegex(ValueError, "size|bytes"):
+            load_ames_arff(path, max_bytes=path.stat().st_size - 1)
+
+    def test_handles_arff_quoted_categorical_comma(self) -> None:
+        path = self.write_arff(
+            "@ATTRIBUTE Id NUMERIC\n"
+            "@ATTRIBUTE Neighborhood STRING\n"
+            "@ATTRIBUTE SalePrice NUMERIC",
+            "1,'North, East',100000\n",
+        )
+        self.assertEqual(load_ames_arff(path)[0]["Neighborhood"], "North, East")
+
 
 class EngineeringSplitTests(unittest.TestCase):
     def test_split_is_deterministic_disjoint_and_explicitly_engineering(self) -> None:
@@ -118,23 +141,29 @@ class MedianBaselineTests(unittest.TestCase):
     def test_fits_development_median_and_predicts_positive_price(self) -> None:
         rows = [ames_row(1, 100), ames_row(2, 200), ames_row(3, 400)]
 
-        model = fit_median_baseline(rows, reserved_ids={"4"})
+        model = fit_median_baseline(rows, split=Split(("1", "2", "3"), ("4",)))
 
         self.assertEqual(model.predict([ames_row(4, 999), ames_row(5, 999)]), [200.0, 200.0])
 
     def test_refuses_any_reserved_id_in_fit(self) -> None:
         rows = [ames_row(1, 100), ames_row(2, 200)]
 
-        with self.assertRaisesRegex(ValueError, "reserved|Id"):
-            fit_median_baseline(rows, reserved_ids={"2"})
+        with self.assertRaisesRegex(ValueError, "reserved|development|Id"):
+            fit_median_baseline(rows, split=Split(("1",), ("2",)))
+
+    def test_requires_split_context_at_fit(self) -> None:
+        with self.assertRaises(TypeError):
+            fit_median_baseline([ames_row(1, 100)])
 
     def test_refuses_empty_or_invalid_training_targets(self) -> None:
         with self.assertRaises(ValueError):
-            fit_median_baseline([])
+            fit_median_baseline([], split=Split(("1",), ("2",)))
         for bad_price in (0, -1, float("nan"), float("inf"), None):
             with self.subTest(price=bad_price):
                 with self.assertRaises(ValueError):
-                    fit_median_baseline([ames_row(1, bad_price)])
+                    fit_median_baseline(
+                        [ames_row(1, bad_price)], split=Split(("1",), ("2",))
+                    )
 
 
 class MetricTests(unittest.TestCase):
@@ -160,7 +189,11 @@ class MetricTests(unittest.TestCase):
 class RealAmesSourceTests(unittest.TestCase):
     def test_openml_source_has_expected_row_count_and_identifiers(self) -> None:
         path = Path(os.environ["AMES_ARFF_PATH"])
-        rows = load_ames_arff(path, expected_rows=1460)
+        rows = load_ames_arff(
+            path,
+            expected_rows=1460,
+            expected_sha256="10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+        )
         self.assertEqual(len({row["Id"] for row in rows}), 1460)
         self.assertTrue(all(float(row["SalePrice"]) > 0 for row in rows))
 

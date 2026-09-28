@@ -1,0 +1,188 @@
+"""Auditable, non-certifying 200-row Ames engineering run."""
+
+from __future__ import annotations
+
+import csv
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import platform
+import subprocess
+import sys
+import time
+from typing import Any
+from uuid import uuid4
+
+from .ames import (
+    engineering_split,
+    fit_median_baseline,
+    load_ames_arff,
+    median_absolute_percentage_error,
+    signed_percentage_error,
+)
+
+
+_ROOT = Path(__file__).resolve().parents[2]
+_POLICY = _ROOT / "policies" / "ames-smoke.json"
+_LOCK = _ROOT / "locks" / "ames-smoke-environment.json"
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _json_bytes(value: Any) -> bytes:
+    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def _write_json(path: Path, value: Any) -> None:
+    path.write_bytes(_json_bytes(value))
+
+
+def _git_state() -> tuple[str | None, bool]:
+    commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=_ROOT, capture_output=True, text=True, check=False
+    )
+    status = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=_ROOT, capture_output=True, text=True,
+        check=False,
+    )
+    if commit.returncode != 0 or status.returncode != 0:
+        return None, True
+    return commit.stdout.strip(), bool(status.stdout.strip())
+
+
+def _locked_inputs() -> tuple[str, str]:
+    lock = json.loads(_LOCK.read_text(encoding="utf-8"))
+    if lock["python_implementation"] != platform.python_implementation():
+        raise RuntimeError("Ames smoke Python implementation differs from environment lock")
+    if lock["python_version"] != platform.python_version():
+        raise RuntimeError("Ames smoke Python version differs from environment lock")
+    policy = json.loads(_POLICY.read_text(encoding="utf-8"))
+    if policy["protocol_id"] != "ames_engineering_v1" or policy["model_input_features"]:
+        raise RuntimeError("Ames smoke feature policy is incompatible")
+    return _sha256(_LOCK), _sha256(_POLICY)
+
+
+def _write_predictions(path: Path, reserved_rows: list[dict[str, str]], price: float) -> None:
+    with path.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=["Id", "actual", "predicted"])
+        writer.writeheader()
+        writer.writerows(
+            {"Id": row["Id"], "actual": row["SalePrice"], "predicted": price}
+            for row in reserved_rows
+        )
+
+
+def run_smoke(
+    source_path: str | Path,
+    output_dir: str | Path,
+    *,
+    expected_sha256: str,
+    sample_size: int = 200,
+    seed: int = 42,
+) -> Path:
+    """Run one engineering check and retain its evidence under a unique ID."""
+    started = time.monotonic()
+    commit, dirty_tree = _git_state()
+    run_id = f"u0-ames-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid4().hex[:12]}"
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    staging = output / f".incomplete-{run_id}"
+    final = output / run_id
+    staging.mkdir()
+
+    try:
+        if sample_size < 2:
+            raise ValueError("sample_size must be at least 2 rows")
+        lock_sha256, policy_sha256 = _locked_inputs()
+        source = Path(source_path)
+        rows = load_ames_arff(source, expected_sha256=expected_sha256)
+        if len(rows) < sample_size:
+            raise ValueError(f"Source has {len(rows)} rows, fewer than sample_size {sample_size}")
+        selected = rows[:sample_size]
+        split = engineering_split(selected, seed=seed)
+        development = set(split.development_ids)
+        reserved = set(split.reserved_ids)
+        train_rows = [row for row in selected if row["Id"] in development]
+        reserved_rows = [row for row in selected if row["Id"] in reserved]
+        model = fit_median_baseline(train_rows, split=split)
+        predictions = model.predict(reserved_rows)
+        actuals = [float(row["SalePrice"]) for row in reserved_rows]
+
+        config = {
+            "protocol_id": split.protocol_id,
+            "sample_size": sample_size,
+            "seed": seed,
+            "model": "median_baseline_v1",
+            "selection": "first_n_source_rows",
+        }
+        _write_json(staging / "config.json", config)
+        _write_json(staging / "split.json", {
+            "protocol_id": split.protocol_id,
+            "development_ids": split.development_ids,
+            "reserved_ids": split.reserved_ids,
+        })
+        _write_json(staging / "baseline.json", {"median_price": model.median_price})
+        _write_predictions(staging / "predictions.csv", reserved_rows, model.median_price)
+        errors = [signed_percentage_error(actual, predicted)
+                  for actual, predicted in zip(actuals, predictions, strict=True)]
+        _write_json(staging / "metrics.json", {
+            "count": len(errors),
+            "mdape": median_absolute_percentage_error(actuals, predictions),
+            "within_10": sum(abs(error) <= 0.10 for error in errors) / len(errors),
+        })
+        _write_json(staging / "manifest.json", {
+            "run_id": run_id,
+            "status": "complete",
+            "protocol_id": split.protocol_id,
+            "certification_eligible": False,
+            "code_commit": commit,
+            "dirty_tree": dirty_tree,
+            "source_sha256": _sha256(source),
+            "data_snapshot_hash": _sha256(source),
+            "split_sha256": _sha256(staging / "split.json"),
+            "config_sha256": _sha256(staging / "config.json"),
+            "feature_policy_sha256": policy_sha256,
+            "environment_lock_sha256": lock_sha256,
+            "checkpoint_identity": "median_baseline_v1",
+            "checkpoint_sha256": _sha256(staging / "baseline.json"),
+            "predictions_sha256": _sha256(staging / "predictions.csv"),
+            "duration_seconds": time.monotonic() - started,
+        })
+        staging.rename(final)
+        return final
+    except Exception as error:
+        _write_json(staging / "manifest.json", {
+            "run_id": run_id,
+            "status": "failed",
+            "protocol_id": "ames_engineering_v1",
+            "certification_eligible": False,
+            "code_commit": commit,
+            "dirty_tree": dirty_tree,
+            "error_type": type(error).__name__,
+            "error_message": str(error),
+        })
+        raise
+
+
+def main() -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("source", type=Path)
+    parser.add_argument("--sha256", required=True)
+    parser.add_argument("--output", type=Path, default=_ROOT / "runs")
+    arguments = parser.parse_args()
+    run_dir = run_smoke(arguments.source, arguments.output, expected_sha256=arguments.sha256)
+    print(run_dir)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

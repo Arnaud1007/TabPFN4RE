@@ -4,15 +4,18 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
+import hashlib
+import io
 import math
 from pathlib import Path
 import random
 import re
 from statistics import median
-from typing import Collection, Mapping, Sequence
+from typing import Mapping, Sequence
 
 
 _ATTRIBUTE = re.compile(r"@attribute\s+(?:'([^']+)'|\"([^\"]+)\"|(\S+))", re.I)
+_MAX_AMES_BYTES = 10_000_000
 
 
 def _positive_number(value: object, field: str) -> float:
@@ -34,9 +37,25 @@ def _row_id(row: Mapping[str, object]) -> str:
     return str(value).strip()
 
 
-def load_ames_arff(path: str | Path, *, expected_rows: int | None = None) -> list[dict[str, str]]:
+def load_ames_arff(
+    path: str | Path,
+    *,
+    expected_rows: int | None = None,
+    expected_sha256: str | None = None,
+    max_bytes: int = _MAX_AMES_BYTES,
+) -> list[dict[str, str]]:
     """Load the original ARFF without inferring dates or a legacy split."""
-    with Path(path).open(encoding="utf-8-sig", newline="") as source:
+    source_path = Path(path)
+    if max_bytes <= 0 or source_path.stat().st_size > max_bytes:
+        raise ValueError(f"ARFF size exceeds {max_bytes} bytes")
+    source_bytes = source_path.read_bytes()
+    if len(source_bytes) > max_bytes:
+        raise ValueError(f"ARFF size exceeds {max_bytes} bytes")
+    source_sha256 = hashlib.sha256(source_bytes).hexdigest()
+    if expected_sha256 is not None and source_sha256 != expected_sha256.lower():
+        raise ValueError("ARFF SHA-256 checksum does not match")
+
+    with io.StringIO(source_bytes.decode("utf-8-sig")) as source:
         attributes: list[str] = []
         for line in source:
             stripped = line.strip()
@@ -56,7 +75,10 @@ def load_ames_arff(path: str | Path, *, expected_rows: int | None = None) -> lis
             raise ValueError("Ames schema requires Id and SalePrice")
 
         records = csv.reader(
-            line for line in source if line.strip() and not line.lstrip().startswith("%")
+            (line for line in source if line.strip() and not line.lstrip().startswith("%")),
+            quotechar="'",
+            escapechar="\\",
+            strict=True,
         )
         rows: list[dict[str, str]] = []
         identifiers: set[str] = set()
@@ -70,6 +92,8 @@ def load_ames_arff(path: str | Path, *, expected_rows: int | None = None) -> lis
             _positive_number(row["SalePrice"], "SalePrice")
             identifiers.add(identifier)
             rows.append(row)
+            if expected_rows is not None and len(rows) > expected_rows:
+                raise ValueError(f"Expected {expected_rows} rows, found more")
 
     if expected_rows is not None and len(rows) != expected_rows:
         raise ValueError(f"Expected {expected_rows} rows, found {len(rows)}")
@@ -102,13 +126,24 @@ class MedianBaseline:
 
 
 def fit_median_baseline(
-    rows: Sequence[Mapping[str, object]], *, reserved_ids: Collection[str] = ()
+    rows: Sequence[Mapping[str, object]], *, split: Split
 ) -> MedianBaseline:
     if not rows:
         raise ValueError("Median baseline needs training rows")
-    reserved = set(reserved_ids)
-    if any(_row_id(row) in reserved for row in rows):
-        raise ValueError("Fit includes a reserved Id")
+    development = set(split.development_ids)
+    reserved = set(split.reserved_ids)
+    if (
+        split.protocol_id != "ames_engineering_v1"
+        or not development
+        or not reserved
+        or development & reserved
+        or len(development) != len(split.development_ids)
+        or len(reserved) != len(split.reserved_ids)
+    ):
+        raise ValueError("Invalid engineering split")
+    fit_ids = [_row_id(row) for row in rows]
+    if len(set(fit_ids)) != len(fit_ids) or not set(fit_ids).issubset(development):
+        raise ValueError("Fit includes a reserved or non-development Id")
     prices = [_positive_number(row.get("SalePrice"), "SalePrice") for row in rows]
     return MedianBaseline(float(median(prices)))
 

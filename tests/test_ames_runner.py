@@ -62,7 +62,9 @@ class AmesRunnerTests(unittest.TestCase):
         )
 
     def completed_manifests(self) -> list[Path]:
-        manifests = self.output_dir.rglob("manifest.json") if self.output_dir.exists() else ()
+        manifests = (
+            self.output_dir.rglob("manifest.json") if self.output_dir.exists() else ()
+        )
         return [
             path
             for path in manifests
@@ -78,9 +80,12 @@ class AmesRunnerTests(unittest.TestCase):
         predictions_path = run_dir / "predictions.csv"
         metrics_path = run_dir / "metrics.json"
         manifest_path = run_dir / "manifest.json"
-        self.assertTrue(all(path.is_file() for path in (
-            split_path, predictions_path, metrics_path, manifest_path
-        )))
+        self.assertTrue(
+            all(
+                path.is_file()
+                for path in (split_path, predictions_path, metrics_path, manifest_path)
+            )
+        )
 
         split = json.loads(split_path.read_text(encoding="utf-8"))
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -99,10 +104,12 @@ class AmesRunnerTests(unittest.TestCase):
         self.assertTrue({"Id", "actual", "predicted"}.issubset(predictions[0]))
 
         # The baseline must never include reserved labels in its fitted median.
-        expected_median = statistics.median(100000 + int(identifier) * 1000
-                                            for identifier in development)
-        self.assertTrue(all(float(row["predicted"]) == expected_median
-                            for row in predictions))
+        expected_median = statistics.median(
+            100000 + int(identifier) * 1000 for identifier in development
+        )
+        self.assertTrue(
+            all(float(row["predicted"]) == expected_median for row in predictions)
+        )
         for row in predictions:
             self.assertEqual(float(row["actual"]), 100000 + int(row["Id"]) * 1000)
         expected_mdape = statistics.median(
@@ -135,20 +142,33 @@ class AmesRunnerTests(unittest.TestCase):
         else:
             self.assertIsNone(manifest["environment_lock_sha256"])
 
-    def test_identical_runs_are_reproducible_but_never_overwrite_each_other(self) -> None:
+    def test_identical_runs_are_reproducible_but_never_overwrite_each_other(
+        self,
+    ) -> None:
         first = self.run_fixture()
         second = self.run_fixture()
 
         self.assertNotEqual(first, second)
-        self.assertEqual((first / "split.json").read_bytes(),
-                         (second / "split.json").read_bytes())
-        self.assertEqual((first / "predictions.csv").read_bytes(),
-                         (second / "predictions.csv").read_bytes())
-        first_manifest = json.loads((first / "manifest.json").read_text(encoding="utf-8"))
-        second_manifest = json.loads((second / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            (first / "split.json").read_bytes(), (second / "split.json").read_bytes()
+        )
+        self.assertEqual(
+            (first / "predictions.csv").read_bytes(),
+            (second / "predictions.csv").read_bytes(),
+        )
+        first_manifest = json.loads(
+            (first / "manifest.json").read_text(encoding="utf-8")
+        )
+        second_manifest = json.loads(
+            (second / "manifest.json").read_text(encoding="utf-8")
+        )
         self.assertNotEqual(first_manifest["run_id"], second_manifest["run_id"])
-        self.assertEqual(first_manifest["config_sha256"], second_manifest["config_sha256"])
-        self.assertEqual(first_manifest["split_sha256"], second_manifest["split_sha256"])
+        self.assertEqual(
+            first_manifest["config_sha256"], second_manifest["config_sha256"]
+        )
+        self.assertEqual(
+            first_manifest["split_sha256"], second_manifest["split_sha256"]
+        )
 
     def test_hash_mismatch_fails_without_completed_run(self) -> None:
         with self.assertRaisesRegex(ValueError, "hash|SHA|checksum"):
@@ -176,7 +196,9 @@ class AmesRunnerTests(unittest.TestCase):
         small_source = self.write_source(199)
 
         with self.assertRaisesRegex(ValueError, "sample|row|200"):
-            run_smoke(small_source, self.output_dir, expected_sha256=sha256(small_source))
+            run_smoke(
+                small_source, self.output_dir, expected_sha256=sha256(small_source)
+            )
 
         self.assertEqual(self.completed_manifests(), [])
 
@@ -204,7 +226,9 @@ class AmesRunnerTests(unittest.TestCase):
                 actual.protocol_id,
             )
 
-        with patch.object(ames_smoke, "engineering_split", side_effect=mismatched_split):
+        with patch.object(
+            ames_smoke, "engineering_split", side_effect=mismatched_split
+        ):
             with self.assertRaisesRegex(ValueError, "partition|split|Id|membership"):
                 self.run_fixture()
 
@@ -234,8 +258,12 @@ class AmesRunnerTests(unittest.TestCase):
         manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(manifest["environment_lock_sha256"], sha256(lock))
         self.assertEqual(manifest["feature_policy_sha256"], sha256(policy))
-        self.assertEqual((run_dir / "environment.lock.json").read_bytes(), lock.read_bytes())
-        self.assertEqual((run_dir / "feature_policy.json").read_bytes(), policy.read_bytes())
+        self.assertEqual(
+            (run_dir / "environment.lock.json").read_bytes(), lock.read_bytes()
+        )
+        self.assertEqual(
+            (run_dir / "feature_policy.json").read_bytes(), policy.read_bytes()
+        )
 
     def test_dirty_tree_is_explicitly_not_replayable(self) -> None:
         with patch.object(ames_smoke, "_git_state", return_value=("a" * 40, True)):
@@ -245,14 +273,18 @@ class AmesRunnerTests(unittest.TestCase):
         self.assertIs(manifest["dirty_tree"], True)
         self.assertIs(manifest["replayable"], False)
 
-    def test_git_state_ignores_untracked_runs_but_detects_tracked_code_change(self) -> None:
+    def test_git_state_ignores_untracked_runs_but_detects_tracked_code_change(
+        self,
+    ) -> None:
         repository = self.work_dir / "fixture_repo"
         repository.mkdir()
 
         def git(*args: str) -> None:
             subprocess.run(
                 ["git", "-C", str(repository), *args],
-                check=True, capture_output=True, text=True,
+                check=True,
+                capture_output=True,
+                text=True,
             )
 
         git("init", "-q")
@@ -261,8 +293,14 @@ class AmesRunnerTests(unittest.TestCase):
         code.write_text("BASELINE = 1\n", encoding="utf-8")
         git("add", "src/ames_smoke.py")
         git(
-            "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
-            "commit", "-q", "-m", "base",
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-q",
+            "-m",
+            "base",
         )
 
         run_artifact = repository / "runs" / "u0-fixture" / "manifest.json"
@@ -303,18 +341,24 @@ class AmesRunnerTests(unittest.TestCase):
         self.assertIsNone(manifest["code_commit"])
         self.assertIs(manifest["replayable"], False)
 
-    def test_ignored_untracked_lock_and_policy_cannot_be_attested_by_clean_commit(self) -> None:
+    def test_ignored_untracked_lock_and_policy_cannot_be_attested_by_clean_commit(
+        self,
+    ) -> None:
         project_root = self.work_dir / "ignored_config_repo"
         project_root.mkdir()
 
         def git(*args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
             return subprocess.run(
                 ["git", "-C", str(project_root), *args],
-                check=check, capture_output=True, text=True,
+                check=check,
+                capture_output=True,
+                text=True,
             )
 
         git("init", "-q")
-        (project_root / ".gitignore").write_text("locks/\npolicies/\n", encoding="utf-8")
+        (project_root / ".gitignore").write_text(
+            "locks/\npolicies/\n", encoding="utf-8"
+        )
         module_dir = project_root / "src" / "tabpfn4realestate"
         module_dir.mkdir(parents=True)
         ames_copy = module_dir / "ames.py"
@@ -327,24 +371,38 @@ class AmesRunnerTests(unittest.TestCase):
         policy.parent.mkdir()
         lock.write_bytes((PROJECT_ROOT / "locks" / lock.name).read_bytes())
         policy.write_bytes((PROJECT_ROOT / "policies" / policy.name).read_bytes())
-        git("add", ".gitignore", "src/tabpfn4realestate/ames.py",
-            "src/tabpfn4realestate/ames_smoke.py")
         git(
-            "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
-            "commit", "-q", "-m", "tracked code only",
+            "add",
+            ".gitignore",
+            "src/tabpfn4realestate/ames.py",
+            "src/tabpfn4realestate/ames_smoke.py",
+        )
+        git(
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-q",
+            "-m",
+            "tracked code only",
         )
 
         commit, dirty = ames_smoke._git_state(project_root)
         self.assertRegex(commit or "", r"^[0-9a-f]{40}$")
         self.assertIs(dirty, False)
         for path in ("locks/ames-smoke-environment.json", "policies/ames-smoke.json"):
-            self.assertNotEqual(git("ls-files", "--error-unmatch", path, check=False).returncode, 0)
+            self.assertNotEqual(
+                git("ls-files", "--error-unmatch", path, check=False).returncode, 0
+            )
             self.assertEqual(git("check-ignore", path).returncode, 0)
 
         # The copied code bytes are tracked, so the only provenance defect is
         # that required configuration bytes are absent from the claimed commit.
-        with patch.object(ames_module, "__file__", str(ames_copy)), \
-             patch.object(ames_smoke, "__file__", str(runner_copy)):
+        with (
+            patch.object(ames_module, "__file__", str(ames_copy)),
+            patch.object(ames_smoke, "__file__", str(runner_copy)),
+        ):
             run_dir = run_smoke(
                 self.source,
                 self.output_dir,
@@ -360,12 +418,16 @@ class AmesRunnerTests(unittest.TestCase):
     def test_source_change_after_load_cannot_complete_run(self) -> None:
         original_load = ames_smoke.load_ames_arff
 
-        def change_source_after_load(path: Path, **kwargs: object) -> list[dict[str, str]]:
+        def change_source_after_load(
+            path: Path, **kwargs: object
+        ) -> list[dict[str, str]]:
             rows = original_load(path, **kwargs)
             path.write_bytes(path.read_bytes() + b"\n% changed after verified load\n")
             return rows
 
-        with patch.object(ames_smoke, "load_ames_arff", side_effect=change_source_after_load):
+        with patch.object(
+            ames_smoke, "load_ames_arff", side_effect=change_source_after_load
+        ):
             with self.assertRaises((ValueError, RuntimeError)):
                 self.run_fixture()
 
@@ -380,7 +442,9 @@ class AmesRunnerTests(unittest.TestCase):
             original_rename(staging, final)
             raise OSError("injected final rename failure")
 
-        with patch.object(Path, "rename", autospec=True, side_effect=move_then_report_failure):
+        with patch.object(
+            Path, "rename", autospec=True, side_effect=move_then_report_failure
+        ):
             with self.assertRaises(OSError):
                 self.run_fixture()
 

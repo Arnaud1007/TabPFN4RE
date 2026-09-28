@@ -101,7 +101,9 @@ class AmesSourceTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Id|identifier"):
                     load_ames_arff(path)
 
-    def test_canonicalizes_padded_numeric_id_and_rejects_canonical_duplicate(self) -> None:
+    def test_canonicalizes_padded_numeric_id_and_rejects_canonical_duplicate(
+        self,
+    ) -> None:
         padded = self.write_arff(
             "@ATTRIBUTE Id NUMERIC\n@ATTRIBUTE SalePrice NUMERIC",
             " 1 ,100000\n 2 ,200000\n",
@@ -139,7 +141,9 @@ class AmesSourceTests(unittest.TestCase):
 
 class EngineeringSplitTests(unittest.TestCase):
     def test_split_is_deterministic_disjoint_and_explicitly_engineering(self) -> None:
-        rows = [ames_row(identifier, 100000 + identifier) for identifier in range(1, 11)]
+        rows = [
+            ames_row(identifier, 100000 + identifier) for identifier in range(1, 11)
+        ]
 
         first = engineering_split(rows, seed=42)
         second = engineering_split(rows, seed=42)
@@ -167,7 +171,9 @@ class MedianBaselineTests(unittest.TestCase):
 
         model = fit_median_baseline(rows, split=Split(("1", "2", "3"), ("4",)))
 
-        self.assertEqual(model.predict([ames_row(4, 999), ames_row(5, 999)]), [200.0, 200.0])
+        self.assertEqual(
+            model.predict([ames_row(4, 999), ames_row(5, 999)]), [200.0, 200.0]
+        )
 
     def test_refuses_any_reserved_id_in_fit(self) -> None:
         rows = [ames_row(1, 100), ames_row(2, 200)]
@@ -213,7 +219,9 @@ class MetricTests(unittest.TestCase):
             signed_percentage_error(1e-320, 1e308)
 
 
-@unittest.skipUnless(os.environ.get("AMES_ARFF_PATH"), "set AMES_ARFF_PATH for source integration")
+@unittest.skipUnless(
+    os.environ.get("AMES_ARFF_PATH"), "set AMES_ARFF_PATH for source integration"
+)
 class RealAmesSourceTests(unittest.TestCase):
     def test_openml_source_has_expected_row_count_and_identifiers(self) -> None:
         path = Path(os.environ["AMES_ARFF_PATH"])

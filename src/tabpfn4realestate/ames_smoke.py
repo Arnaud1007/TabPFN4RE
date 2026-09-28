@@ -37,7 +37,9 @@ def _sha256_bytes(value: bytes) -> str:
 
 
 def _json_bytes(value: Any) -> bytes:
-    return (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode("utf-8")
+    return (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode(
+        "utf-8"
+    )
 
 
 def _write_json(path: Path, value: Any) -> None:
@@ -46,12 +48,25 @@ def _write_json(path: Path, value: Any) -> None:
 
 def _git_state(project_root: Path) -> tuple[str | None, bool]:
     commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=project_root, capture_output=True, text=True,
+        ["git", "rev-parse", "HEAD"],
+        cwd=project_root,
+        capture_output=True,
+        text=True,
         check=False,
     )
     status = subprocess.run(
-        ["git", "status", "--porcelain", "--untracked-files=all", "--", ".", ":(exclude)runs"],
-        cwd=project_root, capture_output=True, text=True,
+        [
+            "git",
+            "status",
+            "--porcelain",
+            "--untracked-files=all",
+            "--",
+            ".",
+            ":(exclude)runs",
+        ],
+        cwd=project_root,
+        capture_output=True,
+        text=True,
         check=False,
     )
     if commit.returncode != 0 or status.returncode != 0:
@@ -67,12 +82,20 @@ def _executed_modules(
         "tabpfn4realestate.ames_smoke": Path(__file__).resolve(),
     }
     expected = {
-        "tabpfn4realestate.ames": project_root / "src" / "tabpfn4realestate" / "ames.py",
-        "tabpfn4realestate.ames_smoke": project_root / "src" / "tabpfn4realestate" / "ames_smoke.py",
+        "tabpfn4realestate.ames": project_root
+        / "src"
+        / "tabpfn4realestate"
+        / "ames.py",
+        "tabpfn4realestate.ames_smoke": project_root
+        / "src"
+        / "tabpfn4realestate"
+        / "ames_smoke.py",
     }
     contents = {name: path.read_bytes() for name, path in module_files.items()}
     hashes = {name: _sha256_bytes(value) for name, value in contents.items()}
-    in_project = all(path == expected[name].resolve() for name, path in module_files.items())
+    in_project = all(
+        path == expected[name].resolve() for name, path in module_files.items()
+    )
     return hashes, in_project, contents
 
 
@@ -87,18 +110,25 @@ def _committed_inputs_match(
         return False
     required = {
         "src/tabpfn4realestate/ames.py": module_bytes["tabpfn4realestate.ames"],
-        "src/tabpfn4realestate/ames_smoke.py": module_bytes["tabpfn4realestate.ames_smoke"],
+        "src/tabpfn4realestate/ames_smoke.py": module_bytes[
+            "tabpfn4realestate.ames_smoke"
+        ],
         "locks/ames-smoke-environment.json": lock_bytes,
         "policies/ames-smoke.json": policy_bytes,
     }
     for relative, content in required.items():
         head = subprocess.run(
             ["git", "rev-parse", f"{commit}:{relative}"],
-            cwd=project_root, capture_output=True, check=False,
+            cwd=project_root,
+            capture_output=True,
+            check=False,
         )
         current = subprocess.run(
             ["git", "hash-object", "--stdin", f"--path={relative}"],
-            cwd=project_root, input=content, capture_output=True, check=False,
+            cwd=project_root,
+            input=content,
+            capture_output=True,
+            check=False,
         )
         if (
             head.returncode != 0
@@ -114,7 +144,9 @@ def _locked_inputs(project_root: Path) -> tuple[bytes, bytes, dict[str, Any]]:
     policy_bytes = (project_root / "policies" / "ames-smoke.json").read_bytes()
     lock = json.loads(lock_bytes)
     if lock["python_implementation"] != platform.python_implementation():
-        raise RuntimeError("Ames smoke Python implementation differs from environment lock")
+        raise RuntimeError(
+            "Ames smoke Python implementation differs from environment lock"
+        )
     if lock["python_version"] != platform.python_version():
         raise RuntimeError("Ames smoke Python version differs from environment lock")
     policy = json.loads(policy_bytes)
@@ -133,7 +165,9 @@ def _copy_source_bounded(source: Path, destination: Path) -> None:
             saved.write(chunk)
 
 
-def _write_predictions(path: Path, reserved_rows: list[dict[str, str]], price: float) -> None:
+def _write_predictions(
+    path: Path, reserved_rows: list[dict[str, str]], price: float
+) -> None:
     with path.open("w", encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=["Id", "actual", "predicted"])
         writer.writeheader()
@@ -182,7 +216,9 @@ def run_smoke(
         if source_sha256 != expected_sha256.lower():
             raise ValueError("Source SHA-256 changed after verified load")
         if len(rows) < sample_size:
-            raise ValueError(f"Source has {len(rows)} rows, fewer than sample_size {sample_size}")
+            raise ValueError(
+                f"Source has {len(rows)} rows, fewer than sample_size {sample_size}"
+            )
         is_official = (
             source_sha256 == policy["official_source_sha256"]
             and len(rows) == policy["official_source_rows"]
@@ -205,7 +241,9 @@ def run_smoke(
             or len(train_rows) != len(split.development_ids)
             or len(reserved_rows) != len(split.reserved_ids)
         ):
-            raise ValueError("Engineering split partition does not match selected Id values")
+            raise ValueError(
+                "Engineering split partition does not match selected Id values"
+            )
         model = fit_median_baseline(train_rows, split=split)
         predictions = model.predict(reserved_rows)
         actuals = [float(row["SalePrice"]) for row in reserved_rows]
@@ -218,20 +256,30 @@ def run_smoke(
             "selection": "first_n_source_rows",
         }
         _write_json(staging / "config.json", config)
-        _write_json(staging / "split.json", {
-            "protocol_id": split.protocol_id,
-            "development_ids": split.development_ids,
-            "reserved_ids": split.reserved_ids,
-        })
+        _write_json(
+            staging / "split.json",
+            {
+                "protocol_id": split.protocol_id,
+                "development_ids": split.development_ids,
+                "reserved_ids": split.reserved_ids,
+            },
+        )
         _write_json(staging / "baseline.json", {"median_price": model.median_price})
-        _write_predictions(staging / "predictions.csv", reserved_rows, model.median_price)
-        errors = [signed_percentage_error(actual, predicted)
-                  for actual, predicted in zip(actuals, predictions, strict=True)]
-        _write_json(staging / "metrics.json", {
-            "count": len(errors),
-            "mdape": median_absolute_percentage_error(actuals, predictions),
-            "within_10": sum(abs(error) <= 0.10 for error in errors) / len(errors),
-        })
+        _write_predictions(
+            staging / "predictions.csv", reserved_rows, model.median_price
+        )
+        errors = [
+            signed_percentage_error(actual, predicted)
+            for actual, predicted in zip(actuals, predictions, strict=True)
+        ]
+        _write_json(
+            staging / "metrics.json",
+            {
+                "count": len(errors),
+                "mdape": median_absolute_percentage_error(actuals, predictions),
+                "within_10": sum(abs(error) <= 0.10 for error in errors) / len(errors),
+            },
+        )
         manifest = {
             "run_id": run_id,
             "status": "incomplete",
@@ -261,16 +309,19 @@ def run_smoke(
         return final
     except Exception as error:
         failure_dir = final if final.exists() else staging
-        _write_json(failure_dir / "manifest.json", {
-            "run_id": run_id,
-            "status": "failed",
-            "protocol_id": "ames_engineering_v1",
-            "certification_eligible": False,
-            "code_commit": commit,
-            "dirty_tree": dirty_tree,
-            "error_type": type(error).__name__,
-            "error_message": str(error),
-        })
+        _write_json(
+            failure_dir / "manifest.json",
+            {
+                "run_id": run_id,
+                "status": "failed",
+                "protocol_id": "ames_engineering_v1",
+                "certification_eligible": False,
+                "code_commit": commit,
+                "dirty_tree": dirty_tree,
+                "error_type": type(error).__name__,
+                "error_message": str(error),
+            },
+        )
         raise
 
 

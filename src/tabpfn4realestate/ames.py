@@ -67,7 +67,9 @@ def load_ames_arff(
                 match = _ATTRIBUTE.match(stripped)
                 if match is None:
                     raise ValueError(f"Invalid ARFF attribute: {stripped}")
-                attributes.append(next(part for part in match.groups() if part is not None))
+                attributes.append(
+                    next(part for part in match.groups() if part is not None)
+                )
         else:
             raise ValueError("ARFF @DATA section is missing")
 
@@ -77,7 +79,11 @@ def load_ames_arff(
             raise ValueError("Ames schema requires Id and SalePrice")
 
         records = csv.reader(
-            (line for line in source if line.strip() and not line.lstrip().startswith("%")),
+            (
+                line
+                for line in source
+                if line.strip() and not line.lstrip().startswith("%")
+            ),
             quotechar="'",
             escapechar="\\",
             strict=True,
@@ -86,7 +92,9 @@ def load_ames_arff(
         identifiers: set[str] = set()
         for index, record in enumerate(records, start=1):
             if len(record) != len(attributes):
-                raise ValueError(f"ARFF row {index} has {len(record)} fields, expected {len(attributes)}")
+                raise ValueError(
+                    f"ARFF row {index} has {len(record)} fields, expected {len(attributes)}"
+                )
             raw_row = dict(zip(attributes, record, strict=True))
             identifier = _row_id(raw_row)
             if identifier in identifiers:
@@ -164,5 +172,9 @@ def median_absolute_percentage_error(
 ) -> float:
     if not actuals or len(actuals) != len(predictions):
         raise ValueError("Metrics require equal nonempty actual and prediction lengths")
-    return float(median(abs(signed_percentage_error(actual, predicted))
-                        for actual, predicted in zip(actuals, predictions, strict=True)))
+    return float(
+        median(
+            abs(signed_percentage_error(actual, predicted))
+            for actual, predicted in zip(actuals, predictions, strict=True)
+        )
+    )

@@ -1,0 +1,12 @@
+$ -m coverage run --branch --source=capture_nyc_rolling_snapshot -m unittest tests.test_capture_nyc_rolling_snapshot -q
+----------------------------------------------------------------------
+Ran 19 tests in 0.745s
+
+OK
+
+$ -m coverage report -m --fail-under=80 scripts/capture_nyc_rolling_snapshot.py
+Name                                      Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------
+scripts/capture_nyc_rolling_snapshot.py     188     30     70     20    81%   55, 70-71, 79, 82-83, 85, 88, 91, 103, 128, 136, 139-140, 146, 149, 152, 168, 172, 174, 182, 215, 219, 246, 296-300, 304
+-------------------------------------------------------------------------------------
+TOTAL                                       188     30     70     20    81%

@@ -1,5 +1,5 @@
 source_id: nyc_dof_rolling_usep_8jbt
-status: candidate_metadata_audited_not_ingested
+status: candidate_private_snapshot_inventory_only
 publisher: New York City Department of Finance
 dataset_name: NYC Citywide Rolling Calendar Sales
 dataset_id: usep-8jbt
@@ -14,6 +14,12 @@ aggregate_inventory: runs/u0-nyc-api-inventory-20260928T220444Z/inventory.json
 aggregate_api_rows_at_inventory: 82345
 aggregate_api_sale_date_range: ['2025-09-01', '2026-08-31']
 aggregate_count_semantics: mutable API rows, not eligible transfers or properties
+private_snapshot_manifest: runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json
+private_snapshot_sha256: 84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2
+private_snapshot_bytes: 10397977
+private_snapshot_rows: 82345
+private_snapshot_known_by_utc: 2026-09-28T22:55:43.929203Z
+private_snapshot_status: inventory_only_not_asof_eligible
 geography: New York City, five boroughs
 documented_date_range_at_retrieval: September 2025 through August 2026
 refresh_schedule: monthly; around the 15th for sales recorded through the preceding month

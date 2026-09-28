@@ -1,0 +1,27 @@
+{
+  "availability_note": "Capture completion is the conservative known-by time for this file; HTTP Last-Modified and portal update timestamps do not establish per-row first availability or historical as-of eligibility.",
+  "bytes": 10397977,
+  "capture_completed_at_utc": "2026-09-28T22:55:43.929203Z",
+  "capture_started_at_utc": "2026-09-28T22:55:30.250496Z",
+  "capture_status": "inventory_only_not_asof_eligible",
+  "conservative_known_by_at_utc": "2026-09-28T22:55:43.929203Z",
+  "header_kind": "name",
+  "http": {
+    "content_type": "text/csv; charset=utf-8",
+    "etag": "W/\"Zm94dHJvdC42NzE1N180XzY1SFJYY3JIYzJON1Z4T1pic3d5SzdoX29qNmdn---gzipjeSH9pQYE-GQpedqIy7hh9V5rko--gzip--gzip\"",
+    "last_modified": "Tue, 15 Sep 2026 15:56:41 GMT"
+  },
+  "metadata_sha256_after": "ffc626818c6fe12d37f783969893ef9e1ef0afb20a2c8f46959c84e9f53007c2",
+  "metadata_sha256_before": "ffc626818c6fe12d37f783969893ef9e1ef0afb20a2c8f46959c84e9f53007c2",
+  "raw_filename": "nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv",
+  "rows": 82345,
+  "rows_updated_at": 1789487820,
+  "sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "source_count_after": 82345,
+  "source_count_before": 82345,
+  "source_count_sha256_after": "3e9ad88454dc9914b2f7a34e9258226247f165e8895507853a96cec144e5888f",
+  "source_count_sha256_before": "3e9ad88454dc9914b2f7a34e9258226247f165e8895507853a96cec144e5888f",
+  "source_id": "nyc_dof_rolling_usep_8jbt",
+  "source_url": "https://data.cityofnewyork.us/api/views/usep-8jbt/rows.csv?accessType=DOWNLOAD",
+  "view_last_modified": 1789487800
+}

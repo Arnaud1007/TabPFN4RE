@@ -1,0 +1,80 @@
+{
+  "checks": [
+    {
+      "command": "PowerShell inline Python call in report.md invoking capture_snapshot() from committed aaa86ff and writing snapshot.json",
+      "duration_seconds": 13.995,
+      "exit_code": 0,
+      "name": "live_source_capture",
+      "observed": "82,345 CSV rows, 10,397,977 bytes; inventory only",
+      "output_artifact": "snapshot.json"
+    },
+    {
+      "command": "Inline Python: hashlib.sha256 over private CSV; csv.reader row count; compare with snapshot.json; write verification.json",
+      "duration_seconds": 0.298,
+      "exit_code": 0,
+      "name": "independent_source_replay",
+      "observed": "SHA-256, bytes and 82,345 rows matched; 21 columns",
+      "output_artifact": "verification.json"
+    },
+    {
+      "command": "git check-ignore -v -- data/raw/nyc_dof/nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv",
+      "duration_seconds": 0.082,
+      "exit_code": 0,
+      "name": "private_source_git_ignore",
+      "observed": ".gitignore data/raw/ rule applies",
+      "output_artifact": "verification.json"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=capture_nyc_rolling_snapshot -m unittest tests.test_capture_nyc_rolling_snapshot -q",
+        ".\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80 scripts/capture_nyc_rolling_snapshot.py"
+      ],
+      "duration_seconds": 1.4412,
+      "exit_code": 0,
+      "name": "focused_synthetic_tests_and_coverage",
+      "output_artifact": "focused_tests.log"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q"
+      ],
+      "duration_seconds": 20.274,
+      "exit_code": 0,
+      "name": "full_suite",
+      "output_artifact": "full_tests.log"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m ruff check scripts tests src",
+        ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts tests src"
+      ],
+      "duration_seconds": 0.2962,
+      "exit_code": 0,
+      "name": "ruff",
+      "output_artifact": "ruff.log"
+    },
+    {
+      "commands": [
+        ".\\.venv\\Scripts\\python.exe -m pip check",
+        ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt"
+      ],
+      "duration_seconds": 2.2363,
+      "exit_code": 0,
+      "name": "dependency_checks",
+      "output_artifact": "dependencies.log"
+    },
+    {
+      "command": "& 'runs/u0-nyc-rolling-snapshot-20260928T225512Z/verify_artifacts.ps1'",
+      "duration_seconds": 0.383,
+      "exit_code": 0,
+      "name": "manifest_and_private_hash_verification",
+      "observed": "Verified 10 immutable run files, environment lock, and private CSV hash, size and recorded count",
+      "output_artifact": "verification.log"
+    }
+  ],
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6; code commit aaa86ff016cd9a2a6fd9a6674d23f2e57e7c549c",
+  "g_us_status": "PENDING",
+  "run_id": "u0-nyc-rolling-snapshot-20260928T225512Z",
+  "skipped_mandatory_tests": 0,
+  "u0_accepted": false
+}

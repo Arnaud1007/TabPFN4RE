@@ -1,0 +1,41 @@
+{
+  "checkpoint_identity": null,
+  "code_commit_at_capture": "aaa86ff016cd9a2a6fd9a6674d23f2e57e7c549c",
+  "configuration_hash": "503a5c7862fc82309b22ebc627d595898ff434355d01d2d41270eece559604f3",
+  "configuration_hash_rule": "SHA-256 of configuration.json bytes",
+  "data_snapshot_hash": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "dirty_tree_at_capture": "run directory created during capture; committed capture script unchanged",
+  "environment_lock_path": "locks/nyc-capture-environment.json",
+  "environment_lock_sha256": "36704b74db06542538d2e4b3c8c1359d523872500729f1a433764b25532dd751",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "immutable_run_files_sha256": {
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/configuration.json": "503a5c7862fc82309b22ebc627d595898ff434355d01d2d41270eece559604f3",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/dependencies.log": "1dfdefdcbb160ba379cd239adedd9be408fc2cba8d9d777d0a01737924453991",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/focused_tests.log": "be57e5756006955c1d4181474d974c7a5c8ba821aa3c3f172df81ee9131f0e4f",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/full_tests.log": "46cfbec37a1fee5b870031833253ef9ff965f2ed1a8af431e88f2de91a872bc8",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/report.md": "88eaccce5ab432dd64299024d116faf4681dafc12887e9eab80d9cc98f8cee2e",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/ruff.log": "3e19b855ebae702020f9a8d9a2c4d84e7a15d8108d0353b955e29f1412003815",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json": "45049ce1622ba4a819f29c79097869c9f3601d049139869982ec7327ee11962b",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/test_gate.json": "f552901a9c1b2052ecbd227c749ecbe1ba3751555cb960857d11050752d70b6e",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/verification.json": "d78e533406cdf1e54b4a05fc6a7a9241f46d9806a25d6c304a3a32b4f249e1eb",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/verify_artifacts.ps1": "cc988ed8842b0a1083bd8732d309ae7062a099eb2fe4191ae72001e96b841827"
+  },
+  "no_model_training": true,
+  "raw_data_tracked": false,
+  "recorded_at_utc": "2026-09-28T22:55:43.929203Z",
+  "requirements": [
+    "US05",
+    "US06",
+    "US08",
+    "US22",
+    "US23",
+    "US24"
+  ],
+  "run_id": "u0-nyc-rolling-snapshot-20260928T225512Z",
+  "source_count_sha256": "3e9ad88454dc9914b2f7a34e9258226247f165e8895507853a96cec144e5888f",
+  "source_metadata_sha256": "ffc626818c6fe12d37f783969893ef9e1ef0afb20a2c8f46959c84e9f53007c2",
+  "split_hash": null,
+  "status": "verified_source_inventory_only",
+  "u0_accepted": false
+}

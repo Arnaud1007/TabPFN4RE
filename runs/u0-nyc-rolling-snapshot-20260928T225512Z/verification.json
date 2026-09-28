@@ -1,0 +1,10 @@
+{
+  "bytes": 10397977,
+  "bytes_match": true,
+  "header_columns": 21,
+  "independent_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "parsed_rows": 82345,
+  "private_raw_ignored_by_git": true,
+  "rows_match": true,
+  "sha256_matches": true
+}

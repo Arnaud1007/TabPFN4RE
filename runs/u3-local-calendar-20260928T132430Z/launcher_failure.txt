@@ -1,0 +1,1 @@
+﻿The PowerShell launcher ran 188 tests and all seven commands returned exit 0, but PowerShell ConvertFrom-Json failed while reading coverage.json. The generated test_gate.json incorrectly said complete with null coverage. This attempt is invalid and is preserved; a new gate run will be recorded separately.

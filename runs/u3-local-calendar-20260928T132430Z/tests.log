@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:10 char:20
++ ... utputLines = & $Command[0] @($Command[1..($Command.Length - 1)]) 2>&1
++                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 188 tests in 10.816s
+
+OK

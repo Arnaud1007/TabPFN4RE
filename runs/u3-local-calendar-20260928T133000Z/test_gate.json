@@ -1,0 +1,135 @@
+﻿{
+    "run_id":  "u3-local-calendar-20260928T133000Z",
+    "status":  "complete",
+    "milestone":  "U0-source-feasibility-and-U3-calendar-engineering",
+    "executed_at_utc":  "2026-09-28T13:24:23.4917564Z",
+    "code_commit":  "df74bc05f19a12562801b290ba28faf3e04fb142",
+    "dirty_tree":  true,
+    "environment_lock_sha256":  "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+    "source_snapshot_sha256":  null,
+    "synthetic_fixture_sha256":  "548a6936c5524d43b584931edd955bf1e9dbafef78420e793d418eba03c062ee",
+    "split_hash":  null,
+    "feature_policy_hash":  null,
+    "configuration_hash":  "794c17fcc177cba5fae7900d7d49eebe63d592b38193d319ae7b2eb06bb0afc9",
+    "checkpoint_identity":  null,
+    "certification_eligible":  false,
+    "python_version":  "Python 3.11.6",
+    "tzdata_version":  "2026.4",
+    "results":  [
+                    {
+                        "name":  "tests",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "run",
+                                        "--source=tabpfn4realestate",
+                                        "-m",
+                                        "unittest",
+                                        "discover",
+                                        "-s",
+                                        "tests",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  11.07,
+                        "output":  "tests.log",
+                        "output_sha256":  "468604dc0245c8ef96f23a095d2c476936a16013f204b9dc703a421b05d4934e"
+                    },
+                    {
+                        "name":  "coverage_report",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "report",
+                                        "--show-missing"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.355,
+                        "output":  "coverage_report.log",
+                        "output_sha256":  "709250d271a0a2fd2cafba35cbec3b193eebd5329b1358e67a2d327096919d3b"
+                    },
+                    {
+                        "name":  "coverage_json",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "json",
+                                        "-o",
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u3-local-calendar-20260928T133000Z\\coverage.json"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.38,
+                        "output":  "coverage_json.log",
+                        "output_sha256":  "2f62d1d943c6e03dd3e5f85b4d4f56483676b25b8e64624e3cbc0191cbb622d0"
+                    },
+                    {
+                        "name":  "lint",
+                        "command":  [
+                                        "python",
+                                        "-m",
+                                        "ruff",
+                                        "check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.114,
+                        "output":  "lint.log",
+                        "output_sha256":  "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+                    },
+                    {
+                        "name":  "format",
+                        "command":  [
+                                        "python",
+                                        "-m",
+                                        "ruff",
+                                        "format",
+                                        "--check",
+                                        "src",
+                                        "tests"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.126,
+                        "output":  "format.log",
+                        "output_sha256":  "46a55c59a9b68ffa874e533263add44e79e47059066a18547203f33ef5846f9e"
+                    },
+                    {
+                        "name":  "pip_check",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip",
+                                        "check"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.858,
+                        "output":  "pip_check.log",
+                        "output_sha256":  "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+                    },
+                    {
+                        "name":  "dependency_audit",
+                        "command":  [
+                                        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip_audit",
+                                        "-r",
+                                        "locks/local-date-requirements.txt",
+                                        "--disable-pip",
+                                        "--no-deps",
+                                        "--progress-spinner",
+                                        "off"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.149,
+                        "output":  "dependency_audit.log",
+                        "output_sha256":  "8e0e0fe4d095635a7b35dbbf7e5e29bc68a3a5b6b35e8e72f220f7f3623fed19"
+                    }
+                ],
+    "tests_expected":  188,
+    "tests_skipped":  false,
+    "statement_coverage_percent":  90.649350649350652,
+    "coverage_json_sha256":  "bc3ed9bff61315254bf28aa7cdaa5f663163e682863c01c2f7b2356ec7a58f13"
+}

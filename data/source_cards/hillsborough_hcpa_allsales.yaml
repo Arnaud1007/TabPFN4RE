@@ -52,8 +52,17 @@ historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false
 rights_basis: >-
   Public download page (https://downloads.hcpafl.org/) displays a 2026
-  Hillsborough County Property Appraiser All Rights Reserved footer. The page
-  does not state dataset-specific commercial or redistribution permission.
+  Hillsborough County Property Appraiser All Rights Reserved footer. The
+  publisher's Terms (https://www.hcpafl.org/Terms), checked 2026-09-28,
+  reserve ungranted rights and do not provide a dataset-specific commercial
+  AVM or redistribution permission. This is an unresolved permission question,
+  not a determination of the legal status of public records.
+additional_access_route: >-
+  The publisher's Maps & Data page
+  (https://www.hcpafl.org/Downloads/Maps-Data) offers paid current assessment,
+  certified-roll and parcel-layer requests. No paid request was made, and the
+  listed products do not establish historical All Sales availability or reuse
+  rights.
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
@@ -66,6 +75,10 @@ sample_selected_records: 200
 manually_reviewed_records: 0
 partial_clerk_linkage_spotchecks: 1
 partial_clerk_spotcheck_report: runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.md
+review_ledger_protocol: decisions/0014-hcpa-review-ledger.md
+review_ledger_run: runs/u0-hcpa-review-ledger-20260928T174512Z/report.md
+private_ledger_status: one_partial_entry_zero_completed_rubrics
+source_inquiry_draft: data/requests/hcpa_all_sales_inquiry_draft.md
 sample_note: >-
   The 200 distinct entries are selected for later source review. Their
   row-level private JSONL is Git-ignored; selection is not an eligibility or

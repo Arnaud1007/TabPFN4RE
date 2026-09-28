@@ -1,0 +1,97 @@
+{
+  "run_id": "u0-hcpa-review-ledger-20260928T174512Z",
+  "status": "engineering_checks_pass_manual_audit_pending",
+  "environment": {
+    "python": "CPython 3.11.6",
+    "coverage": "coverage.py 7.6.12",
+    "ruff": "0.13.0",
+    "pip_audit": "2.10.1",
+    "runtime_lock": "locks/hcpa-review-ledger-environment.json",
+    "runtime_lock_sha256": "36c8fc99cd2585bda91d48841eb0819b4dff00eee8915c8da708364c0b81e165",
+    "ames_arff_path_configured": true,
+    "powershell": "5.1.26100.9444"
+  },
+  "checks": [
+    {
+      "name": "focused_review_ledger_contract",
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -p test_hcpa_sample_review.py -q",
+      "exit_code": 0,
+      "duration_seconds": 1.481,
+      "output_artifact": "focused_tests.log",
+      "result": "29 tests, 0 failures, 0 skipped"
+    },
+    {
+      "name": "full_engineering_suite",
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m coverage run --branch --source=scripts -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 14.186,
+      "output_artifact": "full_tests.log",
+      "result": "245 tests, 0 failures, 0 skipped"
+    },
+    {
+      "name": "ledger_coverage",
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage report -m scripts/review_hcpa_sample.py",
+      "exit_code": 0,
+      "duration_seconds": 0.37,
+      "output_artifact": "ledger_coverage.log",
+      "result": "307 statements, 30 missed; 140 branches, 26 partial; 87% combined coverage"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.331,
+      "output_artifact": "ruff_lint.log",
+      "result": "All checks passed"
+    },
+    {
+      "name": "ruff_format_final",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check --no-cache src tests scripts",
+      "exit_code": 0,
+      "duration_seconds": 0.23,
+      "output_artifact": "ruff_format_nocache.log",
+      "result": "32 files already formatted"
+    },
+    {
+      "name": "pinned_runtime_dependency_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "exit_code": 0,
+      "duration_seconds": 2.06,
+      "output_artifact": "dependency_audit.log",
+      "result": "No known vulnerabilities found in the pinned no-deps scope; this is not a full transitive audit"
+    },
+    {
+      "name": "private_review_append",
+      "command": "$sampleHash = (Get-Content -Raw 'runs/u0-hcpa-audit-sample-20260928T160539Z/sample_manifest.json' | ConvertFrom-Json).sample_sha256; & .\\.venv\\Scripts\\python.exe scripts/review_hcpa_sample.py append 'data/raw/hcpa/audit-sample-20260928-888226e.jsonl' 'data/raw/hcpa/review-ledger-20260928.jsonl' 'data/raw/hcpa/clerk/review-entry-spotcheck-20260928.json' 'runs/u0-hcpa-review-ledger-20260928T174512Z/review_summary.json' --sample-sha256 $sampleHash",
+      "exit_code": 0,
+      "duration_seconds": 0.364,
+      "output_artifacts": [
+        "review_append.log",
+        "review_summary.json"
+      ],
+      "result": "1 partial review, 0 completed rubrics, 199 unreviewed sampled records"
+    },
+    {
+      "name": "aggregate_summary_replay",
+      "command": "$sampleHash = (Get-Content -Raw 'runs/u0-hcpa-audit-sample-20260928T160539Z/sample_manifest.json' | ConvertFrom-Json).sample_sha256; & .\\.venv\\Scripts\\python.exe scripts/review_hcpa_sample.py summary 'data/raw/hcpa/audit-sample-20260928-888226e.jsonl' 'data/raw/hcpa/review-ledger-20260928.jsonl' '-' 'runs/u0-hcpa-review-ledger-20260928T174512Z/review_summary_replay.json' --sample-sha256 $sampleHash; $first = Get-FileHash 'runs/u0-hcpa-review-ledger-20260928T174512Z/review_summary.json' -Algorithm SHA256; $second = Get-FileHash 'runs/u0-hcpa-review-ledger-20260928T174512Z/review_summary_replay.json' -Algorithm SHA256; if ($first.Hash -ne $second.Hash) { throw 'Replay summary differs' }",
+      "exit_code": 0,
+      "duration_seconds": 0.478,
+      "output_artifacts": [
+        "review_replay.log",
+        "review_summary_replay.json"
+      ],
+      "result": "Byte-identical aggregate summary; no second ledger entry"
+    },
+    {
+      "name": "private_integrity_and_ignore",
+      "command": "$m = Get-Content -Raw 'runs/u0-hcpa-review-ledger-20260928T174512Z/manifest.json' | ConvertFrom-Json; $s = Get-Content -Raw 'runs/u0-hcpa-review-ledger-20260928T174512Z/review_summary.json' | ConvertFrom-Json; $pairs = @(@('data/raw/hcpa/allsales_09_18_2026.zip',$m.data_snapshot_sha256),@('data/raw/hcpa/audit-sample-20260928-888226e.jsonl',$m.sample_sha256),@($m.private_entry_path,$m.private_entry_sha256),@($m.private_ledger_path,$m.private_ledger_sha256),@($m.aggregate_summary_path,$m.aggregate_summary_sha256),@($m.script_path,$m.script_sha256),@($m.tests_path,$m.tests_sha256),@($m.environment_lock_path,$m.environment_lock_sha256),@($m.configuration_path,$m.configuration_sha256)); foreach ($pair in $pairs) { if ((Get-FileHash -LiteralPath $pair[0] -Algorithm SHA256).Hash.ToLowerInvariant() -ne $pair[1]) { throw 'U0 review artifact hash mismatch' } }; if ($s.sampled_records -ne 200 -or $s.reviewed_records -ne 1 -or $s.partial_records -ne 1 -or $s.complete_records -ne 0 -or $s.unreviewed_records -ne 199) { throw 'U0 review aggregate mismatch' }; foreach ($privatePath in @($m.private_entry_path,$m.private_ledger_path)) { if (-not (git check-ignore $privatePath)) { throw 'U0 review private path is not ignored' } }",
+      "exit_code": 0,
+      "duration_seconds": 0.494,
+      "output_artifact": "privacy_integrity.log",
+      "result": "All manifest hashes, 200/1/0/199 counts and Git-ignore checks passed"
+    }
+  ],
+  "manual_review_rubrics_completed": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

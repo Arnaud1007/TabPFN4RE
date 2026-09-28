@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "purpose": "Private HCPA audit-review ledger; source qualification only",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": [],
+  "test_tools_observed": {
+    "coverage": "7.6.12",
+    "ruff": "0.13.0",
+    "pip_audit": "2.10.1"
+  },
+  "project_dependencies": ["tzdata==2026.4"],
+  "project_dependency_lock": "locks/local-date-requirements.txt"
+}

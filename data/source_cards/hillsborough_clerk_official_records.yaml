@@ -51,6 +51,7 @@ planned_use: >-
 partial_sample_comparison: runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.md
 partial_sample_comparisons: 1
 completed_full_manual_reviews: 0
+private_review_ledger_run: runs/u0-hcpa-review-ledger-20260928T174512Z/report.md
 access_notes: >-
   The publisher describes free online Official Records Index search without
   a certified copy. Anonymous/unregistered access excludes restricted records.
@@ -58,6 +59,12 @@ access_notes: >-
 rights_basis: >-
   Public search availability and public data files establish an audit route,
   not a data-product redistribution or commercial reuse grant.
+subscription_caveat: >-
+  The Clerk's Official Records Web Subscription Service terms on
+  https://www.hillsclerk.com/propertyrecords-and-recording, checked
+  2026-09-28, restrict commercial resale of information gathered through that
+  paid service. This clause is specific to the subscription and does not by
+  itself decide terms for the public daily index. No subscription was opened.
 permitted_use_decision: source_audit_only_pending_specific_reuse_review
 redistribution: not_established
 not_done: >-

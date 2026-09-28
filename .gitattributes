@@ -5,7 +5,10 @@
 /runs/** -text whitespace=-blank-at-eol
 /scripts/select_hcpa_pin_validation_sample.py -text
 /scripts/audit_hcpa_pin_crosswalk.py -text
+/scripts/diagnose_hcpa_pin_gaps.py -text
 /tests/test_hcpa_pin_validation_sample.py -text
 /tests/test_hcpa_pin_crosswalk.py -text
+/tests/test_diagnose_hcpa_pin_gaps.py -text
 /decisions/0017-hcpa-pin-crosswalk-validation.md -text
+/decisions/0018-hcpa-crosswalk-gap-diagnostic.md -text
 /locks/hcpa-pin-validation-environment.json -text

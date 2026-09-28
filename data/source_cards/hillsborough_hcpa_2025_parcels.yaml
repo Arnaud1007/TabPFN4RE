@@ -39,6 +39,13 @@ empirical_sales_identifier_control: >-
   selected-sample result is not a county-wide linkage rate or a verified
   dwelling/transaction link. See
   runs/u0-hcpa-pin-crosswalk-20260928T214110Z/report.md.
+frozen_gap_diagnostic: >-
+  A subsequent pinned-input audit of the same 1,000 rows found that six of
+  the 16 without an exact two-key control have a unique FOLIO-only lead with
+  an all-space PIN and a STRAP agreeing with the candidate transform. Ten have
+  no one-key lead. These remain unmatched; no one-key promotion or historical
+  as-of inference follows. See
+  runs/u0-hcpa-pin-gaps-20260928T222200Z/report.md.
 first_available_at: >-
   The file is verified from the official current listing on 2026-09-28.
   The ZIP/member dates and listing update field do not independently prove
@@ -51,6 +58,6 @@ permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
   Verify original publication/vintage records and field definitions, seek
-  source confirmation of the empirical PIN format mapping, investigate 16
-  missing exact controls, manually audit parcel-to-sale and dwelling identity,
+  source confirmation of the empirical PIN format mapping, manually inspect
+  the six blank-PIN leads and ten no-lead gaps, audit dwelling/sale identity,
   and resolve reuse rights.

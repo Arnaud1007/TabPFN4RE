@@ -15,6 +15,8 @@ The [HCPA DOR Code Manual audit](../runs/u0-hcpa-dor-manual-20260928T195353Z/rep
 
 The [2025 parcel archive inventory](../runs/u0-hcpa-2025-vintage-20260928T203518Z/report.md) verifies a separately pinned annual ZIP and its field schema. It has a formatted `PIN` C(29), while the inspected current 2026 parcel DBF has `PIN` C(25). The schema difference requires a vintage-specific identity check. Neither the 2025 archive's name nor the listing's update date proves when its attributes first became available to a historical valuation.
 
+The [frozen crosswalk-gap diagnostic](../runs/u0-hcpa-pin-gaps-20260928T222200Z/report.md) found six unique 2025 FOLIO-only leads whose raw PINs were blank and STRAPs agreed with the candidate transform, plus ten rows with no 2025 one-key lead. Six current PIN fields were raw blank; five overlap those old leads. These are private-review priorities, not accepted joins or a source availability rule.
+
 The [NYC bounded API inventory](../runs/u0-nyc-api-inventory-20260928T220444Z/report.md) captured and hashed only aggregate responses: 82,345 current rolling-view rows and 845,607 current annualized-view rows. The latter is not a count of all linked DOF annual files. No row-level data, unique-transfer count or certified historical availability was established; rank and admission status are unchanged.
 
 These candidates span all four Census regions on paper, but no market has passed the source audit or G-US. Florida and Maryland contain possible nonmetro counties; two strata still must be selected and tested. Select the eventual eight metros and two strata before tuning. A usable source must supply verifiable target semantics, dated features and an availability rule; a high raw row count does not compensate for those gaps.

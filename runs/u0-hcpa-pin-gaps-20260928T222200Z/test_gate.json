@@ -1,0 +1,60 @@
+{
+  "run_id": "u0-hcpa-pin-gaps-20260928T222200Z",
+  "environment": "Windows PowerShell 5.1; Python 3.11 virtual environment; code commit 393788f99c335a2fe75bc03f9ff2e05d653fdced",
+  "checks": [
+    {
+      "name": "frozen_private_gap_diagnostic",
+      "command": ".\\.venv\\Scripts\\python.exe scripts/diagnose_hcpa_pin_gaps.py --archive-2025 data/raw/hcpa/2025_10_parcels.zip --archive-2026 data/raw/hcpa/parcel_09_25_2026.zip --sample data/raw/hcpa/pin-validation-sample-20260928-v1.jsonl --old-sample data/raw/hcpa/audit-sample-20260928-888226e.jsonl --prior-aggregate runs/u0-hcpa-pin-crosswalk-20260928T214110Z/aggregate.json --private-flags data/raw/hcpa/pin-gap-flags-20260928T222200Z.jsonl --aggregate runs/u0-hcpa-pin-gaps-20260928T222200Z/aggregate.json --archive-2025-sha256 2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c --archive-2026-sha256 968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8 --sample-sha256 35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9 --old-sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9 --prior-aggregate-sha256 00589ab40082ca48828c7420fdb2f122637722a001750c53d4e399a8288bc541",
+      "exit_code": 0,
+      "duration_seconds": 14.8739,
+      "output_artifact": "aggregate.json",
+      "output_sha256": "4c8df646c8ef1bb9016fcce069545aea85a3ac9efcf90c647814a66cdf41936e"
+    },
+    {
+      "name": "byte_identical_replay",
+      "command": "Repeat frozen_private_gap_diagnostic command with --private-flags data/raw/hcpa/pin-gap-flags-20260928T222200Z-replay.jsonl and --aggregate runs/u0-hcpa-pin-gaps-20260928T222200Z/aggregate_replay.json; all other arguments unchanged",
+      "exit_code": 0,
+      "duration_seconds": 13.3394,
+      "output_artifact": "aggregate_replay.json",
+      "output_sha256": "4c8df646c8ef1bb9016fcce069545aea85a3ac9efcf90c647814a66cdf41936e",
+      "private_flags_sha256": "c110c8a065f1348aa51765a042bc3153d18689d38cc1a952e5da73009a91504b",
+      "private_replay_flags_sha256": "c110c8a065f1348aa51765a042bc3153d18689d38cc1a952e5da73009a91504b"
+    },
+    {
+      "name": "focused_synthetic_tests_and_branch_coverage",
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=diagnose_hcpa_pin_gaps -m unittest tests.test_diagnose_hcpa_pin_gaps -q; .\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80 scripts/diagnose_hcpa_pin_gaps.py",
+      "exit_code": 0,
+      "duration_seconds": 2.6340,
+      "output_artifact": "focused_tests.log",
+      "observed": "15 tests; 0 failures; 0 skips; 86% branch-aware coverage"
+    },
+    {
+      "name": "full_suite",
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 22.6139,
+      "output_artifact": "full_tests.log",
+      "observed": "353 tests; 0 failures; 0 skips. Expected negative-fixture CLI messages precede OK."
+    },
+    {
+      "name": "quality_and_scoped_dependency_checks",
+      "command": "Run Ruff check and format check on src/tests/scripts, pip check, and pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "exit_code": 0,
+      "duration_seconds": 2.7078,
+      "output_artifact": "quality_checks.log",
+      "observed": "All checks passed; scoped audit found no known vulnerability; not a full transitive audit"
+    },
+    {
+      "name": "manifest_and_private_hash_verification",
+      "command": "& 'runs/u0-hcpa-pin-gaps-20260928T222200Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "duration_seconds": 0.2626,
+      "output_artifact": "verification.log",
+      "observed": "Verified all manifest-listed run files, configuration and both private flag hashes"
+    }
+  ],
+  "skipped_mandatory_tests": 0,
+  "automatic_join_status": "BLOCKED",
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

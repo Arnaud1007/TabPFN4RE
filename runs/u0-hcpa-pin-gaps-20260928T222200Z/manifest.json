@@ -1,0 +1,42 @@
+{
+  "run_id": "u0-hcpa-pin-gaps-20260928T222200Z",
+  "recorded_at_utc": "2026-09-28T22:22:00Z",
+  "status": "source_quality_gap_diagnostic_verified_join_blocked",
+  "requirements": ["US05", "US06", "US07", "US24"],
+  "code_commit_at_execution": "393788f99c335a2fe75bc03f9ff2e05d653fdced",
+  "dirty_tree_at_execution": true,
+  "dirty_tree_note": "Only an untracked local coverage-data file existed; the tracked code tree was clean at execution.",
+  "environment_lock": "locks/hcpa-pin-validation-environment.json",
+  "environment_lock_sha256": "bb7ce1df6f24b48188e1b8cbf03aba98f61be414b6274ec30adfff504066ea6e",
+  "configuration_hash": "e4993801a9e5689c03d43a0906252ea13fda0b905c60368f0e15e406f04c472c",
+  "configuration_path": "runs/u0-hcpa-pin-gaps-20260928T222200Z/config.json",
+  "data_snapshot_hashes": {
+    "archive_2025_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+    "archive_2026_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8",
+    "validation_sample_sha256": "35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9",
+    "excluded_old_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+    "prior_aggregate_sha256": "00589ab40082ca48828c7420fdb2f122637722a001750c53d4e399a8288bc541"
+  },
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "checkpoint_identity": null,
+  "private_flags_path": "data/raw/hcpa/pin-gap-flags-20260928T222200Z.jsonl",
+  "private_flags_sha256": "c110c8a065f1348aa51765a042bc3153d18689d38cc1a952e5da73009a91504b",
+  "private_replay_flags_sha256": "c110c8a065f1348aa51765a042bc3153d18689d38cc1a952e5da73009a91504b",
+  "verification_log_path": "runs/u0-hcpa-pin-gaps-20260928T222200Z/verification.log",
+  "immutable_run_files_sha256": {
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/aggregate.json": "4c8df646c8ef1bb9016fcce069545aea85a3ac9efcf90c647814a66cdf41936e",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/aggregate_replay.json": "4c8df646c8ef1bb9016fcce069545aea85a3ac9efcf90c647814a66cdf41936e",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/config.json": "e4993801a9e5689c03d43a0906252ea13fda0b905c60368f0e15e406f04c472c",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/focused_tests.log": "3333374213ec2277a39bb594ba16c910adf2ad147d03972793bebf6cf8e4e321",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/full_tests.log": "89919ed7241b0d5e94ec9060742c934db8cb4878064b1ab9f4ce92af5aa1e842",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/quality_checks.log": "9968caa968f11abe269bc881e228bb52e2bec4d055fa27cc53fe4c97acb26bf2",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/report.md": "d3a105998312da7fcde9faec2f08816942c977c7f412d687ac8f860ad0f3d688",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/test_gate.json": "ce96f2a20b6ea31b76daf7c3b7d537a21ad4dc6f5a4cacaa7b88740ee6080fc2",
+    "runs/u0-hcpa-pin-gaps-20260928T222200Z/verify_artifacts.ps1": "3ede0667f1c616767e715fcc665ea3db0191bac993552000370495f525cad7e2"
+  },
+  "no_model_training": true,
+  "automatic_join_status": "BLOCKED",
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

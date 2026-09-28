@@ -46,6 +46,11 @@ empirical_pin_crosswalk: >-
   distinct nonblank controls. This is an empirical format result, not a
   publisher-confirmed identifier contract or an accepted property join. See
   runs/u0-hcpa-pin-crosswalk-20260928T214110Z/report.md.
+frozen_blank_pin_diagnostic: >-
+  The six unique-FOLIO current parcel controls with blank PINs have raw
+  all-space PIN fields in active records. Five overlap missing exact 2025
+  controls; one has an exact 2025 control. No record was joined. See
+  runs/u0-hcpa-pin-gaps-20260928T222200Z/report.md.
 code_semantics: >-
   This current code table corroborates the county DOR manual's examples but
   does not verify the historical DOR_CODE of each All Sales entry, whether a
@@ -62,6 +67,6 @@ permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
   Seek publisher confirmation of the empirically supported PIN conversion,
-  investigate six blank current PINs, and inspect dated historical parcel
+  manually inspect six raw-blank current PINs, and inspect dated historical parcel
   vintages and publication. Audit dwelling and sale identity manually and
   obtain a source-specific use-rights decision before model use.

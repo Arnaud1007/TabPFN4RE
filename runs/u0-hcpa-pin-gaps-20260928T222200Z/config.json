@@ -1,0 +1,20 @@
+{
+  "protocol": "ADR-0018 HCPA frozen crosswalk gap diagnostic",
+  "code_commit": "393788f99c335a2fe75bc03f9ff2e05d653fdced",
+  "script": "scripts/diagnose_hcpa_pin_gaps.py",
+  "script_sha256": "c37ab1312f8bd59c04eaf92dbf25c009c6836cc5aae9df9e1159fe9a3d914835",
+  "archive_2025": "data/raw/hcpa/2025_10_parcels.zip",
+  "archive_2025_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+  "archive_2026": "data/raw/hcpa/parcel_09_25_2026.zip",
+  "archive_2026_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8",
+  "validation_sample": "data/raw/hcpa/pin-validation-sample-20260928-v1.jsonl",
+  "validation_sample_sha256": "35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9",
+  "excluded_old_sample": "data/raw/hcpa/audit-sample-20260928-888226e.jsonl",
+  "excluded_old_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "prior_aggregate": "runs/u0-hcpa-pin-crosswalk-20260928T214110Z/aggregate.json",
+  "prior_aggregate_sha256": "00589ab40082ca48828c7420fdb2f122637722a001750c53d4e399a8288bc541",
+  "expected_validation_rows": 1000,
+  "expected_excluded_old_rows": 200,
+  "private_flags": "data/raw/hcpa/pin-gap-flags-20260928T222200Z.jsonl",
+  "public_aggregate": "runs/u0-hcpa-pin-gaps-20260928T222200Z/aggregate.json"
+}

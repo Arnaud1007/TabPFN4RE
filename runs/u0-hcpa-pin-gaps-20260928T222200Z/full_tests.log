@@ -1,0 +1,6 @@
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: 'C:\\Users\\tdech\\AppData\\Local\\Temp\\tmpdguicz2l\\.report.json-rj26xyja.tmp' -> 'C:\\Users\\tdech\\AppData\\Local\\Temp\\tmpdguicz2l\\report.json'
+----------------------------------------------------------------------
+Ran 353 tests in 22.050s
+
+OK

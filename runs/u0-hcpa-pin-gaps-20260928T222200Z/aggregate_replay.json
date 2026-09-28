@@ -1,0 +1,69 @@
+{
+  "automatic_join_blockers": [
+    "source_contract_unconfirmed",
+    "historical_availability_unverified",
+    "rights_unresolved",
+    "sale_identity_and_eligibility_unverified"
+  ],
+  "automatic_join_status": "BLOCKED",
+  "current_blank": {
+    "old_exact": 1,
+    "old_folio_only_lead": 5,
+    "old_no_lead": 0,
+    "overlap_old_no_exact": 5,
+    "raw_all_spaces": 6,
+    "total": 6,
+    "unique_folio": 6
+  },
+  "frozen_audit_sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "interpretation": "One-key leads and current blank PINs are diagnostic only; no eligibility or as-of rights inferred.",
+  "intersection": {
+    "old_exact_current_blank": 1,
+    "old_exact_current_nonblank": 983,
+    "old_no_exact_current_blank": 5,
+    "old_no_exact_current_nonblank": 11
+  },
+  "old_dbf_header_date": "2025-09-12",
+  "old_dbf_header_date_semantics": "DBF metadata only; not source publication or feature availability",
+  "old_no_exact": {
+    "folio_lead_pin_blank": 6,
+    "folio_lead_pin_malformed": 0,
+    "folio_lead_pin_nonblank_different": 0,
+    "folio_lead_pin_nonblank_same": 0,
+    "folio_lead_strap_agree": 6,
+    "folio_lead_strap_blank": 0,
+    "folio_lead_strap_disagree": 0,
+    "folio_only_lead": 6,
+    "no_lead": 10,
+    "sale_date_vs_old_dbf_header": {
+      "after": 2,
+      "before": 14,
+      "on": 0
+    },
+    "total": 16
+  },
+  "prior_aggregate_sha256": "00589ab40082ca48828c7420fdb2f122637722a001750c53d4e399a8288bc541",
+  "sample": {
+    "distinct_source_identities": 999,
+    "rows": 1000
+  },
+  "source_2025": {
+    "active_rows": 527723,
+    "archive_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+    "deleted_rows": 0,
+    "header_rows": 527723,
+    "member": "2025_10_parcel.dbf",
+    "member_crc32": "49a63ebf",
+    "schema_sha256": "e1a26b7ba41fe5758a6019e6461b15b2d1024db459cb01ae0328d639c3f25c02"
+  },
+  "source_2026": {
+    "active_rows": 531612,
+    "archive_sha256": "968901f963b6424d89ecba757d8c9d6e1117acb3e2228a0d9885461da9c2e3c8",
+    "deleted_rows": 0,
+    "header_rows": 531612,
+    "member": "parcel.dbf",
+    "member_crc32": "3d9144b2",
+    "schema_sha256": "4b46693035797d0bb238349e839fd18df685cf39d91ced7d15c5c082ca06b384"
+  },
+  "validation_sample_sha256": "35c52bc969980cb0e1cabb698a70754825774f0ddc09e6b1417cdc21dc1ad3f9"
+}

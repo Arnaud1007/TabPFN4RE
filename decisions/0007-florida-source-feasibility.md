@@ -14,6 +14,8 @@ The [2026 submission standards](https://floridarevenue.com/property/Documents/20
 
 Florida includes a possible Census South source and county-level nonmetro candidates, subject to preselection and sample checks. The public-records basis does not by itself settle product redistribution, individual fields' first availability or precise close-date semantics.
 
+The [Miami-Dade Clerk's Official Records file layout](https://www.miamidadeclerk.gov/resources-clerk/library/FTP_File_Layouts/FTP_Layout_Official_Records.pdf) provides Clerk File Number, book/page, recording date/time and document date. Its [commercial service page](https://www.miamidadeclerk.gov/clerk/commercial-data-services.page) says the daily file contains records processed on the previous business day and is retained for only 30 days. As of this audit, access costs USD 110 per folder per month or USD 0.20 per API request. Registration and an agreement are required. These fields offer a plausible SDF join and prospective availability trail, but document date means creation date, not verified closing, and archived daily vintages are not established. No account was registered or paid access used.
+
 ## Decision
 
 Prioritise Florida for U0 qualification because it may fill a missing region and nonmetro coverage with statewide official files, qualification codes and requestable historical roll vintages. Keep it documentation-only until a source-specific permitted-use decision. The SDF's month granularity blocks the exact 90-calendar-day pre-close benchmark by itself. A county clerk or other authoritative dated record may supply that missing information; otherwise only a separately named monthly-origin research protocol is possible.

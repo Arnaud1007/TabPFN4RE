@@ -1,0 +1,28 @@
+source_id: miami_dade_clerk_official_records
+status: candidate_documentation_audited_not_ingested
+publisher: Miami-Dade Clerk of the Court and Comptroller
+dataset_name: Official Records public access daily file
+publisher_page: https://www.miamidadeclerk.gov/clerk/official-records.page
+commercial_access_page: https://www.miamidadeclerk.gov/clerk/commercial-data-services.page
+file_layout_url: https://www.miamidadeclerk.gov/resources-clerk/library/FTP_File_Layouts/FTP_Layout_Official_Records.pdf
+retrieved_on: 2026-09-28
+geography: Miami-Dade County, Florida
+row_grain: recorded or updated official document; filter and audit deed types
+linkage_fields: [clerk_file_number_year, clerk_file_number_sequence, recording_book, recording_page, folio_number]
+date_fields: [recording_date, recording_time, document_date]
+date_semantics: recording timestamp and document creation date; neither is a verified close date
+refresh_schedule: daily file of documents processed previous business day
+historical_vintages: commercial files available for 30 days; older daily files not located
+availability_rule_candidate: first observed in an authorised daily file; not yet validated
+rights_and_cost: registration and agreement required; one folder currently advertised at USD 110 per month or API at USD 0.20 per request
+cost_as_of: 2026-09-28
+permitted_use_decision: documentation_only_pending_terms_and_monetary_authorisation
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+privacy_note: official records include party names; minimise and restrict personal data before ingestion
+notes: >-
+  This can potentially link to Florida DOR SDF via instrument number or book/page,
+  but the join is not audited. Commercial files are paid and short-retained.
+  Current historical search results do not reconstruct when a record first appeared.
+  Do not scrape the public search interface or open a paid account under this task.

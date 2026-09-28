@@ -1,0 +1,21 @@
+{
+  "certification_eligible": false,
+  "checkpoint_identity": "median_baseline_v1",
+  "checkpoint_sha256": "b0715457685c1a131edd73adcc917e908e715369257ad43fd11cae091c86a726",
+  "code_commit": "3e903919ab16f1b4165fed5be9991bdea84df38d",
+  "config_sha256": "e0cda7b0c6b3bfd512a3c3ff8be277ae94bc9dbe974b531443f529741c9cb914",
+  "data_snapshot_hash": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "dirty_tree": false,
+  "duration_seconds": 0.29699999978765845,
+  "environment_lock_sha256": "b421be90d38fe202acef02c43d0cf9faffb4f5ecc32763a3a7123cd0adaf7b65",
+  "feature_policy_sha256": "b4ee580121f954422be80cf040f93f1cc1889f5cbe2b23d8d216d867230dca59",
+  "metrics_sha256": "b2b4210dcbeab80d901c698f740a9cbd15725648f4feec149653061822795473",
+  "predictions_sha256": "037cf783529563746e3efd9df355befaa07d72c6a517cc84ba31951829257c12",
+  "protocol_id": "ames_engineering_v1",
+  "replayable": true,
+  "run_id": "u0-smoke-20260928T080901Z-9c7ea074b1ae",
+  "source_identity": "openml_42165_v1",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "split_sha256": "c0f75d19d76daf2c0e5b1b5ff0e2ec912bcbcba6c0052226a021fff3e477c759",
+  "status": "complete"
+}

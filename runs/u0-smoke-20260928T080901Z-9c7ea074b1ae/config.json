@@ -1,0 +1,7 @@
+{
+  "model": "median_baseline_v1",
+  "protocol_id": "ames_engineering_v1",
+  "sample_size": 200,
+  "seed": 42,
+  "selection": "first_n_source_rows"
+}

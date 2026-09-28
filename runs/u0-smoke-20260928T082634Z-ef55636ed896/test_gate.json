@@ -1,0 +1,28 @@
+﻿{
+    "code_commit":  "7d224e711ef52fa7adbf0a4cfd52a5dd9e0afa11",
+    "started_at_utc":  "2026-09-28T08:27:06.8378646Z",
+    "duration_seconds":  25.682034299999998,
+    "environment":  {
+                        "python":  "Python 3.11.6",
+                        "coverage":  "Coverage.py, version 7.6.12 with C extension\r\nFull documentation is at https://coverage.readthedocs.io/en/7.6.12",
+                        "source_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279"
+                    },
+    "commands":  [
+                     "python -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+                     "python -m coverage report --show-missing",
+                     "python -m coverage json -o coverage.json",
+                     "python -m ruff check src tests"
+                 ],
+    "exit_codes":  {
+                       "tests":  0,
+                       "coverage_report":  0,
+                       "coverage_json":  0,
+                       "lint":  0
+                   },
+    "artifacts":  [
+                      "test_output.log",
+                      "coverage_report.log",
+                      "coverage.json",
+                      "lint.log"
+                  ]
+}

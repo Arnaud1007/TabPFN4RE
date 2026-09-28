@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "protocol_id": "ames_engineering_v1",
+  "mode": "OFF",
+  "predictor": "constant_training_median",
+  "model_input_features": [],
+  "forbidden_feature_ids": ["F172", "F349", "F350"],
+  "official_source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "official_source_rows": 1460,
+  "certification_eligible": false
+}

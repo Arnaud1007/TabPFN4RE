@@ -1,0 +1,10 @@
+﻿python.exe : ----------------------------------------------------------------------
+At line:6 char:15
++ ... estOutput = & .\.venv\Scripts\python.exe -m coverage run --source=tab ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Ran 33 tests in 23.283s
+
+OK

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "purpose": "U0 Ames engineering smoke only",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": [],
+  "build_dependencies": ["setuptools==65.5.0", "wheel==0.45.1"]
+}

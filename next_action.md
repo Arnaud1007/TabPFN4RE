@@ -1,21 +1,24 @@
 # Next action
 
-Active milestone: U0 audit. Status: engineering smoke is ready to run; legacy recovery remains pending.
+Active milestone: U0 audit. Status: the official Ames engineering smoke and local environment audit are verified; legacy recovery is pending inaccessible inputs. G-US is pending.
 
-## Next runnable command
+## Next dependency-ready task
 
-From the project root in PowerShell, with the local Python 3.11 environment installed:
+Begin U1's independent core OFF schema and as-of guards. Specify synthetic fixtures for property, transaction, attribute and listing events before implementation. Keep the `available_at <= origin` rule executable and prohibit target-derived fields. Do not call this U1 accepted until its required T01–T08 checks and full smoke pipeline pass.
+
+Resume from the project root in PowerShell:
 
 ```powershell
-.\.venv\Scripts\python.exe -m tabpfn4realestate.ames_smoke data/raw/openml/house_prices-42165.arff --sha256 10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279 --output runs
+git switch audit/u0
+.\.venv\Scripts\python.exe -m unittest discover -s tests -q
 ```
 
-Inspect the printed run directory's `manifest.json`, `metrics.json`, `split.json` and `predictions.csv`. A completed engineering run is not a recovered legacy result or a release gate. Record its run ID and observed metrics in `migration_report.md` and preserve the files. If the raw file is absent on a fresh clone, re-download it from the URL in `data/source_cards/openml_42165.yaml` and verify SHA-256 before this command.
+The saved U0 baseline and test evidence is in `runs/u0-smoke-20260928T082634Z-ef55636ed896/`. The source ARFF and row-level predictions are local ignored files; a fresh clone must download OpenML 42165 using `data/source_cards/openml_42165.yaml` and verify SHA-256 before replay. No releasable use of this data is asserted.
 
 ## Unresolved dependencies
 
-- Accessible legacy repository or local path, original Word specification, original split membership, XGBoost configuration/predictions and `feature_catalog.csv`.
+- Accessible legacy repository or local path, original Word specification, original 1,168/292 split membership, XGBoost configuration/predictions and `feature_catalog.csv`. On receipt, recover exact artifacts; do not reconstruct a new split as the original.
 - Rights decision for any releasable use of the Ames file; its OpenML licence field is `NA`.
-- Multi-market time-stamped US transactions and prospective labels for G-US.
+- Multi-market time-stamped US transactions and prospective labels for G-US. ON additionally needs authorised historical listing snapshots.
 
-These dependencies do not prevent the smoke command. They prevent legacy reproduction, a real-world US gate and international work.
+These block legacy reproduction and the US release gate, but not independent schema and OFF pipeline work. International implementation remains gated on G-US PASS.

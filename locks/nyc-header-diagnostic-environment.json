@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline candidate-only diagnosis of five pinned NYC borough XLSX headers; no sale-label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": {
+    "defusedxml": "0.7.1"
+  },
+  "runtime_dependency_lock": "locks/nyc-workbook-requirements.txt",
+  "runtime_dependency_lock_sha256": "af1adbfbc2d22b051cd98aefba9adbd323703c733ff0e2c5756db68000aea49d",
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "pyproject_sha256": "32be5f2a813476198f7afdce2e98b21f37304867d6161cec44c62d3eb6976f51",
+  "build_and_installer_tools": {
+    "pip": "26.2.1",
+    "setuptools": "84.0.0",
+    "wheel": "0.48.0",
+    "build": "1.6.1"
+  },
+  "test_tools_observed": {
+    "coverage": "7.6.12",
+    "pip-audit": "2.10.1",
+    "ruff": "0.13.0"
+  },
+  "package_inventory": "runs/u0-nyc-header-diagnostic-build-tool-remediation-20260929/package_inventory_after.txt",
+  "package_inventory_sha256": "d53f760a4b1be3f1d1231335433617ba1e3982112db3d0e7e106894e31597156"
+}

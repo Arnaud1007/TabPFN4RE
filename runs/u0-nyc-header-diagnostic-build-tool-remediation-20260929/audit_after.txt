@@ -1,0 +1,4 @@
+﻿command: .venv\Scripts\python.exe -m pip_audit --local --progress-spinner off --format json --output runs/u0-nyc-header-diagnostic-build-tool-remediation-20260929/audit_after.json
+exit_code: 0
+result: No known vulnerabilities found
+scope_note: tabpfn4realestate 0.0.1 is a local project package and could not be audited against PyPI; inspected project code and scoped runtime requirements separately.

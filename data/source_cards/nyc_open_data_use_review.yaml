@@ -1,0 +1,36 @@
+review_id: nyc_open_data_general_use_2026_09_29
+status: general_policy_review_only_dataset_release_pending
+reviewed_on: 2026-09-29
+publisher: New York City
+official_sources:
+  open_data_faq: https://www.nyc.gov/opendata/get-started/FAQs
+  portal_terms: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+  nyc_gov_terms: https://www.nyc.gov/main/terms-of-use
+  acris_service_page: https://www.nyc.gov/site/finance/taxes/acris.page
+observed_policy:
+  open_data_faq: >-
+    The City's FAQ states that use of NYC Open Data is unrestricted.
+  portal_terms: >-
+    Portal access also invokes NYC.gov terms and any additional terms set by
+    the submitting agency. The City disclaims data fitness and says records
+    may be updated, corrected or overwritten.
+  acris_service_page: >-
+    The ACRIS website describes a daily bandwidth limit and restrictions on
+    excessive automated access to that service. The bounded source pilot used
+    the separate NYC Open Data API; do not silently extend one service's
+    access policy to the other.
+dataset_metadata_observation: >-
+  The inspected NYC DOF rolling, annualized, ACRIS Master, ACRIS Legals and
+  document-code dataset metadata had null licence fields. A null field does
+  not itself grant or deny a reuse right.
+interpretation: >-
+  General NYC Open Data guidance supports ordinary reuse, including internal
+  research. This review has not resolved whether a particular dataset has
+  additional agency terms or whether a proposed released AVM may redistribute
+  source rows or address-level outputs. Those are separate decisions before
+  release or high-volume collection. This is a bounded source-policy reading,
+  not a legal opinion or a dataset-specific commercial approval.
+current_decision: bounded_internal_source_qualification_only
+commercial_release_decision: pending_dataset_and_use_specific_review
+raw_data_redistribution_decision: pending_dataset_and_use_specific_review
+historical_asof_decision: pending_first_availability_evidence

@@ -32,6 +32,7 @@ historical_vintages: present file does not establish first publication of each r
 correction_policy: NYC Open Data terms permit updates and overwrites; older versions are not retained by the portal
 licence_field_in_metadata: null
 rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+rights_review: data/source_cards/nyc_open_data_use_review.yaml
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 historical_asof_eligible: false

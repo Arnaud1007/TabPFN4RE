@@ -13,6 +13,7 @@ import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
+from urllib.error import HTTPError
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile, ZipInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -140,7 +141,7 @@ class CaptureTest(unittest.TestCase):
                 capture.capture_bundle(self.run_dir, transport=fake, clock=lambda: WHEN)
         self.assertEqual(fake.calls, [])
         self.assertFalse(self.run_dir.exists())
-        lock_bytes = b'{"collector": "nyc-official-borough-xlsx-v1"}\n'
+        lock_bytes = b'{"collector": "nyc-official-borough-xlsx-v2"}\n'
         lock.write_bytes(lock_bytes)
         results = iter(
             (
@@ -187,6 +188,45 @@ class CaptureTest(unittest.TestCase):
         replayed = capture.replay(self.run_dir)
         self.assertEqual(replayed, report)
 
+    def test_v2_intent_and_manifest_bind_exact_user_agent(self):
+        self.call_capture()
+        intent = json.loads((self.run_dir / "intent.json").read_bytes())
+        manifest = json.loads((self.run_dir / "manifest.json").read_bytes())
+        self.assertEqual(intent["protocol"], "nyc-official-borough-xlsx-v2")
+        self.assertEqual(manifest["protocol"], intent["protocol"])
+        self.assertEqual(intent["user_agent"], "TabPFN4RealEstate-U0/1.0")
+        self.assertEqual(manifest["user_agent"], intent["user_agent"])
+
+    def test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes(self):
+        for nonce, protocol, agent in (
+            (60, "nyc-official-borough-xlsx-v2", "DifferentAgent/1.0"),
+            (61, "nyc-official-borough-xlsx-v1", "TabPFN4RealEstate-U0/1.0"),
+        ):
+            with self.subTest(protocol=protocol, agent=agent):
+                run_dir = self.run_path(nonce)
+                capture.capture_bundle(
+                    run_dir,
+                    transport=FakeTransport(),
+                    clock=lambda: WHEN,
+                    provenance=PROVENANCE,
+                )
+                intent_file = run_dir / "intent.json"
+                manifest_file = run_dir / "manifest.json"
+                intent = json.loads(intent_file.read_bytes())
+                manifest = json.loads(manifest_file.read_bytes())
+                intent.update({"protocol": protocol, "user_agent": agent})
+                manifest.update(
+                    {
+                        "protocol": protocol,
+                        "user_agent": agent,
+                        "intent_sha256": capture._sha(capture._json_bytes(intent)),
+                    }
+                )
+                intent_file.write_bytes(capture._json_bytes(intent))
+                manifest_file.write_bytes(capture._json_bytes(manifest))
+                with self.assertRaises(ValueError):
+                    capture.replay(run_dir)
+
     def test_intent_precedes_first_get_and_receipts_follow_each_file(self):
         calls = []
         base = FakeTransport()
@@ -210,6 +250,21 @@ class CaptureTest(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             self.call_capture(fake)
         self.assertEqual(fake.calls, [])
+
+    def test_new_v2_run_preserves_old_v1_private_artifacts(self):
+        old_run = self.run_path(62)
+        old_run.mkdir()
+        old_intent = b'{"protocol":"nyc-official-borough-xlsx-v1"}\n'
+        old_failure = b'{"run_status":"incomplete"}\n'
+        (old_run / "intent.json").write_bytes(old_intent)
+        (old_run / "failure.json").write_bytes(old_failure)
+        self.call_capture()
+        self.assertEqual((old_run / "intent.json").read_bytes(), old_intent)
+        self.assertEqual((old_run / "failure.json").read_bytes(), old_failure)
+        self.assertEqual(
+            set(path.name for path in old_run.iterdir()),
+            {"intent.json", "failure.json"},
+        )
 
     def test_failure_preserves_intent_and_prior_receipts_without_manifest(self):
         count = 0
@@ -255,6 +310,91 @@ class CaptureTest(unittest.TestCase):
                 self.call_capture(fail_transport)
         self.assertTrue((self.run_dir / "intent.json").exists())
         self.assertFalse((self.run_dir / "failure.json").exists())
+
+    def test_http_error_records_only_safe_status_in_private_failure(self):
+        marker = "private-query-value"
+        body = BytesIO(b"secret response body")
+
+        @contextmanager
+        def transport(method, url, timeout):
+            raise HTTPError(
+                url + "?token=" + marker,
+                403,
+                "secret reason",
+                {"X-Private": "secret header"},
+                body,
+            )
+            yield  # pragma: no cover
+
+        with self.assertRaises(HTTPError):
+            self.call_capture(transport)
+        failure_bytes = (self.run_dir / "failure.json").read_bytes()
+        failure = json.loads(failure_bytes)
+        self.assertEqual(failure["http_status"], 403)
+        self.assertEqual(failure["request_ordinal"], 1)
+        self.assertEqual(failure["error_class"], "OSError")
+        for forbidden in (
+            marker,
+            "secret reason",
+            "secret header",
+            "secret response body",
+        ):
+            self.assertNotIn(forbidden.encode(), failure_bytes)
+        self.assertEqual(body.tell(), 0)
+
+    def test_non_http_failure_and_invalid_http_codes_omit_status(self):
+        for nonce, code in ((70, 99), (71, 600), (72, True), (73, "403")):
+            with self.subTest(code=code):
+                run_dir = self.run_path(nonce)
+
+                @contextmanager
+                def transport(method, url, timeout):
+                    raise HTTPError(url, code, "synthetic", {}, BytesIO())
+                    yield  # pragma: no cover
+
+                with self.assertRaises(HTTPError):
+                    capture.capture_bundle(
+                        run_dir,
+                        transport=transport,
+                        clock=lambda: WHEN,
+                        provenance=PROVENANCE,
+                    )
+                failure = json.loads((run_dir / "failure.json").read_bytes())
+                self.assertNotIn("http_status", failure)
+        run_dir = self.run_path(74)
+
+        @contextmanager
+        def timeout(method, url, duration):
+            raise TimeoutError("synthetic")
+            yield  # pragma: no cover
+
+        with self.assertRaises(TimeoutError):
+            capture.capture_bundle(
+                run_dir, transport=timeout, clock=lambda: WHEN, provenance=PROVENANCE
+            )
+        self.assertNotIn(
+            "http_status", json.loads((run_dir / "failure.json").read_bytes())
+        )
+
+    def test_http_error_status_accepts_exact_integer_boundaries(self):
+        for nonce, status in ((75, 100), (76, 599)):
+            with self.subTest(status=status):
+                run_dir = self.run_path(nonce)
+
+                @contextmanager
+                def transport(method, url, timeout):
+                    raise HTTPError(url, status, "synthetic", {}, BytesIO())
+                    yield  # pragma: no cover
+
+                with self.assertRaises(HTTPError):
+                    capture.capture_bundle(
+                        run_dir,
+                        transport=transport,
+                        clock=lambda: WHEN,
+                        provenance=PROVENANCE,
+                    )
+                failure = json.loads((run_dir / "failure.json").read_bytes())
+                self.assertEqual(failure["http_status"], status)
 
     def test_wrong_url_or_extra_call_is_rejected(self):
         client = capture.BoundedClient(FakeTransport())
@@ -543,20 +683,18 @@ class CaptureTest(unittest.TestCase):
 
     def test_default_transport_has_no_proxy_or_credentials(self):
         handlers = []
+        seen = []
 
         class Opener:
             @contextmanager
             def open(self, request, timeout):
-                self_request = request
-                self_outer.assertEqual(self_request.get_method(), "GET")
-                self_outer.assertFalse(
-                    any(
-                        key.lower()
-                        in {"authorization", "cookie", "proxy-authorization"}
-                        for key in self_request.headers
-                    )
+                self_outer.assertEqual(request.get_method(), "GET")
+                self_outer.assertEqual(
+                    {key.lower(): value for key, value in request.header_items()},
+                    {"user-agent": "TabPFN4RealEstate-U0/1.0"},
                 )
                 self_outer.assertEqual(timeout, 30)
+                seen.append(request.full_url)
                 with FakeResponse(workbook(), request.full_url) as response:
                     yield response
 
@@ -567,9 +705,11 @@ class CaptureTest(unittest.TestCase):
             return Opener()
 
         with patch.object(capture, "build_opener", side_effect=builder):
-            with capture._http_transport("GET", capture.BOROUGHS[0][1], 30):
-                pass
-        self.assertEqual(handlers[0].proxies, {})
+            for _, url in capture.BOROUGHS:
+                with capture._http_transport("GET", url, 30):
+                    pass
+        self.assertEqual(seen, [url for _, url in capture.BOROUGHS])
+        self.assertTrue(all(handlers[index].proxies == {} for index in range(0, 10, 2)))
         with self.assertRaises(ValueError):
             handlers[1].redirect_request(
                 None, None, 302, "redirect", {}, "https://other.test"

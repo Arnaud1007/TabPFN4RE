@@ -18,6 +18,7 @@ import stat
 import subprocess
 import time
 from typing import Callable, Iterator
+from urllib.error import HTTPError
 from urllib.request import (
     HTTPRedirectHandler,
     ProxyHandler,
@@ -32,7 +33,8 @@ from audit_nyc_acris_matches_v2 import _secure_directory, _verify_directory_acl
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PRIVATE_ROOT = PROJECT_ROOT / "data" / "raw" / "nyc_dof"
-PROTOCOL = "nyc-official-borough-xlsx-v1"
+PROTOCOL = "nyc-official-borough-xlsx-v2"
+USER_AGENT = "TabPFN4RealEstate-U0/1.0"
 SOURCE_PAGE = (
     "https://www.nyc.gov/site/finance/property/property-rolling-sales-data.page"
 )
@@ -84,7 +86,7 @@ class _NoRedirect(HTTPRedirectHandler):
 
 @contextmanager
 def _http_transport(method: str, url: str, timeout: int) -> Iterator[object]:
-    request = Request(url, method=method)
+    request = Request(url, headers={"User-Agent": USER_AGENT}, method=method)
     opener = build_opener(ProxyHandler({}), _NoRedirect())
     with opener.open(request, timeout=timeout) as response:
         yield response
@@ -444,6 +446,7 @@ def capture_bundle(
     _verify_directory_acl(target_dir)
     intent = {
         "protocol": PROTOCOL,
+        "user_agent": USER_AGENT,
         "run_id": target_dir.name,
         "started_at_utc": start_time,
         "intended_urls": [{"borough": name, "url": url} for name, url in BOROUGHS],
@@ -501,6 +504,7 @@ def capture_bundle(
         phase = "final_manifest"
         manifest = {
             "protocol": PROTOCOL,
+            "user_agent": USER_AGENT,
             "run_id": target_dir.name,
             "intent_sha256": _sha(intent_bytes),
             "source_page": SOURCE_PAGE,
@@ -522,6 +526,13 @@ def capture_bundle(
             error_class = "OSError"
         else:
             error_class = "OtherError"
+        http_status = (
+            error.code
+            if isinstance(error, HTTPError)
+            and type(error.code) is int
+            and 100 <= error.code <= 599
+            else None
+        )
         failure = {
             "protocol": PROTOCOL,
             "run_id": target_dir.name,
@@ -529,6 +540,7 @@ def capture_bundle(
             "phase": phase,
             "request_ordinal": client.count,
             "error_class": error_class,
+            **({"http_status": http_status} if http_status is not None else {}),
         }
         try:
             _write_new(target_dir / "failure.json", _json_bytes(failure))
@@ -565,9 +577,11 @@ def replay(run_dir: Path) -> dict:
     expected_urls = [{"borough": name, "url": url} for name, url in BOROUGHS]
     if (
         intent.get("protocol") != PROTOCOL
+        or intent.get("user_agent") != USER_AGENT
         or intent.get("run_id") != target_dir.name
         or intent.get("intended_urls") != expected_urls
         or manifest.get("protocol") != PROTOCOL
+        or manifest.get("user_agent") != USER_AGENT
         or manifest.get("run_id") != target_dir.name
         or manifest.get("intent_sha256") != _sha(intent_bytes)
         or manifest.get("bundle_status") != "bytes_captured_content_unqualified"

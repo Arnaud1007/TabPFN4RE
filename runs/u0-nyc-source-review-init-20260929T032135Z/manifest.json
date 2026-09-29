@@ -1,0 +1,33 @@
+{
+  "run_id": "u0-nyc-source-review-init-20260929T032135Z",
+  "status": "VERIFIED_EMPTY_PRIVATE_LEDGER",
+  "code_commit_at_init": "2c57d9adc7a660256d4d0a19445d449787e0a0f7",
+  "dirty_tree_at_init": true,
+  "known_concurrent_uncommitted_paths": [
+    "scripts/capture_nyc_dof_borough_exports.py",
+    "tests/test_capture_nyc_dof_borough_exports.py"
+  ],
+  "review_script_blob": "5ddb3b7612cbbb2790ebc1b2f776ec16e4e89842",
+  "private_io_blob": "6bcb2aff690a6a91eb2ffb5c544002a7aaf49f8f",
+  "protocol_path": "decisions/0027-nyc-ledger-evidence-boundary.md",
+  "protocol_blob": "46cfe70e7767058f268c0f9fd8ffa2427649f839",
+  "environment_lock_path": "locks/nyc-review-ledger-environment.json",
+  "environment_lock_sha256": "6917eee0362a1323af8b8bf5b052f56c5dfc596896efa94bf05e6607221c814b",
+  "source_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "sample_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "sampled_records": 200,
+  "review_entries": 0,
+  "complete_records": 0,
+  "partial_records": 0,
+  "unreviewed_records": 200,
+  "private_ledger_path": "data/raw/nyc_dof/manual-review-v1/reviews.jsonl",
+  "private_initial_ledger_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "private_manifest_path": "data/raw/nyc_dof/manual-review-v1/manifest.json",
+  "private_manifest_sha256": "474d8f38731e5f62eed1e0920f74263e2707c8e481d22ddb0bbb808e324a0216",
+  "private_init_snapshot_directory": "data/raw/nyc_dof/manual-review-v1/init-snapshot-20260929T032135Z",
+  "aggregate_sha256": "ee68bae54aaf46a350bb04ba8963403670583a86900efbad16ce8ea9efa747e6",
+  "replay_sha256": "ee68bae54aaf46a350bb04ba8963403670583a86900efbad16ce8ea9efa747e6",
+  "source_review_completed": false,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

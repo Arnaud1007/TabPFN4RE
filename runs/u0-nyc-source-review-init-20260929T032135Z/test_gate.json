@@ -1,0 +1,60 @@
+{
+  "run_id": "u0-nyc-source-review-init-20260929T032135Z",
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6",
+  "checks": [
+    {
+      "name": "focused_ledger_tests_and_coverage",
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --include=*review_nyc_sample.py,*private_review_io.py -m unittest tests.test_nyc_sample_review -q",
+      "environment_override": "COVERAGE_FILE=.coverage.nyc_review",
+      "exit_code": 0,
+      "duration_seconds": 41.290,
+      "observed_output": "Ran 18 tests; OK; review script 81%, private I/O 84%, combined 81% branch-aware coverage"
+    },
+    {
+      "name": "full_suite_before_init",
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+      "environment_override": "AMES_ARFF_PATH=<verified local OpenML ARFF>",
+      "exit_code": 0,
+      "duration_seconds": 131.153,
+      "observed_output": "Ran 504 tests; OK; zero skips"
+    },
+    {
+      "name": "direct_script_invocation",
+      "command": ".venv/Scripts/python.exe scripts/review_nyc_sample.py init <relative private inputs> - <aggregate output>",
+      "exit_code": 1,
+      "observed_output": "ModuleNotFoundError: No module named 'scripts'; no private ledger files written"
+    },
+    {
+      "name": "module_with_relative_paths",
+      "command": ".venv/Scripts/python.exe -m scripts.review_nyc_sample init <relative private inputs> - <aggregate output>",
+      "exit_code": 1,
+      "duration_seconds": 1.104,
+      "observed_output": "Private audit file must be directly inside its approved directory; restricted private directory created without ledger or manifest"
+    },
+    {
+      "name": "module_init_with_absolute_paths",
+      "command": ".venv/Scripts/python.exe -m scripts.review_nyc_sample init <resolved absolute private inputs> - <aggregate output>",
+      "exit_code": 0,
+      "duration_seconds": 0.913,
+      "output_artifact": "aggregate.json"
+    },
+    {
+      "name": "offline_summary_replay",
+      "command": ".venv/Scripts/python.exe -m scripts.review_nyc_sample summary <resolved absolute private inputs> - <new replay output>",
+      "exit_code": 0,
+      "duration_seconds": 0.940,
+      "output_artifact": "replay.json"
+    },
+    {
+      "name": "private_init_snapshot",
+      "command": "private_review_io.new_file() for create-new protected manifest and ledger copies",
+      "exit_code": 0,
+      "duration_seconds": 1.112,
+      "observed_output": "Two byte-identical frozen copies created in ignored init-snapshot-20260929T032135Z; ACL and no-overwrite verified"
+    }
+  ],
+  "mandatory_skips": 0,
+  "status": "VERIFIED_EMPTY_PRIVATE_LEDGER",
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

@@ -1,0 +1,21 @@
+{
+  "run_id": "u0-nyc-worksheet-inspection-v2-20260929T091128Z",
+  "private_inspection_run_id": "worksheet-inspection-20260929T091128Z-c241c261e987",
+  "protocol": "nyc-borough-worksheet-inspection-v2",
+  "code_commit": "2a74e0f1cbcb63414399e3a1250581fa09c89122",
+  "dirty_tree_at_inspection": false,
+  "environment_lock_sha256": "581fb3eb3c479a93552238c3aabe2a5fa138536c5597477e431b91e609fddf06",
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "private_intent_sha256": "c6a51945f3e2bc5a203b481138e9f9b7ccb922a10170cf1d9a578a0cd8e3edbd",
+  "private_result_sha256": "9f137b893533d6184babf1f5adda9b8b6ad21bc13cb426be8d29fb7153a4ae03",
+  "private_hash_manifest_sha256": "0970179b9f68872136b2499b0f565d9eff91c1f691a60cf059e1661e8e8f8169",
+  "public_aggregate_sha256": "9f137b893533d6184babf1f5adda9b8b6ad21bc13cb426be8d29fb7153a4ae03",
+  "public_replay_sha256": "997f2ebabf045eb36b14d66b89bc951f7f74df52bb2c2e2a233f7b19fb875181",
+  "private_workbook_count": 5,
+  "physical_worksheet_rows": 82370,
+  "qualified_borough_count": 0,
+  "inspection_status": "replayed_header_mismatch",
+  "sale_labels_certified": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

@@ -1,0 +1,62 @@
+{
+  "run_id": "u0-nyc-official-export-v2-captured-20260929T033558Z",
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6",
+  "checks": [
+    {
+      "name": "focused_collector_v2_tests_and_coverage",
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --include=*capture_nyc_dof_borough_exports.py -m unittest tests.test_capture_nyc_dof_borough_exports -q",
+      "environment_override": "COVERAGE_FILE=.coverage.nyc_borough_v2",
+      "exit_code": 0,
+      "observed_output": "33 tests passed; collector 86% branch-aware coverage"
+    },
+    {
+      "name": "full_suite_before_capture",
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+      "environment_override": "AMES_ARFF_PATH=<verified local OpenML ARFF>",
+      "exit_code": 0,
+      "duration_seconds": 144.362,
+      "observed_output": "510 tests passed; zero skips"
+    },
+    {
+      "name": "focused_collector_tests_after_fixture_rename",
+      "command": ".venv/Scripts/python.exe -m unittest tests.test_capture_nyc_dof_borough_exports -q",
+      "exit_code": 0,
+      "duration_seconds": 45.454,
+      "observed_output": "33 tests passed"
+    },
+    {
+      "name": "ruff_check_and_format",
+      "commands": [".venv/Scripts/python.exe -m ruff check scripts tests src", ".venv/Scripts/python.exe -m ruff format --check scripts tests src"],
+      "exit_code": 0,
+      "observed_output": "All checks passed; 63 files already formatted"
+    },
+    {
+      "name": "dependency_integrity_and_scoped_audit",
+      "commands": [".venv/Scripts/python.exe -m pip check", ".venv/Scripts/python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt"],
+      "exit_code": 0,
+      "observed_output": "No broken requirements; no known vulnerabilities in the scoped lock"
+    },
+    {
+      "name": "bounded_live_capture",
+      "command": ".venv/Scripts/python.exe scripts/capture_nyc_dof_borough_exports.py capture <new private absolute run directory>",
+      "exit_code": 0,
+      "output_artifact": "private intent, five workbooks, five receipts and manifest"
+    },
+    {
+      "name": "offline_replay",
+      "command": ".venv/Scripts/python.exe scripts/capture_nyc_dof_borough_exports.py replay <private absolute run directory>",
+      "exit_code": 0,
+      "output_artifact": "replay.json"
+    },
+    {
+      "name": "public_hash_verifier",
+      "command": "& 'runs/u0-nyc-official-export-v2-captured-20260929T033558Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "observed_output": "verified_nyc_official_export_v2_bytes_content_unqualified"
+    }
+  ],
+  "mandatory_skips": 0,
+  "status": "VERIFIED_SOURCE_BYTES_CONTENT_UNQUALIFIED",
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

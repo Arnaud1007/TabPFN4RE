@@ -1,0 +1,21 @@
+{
+  "run_id": "u0-nyc-official-export-v2-captured-20260929T033558Z",
+  "private_capture_run_id": "official-exports-20260929T033558Z-62ad417fb39f",
+  "protocol": "nyc-official-borough-xlsx-v2",
+  "capture_code_commit": "841e20ec9127ae2126b8496870d07e4f27159a62",
+  "capture_dirty_tree": false,
+  "capture_environment_lock_sha256": "b316f0abe097c3c629ecbf0bb48c77b4ab03685477c694e15dc7d4f597e4c2ff",
+  "captured_at_utc": "2026-09-29T03:36:01.423308Z",
+  "private_intent_sha256": "7c53d74270afe27a2c72d71a1099561992957957ae4602b0b982cec7313a5805",
+  "private_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "public_replay_sha256": "94921f4eb7dc7727199b182176ae01b71c0b0f254077f1d04a1fe40b59b67572",
+  "private_workbook_count": 5,
+  "private_workbook_bytes": 8094187,
+  "capture_status": "bytes_captured_content_unqualified",
+  "worksheet_content_qualified": false,
+  "historical_asof_eligible": false,
+  "sale_labels_certified": 0,
+  "nyc_manual_reviews_complete": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

@@ -31,6 +31,16 @@ manual_audit_sample_report: runs/u0-nyc-review-sample-20260928T234700Z/report.md
 manual_audit_selected_rows: 200
 manual_audit_completed_reviews: 0
 manual_audit_status: private_selection_only_no_eligibility_decision
+manual_audit_ledger_init: runs/u0-nyc-source-review-init-20260929T032135Z/manifest.json
+manual_audit_ledger_init_status: verified_empty_ledger_200_unreviewed
+official_borough_export_protocol: decisions/0026-nyc-official-borough-export-capture.md
+official_borough_export_transport_revision: decisions/0028-nyc-borough-export-user-agent-revision.md
+official_borough_export_capture: runs/u0-nyc-official-export-v2-captured-20260929T033558Z/manifest.json
+official_borough_export_capture_status: five_private_xlsx_byte_streams_content_unqualified
+official_borough_export_capture_bytes: 8094187
+official_borough_export_capture_on: 2026-09-29
+official_borough_export_worksheet_period_verified: false
+official_borough_export_first_row_availability_verified: false
 candidate_instrument_sources: [data/source_cards/nyc_acris_master.yaml, data/source_cards/nyc_acris_legals.yaml]
 instrument_linkage_protocol: decisions/0022-nyc-acris-linkage-pilot.md
 geography: New York City, five boroughs

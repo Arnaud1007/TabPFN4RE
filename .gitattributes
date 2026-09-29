@@ -57,3 +57,4 @@
 /tests/test_nyc_workbook_xml.py -text
 /tests/test_inspect_nyc_dof_borough_exports.py -text
 /decisions/0030-nyc-printer-settings-part-v2.md -text
+/decisions/0031-nyc-borough-header-diagnostic.md -text

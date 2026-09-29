@@ -39,3 +39,7 @@
 /tests/test_probe_nyc_archives.py -text
 /locks/nyc-archive-metadata-environment.json -text
 /decisions/0025-nyc-private-source-review-ledger.md -text
+/decisions/0026-nyc-official-borough-export-capture.md -text
+/scripts/review_nyc_sample.py -text
+/tests/test_nyc_sample_review.py -text
+/scripts/private_review_io.py -text

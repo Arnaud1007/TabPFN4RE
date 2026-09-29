@@ -27,3 +27,5 @@
 /decisions/0022-nyc-acris-linkage-pilot.md -text
 /data/source_cards/nyc_acris_master.yaml -text
 /data/source_cards/nyc_acris_legals.yaml -text
+/scripts/audit_nyc_acris_matches.py -text
+/tests/test_audit_nyc_acris_matches.py -text

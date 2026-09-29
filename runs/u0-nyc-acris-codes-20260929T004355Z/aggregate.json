@@ -1,0 +1,31 @@
+{
+  "cdec_class": "DEEDS AND OTHER CONVEYANCES",
+  "cdec_description": "CONDO DECLARATION",
+  "class_counts": {
+    "DEEDS AND OTHER CONVEYANCES": 34,
+    "MORTGAGES & INSTRUMENTS": 23,
+    "OTHER DOCUMENTS": 40,
+    "UCC AND FEDERAL LIENS": 29
+  },
+  "count_endpoint_status": "HTTP 500 observed; no response body retained",
+  "dataset_id": "7isb-wh4c",
+  "g_us_status": "PENDING",
+  "historical_vintage_verified": false,
+  "metadata_bytes": 13406,
+  "metadata_sha256": "73ed2f120b7764738d06408180d6b88c206a7375c876356aab9a29c024d48fce",
+  "missing_critical_fields": {
+    "class_code_description": 0,
+    "doc__type": 0,
+    "doc__type_description": 0,
+    "record_type": 0
+  },
+  "property_rows_queried": 0,
+  "reuse_rights_verified": false,
+  "row_count": 126,
+  "rows_bytes": 24004,
+  "rows_sha256": "518363532df753ac364ce47c5d62dfbdbaf609b598845bfcfe2ec83b9739c625",
+  "run_id": "u0-nyc-acris-codes-20260929T004355Z",
+  "status": "verified_current_code_table_inventory_only",
+  "u0_accepted": false,
+  "unique_code_count": 126
+}

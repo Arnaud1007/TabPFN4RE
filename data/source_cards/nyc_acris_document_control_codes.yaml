@@ -1,0 +1,43 @@
+source_id: nyc_acris_document_control_codes_7isb_wh4c
+status: candidate_code_table_inventory_only
+publisher: New York City Department of Finance
+dataset_name: ACRIS - Document Control Codes
+dataset_id: 7isb-wh4c
+landing_page: https://data.cityofnewyork.us/City-Government/ACRIS-Document-Control-Codes/7isb-wh4c
+metadata_url: https://data.cityofnewyork.us/api/views/7isb-wh4c
+metadata_retrieved_on: 2026-09-29
+local_metadata_path: data/raw/nyc_dof/acris-document-control-codes-7isb-wh4c-metadata-20260929.json
+metadata_sha256: 73ed2f120b7764738d06408180d6b88c206a7375c876356aab9a29c024d48fce
+metadata_bytes: 13406
+metadata_rows_updated_at_utc: 2026-08-05T13:49:57Z
+rows_url: https://data.cityofnewyork.us/resource/7isb-wh4c.json?$limit=1000
+rows_retrieved_on: 2026-09-29
+local_rows_path: data/raw/nyc_dof/acris-document-control-codes-7isb-wh4c-rows-20260929.json
+rows_sha256: 518363532df753ac364ce47c5d62dfbdbaf609b598845bfcfe2ec83b9739c625
+rows_bytes: 24004
+rows_observed: 126
+unique_doc_type_codes: 126
+class_counts:
+  DEEDS AND OTHER CONVEYANCES: 34
+  UCC AND FEDERAL LIENS: 29
+  OTHER DOCUMENTS: 40
+  MORTGAGES & INSTRUMENTS: 23
+row_grain: one document control code and description in the current portal extract
+code_field: doc__type
+description_field: doc__type_description
+class_field: class_code_description
+identifier_stability: historical code additions, removals and redefinitions not audited
+refresh_schedule: not_audited
+licence_field_in_metadata: null
+rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+permitted_use_decision: bounded_internal_source_qualification_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+notes: >-
+  Current code-table inventory contains 126 rows with no blank critical fields
+  or duplicate document-type codes. The count(*) API request returned HTTP 500;
+  the complete bounded 126-row response was recovered with $limit=1000.
+  CDEC is described as CONDO DECLARATION in the broad DEEDS AND OTHER
+  CONVEYANCES class. A class name alone does not prove an individual home sale.
+  The code table is a source-qualification aid, not a transaction label or
+  evidence of a historical publication vintage.

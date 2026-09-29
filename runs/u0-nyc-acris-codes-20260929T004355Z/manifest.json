@@ -1,0 +1,33 @@
+{
+  "checkpoint_identity": null,
+  "code_commit_at_retrieval": "3fa56d2b40b6431c5c2db32a5f57d60b5eba43f5",
+  "configuration_hash": "d5f444275a5a0b2a44a669e01cb417db2979fe7c00b712d19a08774fa4f59efb",
+  "data_snapshot_hash": "4bbdb815d21441c39df0a9788ad1dc1212bd1e1dfa405117381f76633d22ccb5",
+  "data_snapshot_hash_rule": "SHA-256 of metadata and bounded rows SHA-256 strings joined with | in that order",
+  "dirty_tree_at_retrieval": "tracked tree clean before code-table GET; source card and run files created afterward",
+  "environment_lock_path": "locks/nyc-acris-code-table-environment.json",
+  "environment_lock_sha256": "c8e3b8ea0277b6235ceb35ffa342b9eed374916b2f61a6cb75868d094941810c",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "immutable_files_sha256": {
+    "data/source_cards/nyc_acris_document_control_codes.yaml": "63963198cd0c9efc06b4982a28b44903e298682980a286f5f8d10991f8511b12",
+    "runs/u0-nyc-acris-codes-20260929T004355Z/aggregate.json": "99265dd2ed028e1bf5c0d0a451044eba818bf4ddfb0827cb7ca17fdc07dc3377",
+    "runs/u0-nyc-acris-codes-20260929T004355Z/configuration.json": "d5f444275a5a0b2a44a669e01cb417db2979fe7c00b712d19a08774fa4f59efb",
+    "runs/u0-nyc-acris-codes-20260929T004355Z/report.md": "ccf126d726e0b1c86fe814b88349e2a69749f39338ab2407441a50a1493720b6",
+    "runs/u0-nyc-acris-codes-20260929T004355Z/test_gate.json": "9471c1361169f3e53ca87e226803fab648b547a6e3da5c97d26c8e37317e01f2",
+    "runs/u0-nyc-acris-codes-20260929T004355Z/verification.log": "6c7ac6eb406d1d66ac6e58bee769ab79281d22c7642b329c15455e7a9713b84a",
+    "runs/u0-nyc-acris-codes-20260929T004355Z/verify_artifacts.ps1": "ccab0d183e5793ff316fca2cb85c32164237b5d9f6103353593cbceb62e1789a"
+  },
+  "property_rows_queried": 0,
+  "requirements": [
+    "US04",
+    "US05",
+    "US07",
+    "US22",
+    "US24"
+  ],
+  "run_id": "u0-nyc-acris-codes-20260929T004355Z",
+  "split_hash": null,
+  "status": "verified_current_code_table_inventory_only",
+  "u0_accepted": false
+}

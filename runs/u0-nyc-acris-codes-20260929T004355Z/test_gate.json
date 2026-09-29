@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "command": "GET https://data.cityofnewyork.us/api/views/7isb-wh4c",
+      "duration_seconds": null,
+      "exit_code": 0,
+      "name": "metadata_get",
+      "output_artifact": "aggregate.json",
+      "status": "response_saved_privately_and_hashed"
+    },
+    {
+      "command": "GET https://data.cityofnewyork.us/resource/7isb-wh4c.json?$select=count(*)",
+      "duration_seconds": null,
+      "exit_code": 1,
+      "name": "count_get",
+      "output_artifact": "report.md",
+      "status": "HTTP_500_no_response_body_retained"
+    },
+    {
+      "command": "GET https://data.cityofnewyork.us/resource/7isb-wh4c.json?$limit=1000",
+      "duration_seconds": null,
+      "exit_code": 0,
+      "name": "bounded_rows_get",
+      "output_artifact": "aggregate.json",
+      "status": "126_rows_saved_privately_and_hashed"
+    },
+    {
+      "command": "& 'runs/u0-nyc-acris-codes-20260929T004355Z/verify_artifacts.ps1'",
+      "duration_seconds": 0.516,
+      "exit_code": 0,
+      "name": "artifact_verifier",
+      "output_artifact": "verification.log",
+      "status": "passed"
+    }
+  ],
+  "g_us_status": "PENDING",
+  "model_tests_run": 0,
+  "run_id": "u0-nyc-acris-codes-20260929T004355Z",
+  "skipped_mandatory_tests": 0,
+  "u0_accepted": false
+}

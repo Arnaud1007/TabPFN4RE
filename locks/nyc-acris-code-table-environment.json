@@ -1,0 +1,9 @@
+{
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "purpose": "NYC ACRIS official document-code inventory only",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": [],
+  "schema_version": 1
+}

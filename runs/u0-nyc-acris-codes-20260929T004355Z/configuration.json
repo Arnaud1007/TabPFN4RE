@@ -1,0 +1,12 @@
+{
+  "code_commit_at_retrieval": "3fa56d2b40b6431c5c2db32a5f57d60b5eba43f5",
+  "count_url": "https://data.cityofnewyork.us/resource/7isb-wh4c.json?$select=count(*)",
+  "max_response_bytes": 2000000,
+  "max_rows": 999,
+  "metadata_url": "https://data.cityofnewyork.us/api/views/7isb-wh4c",
+  "raw_storage": "data/raw/nyc_dof",
+  "request_timeout_seconds": 30,
+  "rows_url": "https://data.cityofnewyork.us/resource/7isb-wh4c.json?$limit=1000",
+  "run_id": "u0-nyc-acris-codes-20260929T004355Z",
+  "source_card": "data/source_cards/nyc_acris_document_control_codes.yaml"
+}

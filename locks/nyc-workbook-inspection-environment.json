@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline inspection of pinned NYC borough XLSX structure and sale-date period; no label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": {
+    "defusedxml": "0.7.1"
+  },
+  "runtime_dependency_lock": "locks/nyc-workbook-requirements.txt",
+  "runtime_dependency_lock_sha256": "af1adbfbc2d22b051cd98aefba9adbd323703c733ff0e2c5756db68000aea49d",
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "test_tools_observed": {
+    "coverage": "7.6.12",
+    "pip-audit": "2.10.1",
+    "ruff": "0.13.0"
+  }
+}

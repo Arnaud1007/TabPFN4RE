@@ -49,3 +49,6 @@
 /locks/nyc-borough-capture-environment.json -text
 /decisions/0028-nyc-borough-export-user-agent-revision.md -text
 /locks/nyc-review-ledger-environment.json -text
+/decisions/0029-nyc-borough-worksheet-inspection.md -text
+/locks/nyc-workbook-requirements.txt -text
+/locks/nyc-workbook-inspection-environment.json -text

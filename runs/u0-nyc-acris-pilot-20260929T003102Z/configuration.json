@@ -1,0 +1,25 @@
+{
+  "code_commit": "d51fb533100c5b42960d9d2eb90a499388fd7a68",
+  "legals_bbl_cap": 250,
+  "linked_legals_cap": 100,
+  "live_command": ".\\.venv\\Scripts\\python.exe scripts/audit_nyc_acris_matches.py --snapshot data/raw/nyc_dof/nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv --ledger data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z.jsonl --private-run-dir data/raw/nyc_dof/acris-pilot-20260929T003102Z",
+  "master_cap": 2,
+  "max_http_requests": 50,
+  "max_response_bytes": 1048576,
+  "minimum_inter_request_seconds": 1,
+  "no_silent_cap_widening": true,
+  "private_run_dir": "data/raw/nyc_dof/acris-pilot-20260929T003102Z",
+  "protocol": "nyc-acris-pilot-v1",
+  "protocol_path": "decisions/0022-nyc-acris-linkage-pilot.md",
+  "protocol_sha256": "593bc4f566244b0be31bd79e16daed97f0ddc223c9849a0d0199e3671ba04600",
+  "request_timeout_seconds": 30,
+  "run_id": "u0-nyc-acris-pilot-20260929T003102Z",
+  "sample_ledger_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "selected_boroughs": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "source_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2"
+}

@@ -1,5 +1,5 @@
 source_id: nyc_acris_real_property_master_bnx9_e6tj
-status: candidate_metadata_inventory_only
+status: candidate_bounded_pilot_incomplete
 publisher: New York City Department of Finance
 dataset_name: ACRIS - Real Property Master
 dataset_id: bnx9-e6tj
@@ -42,3 +42,6 @@ notes: >-
   has yet been admitted as a matched transfer or price label. A document may
   link to several Legals rows. Document and recording dates differ from a
   verified close date, and current metadata cannot establish first publication.
+
+pilot_evidence: runs/u0-nyc-acris-pilot-20260929T003102Z/report.md
+pilot_status: incomplete_saturated_after_3_requests

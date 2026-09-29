@@ -1,5 +1,5 @@
 source_id: nyc_acris_real_property_legals_8h5j_fqxa
-status: candidate_metadata_inventory_only
+status: candidate_bounded_pilot_incomplete
 publisher: New York City Department of Finance
 dataset_name: ACRIS - Real Property Legals
 dataset_id: 8h5j-fqxa
@@ -36,3 +36,6 @@ notes: >-
   candidate linkage, not a proven dwelling or economic transfer. A document
   may name multiple lots and an apartment unit may be absent or ambiguous.
   Query all linked legal rows before judging transaction scope.
+
+pilot_evidence: runs/u0-nyc-acris-pilot-20260929T003102Z/report.md
+pilot_status: incomplete_saturated_after_3_requests

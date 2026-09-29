@@ -1,0 +1,7 @@
+$ .venv/Scripts/python.exe -m unittest discover -s tests -q
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: '<HOME>\\AppData\\Local\\Temp\\tmpjaa3jf0k\\.report.json-iij1dvlo.tmp' -> '<HOME>\\AppData\\Local\\Temp\\tmpjaa3jf0k\\report.json'
+----------------------------------------------------------------------
+Ran 419 tests in 30.136s
+
+OK (skipped=1)

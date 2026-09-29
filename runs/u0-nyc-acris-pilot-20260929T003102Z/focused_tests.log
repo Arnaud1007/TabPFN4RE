@@ -1,0 +1,5 @@
+$ .venv/Scripts/python.exe -m coverage run --branch --source=audit_nyc_acris_matches -m unittest tests.test_audit_nyc_acris_matches -q
+----------------------------------------------------------------------
+Ran 25 tests in 8.767s
+
+OK

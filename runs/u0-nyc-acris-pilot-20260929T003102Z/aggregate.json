@@ -1,0 +1,37 @@
+{
+  "failed_response_saved": false,
+  "failure_kind": "saturated",
+  "first_bbl_distinct_documents": 24,
+  "first_bbl_legals_rows": 27,
+  "first_document_master_rows": 1,
+  "g_us_status": "PENDING",
+  "http_requests": 3,
+  "ledger_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "manual_reviewed_records": 0,
+  "manual_reviews_completed": 0,
+  "private_artifacts": {
+    "saved_responses": [
+      {
+        "bytes": 6373,
+        "filename": "response-001.json",
+        "rows": 27,
+        "sha256": "4985a33ada4bb0187d1be0d3277927f05854a1b7c0afdb1c495e16041fea3564"
+      },
+      {
+        "bytes": 298,
+        "filename": "response-002.json",
+        "rows": 1,
+        "sha256": "35fd152970a911a2419fae30be4cd6f43f408cb85aacb7e549faa91d2c8ffb1f"
+      }
+    ],
+    "state_bytes": 2505,
+    "state_sha256": "9cceeb59696066c1abae707951cce7c16e116d6d65f3e9b022d83b100cc456b8"
+  },
+  "protocol": "nyc-acris-pilot-v1",
+  "run_id": "u0-nyc-acris-pilot-20260929T003102Z",
+  "sale_labels_certified": 0,
+  "saved_private_responses": 2,
+  "snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "status": "incomplete",
+  "u0_accepted": false
+}

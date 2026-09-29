@@ -29,3 +29,4 @@
 /data/source_cards/nyc_acris_legals.yaml -text
 /scripts/audit_nyc_acris_matches.py -text
 /tests/test_audit_nyc_acris_matches.py -text
+/locks/nyc-acris-pilot-environment.json -text

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from hashlib import sha256
+from io import BytesIO
 import json
 import os
 from pathlib import Path
@@ -16,7 +17,8 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import capture_nyc_dof_borough_exports as capture  # noqa: E402
 import inspect_nyc_dof_borough_exports as inspection  # noqa: E402
-from tests.test_nyc_workbook_xml import synthetic_xlsx  # noqa: E402
+import nyc_workbook_xml as xml  # noqa: E402
+from tests.test_nyc_workbook_xml import TEST_PIN, synthetic_xlsx  # noqa: E402
 
 
 class InspectorTest(unittest.TestCase):
@@ -68,6 +70,13 @@ class InspectorTest(unittest.TestCase):
             ),
             patch.object(inspection, "verify_acl"),
             patch.object(inspection, "secure_directory"),
+            patch.object(
+                inspection,
+                "inspect_workbook",
+                side_effect=lambda handle, **kwargs: xml._inspect_workbook_with_pin(
+                    handle, TEST_PIN, **kwargs
+                ),
+            ),
         ]
         for item in patchers:
             item.start()
@@ -318,6 +327,24 @@ class InspectorTest(unittest.TestCase):
         self.assertEqual(
             json.loads(result.stdout)["status"], "plan_only_no_workbook_open"
         )
+
+    def test_production_parser_and_cli_offer_no_pin_override(self):
+        with patch.dict(os.environ, {"TABPFN_PRINTER_SHA256": TEST_PIN[1]}):
+            with self.assertRaises(ValueError):
+                xml.inspect_workbook(BytesIO(self.body), timer=lambda: 0.0, start=0.0)
+        with self.assertRaises(TypeError):
+            inspection.inspect_capture(
+                self.capture_dir, self.output_dir, printer_pin=TEST_PIN
+            )
+        command = [
+            sys.executable,
+            str(Path(inspection.__file__)),
+            "plan",
+            "--printer-pin",
+            TEST_PIN[1],
+        ]
+        result = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
 
 
 if __name__ == "__main__":

@@ -22,7 +22,41 @@ from defusedxml import ElementTree as DET
 from profile_nyc_rolling_snapshot import HEADER
 
 
-PROTOCOL = "nyc-borough-worksheet-inspection-v1"
+PROTOCOL = "nyc-borough-worksheet-inspection-v2"
+PRINTER_PART = "xl/printerSettings/printerSettings1.bin"
+PRINTER_MIME = (
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings"
+)
+PRINTER_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings"
+PRINTER_TARGET = "../printerSettings/printerSettings1.bin"
+PRODUCTION_PRINTER_PIN = (
+    5024,
+    "7d3c762f37f75bbe2ff459ab52b55b2e7be8a8603e2ad227248f6d4519a0f96b",
+)
+REQUIRED_MEMBERS = frozenset(
+    {
+        "[Content_Types].xml",
+        "_rels/.rels",
+        "docProps/app.xml",
+        "docProps/core.xml",
+        "docProps/custom.xml",
+        "xl/_rels/workbook.xml.rels",
+        PRINTER_PART,
+        "xl/sharedStrings.xml",
+        "xl/styles.xml",
+        "xl/theme/theme1.xml",
+        "xl/workbook.xml",
+        "xl/worksheets/_rels/sheet1.xml.rels",
+        "xl/worksheets/sheet1.xml",
+    }
+)
+OPTIONAL_MEMBER = "xl/calcChain.xml"
+ROOT_RELATIONSHIPS = {
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument": "xl/workbook.xml",
+    "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties": "docProps/core.xml",
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties": "docProps/app.xml",
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties": "docProps/custom.xml",
+}
 HEADER_SHA256 = sha256("\x1f".join(HEADER).encode("utf-8")).hexdigest()
 EXPECTED_HEADER_SHA256 = (
     "66e69917e7320aa14485b0f6a3eee7b6ae1fc7b4632d93134a5ca53f326feb65"
@@ -98,9 +132,7 @@ def _member_names(archive: ZipFile) -> set[str]:
         if kind == stat.S_IFLNK or member.flag_bits & 1:
             raise ValueError("Workbook ZIP member is linked or encrypted")
         if member.is_dir() or kind == stat.S_IFDIR:
-            if not member.is_dir() or member.file_size != 0:
-                raise ValueError("Workbook ZIP directory entry is invalid")
-            continue
+            raise ValueError("Workbook ZIP directory entry is forbidden")
         names.add(name)
         if member.compress_type not in (0, 8):
             raise ValueError("Workbook ZIP compression is unsupported")
@@ -108,7 +140,7 @@ def _member_names(archive: ZipFile) -> set[str]:
         if member.file_size > MAX_TOTAL_DECODED or total > MAX_TOTAL_DECODED:
             raise ValueError("Workbook ZIP exceeds decoded cap")
         lower = name.lower()
-        if lower.endswith(".bin") or any(
+        if (lower.endswith(".bin") and name != PRINTER_PART) or any(
             token in lower
             for token in (
                 "vba",
@@ -120,14 +152,38 @@ def _member_names(archive: ZipFile) -> set[str]:
             )
         ):
             raise ValueError("Workbook contains an active or external part")
-    if not {
-        "[Content_Types].xml",
-        "_rels/.rels",
-        "xl/workbook.xml",
-        "xl/_rels/workbook.xml.rels",
-    }.issubset(names):
-        raise ValueError("Workbook ZIP lacks required metadata")
+    if names not in (REQUIRED_MEMBERS, REQUIRED_MEMBERS | {OPTIONAL_MEMBER}):
+        raise ValueError("Workbook ZIP inventory differs from pinned structure")
     return names
+
+
+def _check_printer_bytes(
+    archive: ZipFile, pin: tuple[int, str], timer: Timer, start: float
+) -> None:
+    expected_size, expected_digest = pin
+    if (
+        type(expected_size) is not int
+        or expected_size <= 0
+        or not isinstance(expected_digest, str)
+        or re.fullmatch(r"[0-9a-f]{64}", expected_digest) is None
+    ):
+        raise ValueError("Printer pin is invalid")
+    if archive.getinfo(PRINTER_PART).file_size != expected_size:
+        raise ValueError("Printer settings size differs from pin")
+    digest = sha256()
+    count = 0
+    with archive.open(PRINTER_PART) as source:
+        while True:
+            _check_time(timer, start)
+            chunk = source.read(min(65536, expected_size - count + 1))
+            if not chunk:
+                break
+            count += len(chunk)
+            if count > expected_size:
+                raise ValueError("Printer settings decoded size exceeds pin")
+            digest.update(chunk)
+    if count != expected_size or digest.hexdigest() != expected_digest:
+        raise ValueError("Printer settings digest differs from pin")
 
 
 def _xml_root(archive: ZipFile, name: str, limit: int, timer: Timer, start: float):
@@ -188,7 +244,7 @@ def _target(source_part: str, target: str, names: set[str]) -> str:
 
 def _relationships(
     archive: ZipFile, names: set[str], timer: Timer, start: float
-) -> dict[str, dict[str, tuple[str, str]]]:
+) -> dict[str, dict[str, tuple[str, str, str]]]:
     result = {}
     for name in sorted(item for item in names if item.endswith(".rels")):
         root = _xml_root(archive, name, MAX_OTHER_XML, timer, start)
@@ -219,9 +275,39 @@ def _relationships(
                 )
             ):
                 raise ValueError("Workbook relationship references an active part")
-            mapping[identifier] = (kind, _target(source, target, names))
+            mapping[identifier] = (kind, _target(source, target, names), target)
         result[source] = mapping
     return result
+
+
+def _check_root(relationships: dict[str, dict[str, tuple[str, str, str]]]) -> None:
+    root = relationships.get("", {})
+    if len(root) != len(ROOT_RELATIONSHIPS):
+        raise ValueError("Workbook root relationship set differs")
+    seen: set[str] = set()
+    for kind, resolved, literal in root.values():
+        if (
+            kind in seen
+            or ROOT_RELATIONSHIPS.get(kind) != literal
+            or resolved != literal
+        ):
+            raise ValueError("Workbook root relationship differs from pin")
+        seen.add(kind)
+    if seen != ROOT_RELATIONSHIPS.keys():
+        raise ValueError("Workbook root relationship type is missing")
+
+
+def _check_printer_relationship(
+    relationships: dict[str, dict[str, tuple[str, str, str]]], sheet: str
+) -> None:
+    incoming = [
+        (source, kind, literal, resolved)
+        for source, mapping in relationships.items()
+        for kind, resolved, literal in mapping.values()
+        if resolved == PRINTER_PART or kind == PRINTER_REL
+    ]
+    if incoming != [(sheet, PRINTER_REL, PRINTER_TARGET, PRINTER_PART)]:
+        raise ValueError("Printer settings relationship differs from pin")
 
 
 def _content_types(archive: ZipFile, timer: Timer, start: float) -> set[str]:
@@ -232,7 +318,14 @@ def _content_types(archive: ZipFile, timer: Timer, start: float) -> set[str]:
     ):
         raise ValueError("Workbook content-type XML root is invalid")
     worksheet_parts: set[str] = set()
+    printer_defaults = 0
     for entry in root:
+        default_tag = (
+            "{http://schemas.openxmlformats.org/package/2006/content-types}Default"
+        )
+        override_tag = (
+            "{http://schemas.openxmlformats.org/package/2006/content-types}Override"
+        )
         metadata = " ".join(str(value).lower() for value in entry.attrib.values())
         if any(
             token in metadata
@@ -246,11 +339,52 @@ def _content_types(archive: ZipFile, timer: Timer, start: float) -> set[str]:
             )
         ):
             raise ValueError("Workbook content types reference an active part")
+        content_type = entry.get("ContentType", "")
+        extension = entry.get("Extension", "")
+        part_name = entry.get("PartName", "")
+        if entry.tag == default_tag:
+            if part_name or re.fullmatch(r"[A-Za-z0-9]+", extension) is None:
+                raise ValueError("Workbook content-type extension is unsafe")
+        elif entry.tag == override_tag:
+            if (
+                extension
+                or not part_name.startswith("/")
+                or part_name.startswith("//")
+                or "\\" in part_name
+                or "%" in part_name
+                or any(character in part_name for character in ("?", "#", ":"))
+                or any(ord(char) < 33 or ord(char) == 127 for char in part_name)
+                or any(
+                    segment in ("", ".", "..") for segment in part_name[1:].split("/")
+                )
+            ):
+                raise ValueError("Workbook content-type PartName is unsafe")
+        else:
+            raise ValueError("Workbook content-type element is unsupported")
+        if extension.lower() == "bin":
+            if (
+                entry.tag != default_tag
+                or extension != "bin"
+                or content_type != PRINTER_MIME
+            ):
+                raise ValueError("Printer settings default MIME differs from pin")
+            printer_defaults += 1
+        if (
+            part_name.casefold() == ("/" + PRINTER_PART).casefold()
+            or (
+                entry.tag == override_tag
+                and (
+                    part_name.casefold().endswith(".bin")
+                    or content_type == PRINTER_MIME
+                )
+            )
+            or (content_type == PRINTER_MIME and extension != "bin")
+        ):
+            raise ValueError("Printer settings Override is forbidden")
         if entry.get("ContentType", "").lower().endswith("spreadsheetml.worksheet+xml"):
             part = entry.get("PartName", "")
             if (
-                entry.tag
-                != "{http://schemas.openxmlformats.org/package/2006/content-types}Override"
+                entry.tag != override_tag
                 or not part.startswith("/")
                 or part[1:] in worksheet_parts
             ):
@@ -258,6 +392,8 @@ def _content_types(archive: ZipFile, timer: Timer, start: float) -> set[str]:
                     "Workbook worksheet content-type declaration is invalid"
                 )
             worksheet_parts.add(part[1:])
+    if printer_defaults != 1:
+        raise ValueError("Printer settings Default declaration is missing or duplicate")
     return worksheet_parts
 
 
@@ -272,13 +408,13 @@ def _workbook(
         raise ValueError("Workbook must contain exactly one data sheet")
     sheet_id = sheets[0].get(RNS + "id")
     mapping = relationships.get("xl/workbook.xml", {})
-    if sum(kind.endswith("/worksheet") for kind, _ in mapping.values()) != 1:
+    if sum(kind.endswith("/worksheet") for kind, _, _ in mapping.values()) != 1:
         raise ValueError("Workbook has multiple worksheet relationships")
     if sheet_id not in mapping or not mapping[sheet_id][0].endswith("/worksheet"):
         raise ValueError("Workbook sheet relationship is invalid")
     sheet_path = mapping[sheet_id][1]
     shared = [
-        path for kind, path in mapping.values() if kind.endswith("/sharedStrings")
+        path for kind, path, _ in mapping.values() if kind.endswith("/sharedStrings")
     ]
     if len(shared) > 1:
         raise ValueError("Workbook shared strings are ambiguous")
@@ -560,10 +696,14 @@ def _worksheet(
     return state
 
 
-def inspect_workbook(
-    handle: BufferedIOBase, *, timer: Timer = time.monotonic, start: float | None = None
+def _inspect_workbook_with_pin(
+    handle: BufferedIOBase,
+    pin: tuple[int, str],
+    *,
+    timer: Timer = time.monotonic,
+    start: float | None = None,
 ) -> dict:
-    """Inspect a workbook using a caller-owned seekable handle; no extraction."""
+    """Internal synthetic-fixture entry; production uses a fixed pin below."""
     if HEADER_SHA256 != EXPECTED_HEADER_SHA256:
         raise ValueError("Pinned NYC header definition changed")
     origin = timer() if start is None else start
@@ -572,6 +712,7 @@ def inspect_workbook(
         handle.seek(0)
         with ZipFile(handle) as archive:
             names = _member_names(archive)
+            _check_printer_bytes(archive, pin, timer, origin)
             sheet_members = {
                 name
                 for name in names
@@ -579,16 +720,11 @@ def inspect_workbook(
             }
             declared_sheets = _content_types(archive, timer, origin)
             relationships = _relationships(archive, names, timer, origin)
-            root = relationships.get("", {})
-            if (
-                len(root) != 1
-                or not next(iter(root.values()))[0].endswith("/officeDocument")
-                or next(iter(root.values()))[1] != "xl/workbook.xml"
-            ):
-                raise ValueError("Workbook root relationship is invalid")
+            _check_root(relationships)
             sheet, system, shared_path = _workbook(
                 archive, relationships, timer, origin
             )
+            _check_printer_relationship(relationships, sheet)
             if sheet_members != {sheet} or (
                 declared_sheets and declared_sheets != {sheet}
             ):
@@ -604,3 +740,12 @@ def inspect_workbook(
             }
     except (BadZipFile, LargeZipFile, EOFError, RuntimeError) as error:
         raise ValueError("Workbook ZIP is invalid") from error
+
+
+def inspect_workbook(
+    handle: BufferedIOBase, *, timer: Timer = time.monotonic, start: float | None = None
+) -> dict:
+    """Production parser with the byte-pinned official printer-settings part."""
+    return _inspect_workbook_with_pin(
+        handle, PRODUCTION_PRINTER_PIN, timer=timer, start=start
+    )

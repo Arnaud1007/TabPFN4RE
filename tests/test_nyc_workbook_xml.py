@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
+from hashlib import sha256
 from io import BytesIO
 from pathlib import Path
 import sys
@@ -13,6 +14,28 @@ from zipfile import ZIP_DEFLATED, ZipFile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import nyc_workbook_xml as xml  # noqa: E402
 from profile_nyc_rolling_snapshot import HEADER  # noqa: E402
+
+
+TEST_PRINTER = b"opaque synthetic printer settings only"
+TEST_PIN = (len(TEST_PRINTER), sha256(TEST_PRINTER).hexdigest())
+PRINTER_PART = "xl/printerSettings/printerSettings1.bin"
+PRINTER_MIME = (
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.printerSettings"
+)
+PRINTER_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/printerSettings"
+
+
+def archive_parts(body: bytes) -> dict[str, bytes]:
+    with ZipFile(BytesIO(body)) as archive:
+        return {name: archive.read(name) for name in archive.namelist()}
+
+
+def repack(parts: dict[str, bytes]) -> bytes:
+    buffer = BytesIO()
+    with ZipFile(buffer, "w", ZIP_DEFLATED) as archive:
+        for name, body in parts.items():
+            archive.writestr(name, body)
+    return buffer.getvalue()
 
 
 def cell(column: int, row: int, value: str, *, kind: str = "inlineStr") -> str:
@@ -35,6 +58,7 @@ def synthetic_xlsx(
     extra_relationship: str = "",
     extra_parts: dict[str, bytes] | None = None,
     date1904: str = "",
+    omit_parts: tuple[str, ...] = (),
 ) -> bytes:
     if rows is None:
         header = "".join(cell(index, 1, name) for index, name in enumerate(HEADER, 1))
@@ -52,36 +76,243 @@ def synthetic_xlsx(
     relationships = (
         '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
         f'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="{relationship_target}"/>'
-        + (
-            '<Relationship Id="rIdShared" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>'
-            if shared is not None
-            else ""
-        )
+        + '<Relationship Id="rIdShared" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>'
         + extra_relationship
         + "</Relationships>"
     )
     parts = {
-        "[Content_Types].xml": b'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"/>',
-        "_rels/.rels": b'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdRoot" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>',
+        "[Content_Types].xml": (
+            f'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="bin" ContentType="{PRINTER_MIME}"/></Types>'
+        ).encode(),
+        "_rels/.rels": b'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdRoot" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rIdCore" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rIdApp" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/><Relationship Id="rIdCustom" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"/></Relationships>',
+        "docProps/app.xml": b"<Properties/>",
+        "docProps/core.xml": b"<Properties/>",
+        "docProps/custom.xml": b"<Properties/>",
         "xl/workbook.xml": workbook.encode(),
         "xl/_rels/workbook.xml.rels": relationships.encode(),
+        "xl/sharedStrings.xml": (
+            shared
+            or '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"/>'
+        ).encode(),
+        "xl/styles.xml": b"<styleSheet/>",
+        "xl/theme/theme1.xml": b"<theme/>",
+        PRINTER_PART: TEST_PRINTER,
+        "xl/worksheets/_rels/sheet1.xml.rels": (
+            f'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdPrinter" Type="{PRINTER_REL}" Target="../printerSettings/printerSettings1.bin"/></Relationships>'
+        ).encode(),
         "xl/worksheets/sheet1.xml": (
             '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>'
             + rows
             + "</sheetData></worksheet>"
         ).encode(),
-        **({"xl/sharedStrings.xml": shared.encode()} if shared is not None else {}),
         **(extra_parts or {}),
     }
-    buffer = BytesIO()
-    with ZipFile(buffer, "w", ZIP_DEFLATED) as archive:
-        for name, body in parts.items():
-            archive.writestr(name, body)
-    return buffer.getvalue()
+    return repack(
+        {name: body for name, body in parts.items() if name not in omit_parts}
+    )
 
 
 def inspect(data: bytes, *, timer=lambda: 0.0) -> dict:
-    return xml.inspect_workbook(BytesIO(data), timer=timer, start=0.0)
+    return xml._inspect_workbook_with_pin(
+        BytesIO(data), TEST_PIN, timer=timer, start=0.0
+    )
+
+
+def mutated(
+    *,
+    replace: dict[str, bytes] | None = None,
+    remove: tuple[str, ...] = (),
+    add: dict[str, bytes] | None = None,
+) -> bytes:
+    parts = archive_parts(synthetic_xlsx())
+    return repack(
+        {
+            **{name: body for name, body in parts.items() if name not in remove},
+            **(replace or {}),
+            **(add or {}),
+        }
+    )
+
+
+class V2PrinterPolicyTest(unittest.TestCase):
+    def test_exact_inventory_and_optional_calc_chain(self):
+        self.assertTrue(inspect(synthetic_xlsx())["qualified"])
+        self.assertTrue(
+            inspect(mutated(add={"xl/calcChain.xml": b"<calcChain/>"}))["qualified"]
+        )
+        for name in ("xl/opaque.dat", "xl/second.bin", "xl/"):
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                inspect(mutated(add={name: b"opaque"}))
+
+    def test_pinned_binary_size_digest_path_and_case(self):
+        for replacement in (b"X" * len(TEST_PRINTER), TEST_PRINTER + b"x"):
+            with (
+                self.subTest(replacement=replacement[:2]),
+                self.assertRaises(ValueError),
+            ):
+                inspect(mutated(replace={PRINTER_PART: replacement}))
+        for wrong in (
+            "xl/printerSettings/other.bin",
+            "xl/printerSettings/PrinterSettings1.bin",
+        ):
+            with self.subTest(path=wrong), self.assertRaises(ValueError):
+                inspect(mutated(remove=(PRINTER_PART,), add={wrong: TEST_PRINTER}))
+        with self.assertRaises(ValueError):
+            inspect(mutated(remove=(PRINTER_PART,)))
+
+    def test_exact_default_mime_and_no_override(self):
+        original = archive_parts(synthetic_xlsx())["[Content_Types].xml"]
+        cases = (
+            original.replace(
+                b'<Default Extension="bin" ContentType="'
+                + PRINTER_MIME.encode()
+                + b'"/>',
+                b"",
+            ),
+            original.replace(
+                b"</Types>",
+                b'<Default Extension="bin" ContentType="'
+                + PRINTER_MIME.encode()
+                + b'"/></Types>',
+            ),
+            original.replace(PRINTER_MIME.encode(), b"application/octet-stream"),
+            original.replace(
+                b"</Types>",
+                b'<Override PartName="/'
+                + PRINTER_PART.encode()
+                + b'" ContentType="'
+                + PRINTER_MIME.encode()
+                + b'"/></Types>',
+            ),
+            original.replace(b'Extension="bin"', b'Extension="BIN"'),
+            original.replace(
+                b"</Types>",
+                b'<Override PartName="/xl/other.bin" ContentType="application/octet-stream"/></Types>',
+            ),
+            original.replace(
+                b"</Types>",
+                b'<Override PartName="/xl/printerSettings/printerSettings1%2ebin" ContentType="application/octet-stream"/></Types>',
+            ),
+            original.replace(
+                b"</Types>",
+                b'<Default Extension="b%69n" ContentType="application/octet-stream"/></Types>',
+            ),
+            original.replace(
+                b"</Types>",
+                b'<Override PartName="/xl/other/../styles.xml" ContentType="application/xml"/></Types>',
+            ),
+            original.replace(
+                b"</Types>",
+                b'<Override PartName="/xl/printerSettings/printerSettings1.bin?alias" ContentType="application/octet-stream"/></Types>',
+            ),
+            original.replace(
+                b"</Types>",
+                b'<Default Extension="dat" ContentType="'
+                + PRINTER_MIME.encode()
+                + b'"/></Types>',
+            ),
+        )
+        for body in cases:
+            with self.subTest(body=body[-75:]), self.assertRaises(ValueError):
+                inspect(mutated(replace={"[Content_Types].xml": body}))
+
+    def test_single_literal_printer_relationship(self):
+        name = "xl/worksheets/_rels/sheet1.xml.rels"
+        original = archive_parts(synthetic_xlsx())[name]
+        entry = f'<Relationship Id="rIdPrinter" Type="{PRINTER_REL}" Target="../printerSettings/printerSettings1.bin"/>'.encode()
+        changes = (
+            original.replace(entry, b""),
+            original.replace(
+                b"</Relationships>",
+                entry.replace(b"rIdPrinter", b"rIdOther") + b"</Relationships>",
+            ),
+            original.replace(
+                b"/>" + b"</Relationships>", b' TargetMode="External"/></Relationships>'
+            ),
+            original.replace(
+                b"../printerSettings/printerSettings1.bin", b"../../outside.bin"
+            ),
+            original.replace(
+                b"../printerSettings/printerSettings1.bin",
+                b"../printerSettings/./printerSettings1.bin",
+            ),
+            original.replace(PRINTER_REL.encode(), b"http://example.invalid/wrong"),
+            original.replace(
+                b"</Relationships>",
+                f'<Relationship Id="rIdOtherPrinter" Type="{PRINTER_REL}" Target="../styles.xml"/></Relationships>'.encode(),
+            ),
+        )
+        for body in changes:
+            with self.subTest(body=body[-90:]), self.assertRaises(ValueError):
+                inspect(mutated(replace={name: body}))
+        workbook_rels = archive_parts(synthetic_xlsx())["xl/_rels/workbook.xml.rels"]
+        extra_incoming = workbook_rels.replace(
+            b"</Relationships>",
+            f'<Relationship Id="rIdExtraPrinter" Type="{PRINTER_REL}" Target="printerSettings/printerSettings1.bin"/></Relationships>'.encode(),
+        )
+        with self.assertRaises(ValueError):
+            inspect(mutated(replace={"xl/_rels/workbook.xml.rels": extra_incoming}))
+        with self.assertRaises(ValueError):
+            inspect(
+                mutated(
+                    add={
+                        "xl/printerSettings/_rels/printerSettings1.bin.rels": b"<Relationships/>"
+                    }
+                )
+            )
+        wrong_source = mutated(
+            replace={
+                name: original.replace(entry, b""),
+                "xl/_rels/workbook.xml.rels": extra_incoming,
+            }
+        )
+        with self.assertRaises(ValueError):
+            inspect(wrong_source)
+
+    def test_binary_zip_crc_is_verified_to_eof(self):
+        parts = archive_parts(synthetic_xlsx())
+        buffer = BytesIO()
+        with ZipFile(buffer, "w") as archive:
+            for name, body in parts.items():
+                archive.writestr(name, body)
+        changed = buffer.getvalue().replace(TEST_PRINTER, b"X" + TEST_PRINTER[1:], 1)
+        with self.assertRaises(ValueError):
+            inspect(changed)
+
+    def test_four_full_root_relationships_literal_targets(self):
+        name = "_rels/.rels"
+        original = archive_parts(synthetic_xlsx())[name]
+        for body in (
+            original.replace(
+                b'<Relationship Id="rIdCore" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>',
+                b"",
+            ),
+            original.replace(
+                b"</Relationships>",
+                b'<Relationship Id="extra" Type="http://example.invalid/extra" Target="docProps/core.xml"/></Relationships>',
+            ),
+            original.replace(
+                b'Target="docProps/core.xml"', b'Target="docProps/./core.xml"'
+            ),
+            original.replace(
+                b'Target="xl/workbook.xml"', b'Target="xl/./workbook.xml"'
+            ),
+            original.replace(b"metadata/core-properties", b"metadata/other-properties"),
+            original.replace(b'Id="rIdCore"', b'Id="rIdRoot"'),
+            original.replace(
+                b'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"',
+                b'Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/custom.xml"',
+            ),
+        ):
+            with self.subTest(body=body[-80:]), self.assertRaises(ValueError):
+                inspect(mutated(replace={name: body}))
+
+    def test_test_policy_is_internal_only(self):
+        self.assertEqual(xml.PROTOCOL, "nyc-borough-worksheet-inspection-v2")
+        self.assertEqual(
+            xml.PRODUCTION_PRINTER_PIN,
+            (5024, "7d3c762f37f75bbe2ff459ab52b55b2e7be8a8603e2ad227248f6d4519a0f96b"),
+        )
 
 
 class WorkbookXmlTest(unittest.TestCase):
@@ -279,17 +510,21 @@ class WorkbookXmlTest(unittest.TestCase):
 
     def test_metadata_over_64k_is_fully_parsed_and_tail_checked(self):
         opening = b'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
-        valid = opening + b" " * 70000 + b"</Types>"
+        declaration = (
+            f'<Default Extension="bin" ContentType="{PRINTER_MIME}"/>'.encode()
+        )
+        valid = opening + declaration + b" " * 70000 + b"</Types>"
         self.assertTrue(
             inspect(synthetic_xlsx(extra_parts={"[Content_Types].xml": valid}))[
                 "qualified"
             ]
         )
-        invalid = opening + b"</Types>" + b" " * 70000 + b"<unexpected/>"
+        invalid = opening + declaration + b"</Types>" + b" " * 70000 + b"<unexpected/>"
         with self.assertRaises(ValueError):
             inspect(synthetic_xlsx(extra_parts={"[Content_Types].xml": invalid}))
         forbidden_suffix = (
             opening
+            + declaration
             + b"</Types>"
             + b" " * 70000
             + b'<!DOCTYPE x [<!ENTITY private "do not expand">]>'
@@ -342,9 +577,9 @@ class WorkbookXmlTest(unittest.TestCase):
                     )
                 )
 
-    def test_safe_explicit_zip_directory_is_not_a_data_sheet(self):
-        outcome = inspect(synthetic_xlsx(extra_parts={"xl/": b""}))
-        self.assertTrue(outcome["qualified"])
+    def test_explicit_zip_directory_is_rejected_by_frozen_inventory(self):
+        with self.assertRaises(ValueError):
+            inspect(synthetic_xlsx(extra_parts={"xl/": b""}))
 
     def test_ten_thousand_physical_rows_stream_under_registered_cap(self):
         header = "".join(cell(i, 1, name) for i, name in enumerate(HEADER, 1))

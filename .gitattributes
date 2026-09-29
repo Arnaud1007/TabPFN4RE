@@ -46,3 +46,4 @@
 /decisions/0027-nyc-ledger-evidence-boundary.md -text
 /scripts/capture_nyc_dof_borough_exports.py -text
 /tests/test_capture_nyc_dof_borough_exports.py -text
+/locks/nyc-borough-capture-environment.json -text

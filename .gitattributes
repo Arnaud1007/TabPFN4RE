@@ -38,3 +38,4 @@
 /scripts/probe_nyc_archives.py -text
 /tests/test_probe_nyc_archives.py -text
 /locks/nyc-archive-metadata-environment.json -text
+/decisions/0025-nyc-private-source-review-ledger.md -text

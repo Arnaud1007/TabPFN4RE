@@ -33,3 +33,5 @@
 /locks/nyc-acris-code-table-environment.json -text
 /data/source_cards/nyc_acris_document_control_codes.yaml -text
 /decisions/0023-nyc-acris-document-triage-v2.md -text
+/scripts/audit_nyc_acris_matches_v2.py -text
+/tests/test_audit_nyc_acris_matches_v2.py -text

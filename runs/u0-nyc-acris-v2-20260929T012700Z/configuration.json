@@ -1,0 +1,21 @@
+{
+  "code_commit": "18ff5bc5feaa00080ef594cade1ba114a9df9f6e",
+  "code_table_path": "data/raw/nyc_dof/acris-document-control-codes-7isb-wh4c-rows-20260929.json",
+  "ledger_path": "data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z.jsonl",
+  "live_command": ".\\.venv\\Scripts\\python.exe scripts/audit_nyc_acris_matches_v2.py --snapshot data/raw/nyc_dof/nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv --ledger data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z.jsonl --code-table data/raw/nyc_dof/acris-document-control-codes-7isb-wh4c-rows-20260929.json --private-run-dir data/raw/nyc_dof/acris-pilot-v2-20260929T012700Z",
+  "max_http_requests": 50,
+  "max_response_bytes": 1048576,
+  "max_url_characters": 4096,
+  "minimum_inter_request_seconds": 1,
+  "phase_request_limits": {
+    "bbl": 4,
+    "linked": 16,
+    "master": 30
+  },
+  "private_run_dir": "data/raw/nyc_dof/acris-pilot-v2-20260929T012700Z",
+  "protocol": "nyc-acris-pilot-v2",
+  "protocol_path": "decisions/0023-nyc-acris-document-triage-v2.md",
+  "request_timeout_seconds": 30,
+  "run_id": "u0-nyc-acris-v2-20260929T012700Z",
+  "snapshot_path": "data/raw/nyc_dof/nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv"
+}

@@ -1,0 +1,23 @@
+{
+  "code_table_sha256": "518363532df753ac364ce47c5d62dfbdbaf609b598845bfcfe2ec83b9739c625",
+  "document_triage_finished": false,
+  "four_bbl_queries_finished": true,
+  "g_us_status": "PENDING",
+  "http_requests": 9,
+  "ledger_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "manual_review_pending": true,
+  "manual_reviews_completed": 0,
+  "private_artifacts": {
+    "response_files": 9,
+    "response_hash_list_sha256": "394f7ad910432866cea032f61c148e0f234297c0114b170662c76ea22337524b",
+    "state_bytes": 10288,
+    "state_sha256": "cbd08619e2ecd5e17e9418042ff8cce70ea0cde56f0ad4b74b7d3da63e6ab42c"
+  },
+  "protocol": "nyc-acris-pilot-v2",
+  "query_sha256": "0339bb0a3ecceb871c97420a849ea868c1182e6e8574c2ab1a5c3944f387ad4b",
+  "run_id": "u0-nyc-acris-v2-20260929T012700Z",
+  "sale_labels_certified": 0,
+  "snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "status": "INCOMPLETE_ERROR",
+  "u0_accepted": false
+}

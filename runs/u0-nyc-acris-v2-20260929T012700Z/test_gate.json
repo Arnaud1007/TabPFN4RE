@@ -1,0 +1,74 @@
+{
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_nyc_acris_matches_v2.py --snapshot data/raw/nyc_dof/nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv --ledger data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z.jsonl --code-table data/raw/nyc_dof/acris-document-control-codes-7isb-wh4c-rows-20260929.json --private-run-dir data/raw/nyc_dof/acris-pilot-v2-20260929T012700Z",
+      "duration_seconds": 10.894,
+      "exit_code": 1,
+      "name": "live_pilot",
+      "output_artifact": "aggregate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/audit_nyc_acris_matches_v2.py --snapshot data/raw/nyc_dof/nyc-usep-8jbt-20260928T225530.250496Z-2d84779d0195.csv --ledger data/raw/nyc_dof/review-usep-8jbt-20260928T234700Z.jsonl --code-table data/raw/nyc_dof/acris-document-control-codes-7isb-wh4c-rows-20260929.json --private-run-dir data/raw/nyc_dof/acris-pilot-v2-20260929T012700Z",
+      "duration_seconds": 1.422,
+      "exit_code": 1,
+      "name": "offline_replay",
+      "output_artifact": "aggregate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=audit_nyc_acris_matches_v2 -m unittest tests.test_audit_nyc_acris_matches_v2 -q",
+      "duration_seconds": 28.923,
+      "exit_code": 0,
+      "name": "focused_synthetic_tests",
+      "output_artifact": "focused_tests.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage report -m --fail-under=80 scripts/audit_nyc_acris_matches_v2.py",
+      "duration_seconds": 0.402,
+      "exit_code": 0,
+      "name": "focused_coverage_threshold",
+      "output_artifact": "coverage.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "duration_seconds": 59.169,
+      "exit_code": 0,
+      "name": "full_suite",
+      "output_artifact": "full_tests.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts tests src",
+      "duration_seconds": 0.266,
+      "exit_code": 0,
+      "name": "ruff_lint",
+      "output_artifact": "ruff_lint.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts tests src",
+      "duration_seconds": 0.250,
+      "exit_code": 0,
+      "name": "ruff_format",
+      "output_artifact": "ruff_format.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "duration_seconds": 1.011,
+      "exit_code": 0,
+      "name": "pip_check",
+      "output_artifact": "pip_check.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "duration_seconds": 1.413,
+      "exit_code": 0,
+      "name": "scoped_dependency_audit",
+      "output_artifact": "pip_audit.log"
+    }
+  ],
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6",
+  "g_us_status": "PENDING",
+  "optional_skip_reason": "AMES_ARFF_PATH not set",
+  "optional_skipped_tests": 1,
+  "run_id": "u0-nyc-acris-v2-20260929T012700Z",
+  "skipped_mandatory_tests": 0,
+  "u0_accepted": false
+}

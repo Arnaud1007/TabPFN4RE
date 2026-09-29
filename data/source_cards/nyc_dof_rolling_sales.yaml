@@ -64,6 +64,8 @@ archive_access: anonymous read-only internal metadata route verified; archived C
 licence_field_in_metadata: null
 rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
 rights_review: data/source_cards/nyc_open_data_use_review.yaml
+source_clarification_inquiry_draft: data/requests/nyc_dof_rolling_sales_inquiry_draft.md
+source_clarification_inquiry_status: unsent_no_response
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 historical_asof_eligible: false

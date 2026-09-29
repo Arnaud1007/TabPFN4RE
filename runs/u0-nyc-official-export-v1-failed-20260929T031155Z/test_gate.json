@@ -1,0 +1,63 @@
+{
+  "run_id": "u0-nyc-official-export-v1-failed-20260929T031155Z",
+  "environment": "Windows PowerShell 5.1; CPython 3.11.6",
+  "checks": [
+    {
+      "name": "focused_offline_tests_and_branch_coverage",
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --include=*capture_nyc_dof_borough_exports.py -m unittest tests.test_capture_nyc_dof_borough_exports -q",
+      "environment_override": "COVERAGE_FILE=.coverage.nyc_borough",
+      "exit_code": 0,
+      "duration_seconds": 33.003,
+      "observed_output": "Ran 27 tests; OK; collector branch-aware coverage 85%"
+    },
+    {
+      "name": "full_suite",
+      "command": "AMES_ARFF_PATH=<verified local OpenML ARFF> .venv/Scripts/python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 131.153,
+      "observed_output": "Ran 504 tests; OK; zero skips"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".venv/Scripts/python.exe -m ruff check scripts tests src",
+      "exit_code": 0,
+      "observed_output": "All checks passed"
+    },
+    {
+      "name": "ruff_format",
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts tests src",
+      "exit_code": 0,
+      "observed_output": "63 files already formatted"
+    },
+    {
+      "name": "dependency_integrity",
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "exit_code": 0,
+      "observed_output": "No broken requirements found"
+    },
+    {
+      "name": "scoped_dependency_audit",
+      "command": ".venv/Scripts/python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "exit_code": 0,
+      "observed_output": "No known vulnerabilities in scoped pinned dependency set"
+    },
+    {
+      "name": "live_capture_v1",
+      "command": ".venv/Scripts/python.exe scripts/capture_nyc_dof_borough_exports.py capture data/raw/nyc_dof/official-exports-20260929T031155Z-e3f467c372ad",
+      "exit_code": 1,
+      "duration_seconds": 1.599,
+      "observed_output": "Official workbook capture failed: HTTPError"
+    },
+    {
+      "name": "offline_replay_rejects_failed_run",
+      "command": ".venv/Scripts/python.exe scripts/capture_nyc_dof_borough_exports.py replay data/raw/nyc_dof/official-exports-20260929T031155Z-e3f467c372ad",
+      "exit_code": 1,
+      "duration_seconds": 0.518,
+      "observed_output": "Official workbook capture failed: ValueError"
+    }
+  ],
+  "skipped_mandatory_tests": 0,
+  "capture_gate_status": "FAILED_SOURCE_REQUEST",
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

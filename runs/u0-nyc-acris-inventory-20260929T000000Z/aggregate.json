@@ -1,0 +1,41 @@
+{
+  "g_us_status": "PENDING",
+  "manual_reviewed_records": 0,
+  "matched_sample_records": 0,
+  "publisher": "NYC Department of Finance / NYC Open Data",
+  "retrieval_local_date": "2026-09-29",
+  "row_level_acris_queries": 0,
+  "sources": {
+    "legals": {
+      "column_count": 14,
+      "count_response_bytes": 23,
+      "count_response_sha256": "ea1a47b8957779056e59c3410081a4a58895a9fba796992e5e2b4afd4533c83b",
+      "current_api_rows_at_inventory": 22761783,
+      "dataset_id": "8h5j-fqxa",
+      "licence_field": null,
+      "metadata_bytes": 23220,
+      "metadata_sha256": "24c274581feddbcae77cbbd0d3f6c45f7980eb71145e140162f75bcd48f6108d",
+      "rows_updated_at_utc": "2026-09-08T19:31:09Z"
+    },
+    "master": {
+      "column_count": 14,
+      "count_response_bytes": 23,
+      "count_response_sha256": "9e5509e59bbe60e597904ed0ed30a694114cd3e54835861bbacfcc06963e3cbb",
+      "current_api_rows_at_inventory": 17090001,
+      "dataset_id": "bnx9-e6tj",
+      "licence_field": null,
+      "metadata_bytes": 29293,
+      "metadata_sha256": "d3642afb5a9e44722970258c946d5d26843e49154595ea63e0aa72ec157eee01",
+      "rows_updated_at_utc": "2026-09-08T19:32:41Z"
+    }
+  },
+  "staten_island_acris_deed_search_supported": false,
+  "status": "metadata_and_count_inventory_only",
+  "supported_acris_deed_search_boroughs": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "u0_accepted": false
+}

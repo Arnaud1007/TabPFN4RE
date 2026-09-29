@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "command": "& 'runs/u0-nyc-acris-inventory-20260929T000000Z/verify_artifacts.ps1'",
+      "duration_seconds": null,
+      "exit_code": 1,
+      "name": "initial_artifact_verifier",
+      "output_artifact": "verification_failure.log",
+      "status": "failed_then_fixed"
+    },
+    {
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File runs\\u0-nyc-acris-inventory-20260929T000000Z\\verify_artifacts.ps1",
+      "duration_seconds": 0.469,
+      "exit_code": 1,
+      "name": "stale_manifest_artifact_verifier",
+      "output_artifact": "verification_stale_manifest.log",
+      "status": "failed_then_refreshed_manifest"
+    },
+    {
+      "command": "& 'runs/u0-nyc-acris-inventory-20260929T000000Z/verify_artifacts.ps1'",
+      "duration_seconds": 0.442,
+      "exit_code": 0,
+      "name": "final_artifact_verifier",
+      "output_artifact": "verification.log",
+      "status": "passed"
+    }
+  ],
+  "g_us_status": "PENDING",
+  "model_tests_run": 0,
+  "run_id": "u0-nyc-acris-inventory-20260929T000000Z",
+  "skipped_mandatory_tests": 0,
+  "u0_accepted": false
+}

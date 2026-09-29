@@ -1,0 +1,38 @@
+source_id: nyc_acris_real_property_legals_8h5j_fqxa
+status: candidate_metadata_inventory_only
+publisher: New York City Department of Finance
+dataset_name: ACRIS - Real Property Legals
+dataset_id: 8h5j-fqxa
+landing_page: https://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa
+metadata_url: https://data.cityofnewyork.us/api/views/8h5j-fqxa
+metadata_retrieved_on: 2026-09-29
+local_metadata_path: data/raw/nyc_dof/acris-legals-8h5j-fqxa-metadata-20260929.json
+metadata_sha256: 24c274581feddbcae77cbbd0d3f6c45f7980eb71145e140162f75bcd48f6108d
+metadata_bytes: 23220
+metadata_rows_updated_at_utc: 2026-09-08T19:31:09Z
+count_url: https://data.cityofnewyork.us/resource/8h5j-fqxa.json?$select=count(*)
+local_count_response: data/raw/nyc_dof/acris-legals-8h5j-fqxa-count-20260929.json
+count_response_sha256: ea1a47b8957779056e59c3410081a4a58895a9fba796992e5e2b4afd4533c83b
+current_api_row_count_at_inventory: 22761783
+row_count_semantics: mutable portal rows; several property rows may refer to one document
+geography: official borough codes 1 Manhattan, 2 Bronx, 3 Brooklyn, 4 Queens; no Staten Island code
+date_range: not_audited
+row_grain: property/legal reference linked to one document; unit and partial-lot scope require audit
+document_identifier: document_id
+property_identifier_fields: [borough, block, lot, unit]
+scope_fields: [partial_lot, air_rights, subterranean_rights, property_type]
+availability_field: good_through_date
+availability_semantics: latest recording/correction included with extract, not first public availability
+correction_policy: current API can change; original row publication and correction history not recovered
+refresh_schedule: monthly per official portal; actual lag and historical vintages not audited
+licence_field_in_metadata: null
+rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+permitted_use_decision: bounded_internal_source_qualification_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  Metadata and aggregate count were inspected on 2026-09-29. Exact BBL is a
+  candidate linkage, not a proven dwelling or economic transfer. A document
+  may name multiple lots and an apartment unit may be absent or ambiguous.
+  Query all linked legal rows before judging transaction scope.

@@ -1,0 +1,11 @@
+{
+  "datasets": ["bnx9-e6tj", "8h5j-fqxa"],
+  "metadata_url_pattern": "https://data.cityofnewyork.us/api/views/{dataset_id}",
+  "count_url_pattern": "https://data.cityofnewyork.us/resource/{dataset_id}.json?$select=count(*)",
+  "max_metadata_response_bytes": 2000000,
+  "max_count_response_bytes": 1024,
+  "request_timeout_seconds": 30,
+  "allowed_methods": ["GET"],
+  "record_rows_downloaded": 0,
+  "source_scope": "internal inventory only"
+}

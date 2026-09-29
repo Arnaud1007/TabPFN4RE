@@ -1,0 +1,7 @@
+$ powershell.exe -NoProfile -ExecutionPolicy Bypass -File runs\u0-nyc-acris-inventory-20260929T000000Z\verify_artifacts.ps1
+Inventory artifact missing, redirected or changed: runs/u0-nyc-acris-inventory-20260929T000000Z/report.md
+At <WORKSPACE>\runs\u0-nyc-acris-inventory-20260929T000000Z\verify_artifacts.ps1:35 char:9
++         throw "Inventory artifact missing, redirected or changed: $($ ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Inventory artif...0000Z/report.md:String) [], RuntimeException
+    + FullyQualifiedErrorId : Inventory artifact missing, redirected or changed: runs/u0-nyc-acris-inventory-20260929T000000Z/report.md

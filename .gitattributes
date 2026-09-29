@@ -23,3 +23,7 @@
 /scripts/select_nyc_review_sample.py -text
 /tests/test_select_nyc_review_sample.py -text
 /locks/nyc-review-sample-environment.json -text
+/locks/nyc-acris-inventory-environment.json -text
+/decisions/0022-nyc-acris-linkage-pilot.md -text
+/data/source_cards/nyc_acris_master.yaml -text
+/data/source_cards/nyc_acris_legals.yaml -text

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "purpose": "Read-only official NYC ACRIS metadata and count inventory",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": [],
+  "network_library": "Python standard-library urllib.request",
+  "row_level_source_queries": 0
+}

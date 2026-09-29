@@ -1,0 +1,44 @@
+source_id: nyc_acris_real_property_master_bnx9_e6tj
+status: candidate_metadata_inventory_only
+publisher: New York City Department of Finance
+dataset_name: ACRIS - Real Property Master
+dataset_id: bnx9-e6tj
+landing_page: https://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj
+metadata_url: https://data.cityofnewyork.us/api/views/bnx9-e6tj
+metadata_retrieved_on: 2026-09-29
+local_metadata_path: data/raw/nyc_dof/acris-master-bnx9-e6tj-metadata-20260929.json
+metadata_sha256: d3642afb5a9e44722970258c946d5d26843e49154595ea63e0aa72ec157eee01
+metadata_bytes: 29293
+metadata_rows_updated_at_utc: 2026-09-08T19:32:41Z
+metadata_last_modified_at_utc: 2025-02-28T21:32:46Z
+count_url: https://data.cityofnewyork.us/resource/bnx9-e6tj.json?$select=count(*)
+local_count_response: data/raw/nyc_dof/acris-master-bnx9-e6tj-count-20260929.json
+count_response_sha256: 9e5509e59bbe60e597904ed0ed30a694114cd3e54835861bbacfcc06963e3cbb
+current_api_row_count_at_inventory: 17090001
+row_count_semantics: mutable portal rows; not eligible sales or unique transfers
+geography: ACRIS property-record search covers Manhattan, Bronx, Brooklyn and Queens; Staten Island requires separate deed-source route
+date_range: not_audited
+row_grain: one ACRIS master document record; exact document identity and corrections require audit
+identifier: document_id
+link_to_legals: document_id
+document_date_field: document_date
+document_date_semantics: official portal description says date of document; not verified closing date
+recording_date_field: recorded_datetime
+recording_date_semantics: official portal description says legal date instrument was recorded
+document_amount_field: document_amt
+document_amount_semantics: official portal description says principal debt or obligation; never substitute for a verified sale label
+partial_interest_field: percent_trans
+correction_fields: [modified_date, good_through_date]
+correction_policy: current API can change; historical first availability and correction history not recovered
+refresh_schedule: monthly per official portal; actual lag and historical vintages not audited
+licence_field_in_metadata: null
+rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
+permitted_use_decision: bounded_internal_source_qualification_only_pending_specific_reuse_review
+redistribution: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  Metadata and aggregate count were inspected on 2026-09-29. No Master row
+  has yet been admitted as a matched transfer or price label. A document may
+  link to several Legals rows. Document and recording dates differ from a
+  verified close date, and current metadata cannot establish first publication.

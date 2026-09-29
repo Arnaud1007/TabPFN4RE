@@ -1,0 +1,7 @@
+$ & 'runs/u0-nyc-acris-inventory-20260929T000000Z/verify_artifacts.ps1'
+Exit code: 1
+Private inventory response content mismatch: master
+Cause: PowerShell 5.1 ConvertFrom-Json returned a JSON array as an array object;
+wrapping the result in @() created an additional array level. The verifier
+mistook its first element for the count record. The private source responses
+were unchanged. The wrapper was corrected to inspect the returned array.

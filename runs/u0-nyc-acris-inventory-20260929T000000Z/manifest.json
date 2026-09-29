@@ -1,0 +1,42 @@
+{
+  "checkpoint_identity": null,
+  "code_commit_at_inventory": "9d5a606ea4b13a4014affe96dd2f8fb4370682a5",
+  "configuration_hash": "4e2a17321e896482743fb1c5bb9a8a4d2f1261863b4eaad026ea074f24aa9653",
+  "data_snapshot_hash": "3894f1625ec1546a2d1bd21f6648be23e1a88f9c7f89732f3a8d26042aa95352",
+  "data_snapshot_hash_rule": "SHA-256 of master metadata, master count, legals metadata, legals count SHA-256 strings joined with | in that order",
+  "dirty_tree_at_inventory": "tracked tree clean before metadata GET; run files created afterward",
+  "environment_lock_path": "locks/nyc-acris-inventory-environment.json",
+  "environment_lock_sha256": "dd93a09572c279dee9d1b3cf8f6dfd8addfa837bf2d6d0bec2fe26ba86e208c0",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "immutable_files_sha256": {
+    "data/source_cards/nyc_acris_legals.yaml": "1702fd9426ce5206854f33d6e06a57ef94de6d6e36add82ec878974d16d31bde",
+    "data/source_cards/nyc_acris_master.yaml": "4cc2369d649b0682cfbc05b61d45722db223ec743a8bc72f08169badcd8a642d",
+    "decisions/0022-nyc-acris-linkage-pilot.md": "593bc4f566244b0be31bd79e16daed97f0ddc223c9849a0d0199e3671ba04600",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/aggregate.json": "57d2cc6e3fb638389f9c859ed94516fabe3a3d810c51461690181163257351ba",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/configuration.json": "4e2a17321e896482743fb1c5bb9a8a4d2f1261863b4eaad026ea074f24aa9653",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/report.md": "0d7a04747d87a615efdaddf4e11a92693d304fe645260dcd49e36b8e40ef15bf",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/test_gate.json": "ae04b3479ecc8677bbf815cb608f98960ed7d52917064cd97b2cf7124bfdcfaa",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/verification.log": "7c3699838d5307ceaf1611fa8b4c13ab8ee18fb0744c0e22be415386bd673dde",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/verification_failure.log": "010078c8404484c16b09c485306483849204f1065039022c5224ba95bd586a68",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/verification_stale_manifest.log": "f2df3b2f4f721ae1e8773920fb126ee00a0c1877f5d0f8b419e5d5ae52218bcb",
+    "runs/u0-nyc-acris-inventory-20260929T000000Z/verify_artifacts.ps1": "c31854984b02d4a36bbf8e16f057167b0c9dab39c622da837643d70930ca5e21"
+  },
+  "manual_reviewed_records": 0,
+  "matched_sample_records": 0,
+  "raw_data_tracked": false,
+  "requirements": [
+    "US04",
+    "US05",
+    "US06",
+    "US07",
+    "US08",
+    "US22",
+    "US24"
+  ],
+  "run_id": "u0-nyc-acris-inventory-20260929T000000Z",
+  "source_rows_downloaded": 0,
+  "split_hash": null,
+  "status": "verified_metadata_and_count_inventory_only",
+  "u0_accepted": false
+}

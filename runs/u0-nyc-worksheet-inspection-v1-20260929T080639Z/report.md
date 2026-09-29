@@ -1,0 +1,15 @@
+# NYC borough worksheet inspection v1: preserved rejection
+
+**Requirements:** US05, US07, US08, US22, US23, US24. **U0:** pending. **G-US:** pending.
+
+The reviewed offline inspector was committed and pushed at `ea356c94671624b160104b8b4d77b39728a4ec93` before opening worksheet cells. Its 31 synthetic tests passed with no skips and 84%/88% branch-aware coverage for the inspector/parser. The full repository suite passed 541 tests in 317.004 seconds with no skips. Ruff, dependency checks and independent code, Python and security reviews passed. Exact commands and statuses are in [test_gate.json](test_gate.json).
+
+The first CLI attempt exited 2 with `ValueError` **before creating an inspection directory or opening cells**: the parent private NYC directory inherited a broader Windows ACL than the inspector allows. The project's `secure_directory` helper protected that parent; `verify_acl` then passed. The successful, new private run is `data/raw/nyc_dof/worksheet-inspection-20260929T080639Z-f6acd14ef745/`. Its intent records the clean commit, environment lock and five captured workbook hashes.
+
+The v1 inspection returned `rejected_package` for all five boroughs; **zero qualified**. An independent offline replay returned the same aggregate. The [redacted aggregate](aggregate.json), [replay output](replay.json), private artifact hashes and [manifest](manifest.json) preserve this result. No price was interpreted and no transaction label was admitted.
+
+Metadata-only diagnosis of the common rejection found `xl/printerSettings/printerSettings1.bin` in each workbook. The v1 parser rejected every `.bin` member, although this exact 5,024-byte member is linked by a worksheet `printerSettings` relationship and declared with the SpreadsheetML printer-settings content type. All five copies share SHA-256 `7d3c762f37f75bbe2ff459ab52b55b2e7be8a8603e2ad227248f6d4519a0f96b`. The [Microsoft Printer Settings part description](https://learn.microsoft.com/en-us/openspecs/office_file_formats/MS-XLSB/1cdc4cb9-836d-41d6-a5b5-9ac0428f491c) identifies its role. This is a diagnosis of one packaging condition, not evidence that the rows otherwise pass. The binary was hashed but not interpreted or executed.
+
+The v1 result remains failed and immutable. A separate, versioned protocol may permit only this pinned inert printer-settings part after security review, then run to a new private directory. It must continue to reject VBA, OLE, ActiveX, external links, connections and all other binary parts. Source rights, close-date meaning, first availability, row identity and 200 manual reviews remain unresolved. Do not train a NYC model or count these rows toward G-US.
+
+Run `& 'runs/u0-nyc-worksheet-inspection-v1-20260929T080639Z/verify_artifacts.ps1'` to check the retained public and private hashes. To reproduce the parser's exact behaviour, check out code commit `ea356c9` in an isolated worktree and use the ignored captured workbooks with matching hashes; later parser versions must not overwrite this run.

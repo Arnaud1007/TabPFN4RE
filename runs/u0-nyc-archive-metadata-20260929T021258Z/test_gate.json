@@ -1,0 +1,56 @@
+{
+  "status": "passed_for_metadata_inventory_only",
+  "code_commit": "c70f00844b064de50e5f5ed04ac5e126d0839866",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest tests.test_probe_nyc_archives -q",
+      "exit_code": 0,
+      "observed": "13 tests passed",
+      "duration_seconds_observed": 0.404
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage erase\n.\\.venv\\Scripts\\python.exe -m coverage run --branch -m unittest tests.test_probe_nyc_archives -q\n.\\.venv\\Scripts\\python.exe -m coverage report -m scripts/probe_nyc_archives.py",
+      "exit_code": 0,
+      "observed": "13 tests passed; 94% combined statement/branch coverage of probe script",
+      "duration_seconds_observed": 0.985
+    },
+    {
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path\n.\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "observed": "459 tests passed; zero skips",
+      "duration_seconds_observed": 54.862
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts/probe_nyc_archives.py tests/test_probe_nyc_archives.py",
+      "exit_code": 0,
+      "observed": "All checks passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts/probe_nyc_archives.py tests/test_probe_nyc_archives.py",
+      "exit_code": 0,
+      "observed": "2 files already formatted"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "observed": "No broken requirements found"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found in the scoped local-date lock"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/probe_nyc_archives.py capture data/raw/nyc_dof/archive-metadata-20260929T021258Z --report runs/u0-nyc-archive-metadata-20260929T021258Z/aggregate.json",
+      "exit_code": 0,
+      "observed": "One HTTP 200 metadata GET; 1130 bytes saved privately; 13 visible versions; archive availability unverified",
+      "duration_seconds_observed": 1.499
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/probe_nyc_archives.py replay data/raw/nyc_dof/archive-metadata-20260929T021258Z --report runs/u0-nyc-archive-metadata-20260929T021258Z/replay.json",
+      "exit_code": 0,
+      "observed": "Offline replay reproduced the aggregate output byte-for-byte",
+      "duration_seconds_observed": 0.535
+    }
+  ]
+}

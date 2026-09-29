@@ -1,0 +1,91 @@
+{
+  "archive_availability": "unverified",
+  "captured_at_utc": "2026-09-29T02:13:17.885283+00:00",
+  "certification": "none",
+  "content_type": "application/json; charset=utf-8",
+  "http_status": 200,
+  "metadata_bytes": 1130,
+  "metadata_sha256": "f384664c57b701a7908c8c9ec6620095c7f7ad3cceeaba9204d142d4aea0f2f9",
+  "probe_id": "nyc-archive-metadata-f384664c57b7",
+  "protocol": "nyc-archive-metadata-v1",
+  "versions": [
+    {
+      "created_at": "2026-09-15T15:57:00.489Z",
+      "start_version": 64,
+      "version": 65,
+      "visible": true
+    },
+    {
+      "created_at": "2026-08-28T18:36:10.385Z",
+      "start_version": 63,
+      "version": 64,
+      "visible": true
+    },
+    {
+      "created_at": "2026-07-15T15:01:35.025Z",
+      "start_version": 62,
+      "version": 63,
+      "visible": true
+    },
+    {
+      "created_at": "2026-04-20T18:29:25.966Z",
+      "start_version": 61,
+      "version": 62,
+      "visible": true
+    },
+    {
+      "created_at": "2026-01-27T14:48:20.467Z",
+      "start_version": 60,
+      "version": 61,
+      "visible": true
+    },
+    {
+      "created_at": "2025-11-18T18:05:45.634Z",
+      "start_version": 59,
+      "version": 60,
+      "visible": true
+    },
+    {
+      "created_at": "2025-10-15T19:10:45.727Z",
+      "start_version": 58,
+      "version": 59,
+      "visible": true
+    },
+    {
+      "created_at": "2025-10-07T14:37:31.401Z",
+      "start_version": 57,
+      "version": 58,
+      "visible": true
+    },
+    {
+      "created_at": "2025-08-13T21:43:49.038Z",
+      "start_version": 56,
+      "version": 57,
+      "visible": true
+    },
+    {
+      "created_at": "2025-05-21T19:51:18.403Z",
+      "start_version": 55,
+      "version": 56,
+      "visible": true
+    },
+    {
+      "created_at": "2025-04-15T15:08:19.725Z",
+      "start_version": 54,
+      "version": 55,
+      "visible": true
+    },
+    {
+      "created_at": "2025-03-12T20:00:48.237Z",
+      "start_version": 0,
+      "version": 54,
+      "visible": true
+    },
+    {
+      "created_at": "2025-03-12T19:57:23.297Z",
+      "start_version": 0,
+      "version": 53,
+      "visible": true
+    }
+  ]
+}

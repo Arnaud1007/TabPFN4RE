@@ -1,0 +1,26 @@
+{
+  "run_id": "u0-nyc-archive-metadata-20260929T021258Z",
+  "status": "verified_metadata_inventory_only",
+  "code_commit_at_capture": "c70f00844b064de50e5f5ed04ac5e126d0839866",
+  "code_blob": "1df2aa3c593d444e88277a5a919d50118aa42179",
+  "protocol_path": "decisions/0024-nyc-archive-metadata-probe.md",
+  "protocol_blob": "e0658226c7f944e5093e9219a97b481a5e475fd6",
+  "environment_lock_path": "locks/nyc-archive-metadata-environment.json",
+  "environment_lock_sha256": "1ba86e9b39490ce176e701eb44f8c62604d6e0b049620cbb05ca45f7e55819f2",
+  "configuration_hash": "f455384c8583bc43666f9c5f47d3de398a183b833494d0bbc43d0c80f8559f90",
+  "data_snapshot_hash": "f384664c57b701a7908c8c9ec6620095c7f7ad3cceeaba9204d142d4aea0f2f9",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "checkpoint_identity": null,
+  "private_raw_path": "data/raw/nyc_dof/archive-metadata-20260929T021258Z/metadata.bin",
+  "private_raw_bytes": 1130,
+  "private_manifest_path": "data/raw/nyc_dof/archive-metadata-20260929T021258Z/manifest.json",
+  "private_manifest_sha256": "80d1bf8f51df9c521d4472df96fd0227fbe3d5e1148aed637399c8f97aa41a6e",
+  "immutable_files_sha256": {
+    "runs/u0-nyc-archive-metadata-20260929T021258Z/configuration.json": "f455384c8583bc43666f9c5f47d3de398a183b833494d0bbc43d0c80f8559f90",
+    "runs/u0-nyc-archive-metadata-20260929T021258Z/aggregate.json": "40e8fa2e53feb6f911df538cd62b0e393c633caa2f47bb7e95251ced71a2bcb3",
+    "runs/u0-nyc-archive-metadata-20260929T021258Z/replay.json": "40e8fa2e53feb6f911df538cd62b0e393c633caa2f47bb7e95251ced71a2bcb3",
+    "runs/u0-nyc-archive-metadata-20260929T021258Z/test_gate.json": "f5ee4d9f1ee4e54424ae13ae1e1a52e520997d6e6e48833a73273419815139bd"
+  },
+  "limits": "No archive CSV, row first-availability, source rights, sale labels, features, model or certification split were evaluated."
+}

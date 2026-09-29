@@ -1,5 +1,7 @@
 # Next action
 
+Latest NYC U0 archive check: [the bounded metadata-only run](runs/u0-nyc-archive-metadata-20260929T021258Z/report.md) captured 13 visible portal revision records (versions 53-65) from one anonymous read-only GET. The 1,130 raw bytes are private and hashed; offline replay is byte-identical and `verify_artifacts.ps1` passes. No archived CSV or property rows were downloaded. Revision creation times do not establish first row availability, and the undocumented CSV endpoint was excluded because archive export may initiate generation. Seek a supported archive retrieval route and decide source rights before any archived-row use; independently continue the frozen 200-record NYC manual audit, which remains at zero completed reviews. U0 and G-US remain pending.
+
 Latest NYC U0 ACRIS v2 pilot: [the frozen run](runs/u0-nyc-acris-v2-20260929T012700Z/report.md) used the same four selected rows after the tested collector was pushed at `18ff5bc`. Nine bounded requests were made; all four BBL queries finished. Private evidence records valid response saturation and duplicate Master document IDs, leaving the route `INCOMPLETE_ERROR` with no certified sale labels. All nine bounded response bodies were saved and hashed. An offline replay returned the same status without changing private state. Run `& 'runs/u0-nyc-acris-v2-20260929T012700Z/verify_artifacts.ps1'` to verify the evidence. Review duplicate Master semantics and response caps under a new frozen protocol before any further sampled lookup. Complete the independent 200-record manual audit and resolve source rights, close-date semantics and first availability; [the general NYC Open Data use review](data/source_cards/nyc_open_data_use_review.yaml) leaves dataset-specific release rights pending. U0 and G-US remain pending.
 
 Latest NYC U0 ACRIS pilot: [the frozen four-row linkage attempt](runs/u0-nyc-acris-pilot-20260929T003102Z/report.md) used the committed, tested collector and stopped after three API requests when a linked Legals response hit its 100-row cap. The first BBL returned 27 Legals rows across 24 document IDs; only two responses were saved privately. The third saturated response was not retained, so the failure cannot be independently replayed from saved body bytes. No selected sale was matched, no manual rubric was completed and no price or as-of date was certified. Preserve protocol v1 as failed. ADR 0023 and the v2 collector later addressed failure-response preservation; that run is recorded above. Run `& 'runs/u0-nyc-acris-pilot-20260929T003102Z/verify_artifacts.ps1'` to verify the saved evidence. U0 and G-US remain pending.
@@ -42,6 +44,7 @@ Resume from the project root in PowerShell:
 
 ```powershell
 git switch audit/u0
+& 'runs/u0-nyc-archive-metadata-20260929T021258Z/verify_artifacts.ps1'
 $env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path
 .\.venv\Scripts\python.exe -m unittest discover -s tests -q
 Get-Content data/source_cards/hillsborough_hcpa_allsales.yaml

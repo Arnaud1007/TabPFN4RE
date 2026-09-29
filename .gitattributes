@@ -37,3 +37,4 @@
 /tests/test_audit_nyc_acris_matches_v2.py -text
 /scripts/probe_nyc_archives.py -text
 /tests/test_probe_nyc_archives.py -text
+/locks/nyc-archive-metadata-environment.json -text

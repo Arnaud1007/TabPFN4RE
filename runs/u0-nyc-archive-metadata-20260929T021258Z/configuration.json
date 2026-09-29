@@ -1,0 +1,20 @@
+{
+  "run_id": "u0-nyc-archive-metadata-20260929T021258Z",
+  "protocol": "nyc-archive-metadata-v1",
+  "protocol_path": "decisions/0024-nyc-archive-metadata-probe.md",
+  "code_commit_at_capture": "c70f00844b064de50e5f5ed04ac5e126d0839866",
+  "method": "GET",
+  "url": "https://data.cityofnewyork.us/api/archival?id=usep-8jbt&version=1",
+  "maximum_requests": 1,
+  "maximum_response_bytes": 1048576,
+  "maximum_metadata_entries": 13,
+  "timeout_seconds": 15,
+  "redirects_allowed": false,
+  "credentials_supplied": false,
+  "proxy_inherited": false,
+  "csv_endpoint_requested": false,
+  "archive_generation_requested": false,
+  "private_run_dir": "data/raw/nyc_dof/archive-metadata-20260929T021258Z",
+  "capture_command": ".\\.venv\\Scripts\\python.exe scripts/probe_nyc_archives.py capture data/raw/nyc_dof/archive-metadata-20260929T021258Z --report runs/u0-nyc-archive-metadata-20260929T021258Z/aggregate.json",
+  "replay_command": ".\\.venv\\Scripts\\python.exe scripts/probe_nyc_archives.py replay data/raw/nyc_dof/archive-metadata-20260929T021258Z --report runs/u0-nyc-archive-metadata-20260929T021258Z/replay.json"
+}

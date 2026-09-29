@@ -46,11 +46,11 @@ date_semantics: DOF glossary says date the property sold; contract and close map
 property_fields: [building_class_at_time_of_sale, building_class_at_present, gross_square_feet, land_square_feet, year_built]
 area_semantics: gross building area and land area; neither is verified living area
 availability_field: absent
-historical_vintages: eight dated Export Archive entries visible in portal changelog; CSV bytes not recovered or verified
+historical_vintages: 13 visible portal revision records, versions 53 through 65; archived CSV bytes not recovered or verified
 correction_policy: current view can change; archived dataset versions are visible but row-level correction history is not audited
-archive_evidence: decisions/0019-nyc-rolling-archive-correction.md
+archive_evidence: [decisions/0019-nyc-rolling-archive-correction.md, decisions/0024-nyc-archive-metadata-probe.md, runs/u0-nyc-archive-metadata-20260929T021258Z/report.md]
 archive_inspected_on: 2026-09-29
-archive_access: export route and anonymous access not yet verified; public page text may require sign-in
+archive_access: anonymous read-only internal metadata route verified; archived CSV access and generation permissions not established
 licence_field_in_metadata: null
 rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
 rights_review: data/source_cards/nyc_open_data_use_review.yaml

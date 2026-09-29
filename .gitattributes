@@ -35,3 +35,5 @@
 /decisions/0023-nyc-acris-document-triage-v2.md -text
 /scripts/audit_nyc_acris_matches_v2.py -text
 /tests/test_audit_nyc_acris_matches_v2.py -text
+/scripts/probe_nyc_archives.py -text
+/tests/test_probe_nyc_archives.py -text

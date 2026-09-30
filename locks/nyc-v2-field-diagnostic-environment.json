@@ -1,0 +1,15 @@
+{
+  "inherited_v2_environment_lock": "locks/nyc-representation-diagnostic-v2-environment.json",
+  "new_runtime_modules": [
+    "scripts/diagnose_nyc_representation_fields_v1.py"
+  ],
+  "purpose": "Read-only aggregate field diagnostic on pinned NYC representation v2 artifacts; no source-row scan or sale-label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": {},
+  "schema_version": 1,
+  "v1_public_sha256": "4d52add2b6a65df050c9bf0a920e0f9ccc4e7fad8959f1d7e6c1154fb84ea524",
+  "v2_private_public_sha256": "e3ae01bd7d551a66cf84f8862668e90f0a4071c3352ce8ac622d22938c4d766f",
+  "v2_private_result_sha256": "2b7b7643c6b07a763e0e3cd842b5f60b2819805acb50341d485c7aa910141199",
+  "v2_private_run_id": "representation-diagnostic-v2-20260930T152830Z-460cba306f9d"
+}

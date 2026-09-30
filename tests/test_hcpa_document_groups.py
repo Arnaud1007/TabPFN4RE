@@ -10,6 +10,7 @@ from pathlib import Path
 import sqlite3
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from zipfile import ZIP_STORED, ZipFile
@@ -129,7 +130,12 @@ class HcpaDocumentGroupsTest(unittest.TestCase):
         )
         self.sample_sha = sha256(self.sample.read_bytes()).hexdigest()
 
-    def run_audit(self, **overrides: object) -> dict[str, object]:
+    def run_audit(
+        self,
+        *,
+        free_disk_bytes: int = audit.MIN_FREE_DISK_BYTES + 1,
+        **overrides: object,
+    ) -> dict[str, object]:
         arguments = {
             "expected_archive_sha256": self.archive_sha,
             "expected_member_bytes": self.member_bytes,
@@ -137,10 +143,25 @@ class HcpaDocumentGroupsTest(unittest.TestCase):
             "expected_sample_rows": 4,
         }
         arguments.update(overrides)
-        with patch.object(audit, "PRIVATE_ROOT", self.private):
+        disk_usage = SimpleNamespace(
+            total=free_disk_bytes,
+            used=0,
+            free=free_disk_bytes,
+        )
+        with (
+            patch.object(audit, "PRIVATE_ROOT", self.private),
+            patch.object(audit.shutil, "disk_usage", return_value=disk_usage),
+        ):
             return audit.profile_document_groups(
                 self.archive, self.sample, self.flags, self.aggregate, **arguments
             )
+
+    def test_low_disk_guard_rejects_before_creating_outputs(self) -> None:
+        with self.assertRaisesRegex(ValueError, "Insufficient free disk"):
+            self.run_audit(free_disk_bytes=audit.MIN_FREE_DISK_BYTES - 1)
+        self.assertFalse(self.flags.exists())
+        self.assertFalse(self.aggregate.exists())
+        self.assertFalse(list(self.private.glob(".hcpa-document-groups-*")))
 
     def test_exact_group_counts_and_private_sample_flags(self) -> None:
         result = self.run_audit()

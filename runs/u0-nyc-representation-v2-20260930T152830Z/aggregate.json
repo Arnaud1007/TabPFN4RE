@@ -1,0 +1,119 @@
+{
+  "boroughs": [
+    {
+      "borough": "Bronx",
+      "borough_code": "2",
+      "counts": {
+        "format_only_candidates": 1483,
+        "isolated_pairs": 6242,
+        "tiers": {
+          "K0": {
+            "unique_candidate_edges": 0
+          },
+          "K1": {
+            "unique_candidate_edges": 6242
+          },
+          "K2": {
+            "unique_candidate_edges": 0
+          },
+          "K3": {
+            "unique_candidate_edges": 6242
+          },
+          "K4": {
+            "unique_candidate_edges": 6242
+          }
+        }
+      },
+      "csv_rows": 6424,
+      "label_status": "unqualified",
+      "protocol": "nyc-dof-representation-diagnostic-v2",
+      "sale_labels_certified": 0,
+      "suppression_reason": null,
+      "xlsx_rows": 6424
+    },
+    {
+      "borough": "Brooklyn",
+      "borough_code": "3",
+      "counts": {
+        "format_only_candidates": 8425,
+        "isolated_pairs": 22599,
+        "tiers": {
+          "K0": {
+            "unique_candidate_edges": 0
+          },
+          "K1": {
+            "unique_candidate_edges": 22599
+          },
+          "K2": {
+            "unique_candidate_edges": 0
+          },
+          "K3": {
+            "unique_candidate_edges": 22599
+          },
+          "K4": {
+            "unique_candidate_edges": 22599
+          }
+        }
+      },
+      "csv_rows": 23041,
+      "label_status": "unqualified",
+      "protocol": "nyc-dof-representation-diagnostic-v2",
+      "sale_labels_certified": 0,
+      "suppression_reason": null,
+      "xlsx_rows": 23041
+    },
+    {
+      "borough": "Queens",
+      "borough_code": "4",
+      "counts": {
+        "format_only_candidates": 8960,
+        "isolated_pairs": 26184,
+        "tiers": {
+          "K0": {
+            "unique_candidate_edges": 0
+          },
+          "K1": {
+            "unique_candidate_edges": 26184
+          },
+          "K2": {
+            "unique_candidate_edges": 0
+          },
+          "K3": {
+            "unique_candidate_edges": 26184
+          },
+          "K4": {
+            "unique_candidate_edges": 26184
+          }
+        }
+      },
+      "csv_rows": 26461,
+      "label_status": "unqualified",
+      "protocol": "nyc-dof-representation-diagnostic-v2",
+      "sale_labels_certified": 0,
+      "suppression_reason": null,
+      "xlsx_rows": 26461
+    },
+    {
+      "borough": "Staten Island",
+      "borough_code": "5",
+      "counts": null,
+      "csv_rows": 6866,
+      "label_status": "unqualified",
+      "protocol": "nyc-dof-representation-diagnostic-v2",
+      "sale_labels_certified": 0,
+      "suppression_reason": "staten_cross_version_protection",
+      "xlsx_rows": 6866
+    }
+  ],
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "csv_frame_rows": 62792,
+  "csv_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "csv_source_rows": 82345,
+  "excluded_manhattan_csv_rows": 19553,
+  "label_status": "unqualified",
+  "protocol": "nyc-dof-representation-diagnostic-v2",
+  "sale_labels_certified": 0,
+  "v1_result_sha256": "5fd432e081911ff47df78bf183a40df99da00077d0e666175ca79840f18451ee",
+  "v3_result_sha256": "61dcb9bce362658c475df5e43fa2407e18cb0d85779654941ab67bbb8ee00f83",
+  "xlsx_frame_rows": 62792
+}

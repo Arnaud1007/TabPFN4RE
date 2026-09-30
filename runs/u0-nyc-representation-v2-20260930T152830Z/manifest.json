@@ -1,0 +1,22 @@
+{
+  "run_id": "u0-nyc-representation-v2-20260930T152830Z",
+  "protocol": "nyc-dof-representation-diagnostic-v2",
+  "status": "VERIFIED_REPRESENTATION_CANDIDATES_ONLY",
+  "code_commit": "cbbc14e3f3351b75a32956e4841f219fba314745",
+  "dirty_tree_at_comparison": false,
+  "environment_lock_sha256": "70a508f288161781c1638c042f4983eb47632576524bfec2c31eea5931c62cb1",
+  "private_run_id": "representation-diagnostic-v2-20260930T152830Z-460cba306f9d",
+  "private_intent_sha256": "1b87392277fd57298192bbd037c0b3f5805b0119554bdcac4a90a41e45e6624a",
+  "private_result_sha256": "2b7b7643c6b07a763e0e3cd842b5f60b2819805acb50341d485c7aa910141199",
+  "private_public_sha256": "e3ae01bd7d551a66cf84f8862668e90f0a4071c3352ce8ac622d22938c4d766f",
+  "private_hash_manifest_sha256": "a0cba0b35b4d9cc683d2df64119d05f16212e74cf372a7735b640443fe222fe1",
+  "public_aggregate_sha256": "e3ae01bd7d551a66cf84f8862668e90f0a4071c3352ce8ac622d22938c4d766f",
+  "report_sha256": "c24ed79f973ff210c6c288a1fd264cc48d4cf43e295443a1ba0cf1f184889d46",
+  "test_gate_sha256": "a3b135c5e48213eb431b7d68617d3fc3f6659e823232ab7ce18947730dcc2d73",
+  "csv_frame_rows": 62792,
+  "xlsx_frame_rows": 62792,
+  "suppressed_boroughs": ["Staten Island"],
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

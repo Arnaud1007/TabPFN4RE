@@ -1,0 +1,80 @@
+{
+  "run_id": "u0-nyc-representation-v2-20260930T152830Z",
+  "protocol": "nyc-dof-representation-diagnostic-v2",
+  "code_commit": "cbbc14e3f3351b75a32956e4841f219fba314745",
+  "environment": "CPython 3.11.6; locks/nyc-representation-diagnostic-v2-environment.json",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=nyc_representation_core,nyc_representation_parsing,diagnose_nyc_representations_v2 --data-file=.coverage.nyc_representation_v2 -m unittest discover -s tests -p test_nyc_representation_*.py -q",
+      "exit_code": 0,
+      "observed": "60 tests passed; runner 89%, core 94%, parsing 92% branch-aware coverage",
+      "duration_seconds": 1.37,
+      "output_artifact": ".coverage.nyc_representation_v2"
+    },
+    {
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 178.135,
+      "observed": "718 tests passed; 0 skipped",
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts/nyc_representation_core.py scripts/nyc_representation_parsing.py scripts/diagnose_nyc_representations_v2.py tests/test_nyc_representation_core.py tests/test_nyc_representation_runner.py",
+      "exit_code": 0,
+      "observed": "All checks passed",
+      "duration_seconds": 0.17,
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts/nyc_representation_core.py scripts/nyc_representation_parsing.py scripts/diagnose_nyc_representations_v2.py tests/test_nyc_representation_core.py tests/test_nyc_representation_runner.py",
+      "exit_code": 0,
+      "observed": "5 files already formatted",
+      "duration_seconds": 0.16,
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "observed": "No broken requirements found",
+      "duration_seconds": 0.68,
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit -r locks/nyc-workbook-requirements.txt --disable-pip",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found",
+      "duration_seconds": 1.47,
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -c \"import sys;sys.path.insert(0,'scripts');import diagnose_nyc_representations_v2 as d;x=d._preflight();print('preflight=pass; v1_boroughs='+str(len(x['v1_counts']))+'; v3_files='+str(len(x['v3_status'])))\"",
+      "exit_code": 0,
+      "observed": "Pinned v1 evidence and v3 metadata preflight passed; 4 v1 boroughs, 5 v3 files; no source-row scan",
+      "duration_seconds": 3.14,
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/diagnose_nyc_representations_v2.py compare data/raw/nyc_dof/representation-diagnostic-v2-20260930T152830Z-460cba306f9d",
+      "exit_code": 0,
+      "observed": "Clean-tree comparison; private result and redacted public result created",
+      "duration_seconds": 46.1,
+      "output_artifact": "data/raw/nyc_dof/representation-diagnostic-v2-20260930T152830Z-460cba306f9d/hash_manifest.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/diagnose_nyc_representations_v2.py replay data/raw/nyc_dof/representation-diagnostic-v2-20260930T152830Z-460cba306f9d",
+      "exit_code": 0,
+      "observed": "Offline byte-identical replay",
+      "duration_seconds": 54.05,
+      "output_artifact": "runs\\u0-nyc-representation-v2-20260930T152830Z\\aggregate.json"
+    }
+  ],
+  "reviews": {
+    "python": "no unresolved critical or high findings",
+    "security": "no unresolved critical or high findings"
+  },
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "duration_note": "Full-suite duration is the unittest summary; other durations are observed tool wall times rounded to 0.01 second.",
+  "terminal_output_note": "Short observed outputs are recorded in checks; terminal streams were not separately archived. The private comparison output and public replay result are hash-pinned."
+}

@@ -74,9 +74,8 @@ class ManhattanFormulaXmlTest(unittest.TestCase):
             inspect(workbook(after=formula_data))
 
     def test_multiple_or_beyond_header_formula_is_rejected(self):
-        before = (
-            _before("<f>1</f>")
-            .replace('<row r="2"></row>', '<row r="2"><c r="B2"><f>2</f></c></row>')
+        before = _before("<f>1</f>").replace(
+            '<row r="2"></row>', '<row r="2"><c r="B2"><f>2</f></c></row>'
         )
         with self.assertRaisesRegex(ValueError, "one preamble formula"):
             inspect(workbook(before=before))

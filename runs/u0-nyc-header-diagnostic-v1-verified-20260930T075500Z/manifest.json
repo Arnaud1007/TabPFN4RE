@@ -1,0 +1,22 @@
+{
+  "run_id": "u0-nyc-header-diagnostic-v1-verified-20260930T075500Z",
+  "protocol": "nyc-borough-header-diagnostic-v1",
+  "status": "VERIFIED_CANDIDATE_ONLY",
+  "code_commit": "7d7ba0759e84bd4f7d5b127749ffece858ef3e4c",
+  "dirty_tree_at_diagnosis": false,
+  "environment_lock_sha256": "d54e08c3bd00a2da18d2aaf8bad388694c01fd8d16c0a297fe53c837a3651013",
+  "worksheet_inspection_environment_lock_sha256": "581fb3eb3c479a93552238c3aabe2a5fa138536c5597477e431b91e609fddf06",
+  "private_run_id": "header-diagnostic-20260930T075500Z-ab8936b58a5a",
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "private_intent_sha256": "eee1484b59d60fc8ecfc80884cafad4821b028333f0ecf6ff36fd089d33b8e18",
+  "private_result_sha256": "cafb257e0321d5608dd13f175d866d1c39112d6cd0805e169f1aa2e4609a1ffb",
+  "private_public_sha256": "d595267290ab703247bc8077221dd999cbde33f8b7450c9c7314785b464d7811",
+  "private_hash_manifest_sha256": "2a8b5a26bc937dbafe9aade3ba0b3b5a6570680e1e847f187705cbd05f98be94",
+  "public_aggregate_sha256": "d595267290ab703247bc8077221dd999cbde33f8b7450c9c7314785b464d7811",
+  "candidate_found_count": 5,
+  "physical_worksheet_rows": 82370,
+  "qualified_borough_count": 0,
+  "sale_labels_certified": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

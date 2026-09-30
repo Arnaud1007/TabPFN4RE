@@ -4,7 +4,7 @@ Date: 2026-09-29
 Owner: project implementation
 Affected requirements: US05, US07, US08, US22, US23 and US24
 Protocol: `nyc-borough-header-diagnostic-v1`
-Status: approved for implementation after architecture and security review; code and data gates pending
+Status: diagnostic implemented and replayed; candidate-only result verified, worksheet qualification pending
 
 ## Context and decision
 
@@ -31,3 +31,7 @@ The output directory is a new, protected `data/raw/nyc_dof/header-diagnostic-YYY
 Write RED synthetic tests before implementation: exact and slightly changed headers; unique versus tied score; score below five; a high-scoring formula row; missing A:U coordinates, duplicate/nonmonotone row and cell coordinates, and extra cells; selective shared-string retention and inline strings; DTD/entity, malformed tail and oversized decoded XML; source hash change, ACL/link substitution, no-overwrite and incomplete replay; byte-identical private/public replay; public redaction when a noncandidate row contains an address or price-like string. Require at least 80% branch-aware coverage for the new diagnostic, the full repository suite, Ruff, dependency checks and independent code/Python/security review.
 
 The result is a **candidate header description**, not an approved schema mapping. Compare candidate vectors and the official XLSX/portal documentation in a subsequent decision. If a mapping is justified, freeze a new worksheet qualification version and rerun on the same hashes in a new directory; report v1/v2 failures alongside it. Rights, first availability, close-date semantics, transfer identity and the 200-record manual audit remain separate blockers for U0 and G-US.
+
+## Observed outcome
+
+The [verified diagnostic run](../runs/u0-nyc-header-diagnostic-v1-verified-20260930T075500Z/report.md) and independent replay found the same row-5 candidate in all five pinned workbooks, with 20 of 21 exact API-header matches and zero qualified sale labels. The preceding [preliminary run](../runs/u0-nyc-header-diagnostic-v1-20260930T073001Z/report.md) remains separate with a provenance mismatch. [ADR 0032](0032-nyc-borough-worksheet-header-alias-v3.md) freezes the exact observed column-G alias for a new worksheet inspection; its code and data run are pending. This outcome does not change the v1 or v2 inspections.

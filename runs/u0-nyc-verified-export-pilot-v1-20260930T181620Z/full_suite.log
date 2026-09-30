@@ -1,0 +1,17 @@
+python.exe : <LOCAL_HOME>\AppData\Local\Programs\Python\Python311\Lib\zipfile.py:1550: UserWarning: Duplicate name: 
+'xl/workbook.xml'
+At line:2 char:196
++ ... 60930.log'; & .\.venv\Scripts\python.exe -m unittest discover -s test ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<LOCAL_HOME>\...l/workbook.xml':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: 
+'<LOCAL_HOME>\\AppData\\Local\\Temp\\tmph9dsbitc\\.report.json-o7nlyj2r.tmp' -> 
+'<LOCAL_HOME>\\AppData\\Local\\Temp\\tmph9dsbitc\\report.json'
+----------------------------------------------------------------------
+Ran 786 tests in 186.814s
+
+OK

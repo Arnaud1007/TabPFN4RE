@@ -1,0 +1,23 @@
+python.exe : ----------------------------------------------------------------------
+At line:4 char:1
++ & .\.venv\Scripts\python.exe -m coverage run --branch --source=nyc_ve ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 16 tests in 0.015s
+
+OK
+<LOCAL_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\coverage\inorout.py:508: 
+CoverageWarning: Module verify_nyc_review_artifacts_v2 was never imported. (module-not-imported)
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+python.exe : ----------------------------------------------------------------------
+At line:6 char:1
++ & .\.venv\Scripts\python.exe -m coverage run --append --branch --sour ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 21 tests in 0.319s
+
+OK

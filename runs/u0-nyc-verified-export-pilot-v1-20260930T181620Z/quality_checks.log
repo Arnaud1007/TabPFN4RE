@@ -1,0 +1,4 @@
+ruff check: All checks passed! (exit 0)
+ruff format --check: 4 files already formatted (exit 0)
+pip check: No broken requirements found. (exit 0)
+pip_audit -r locks/nyc-workbook-requirements.txt --disable-pip: No known vulnerabilities found (exit 0)

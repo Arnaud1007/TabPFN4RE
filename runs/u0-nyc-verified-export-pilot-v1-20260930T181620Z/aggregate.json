@@ -1,0 +1,27 @@
+{
+  "boroughs": [
+    {
+      "borough": "Bronx",
+      "findings": null,
+      "suppression_reason": "private_only_v1"
+    },
+    {
+      "borough": "Brooklyn",
+      "findings": null,
+      "suppression_reason": "private_only_v1"
+    },
+    {
+      "borough": "Queens",
+      "findings": null,
+      "suppression_reason": "private_only_v1"
+    },
+    {
+      "borough": "Staten Island",
+      "findings": null,
+      "suppression_reason": "private_only_v1"
+    }
+  ],
+  "label_status": "unqualified",
+  "protocol": "nyc-verified-export-pilot-v1",
+  "sale_labels_certified": 0
+}

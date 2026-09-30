@@ -1,0 +1,93 @@
+{
+  "run_id": "u0-nyc-verified-export-pilot-v1-20260930T181620Z",
+  "protocol": "nyc-verified-export-pilot-v1",
+  "code_commit": "bbb881bd7a342dc302e3599df58867ee22c80314",
+  "environment": "CPython 3.11.6; locks/nyc-verified-export-pilot-environment.json",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=nyc_verified_export_core,verify_nyc_review_artifacts_v2 --data-file=.coverage.nyc_verified_export_evidence -m unittest discover -s tests -p test_nyc_verified_export_core.py -q",
+      "exit_code": 0,
+      "observed": "16 tests passed",
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/focused_tests.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --append --branch --source=nyc_verified_export_core,verify_nyc_review_artifacts_v2 --data-file=.coverage.nyc_verified_export_evidence -m unittest discover -s tests -p test_verify_nyc_review_artifacts_v2.py -q",
+      "exit_code": 0,
+      "observed": "21 tests passed",
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/focused_tests.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage report --data-file=.coverage.nyc_verified_export_evidence -m",
+      "exit_code": 0,
+      "observed": "93% core, 90% runner, 91% combined branch-aware coverage",
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/coverage.log"
+    },
+    {
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path -LiteralPath 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "observed": "786 tests passed; 0 skipped; 186.814 seconds reported by unittest",
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/full_suite.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts/nyc_verified_export_core.py scripts/verify_nyc_review_artifacts_v2.py tests/test_nyc_verified_export_core.py tests/test_verify_nyc_review_artifacts_v2.py",
+      "exit_code": 0,
+      "observed": "All checks passed",
+      "duration_seconds": 2.005,
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/quality_checks.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts/nyc_verified_export_core.py scripts/verify_nyc_review_artifacts_v2.py tests/test_nyc_verified_export_core.py tests/test_verify_nyc_review_artifacts_v2.py",
+      "exit_code": 0,
+      "observed": "4 files already formatted",
+      "duration_seconds": 1.964,
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/quality_checks.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "observed": "No broken requirements found",
+      "duration_seconds": 0.633,
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/quality_checks.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit -r locks/nyc-workbook-requirements.txt --disable-pip",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found",
+      "duration_seconds": 1.104,
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/quality_checks.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/verify_nyc_review_artifacts_v2.py plan",
+      "exit_code": 0,
+      "observed": "Plan-only public projection; zero labels; no private row read",
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/plan.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/verify_nyc_review_artifacts_v2.py analyze data/raw/nyc_dof/verified-export-pilot-v1-20260930T181620Z-70ed3ced7f7d",
+      "exit_code": 0,
+      "observed": "Create-only protected analysis from clean, pushed code; fixed public projection",
+      "duration_seconds": 31.775,
+      "output_artifact": "data/raw/nyc_dof/verified-export-pilot-v1-20260930T181620Z-70ed3ced7f7d/hash_manifest.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/verify_nyc_review_artifacts_v2.py replay data/raw/nyc_dof/verified-export-pilot-v1-20260930T181620Z-70ed3ced7f7d",
+      "exit_code": 0,
+      "observed": "Offline byte-identical private and public replay",
+      "duration_seconds": 30.008,
+      "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/aggregate.json"
+    }
+  ],
+  "reviews": {
+    "code": "approved",
+    "python": "approved after timeout and private-schema hardening",
+    "security": "approved; no blocking privacy findings"
+  },
+  "failed_attempts": [
+    "A post-fix full-suite start failed with host free disk at zero; no test count was produced. The retry passed 786 tests.",
+    "An earlier pre-fix suite passed 785 tests, before two synthetic hardening tests and fixes. It is not used as the final gate."
+  ],
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "duration_note": "The full-suite duration is unittest's elapsed time; analysis/replay and quality-check durations are observed tool wall times. Focused checks and plan passed but their durations were not independently captured."
+}

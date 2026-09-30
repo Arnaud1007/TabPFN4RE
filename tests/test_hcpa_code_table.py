@@ -89,6 +89,21 @@ class HcpaCodeTableTest(unittest.TestCase):
 
     def test_aggregate_hashes_labels_and_no_private_rows(self) -> None:
         report = self.read()
+        self.assertEqual(
+            set(report),
+            {
+                "source_archive_sha256",
+                "member",
+                "dbf_sha256",
+                "dbf_bytes",
+                "dbf_version",
+                "header_record_count",
+                "active_rows",
+                "deleted_rows",
+                "fields",
+                "selected_code_labels",
+            },
+        )
         self.assertEqual(report["source_archive_sha256"], self.archive_hash)
         self.assertEqual(report["dbf_sha256"], sha256(self.member).hexdigest())
         self.assertEqual(report["member"], "parcel_09_25_2026/parcel_dor_names.dbf")
@@ -110,7 +125,7 @@ class HcpaCodeTableTest(unittest.TestCase):
                 "0800": "Multifamily",
             },
         )
-        self.assertNotIn("9999", json.dumps(report))
+        self.assertNotIn("9999", report["selected_code_labels"])
         self.assertNotIn("private", json.dumps(report).lower())
         self.assertNotIn(str(self.archive), json.dumps(report))
 

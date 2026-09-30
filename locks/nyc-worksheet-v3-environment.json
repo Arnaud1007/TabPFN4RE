@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline structural inspection of five pinned NYC borough XLSX worksheets under exact v3 header alias; no sale-label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": {
+    "defusedxml": "0.7.1"
+  },
+  "runtime_dependency_lock": "locks/nyc-workbook-requirements.txt",
+  "runtime_dependency_lock_sha256": "af1adbfbc2d22b051cd98aefba9adbd323703c733ff0e2c5756db68000aea49d",
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "pyproject_sha256": "32be5f2a813476198f7afdce2e98b21f37304867d6161cec44c62d3eb6976f51",
+  "inherited_workbook_inspection_environment_lock_sha256": "581fb3eb3c479a93552238c3aabe2a5fa138536c5597477e431b91e609fddf06",
+  "build_and_installer_tools": {
+    "pip": "26.2.1",
+    "setuptools": "84.0.0",
+    "wheel": "0.48.0",
+    "build": "1.6.1"
+  },
+  "test_tools_observed": {
+    "coverage": "7.6.12",
+    "pip-audit": "2.10.1",
+    "ruff": "0.13.0"
+  }
+}

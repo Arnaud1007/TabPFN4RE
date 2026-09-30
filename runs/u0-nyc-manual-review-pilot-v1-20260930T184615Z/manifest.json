@@ -1,0 +1,23 @@
+{
+  "run_id": "u0-nyc-manual-review-pilot-v1-20260930T184615Z",
+  "protocol": "nyc-source-review-v1",
+  "status": "VERIFIED_REVIEW_EFFORT_ONLY",
+  "code_commit_at_review": "57747d8a1a083aa786f7fdb938e0b43bbba0af8e",
+  "manual_reviews_completed": 10,
+  "manual_reviews_remaining": 190,
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "aggregate_sha256": "3fc59dde46f6afaba6f57ef99bd769843b105d7efdffa9f960c09abc4da50e73",
+  "report_sha256": "8a641a00a3120da8b06deb1007e62c5cd82204b0e42130366e5c46c0803fee3c",
+  "test_gate_sha256": "d9a3eb4ca6c45f536def740881bae796fcf72c78656d9f0886a41aa964924d33",
+  "focused_tests_log_sha256": "836e6d66ded7a93c4f4f88fd0a3020a45cf704f10a037e3901067a02ce7d8216",
+  "source_card_sha256": "e9be9bb726c3c25635033acaf813542558cdfecff53e194af0ce8b32af04bc6e",
+  "review_code_sha256": "66023cfc365c26666831f663aa21a71be0720559d2bfd136104bf5f732b614ba",
+  "private_io_sha256": "77c8741b10e2b98b910a51c89eefb04c9749c3a98e993aecda9a5b7bcfa165f5",
+  "decision_sha256": "83d0bc9e238b8b5429d53d988269b9f80fa4748a19e55917e7aad7b2c8b34a84",
+  "prior_full_suite_log_sha256": "edc3435033c5d878352fff612634ed181e905bcef8b3bb1229d5b5fdf27121c3",
+  "private_evidence_manifest_sha256": "018f2a356f9e8a2d3c7a0480410c2316b12d98b20c105dbbb323d3fb5d3288b6",
+  "environment_lock_sha256": "6917eee0362a1323af8b8bf5b052f56c5dfc596896efa94bf05e6607221c814b",
+  "verification_log_sha256": "680c27514359bd057e69849028b15ff2f245b2594441efe701b05deeebfd89e4"
+}

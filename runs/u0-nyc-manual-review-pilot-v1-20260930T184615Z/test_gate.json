@@ -1,0 +1,40 @@
+{
+  "run_id": "u0-nyc-manual-review-pilot-v1-20260930T184615Z",
+  "protocol": "nyc-source-review-v1",
+  "code_commit": "57747d8a1a083aa786f7fdb938e0b43bbba0af8e",
+  "environment": "CPython 3.11.6; locks/nyc-review-ledger-environment.json",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -p test_nyc_sample_review.py -q",
+      "exit_code": 0,
+      "observed": "18 tests passed in 42.947 seconds",
+      "output_artifact": "runs/u0-nyc-manual-review-pilot-v1-20260930T184615Z/focused_tests.log",
+      "duration_seconds_reported_by_unittest": 42.947,
+      "duration_seconds_process": "not separately measured"
+    },
+    {
+      "command": "& 'runs/u0-nyc-manual-review-pilot-v1-20260930T184615Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "duration_seconds": 22.232,
+      "observed": "verified_nyc_ten_manual_reviews_zero_labels",
+      "output_artifact": "runs/u0-nyc-manual-review-pilot-v1-20260930T184615Z/verification.log"
+    }
+  ],
+  "previous_full_suite_only": true,
+  "fresh_full_suite_rerun": false,
+  "failed_attempts": [
+    "Initial one-off Python import failed before a network request; retry succeeded."
+  ],
+  "limitations": [
+    "One-off GET code was not retained as an executable collector; captured responses and intents are private and hash-checked.",
+    "Source rights, transaction identity, close-date meaning and first row publication remain unresolved."
+  ],
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "prior_full_suite_reference": {
+    "code_commit": "bbb881bd7a342dc302e3599df58867ee22c80314",
+    "output_artifact": "runs/u0-nyc-verified-export-pilot-v1-20260930T181620Z/full_suite.log",
+    "observed": "786 tests passed, no skips, 186.814 seconds reported by unittest; unchanged code at review commit"
+  }
+}

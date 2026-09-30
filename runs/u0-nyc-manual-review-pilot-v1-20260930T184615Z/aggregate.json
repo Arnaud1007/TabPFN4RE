@@ -1,0 +1,14 @@
+{
+  "complete_records": 10,
+  "completion_basis": "attested review effort; unknown facts remain unknown",
+  "ledger_sha256": "b1167d36e7bc4789bd79ae9d681acc854f0f2a02f523e57759b6aa13ae787839",
+  "partial_records": 0,
+  "review_entries": 10,
+  "review_protocol_version": "nyc-source-review-v1",
+  "reviewed_records": 10,
+  "sample_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "sampled_records": 200,
+  "source_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "superseded_entries": 0,
+  "unreviewed_records": 190
+}

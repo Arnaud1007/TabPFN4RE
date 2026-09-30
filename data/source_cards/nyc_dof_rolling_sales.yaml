@@ -86,8 +86,22 @@ target_currency: USD
 target_semantics: DOF glossary says price paid for the property; transfer scope requires audit
 date_field: sale_date
 date_semantics: DOF glossary says date the property sold; contract and close mapping unverified
+date_semantics_evidence: https://www.nyc.gov/site/finance/property/glossary-property-sales.page
+acris_date_distinction: >-
+  Official ACRIS detail-view help defines Document Date as execution and
+  Recorded/Filed as recording. Neither field is identified there as closing;
+  an index lead cannot establish the meaning of the DOF rolling SALE DATE.
+acris_date_distinction_evidence: https://a836-acris.nyc.gov/AcrisHelp/docsearch/Documents/detailview.htm
 property_fields: [building_class_at_time_of_sale, building_class_at_present, gross_square_feet, land_square_feet, year_built]
-area_semantics: gross building area and land area; neither is verified living area
+area_semantics: >-
+  DOF defines Gross Square Feet as an exterior-measured total that includes
+  land area and space within buildings or structures, and Land Square Feet as
+  property land area. Neither is verified living area.
+unit_identity_note: >-
+  The DOF glossary says cooperative apartment numbers may be in ADDRESS.
+  Borough-block-lot identifies a tax property, not necessarily an individual
+  dwelling or a distinct economic transfer; exact unit and transfer scope
+  remain unverified for model labels.
 availability_field: absent
 historical_vintages: 13 visible portal revision records, versions 53 through 65; archived CSV bytes not recovered or verified
 correction_policy: current view can change; archived dataset versions are visible but row-level correction history is not audited
@@ -99,6 +113,7 @@ rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje
 rights_review: data/source_cards/nyc_open_data_use_review.yaml
 source_clarification_inquiry_draft: data/requests/nyc_dof_rolling_sales_inquiry_draft.md
 source_clarification_inquiry_status: unsent_no_response
+instrument_evidence_boundary: decisions/0040-nyc-instrument-and-date-evidence-boundary.md
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 historical_asof_eligible: false

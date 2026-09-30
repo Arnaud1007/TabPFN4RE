@@ -19,6 +19,9 @@ from private_review_io import new_file, secure_directory, verify_acl
 
 
 PRIVATE_ROOT = inspection.PRIVATE_ROOT
+ENVIRONMENT_LOCK = (
+    inspection.PROJECT_ROOT / "locks" / "nyc-header-diagnostic-environment.json"
+)
 
 
 def _diagnostic_dir(directory: Path, *, new: bool) -> Path:
@@ -151,6 +154,7 @@ def _public_projection(private: dict) -> dict:
 
 
 def _intent(source: Path, output: Path, manifest: dict) -> dict:
+    provenance = inspection._provenance()
     return {
         "protocol": PROTOCOL,
         "run_id": output.name,
@@ -161,7 +165,11 @@ def _intent(source: Path, output: Path, manifest: dict) -> dict:
             for entry in inspection._expected_files(manifest)
         ],
         "started_at_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        **inspection._provenance(),
+        **provenance,
+        "worksheet_inspection_environment_lock_sha256": provenance[
+            "environment_lock_sha256"
+        ],
+        "environment_lock_sha256": inspection._sha(ENVIRONMENT_LOCK.read_bytes()),
     }
 
 
@@ -187,11 +195,11 @@ def diagnose_capture(
     source, manifest, _ = inspection._capture(capture_dir)
     inspection._check_time(timer, start)
     output = _diagnostic_dir(output_dir, new=True)
+    intent = _intent(source, output, manifest)
+    intent_bytes = inspection._json_bytes(intent)
     output.mkdir(mode=0o700)
     secure_directory(output)
     verify_acl(output)
-    intent = _intent(source, output, manifest)
-    intent_bytes = inspection._json_bytes(intent)
     new_file(output / "intent.json", intent_bytes)
     try:
         private = _aggregate(source, manifest, timer, start)

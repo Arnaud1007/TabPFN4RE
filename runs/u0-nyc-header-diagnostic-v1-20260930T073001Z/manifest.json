@@ -1,0 +1,18 @@
+{
+  "run_id": "u0-nyc-header-diagnostic-v1-20260930T073001Z",
+  "protocol": "nyc-borough-header-diagnostic-v1",
+  "status": "PRELIMINARY_PROVENANCE_MISMATCH",
+  "code_commit": "757540b694cef30109046021e8e97ff4cf52efd7",
+  "private_run_id": "header-diagnostic-20260930T073001Z-79529824f388",
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "private_intent_sha256": "c33191acee2fa1f275f59e306c8767e8804957c49f2a190e55df7e6724fee096",
+  "private_result_sha256": "cafb257e0321d5608dd13f175d866d1c39112d6cd0805e169f1aa2e4609a1ffb",
+  "private_public_sha256": "d595267290ab703247bc8077221dd999cbde33f8b7450c9c7314785b464d7811",
+  "private_hash_manifest_sha256": "dc46ea0ed3a75ce23cb1b403ced2b14bae3198ed22908262eab0c3ada9ff9c93",
+  "public_aggregate_sha256": "d595267290ab703247bc8077221dd999cbde33f8b7450c9c7314785b464d7811",
+  "candidate_found_count": 5,
+  "qualified_borough_count": 0,
+  "sale_labels_certified": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

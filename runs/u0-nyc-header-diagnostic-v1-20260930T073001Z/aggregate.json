@@ -1,0 +1,90 @@
+{
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "capture_run_id": "official-exports-20260929T033558Z-62ad417fb39f",
+  "files": [
+    {
+      "borough": "Manhattan",
+      "bytes": 1807597,
+      "candidate": {
+        "beyond_21_count": 0,
+        "fingerprint_sha256": "4f8efb3fe379c1adb05938d397271d6c38002b6c2fdbe2224b3c4aa68d529e95",
+        "formula_cells": 0,
+        "nonempty_count": 21,
+        "physical_ordinal": 5,
+        "score": 20,
+        "source_row_number": 5
+      },
+      "physical_rows": 19558,
+      "sha256": "8903566fa59c9ce4c2b427ce24e268cc448d8c04f8c779839df942f29a05397a",
+      "status": "candidate_found"
+    },
+    {
+      "borough": "Bronx",
+      "bytes": 651527,
+      "candidate": {
+        "beyond_21_count": 0,
+        "fingerprint_sha256": "4f8efb3fe379c1adb05938d397271d6c38002b6c2fdbe2224b3c4aa68d529e95",
+        "formula_cells": 0,
+        "nonempty_count": 21,
+        "physical_ordinal": 5,
+        "score": 20,
+        "source_row_number": 5
+      },
+      "physical_rows": 6429,
+      "sha256": "d8e1490eec2555dc0094979da0a56b71ee367f78ab760fb4b01ea89867d542d5",
+      "status": "candidate_found"
+    },
+    {
+      "borough": "Brooklyn",
+      "bytes": 2306976,
+      "candidate": {
+        "beyond_21_count": 0,
+        "fingerprint_sha256": "4f8efb3fe379c1adb05938d397271d6c38002b6c2fdbe2224b3c4aa68d529e95",
+        "formula_cells": 0,
+        "nonempty_count": 21,
+        "physical_ordinal": 5,
+        "score": 20,
+        "source_row_number": 5
+      },
+      "physical_rows": 23046,
+      "sha256": "4d609a75ceb49a753def6ef203fe8f923fb8893d04eb4cd578393c733f27daae",
+      "status": "candidate_found"
+    },
+    {
+      "borough": "Queens",
+      "bytes": 2619437,
+      "candidate": {
+        "beyond_21_count": 0,
+        "fingerprint_sha256": "4f8efb3fe379c1adb05938d397271d6c38002b6c2fdbe2224b3c4aa68d529e95",
+        "formula_cells": 0,
+        "nonempty_count": 21,
+        "physical_ordinal": 5,
+        "score": 20,
+        "source_row_number": 5
+      },
+      "physical_rows": 26466,
+      "sha256": "0852a3c9b8a05e31b4850aae6d6a1bbf201b8e29e6f2f00b29e50ad1be1adcf9",
+      "status": "candidate_found"
+    },
+    {
+      "borough": "Staten Island",
+      "bytes": 708650,
+      "candidate": {
+        "beyond_21_count": 0,
+        "fingerprint_sha256": "4f8efb3fe379c1adb05938d397271d6c38002b6c2fdbe2224b3c4aa68d529e95",
+        "formula_cells": 0,
+        "nonempty_count": 21,
+        "physical_ordinal": 5,
+        "score": 20,
+        "source_row_number": 5
+      },
+      "physical_rows": 6871,
+      "sha256": "2590b4119fdfb3b05b5fdde72ef039726ce5f404e3d9245e7c9f07bc36a0b455",
+      "status": "candidate_found"
+    }
+  ],
+  "label_status": "unqualified",
+  "protocol": "nyc-borough-header-diagnostic-v1",
+  "qualified_borough_count": 0,
+  "scope": "candidate_only"
+}

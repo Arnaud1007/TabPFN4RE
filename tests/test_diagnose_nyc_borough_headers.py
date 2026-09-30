@@ -98,6 +98,28 @@ class DiagnosisTest(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             diagnosis.diagnose_capture(self.capture_dir, self.output)
 
+    def test_intent_hashes_the_diagnostic_environment_lock(self):
+        diagnosis.diagnose_capture(self.capture_dir, self.output)
+        intent = json.loads((self.output / "intent.json").read_bytes())
+        lock = (
+            inspection.PROJECT_ROOT / "locks" / "nyc-header-diagnostic-environment.json"
+        )
+        self.assertEqual(
+            intent["environment_lock_sha256"], sha256(lock.read_bytes()).hexdigest()
+        )
+        self.assertEqual(
+            intent["worksheet_inspection_environment_lock_sha256"],
+            sha256(inspection.ENVIRONMENT_LOCK.read_bytes()).hexdigest(),
+        )
+
+    def test_missing_diagnostic_lock_does_not_reserve_run_id(self):
+        with patch.object(
+            diagnosis, "ENVIRONMENT_LOCK", self.root / "missing-lock.json"
+        ):
+            with self.assertRaises(FileNotFoundError):
+                diagnosis.diagnose_capture(self.capture_dir, self.output)
+        self.assertFalse(self.output.exists())
+
     def test_bad_structure_is_file_rejection_without_raw_content(self):
         path = self.capture_dir / self.files[0]["filename"]
         path.write_bytes(b"PRIVATE_ADDRESS_BAD_ZIP")

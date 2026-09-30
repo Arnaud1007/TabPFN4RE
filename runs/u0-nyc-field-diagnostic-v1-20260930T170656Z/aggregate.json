@@ -1,0 +1,32 @@
+{
+  "boroughs": [
+    {
+      "borough": "Bronx",
+      "disagreement_headers": null,
+      "flags": null,
+      "suppression_reason": "private_only_v1"
+    },
+    {
+      "borough": "Brooklyn",
+      "disagreement_headers": null,
+      "flags": null,
+      "suppression_reason": "private_only_v1"
+    },
+    {
+      "borough": "Queens",
+      "disagreement_headers": null,
+      "flags": null,
+      "suppression_reason": "private_only_v1"
+    },
+    {
+      "borough": "Staten Island",
+      "disagreement_headers": null,
+      "flags": null,
+      "suppression_reason": "private_only_v1"
+    }
+  ],
+  "label_status": "unqualified",
+  "protocol": "nyc-dof-v2-field-diagnostic-v1",
+  "sale_labels_certified": 0,
+  "v2_result_sha256": "2b7b7643c6b07a763e0e3cd842b5f60b2819805acb50341d485c7aa910141199"
+}

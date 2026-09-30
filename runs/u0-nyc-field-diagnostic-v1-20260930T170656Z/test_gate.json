@@ -1,0 +1,98 @@
+{
+  "run_id": "u0-nyc-field-diagnostic-v1-20260930T170656Z",
+  "protocol": "nyc-dof-v2-field-diagnostic-v1",
+  "code_commit": "adbb1e1fc3f726d2e51047dbf17cb808cdb6d0d0",
+  "environment": "CPython 3.11.6; locks/nyc-v2-field-diagnostic-environment.json",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=diagnose_nyc_representation_fields_v1 --data-file=.coverage.nyc_fields_v1 -m unittest discover -s tests -p test_nyc_representation_fields_v1.py -q",
+      "exit_code": 0,
+      "observed": "30 tests passed",
+      "duration_seconds": 4.582,
+      "output_artifact": ".coverage.nyc_fields_v1"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage report --data-file=.coverage.nyc_fields_v1 -m",
+      "exit_code": 0,
+      "observed": "New runner 86% branch-aware coverage; 223 statements and 76 branches",
+      "duration_seconds": 0.328,
+      "output_artifact": ".coverage.nyc_fields_v1"
+    },
+    {
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path -LiteralPath 'data/raw/openml/house_prices-42165.arff').Path\n.\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "observed": "749 tests passed; 0 skipped",
+      "duration_seconds": 148.059,
+      "output_artifact": null
+    },
+    {
+      "command": "$env:AMES_ARFF_PATH = (Resolve-Path -LiteralPath 'data/raw/openml/house_prices-42165.arff').Path; .\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q > runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/full_suite.log 2>&1",
+      "exit_code": 0,
+      "observed": "Archived rerun: 749 tests passed; 0 skipped. Local user-home paths redacted in UTF-8 log.",
+      "duration_seconds": 147.323,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/full_suite.log",
+      "output_sha256": "2bfb75522f43282b0fb71652731f488afc0a97669d826601e846081d4df51186"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -p test_hcpa_document_groups.py -q",
+      "exit_code": 0,
+      "observed": "15 tests passed",
+      "duration_seconds": 0.942,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts/diagnose_nyc_representation_fields_v1.py tests/test_nyc_representation_fields_v1.py tests/test_hcpa_document_groups.py",
+      "exit_code": 0,
+      "observed": "All checks passed",
+      "duration_seconds": 0.263,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts/diagnose_nyc_representation_fields_v1.py tests/test_nyc_representation_fields_v1.py tests/test_hcpa_document_groups.py",
+      "exit_code": 0,
+      "observed": "Three files formatted",
+      "duration_seconds": 0.253,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "observed": "No broken requirements found",
+      "duration_seconds": 0.669,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit -r locks/nyc-workbook-requirements.txt --disable-pip",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found",
+      "duration_seconds": 1.472,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/test_gate.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/diagnose_nyc_representation_fields_v1.py analyze data/raw/nyc_dof/field-diagnostic-v1-20260930T170656Z-f94fe9bb66b3",
+      "exit_code": 0,
+      "observed": "Clean, pushed-code analysis created protected private and fixed public outputs without reopening source transaction files",
+      "duration_seconds": 5.331,
+      "output_artifact": "data/raw/nyc_dof/field-diagnostic-v1-20260930T170656Z-f94fe9bb66b3/hash_manifest.json"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/diagnose_nyc_representation_fields_v1.py replay data/raw/nyc_dof/field-diagnostic-v1-20260930T170656Z-f94fe9bb66b3",
+      "exit_code": 0,
+      "observed": "Offline byte-identical private and public replay",
+      "duration_seconds": 3.872,
+      "output_artifact": "runs/u0-nyc-field-diagnostic-v1-20260930T170656Z/aggregate.json"
+    }
+  ],
+  "reviews": {
+    "code": "approved without findings",
+    "security": "passed"
+  },
+  "failed_attempts": [
+    "An earlier full-suite attempt failed 13 HCPA tests while host free disk was 0.93 GB below a 3 GB fixture precondition; a synthetic fixture fix preceded the passing full-suite rerun."
+  ],
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "duration_note": "Full-suite durations are unittest summaries; focused checks, analyze and replay durations are observed tool wall times.",
+  "terminal_output_note": "The rerun's full-suite terminal stream is archived with local user-home paths redacted. Initial-run and other short checks are recorded from observed tool output; their terminal streams were not separately archived."
+}

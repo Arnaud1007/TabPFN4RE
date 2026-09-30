@@ -1,0 +1,23 @@
+{
+  "run_id": "u0-nyc-worksheet-inspection-v3-20260930T092659Z",
+  "protocol": "nyc-borough-worksheet-inspection-v3",
+  "status": "VERIFIED_FOUR_OF_FIVE_STRUCTURAL_ONLY",
+  "code_commit": "aae83e201710f8e5d04a40f64d44f6c1305bb7ed",
+  "dirty_tree_at_inspection": false,
+  "environment_lock_sha256": "4fd04ef826afdb752074590bdb535b3f34e4c57c38391a0d6f49c6187da608b3",
+  "inherited_environment_lock_sha256": "581fb3eb3c479a93552238c3aabe2a5fa138536c5597477e431b91e609fddf06",
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "private_run_id": "worksheet-inspection-v3-20260930T092659Z-6acaf2c84265",
+  "private_intent_sha256": "9bfa345ed8dbdb155fdc4b79395ef340e3cbfb40db365ea78047ab677a02a486",
+  "private_result_sha256": "61dcb9bce362658c475df5e43fa2407e18cb0d85779654941ab67bbb8ee00f83",
+  "private_public_sha256": "f2a76cf11a47580f3534366474646695eb427ac2149370465955040863fdd314",
+  "private_hash_manifest_sha256": "e375dbb7480ad909d5d49cbbf33d0a042549d53bcaeab303d4a4f3f9baa7e880",
+  "public_aggregate_sha256": "f2a76cf11a47580f3534366474646695eb427ac2149370465955040863fdd314",
+  "worksheet_qualified_count": 4,
+  "unqualified_boroughs": ["Manhattan"],
+  "physical_worksheet_rows": 82370,
+  "post_header_data_rows": 82345,
+  "sale_labels_certified": 0,
+  "u0_accepted": false,
+  "g_us_status": "PENDING"
+}

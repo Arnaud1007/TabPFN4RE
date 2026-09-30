@@ -4,7 +4,7 @@ Date: 2026-09-30
 Owner: project implementation
 Affected requirements: US05, US07, US08, US22, US23, US24
 New protocol: `nyc-borough-worksheet-inspection-v3`
-Status: frozen design for implementation; code and source run pending
+Status: implemented and structurally evaluated; four boroughs qualified, Manhattan unqualified; zero sale labels certified
 
 ## Evidence and choice
 
@@ -29,3 +29,7 @@ Create a new protected, exclusive private run with intent, result, redacted publ
 Write synthetic RED tests before implementation. Cover exact G alias acceptance and rejection of case, whitespace-internal, punctuation, moved-position or second-column variants; source/physical row-5 and pinned fingerprint checks; a second plausible header; missing A:U coordinates, duplicate/nonmonotone rows and cells, extra cells, inline/shared strings, and a repeated header. Test formulas in preamble, header, data and beyond U, including cached-value nonuse. Test valid and invalid ISO, US text and Excel serial dates, 1900/1904 systems, boundaries and out-of-period values. Carry forward v2 package/ZIP/XML/hash/ACL/no-overwrite/timeout/redaction/replay tests. Confirm v1/v2 replay outputs remain unchanged. Require 80%+ branch-aware coverage for new modules, the full suite without mandatory skips, Ruff, dependency and security checks, and independent code/Python/security review.
 
 Only a passed v3 **worksheet structure** gate unlocks a separately frozen same-publisher row comparison and manual source review. Rights, actual close-date meaning, first row availability, transfer/parcel/unit identity and the 200-record NYC manual audit are independent requirements. No v3 outcome can by itself admit training labels or satisfy U0 or G-US.
+
+## Recorded outcome
+
+Reviewed code was pushed at `aae83e201710f8e5d04a40f64d44f6c1305bb7ed` before the [v3 private run and replay](../runs/u0-nyc-worksheet-inspection-v3-20260930T092659Z/report.md). Four borough workbooks passed the frozen structure rule. Manhattan failed because one formula cell occurs in its preamble; the rule is unchanged. All five had the pinned header and in-period date range. The run certifies zero sale labels. Any same-publisher row comparison must use a separately frozen protocol and exclude Manhattan unless a new version resolves its structural failure with fresh evidence.

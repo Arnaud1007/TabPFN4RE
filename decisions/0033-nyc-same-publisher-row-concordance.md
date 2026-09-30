@@ -4,7 +4,7 @@ Date: 2026-09-30
 Owner: project implementation
 Affected requirements: US04, US05, US06, US07, US08, US22, US23, US24
 Protocol: `nyc-dof-same-publisher-row-concordance-v1`
-Status: frozen design; synthetic implementation verified; source run pending
+Status: frozen design executed; exact concordance not demonstrated
 
 ## Evidence and scope
 
@@ -31,3 +31,7 @@ Keep source strings and candidate keys in memory only while comparing one boroug
 Write synthetic RED tests first for byte/manifest/path/ACL tampering, malformed OOXML, wrong borough, exact header alias, blank apartment, leading-zero codes, differing date/price formatting, duplicate and unequal-multiplicity groups, incomplete keys, address/class disagreement, CSV/XLSX-only groups, small-cell suppression, interruption and offline replay. The private run is create-only. Write intent before row reads, mark interrupted runs incomplete, write private/public canonical JSON and a hash manifest atomically, then independently recompute both for replay. Keep failed attempts. Code review, Python review and security review must pass; focused branch-aware coverage must exceed 80% per new module, full suite, Ruff and scoped dependency checks must pass. Commit and push reviewed code before the first private row-comparison read.
 
 Passing this protocol means only that the frozen same-publisher extracts agree to the reported extent. Source rights, actual close-date meaning, first row availability, transfer/parcel/unit identity and manual review remain independent U0 blockers. No result from this protocol alone admits a training label or advances G-US.
+
+## Execution outcome
+
+The [v1 run](../runs/u0-nyc-row-concordance-v1-20260930T132740Z/report.md) and offline replay passed using the code pushed before the source read. Bronx, Brooklyn and Queens showed zero exact candidate-key pairs and full-row matches; Staten Island's detailed breakdown was suppressed. This is an exact-string result under the rule above. The cause and any economically equivalent record linkage remain open for a new versioned diagnostic. Zero labels were admitted.

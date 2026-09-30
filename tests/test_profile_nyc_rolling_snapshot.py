@@ -3,18 +3,17 @@
 from __future__ import annotations
 
 import csv
-from hashlib import sha256
-from io import StringIO
 import json
-from pathlib import Path
 import sys
 import tempfile
 import unittest
+from hashlib import sha256
+from io import StringIO
+from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import profile_nyc_rolling_snapshot as profiler  # noqa: E402
-
 
 HEADER = (
     "BOROUGH",
@@ -101,6 +100,17 @@ class ProfileSnapshotTest(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+
+    def test_manifest_bytes_match_path_validation(self):
+        self.prepare((row(),))
+        body = self.manifest.read_bytes()
+        self.assertEqual(
+            profiler._manifest_bytes(body), profiler._manifest(self.manifest)
+        )
+        with self.assertRaisesRegex(ValueError, "invalid JSON"):
+            profiler._manifest_bytes(b"{")
+        with self.assertRaisesRegex(ValueError, "byte limit"):
+            profiler._manifest_bytes(b" " * (profiler.MAX_MANIFEST_BYTES + 1))
 
     def test_aggregate_profile_and_candidate_duplicates(self):
         self.prepare(

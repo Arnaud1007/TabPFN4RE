@@ -8,18 +8,17 @@ review bucket only and never an exclusion rule.
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import csv
+import json
+import os
+import re
+from collections import Counter
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from hashlib import sha256
 from io import TextIOWrapper
-import json
-import os
 from pathlib import Path, PureWindowsPath
-import re
 from uuid import uuid4
-
 
 PRIVATE_ROOT = Path(__file__).resolve().parents[1] / "data" / "raw" / "nyc_dof"
 APPROVED_SNAPSHOT_SHA256 = (
@@ -89,6 +88,10 @@ def _basename(value: object) -> str:
 def _manifest(path: Path) -> dict:
     with path.open("rb") as source:
         body = source.read(MAX_MANIFEST_BYTES + 1)
+    return _manifest_bytes(body)
+
+
+def _manifest_bytes(body: bytes) -> dict:
     if len(body) > MAX_MANIFEST_BYTES:
         raise ValueError("Snapshot manifest exceeds byte limit")
     try:

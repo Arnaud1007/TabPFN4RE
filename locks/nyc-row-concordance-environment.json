@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline exact-string comparison of pinned NYC DOF API CSV and four structurally qualified borough XLSX files; no sale-label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": {
+    "defusedxml": "0.7.1"
+  },
+  "runtime_dependency_lock": "locks/nyc-workbook-requirements.txt",
+  "runtime_dependency_lock_sha256": "af1adbfbc2d22b051cd98aefba9adbd323703c733ff0e2c5756db68000aea49d",
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "pyproject_sha256": "32be5f2a813476198f7afdce2e98b21f37304867d6161cec44c62d3eb6976f51",
+  "inherited_v3_environment_lock": "locks/nyc-worksheet-v3-environment.json",
+  "inherited_v3_environment_lock_sha256": "4fd04ef826afdb752074590bdb535b3f34e4c57c38391a0d6f49c6187da608b3",
+  "csv_snapshot_manifest_sha256": "45049ce1622ba4a819f29c79097869c9f3601d049139869982ec7327ee11962b",
+  "borough_capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "v3_result_sha256": "61dcb9bce362658c475df5e43fa2407e18cb0d85779654941ab67bbb8ee00f83",
+  "build_and_installer_tools": {
+    "pip": "26.2.1",
+    "setuptools": "84.0.0",
+    "wheel": "0.48.0",
+    "build": "1.6.1"
+  },
+  "test_tools_observed": {
+    "coverage": "7.6.12",
+    "pip-audit": "2.10.1",
+    "ruff": "0.13.0"
+  }
+}

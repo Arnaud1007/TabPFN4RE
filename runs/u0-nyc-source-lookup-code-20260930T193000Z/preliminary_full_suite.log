@@ -1,0 +1,14 @@
+C:\Users\tdech\AppData\Local\Programs\Python\Python311\Lib\zipfile.py:1550: UserWarning: Duplicate name: 'xl/workbook.xml'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+usage: collector [-h] --source SOURCE --sample SAMPLE --code-table CODE_TABLE
+                 --private-run-dir PRIVATE_RUN_DIR
+                 [--review-ledger REVIEW_LEDGER]
+                 [--review-manifest REVIEW_MANIFEST]
+                 {capture,replay}
+collector: error: capture requires review ledger and manifest
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: 'C:\\Users\\tdech\\AppData\\Local\\Temp\\tmpyqxuyja8\\.report.json-pj5r_z6w.tmp' -> 'C:\\Users\\tdech\\AppData\\Local\\Temp\\tmpyqxuyja8\\report.json'
+----------------------------------------------------------------------
+Ran 812 tests in 194.747s
+
+OK

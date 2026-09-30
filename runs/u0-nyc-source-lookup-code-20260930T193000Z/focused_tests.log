@@ -1,0 +1,16 @@
+python.exe : usage: collector [-h] --source SOURCE --sample SAMPLE --code-table CODE_TABLE
+At line:2 char:80
++ ... = Get-Date; & .\.venv\Scripts\python.exe -m coverage run --branch -m  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (usage: collecto...able CODE_TABLE:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+                 --private-run-dir PRIVATE_RUN_DIR
+                 [--review-ledger REVIEW_LEDGER]
+                 [--review-manifest REVIEW_MANIFEST]
+                 {capture,replay}
+collector: error: capture requires review ledger and manifest
+----------------------------------------------------------------------
+Ran 29 tests in 6.056s
+
+OK

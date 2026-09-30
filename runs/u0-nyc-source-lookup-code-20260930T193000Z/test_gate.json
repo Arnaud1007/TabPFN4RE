@@ -1,0 +1,63 @@
+{
+  "run_id": "u0-nyc-source-lookup-code-20260930T193000Z",
+  "protocol": "nyc-source-lookup-v1",
+  "stage": "code_and_synthetic_verification_only",
+  "code_base_commit_at_test": "99d997974319d93b6e5f27de1e89af5416b9ffc3",
+  "dirty_tree_at_test": true,
+  "environment": "CPython 3.11.6; locks/nyc-review-ledger-environment.json",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --branch -m unittest tests.test_collect_nyc_review_lookups_v1 -q",
+      "exit_code": 0,
+      "duration_seconds": 6.876,
+      "observed": "29 tests passed in 6.056 seconds; branch-aware new-runner coverage 82%",
+      "output_artifact": "focused_tests.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 200.069,
+      "observed": "815 tests passed in 199.460 seconds; one optional AMES_ARFF_PATH source integration skip",
+      "output_artifact": "full_suite_venv.log"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts/collect_nyc_review_lookups_v1.py tests/test_collect_nyc_review_lookups_v1.py",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "observed": "All checks passed",
+      "output_artifact": null
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts/collect_nyc_review_lookups_v1.py tests/test_collect_nyc_review_lookups_v1.py",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "observed": "2 files already formatted",
+      "output_artifact": null
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit -r locks/local-date-requirements.txt --no-deps --disable-pip --timeout 10",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "observed": "No known vulnerabilities found in pinned runtime requirement",
+      "output_artifact": "pip_audit.log"
+    }
+  ],
+  "failed_or_superseded_attempts": [
+    {
+      "command": "python -m unittest discover -s tests -q",
+      "exit_code": 1,
+      "observed": "815 tests; 10 failures, 69 errors, 1 skip; system Python 3.14 differed from locked 3.11",
+      "output_artifact": "full_suite.log"
+    },
+    {
+      "command": "python -m unittest discover -s tests -q on earlier worktree snapshot",
+      "exit_code": 0,
+      "observed": "812 tests passed but not final code",
+      "output_artifact": "preliminary_full_suite.log"
+    }
+  ],
+  "manual_reviews_appended": 0,
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

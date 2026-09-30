@@ -1,0 +1,2024 @@
+python.exe : Exception ignored while calling deallocator <function _TemporaryFileCloser.__del__ at 0x000001AECB90C460>:
+At line:2 char:139
++ ... = Get-Date; & python -m unittest discover -s tests -q *> (Join-Path $ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Exception ignor...001AECB90C460>::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Traceback (most recent call last):
+  File "C:\Python314\Lib\tempfile.py", line 482, in __del__
+    self.cleanup()
+  File "C:\Python314\Lib\tempfile.py", line 461, in cleanup
+    self.file.close()
+AttributeError: 'BrokenBody' object has no attribute 'close'
+Exception ignored while calling deallocator <function _TemporaryFileCloser.__del__ at 0x000001AECB90C460>:
+Traceback (most recent call last):
+  File "C:\Python314\Lib\tempfile.py", line 482, in __del__
+    self.cleanup()
+  File "C:\Python314\Lib\tempfile.py", line 461, in cleanup
+    self.file.close()
+AttributeError: 'BrokenBody' object has no attribute 'close'
+Exception ignored while calling deallocator <function _TemporaryFileCloser.__del__ at 0x000001AECB90C460>:
+Traceback (most recent call last):
+  File "C:\Python314\Lib\tempfile.py", line 482, in __del__
+    self.cleanup()
+  File "C:\Python314\Lib\tempfile.py", line 461, in cleanup
+    self.file.close()
+AttributeError: 'BrokenBody' object has no attribute 'close'
+Exception ignored while calling deallocator <function _TemporaryFileCloser.__del__ at 0x000001AECB90C460>:
+Traceback (most recent call last):
+  File "C:\Python314\Lib\tempfile.py", line 482, in __del__
+    self.cleanup()
+  File "C:\Python314\Lib\tempfile.py", line 461, in cleanup
+    self.file.close()
+AttributeError: 'BrokenBody' object has no attribute 'close'
+C:\Python314\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 500: 'private message'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+C:\Python314\Lib\zipfile\__init__.py:1708: UserWarning: Duplicate name: 'xl/workbook.xml'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+usage: python.exe -m unittest [-h] --source SOURCE --sample SAMPLE
+                              --code-table CODE_TABLE
+                              --private-run-dir PRIVATE_RUN_DIR
+                              [--review-ledger REVIEW_LEDGER]
+                              [--review-manifest REVIEW_MANIFEST]
+                              {capture,replay}
+python.exe -m unittest: error: capture requires review ledger and manifest
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: 
+'C:\\Users\\tdech\\AppData\\Local\\Temp\\tmp0oh_oeeq\\.report.json-ivvkcv67.tmp' -> 
+'C:\\Users\\tdech\\AppData\\Local\\Temp\\tmp0oh_oeeq\\report.json'
+C:\Python314\Lib\tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 404: ''>
+  _warnings.warn(self.warn_message, ResourceWarning)
+======================================================================
+ERROR: test_dirty_tree_is_explicitly_not_replayable 
+(test_ames_runner.AmesRunnerTests.test_dirty_tree_is_explicitly_not_replayable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 270, in 
+test_dirty_tree_is_explicitly_not_replayable
+    run_dir = self.run_fixture()
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 56, in run_fixture
+    return run_smoke(
+        self.source,
+    ...<3 lines>...
+        seed=seed,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_explicit_project_root_supplies_lock_and_policy 
+(test_ames_runner.AmesRunnerTests.test_explicit_project_root_supplies_lock_and_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 251, in 
+test_explicit_project_root_supplies_lock_and_policy
+    run_dir = run_smoke(
+        self.source,
+    ...<2 lines>...
+        project_root=project_root,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_hash_mismatch_fails_without_completed_run 
+(test_ames_runner.AmesRunnerTests.test_hash_mismatch_fails_without_completed_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 175, in 
+test_hash_mismatch_fails_without_completed_run
+    run_smoke(self.source, self.output_dir, expected_sha256="0" * 64)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_identical_runs_are_reproducible_but_never_overwrite_each_other 
+(test_ames_runner.AmesRunnerTests.test_identical_runs_are_reproducible_but_never_overwrite_each_other)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 148, in 
+test_identical_runs_are_reproducible_but_never_overwrite_each_other
+    first = self.run_fixture()
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 56, in run_fixture
+    return run_smoke(
+        self.source,
+    ...<3 lines>...
+        seed=seed,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_ignored_untracked_lock_and_policy_cannot_be_attested_by_clean_commit 
+(test_ames_runner.AmesRunnerTests.test_ignored_untracked_lock_and_policy_cannot_be_attested_by_clean_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 406, in 
+test_ignored_untracked_lock_and_policy_cannot_be_attested_by_clean_commit
+    run_dir = run_smoke(
+        self.source,
+    ...<2 lines>...
+        project_root=project_root,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_invalid_source_schema_fails_without_completed_run 
+(test_ames_runner.AmesRunnerTests.test_invalid_source_schema_fails_without_completed_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 191, in 
+test_invalid_source_schema_fails_without_completed_run
+    run_smoke(invalid, self.output_dir, expected_sha256=sha256(invalid))
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_padded_ids_produce_one_prediction_per_reserved_id 
+(test_ames_runner.AmesRunnerTests.test_padded_ids_produce_one_prediction_per_reserved_id)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 208, in 
+test_padded_ids_produce_one_prediction_per_reserved_id
+    run_dir = self.run_fixture()
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 56, in run_fixture
+    return run_smoke(
+        self.source,
+    ...<3 lines>...
+        seed=seed,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_rename_error_cannot_leave_a_complete_manifest_anywhere 
+(test_ames_runner.AmesRunnerTests.test_rename_error_cannot_leave_a_complete_manifest_anywhere)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 449, in 
+test_rename_error_cannot_leave_a_complete_manifest_anywhere
+    self.run_fixture()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 56, in run_fixture
+    return run_smoke(
+        self.source,
+    ...<3 lines>...
+        seed=seed,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_run_persists_auditable_non_certifying_split_and_predictions 
+(test_ames_runner.AmesRunnerTests.test_run_persists_auditable_non_certifying_split_and_predictions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 75, in 
+test_run_persists_auditable_non_certifying_split_and_predictions
+    run_dir = self.run_fixture()
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 56, in run_fixture
+    return run_smoke(
+        self.source,
+    ...<3 lines>...
+        seed=seed,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_split_partition_mismatch_fails_without_completed_run 
+(test_ames_runner.AmesRunnerTests.test_split_partition_mismatch_fails_without_completed_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 233, in 
+test_split_partition_mismatch_fails_without_completed_run
+    self.run_fixture()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 56, in run_fixture
+    return run_smoke(
+        self.source,
+    ...<3 lines>...
+        seed=seed,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_too_small_source_fails_without_completed_run 
+(test_ames_runner.AmesRunnerTests.test_too_small_source_fails_without_completed_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 199, in 
+test_too_small_source_fails_without_completed_run
+    run_smoke(
+    ~~~~~~~~~^
+        small_source, self.output_dir, expected_sha256=sha256(small_source)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_unrelated_clean_project_cannot_attest_executed_module_commit 
+(test_ames_runner.AmesRunnerTests.test_unrelated_clean_project_cannot_attest_executed_module_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_ames_runner.py", line 332, in 
+test_unrelated_clean_project_cannot_attest_executed_module_commit
+    run_dir = run_smoke(
+        self.source,
+    ...<2 lines>...
+        project_root=project_root,
+    )
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 206, in 
+run_smoke
+    lock_bytes, policy_bytes, policy = _locked_inputs(root)
+                                       ~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\ames_smoke.py", line 151, in 
+_locked_inputs
+    raise RuntimeError("Ames smoke Python version differs from environment lock")
+RuntimeError: Ames smoke Python version differs from environment lock
+
+======================================================================
+ERROR: test_new_run_directory_is_restricted_before_raw_write 
+(test_audit_nyc_acris_matches_v2.PilotV2Tests.test_new_run_directory_is_restricted_before_raw_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_audit_nyc_acris_matches_v2.py", line 561, 
+in test_new_run_directory_is_restricted_before_raw_write
+    REAL_VERIFY_DIRECTORY_ACL(run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_capture_is_exactly_five_gets_and_replay_is_offline 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_capture_is_exactly_five_gets_and_replay_is_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+175, in test_capture_is_exactly_five_gets_and_replay_is_offline
+    report = self.call_capture(fake)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_declared_length_missing_is_allowed 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_declared_length_missing_is_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+447, in test_declared_length_missing_is_allowed
+    report = self.call_capture(fake)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_elapsed_transfer_limit_preserves_incomplete_run 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_elapsed_transfer_limit_preserves_incomplete_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+666, in test_elapsed_transfer_limit_preserves_incomplete_run
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<3 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_failure_preserves_intent_and_prior_receipts_without_manifest 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_failure_preserves_intent_and_prior_receipts_without_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+282, in test_failure_preserves_intent_and_prior_receipts_without_manifest
+    self.call_capture(transport)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_failure_record_write_error_preserves_original_exception 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_failure_record_write_error_preserves_original_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+310, in test_failure_record_write_error_preserves_original_exception
+    self.call_capture(fail_transport)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_http_error_records_only_safe_status_in_private_failure 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_http_error_records_only_safe_status_in_private_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+330, in test_http_error_records_only_safe_status_in_private_failure
+    self.call_capture(transport)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_http_error_status_accepts_exact_integer_boundaries 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_http_error_status_accepts_exact_integer_boundaries) (status=100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+390, in test_http_error_status_accepts_exact_integer_boundaries
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_http_error_status_accepts_exact_integer_boundaries 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_http_error_status_accepts_exact_integer_boundaries) (status=599)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+390, in test_http_error_status_accepts_exact_integer_boundaries
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_intent_precedes_first_get_and_receipts_follow_each_file 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_intent_precedes_first_get_and_receipts_follow_each_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+244, in test_intent_precedes_first_get_and_receipts_follow_each_file
+    self.call_capture(transport)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_new_v2_run_preserves_old_v1_private_artifacts 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_new_v2_run_preserves_old_v1_private_artifacts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+261, in test_new_v2_run_preserves_old_v1_private_artifacts
+    self.call_capture()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_non_http_failure_and_invalid_http_codes_omit_status 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_non_http_failure_and_invalid_http_codes_omit_status) (code=99)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+356, in test_non_http_failure_and_invalid_http_codes_omit_status
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_non_http_failure_and_invalid_http_codes_omit_status 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_non_http_failure_and_invalid_http_codes_omit_status) (code=600)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+356, in test_non_http_failure_and_invalid_http_codes_omit_status
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_non_http_failure_and_invalid_http_codes_omit_status 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_non_http_failure_and_invalid_http_codes_omit_status) (code=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+356, in test_non_http_failure_and_invalid_http_codes_omit_status
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_non_http_failure_and_invalid_http_codes_omit_status 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_non_http_failure_and_invalid_http_codes_omit_status) 
+(code='403')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+356, in test_non_http_failure_and_invalid_http_codes_omit_status
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_non_http_failure_and_invalid_http_codes_omit_status 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_non_http_failure_and_invalid_http_codes_omit_status)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+372, in test_non_http_failure_and_invalid_http_codes_omit_status
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir, transport=timeout, clock=lambda: WHEN, provenance=PROVENANCE
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_replay_detects_tamper_and_never_calls_transport 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_replay_detects_tamper_and_never_calls_transport)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+593, in test_replay_detects_tamper_and_never_calls_transport
+    self.call_capture()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_replay_rejects_changed_receipt_and_acl_failure 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_replay_rejects_changed_receipt_and_acl_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+606, in test_replay_rejects_changed_receipt_and_acl_failure
+    self.call_capture()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes (test_capture_nyc_dof_borough_exports.Ca
+ptureTest.test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes) 
+(protocol='nyc-official-borough-xlsx-v2', agent='DifferentAgent/1.0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+207, in test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes (test_capture_nyc_dof_borough_exports.Ca
+ptureTest.test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes) 
+(protocol='nyc-official-borough-xlsx-v1', agent='TabPFN4RealEstate-U0/1.0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+207, in test_replay_rejects_changed_user_agent_and_v1_even_with_matching_hashes
+    capture.capture_bundle(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        run_dir,
+        ^^^^^^^^
+    ...<2 lines>...
+        provenance=PROVENANCE,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_replay_rejects_failure_artifact_even_with_manifest 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_replay_rejects_failure_artifact_even_with_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+620, in test_replay_rejects_failure_artifact_even_with_manifest
+    self.call_capture()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_replay_rejects_missing_receipt_and_incomplete_manifest 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_replay_rejects_missing_receipt_and_incomplete_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+600, in test_replay_rejects_missing_receipt_and_incomplete_manifest
+    self.call_capture()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_v2_intent_and_manifest_bind_exact_user_agent 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_v2_intent_and_manifest_bind_exact_user_agent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+192, in test_v2_intent_and_manifest_bind_exact_user_agent
+    self.call_capture()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+91, in call_capture
+    return capture.capture_bundle(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        self.run_dir,
+        ^^^^^^^^^^^^^
+    ...<2 lines>...
+        **options,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\capture_nyc_dof_borough_exports.py", line 
+445, in capture_bundle
+    _secure_directory(target_dir)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 282, in 
+_secure_directory
+    _verify_directory_acl(run_dir)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\audit_nyc_acris_matches_v2.py", line 261, in 
+_verify_directory_acl
+    raise ValueError("Private run directory ACL verification failed")
+ValueError: Private run directory ACL verification failed
+
+======================================================================
+ERROR: test_ambiguous_cutoff_midnight_selects_earliest_valid_instant 
+(test_local_date_origins.LocalDateOriginTests.test_ambiguous_cutoff_midnight_selects_earliest_valid_instant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 142, in 
+test_ambiguous_cutoff_midnight_selects_earliest_valid_instant
+    origin = derive_local_date_origin(date(2021, 1, 29), "America/Havana")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_corrupted_protocol_and_hash_are_rejected_before_visibility 
+(test_local_date_origins.LocalDateOriginTests.test_corrupted_protocol_and_hash_are_rejected_before_visibility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 196, in 
+test_corrupted_protocol_and_hash_are_rejected_before_visibility
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_cross_zone_date_only_availability_uses_source_local_day_end 
+(test_local_date_origins.LocalDateOriginTests.test_cross_zone_date_only_availability_uses_source_local_day_end)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 91, in 
+test_cross_zone_date_only_availability_uses_source_local_day_end
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_date_only_availability_keeps_its_original_precision 
+(test_local_date_origins.LocalDateOriginTests.test_date_only_availability_keeps_its_original_precision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 72, in 
+test_date_only_availability_keeps_its_original_precision
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_exact_cutoff_is_exclusive_for_timestamped_availability 
+(test_local_date_origins.LocalDateOriginTests.test_exact_cutoff_is_exclusive_for_timestamped_availability)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 58, in 
+test_exact_cutoff_is_exclusive_for_timestamped_availability
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_fall_day_has_a_twenty_five_hour_window 
+(test_local_date_origins.LocalDateOriginTests.test_fall_day_has_a_twenty_five_hour_window)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 34, in 
+test_fall_day_has_a_twenty_five_hour_window
+    previous = derive_local_date_origin(date(2025, 1, 31), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_forged_later_cutoff_cannot_admit_a_future_timestamp 
+(test_local_date_origins.LocalDateOriginTests.test_forged_later_cutoff_cannot_admit_a_future_timestamp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 178, in 
+test_forged_later_cutoff_cannot_admit_a_future_timestamp
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_forged_later_origin_date_cannot_admit_a_future_date 
+(test_local_date_origins.LocalDateOriginTests.test_forged_later_origin_date_cannot_admit_a_future_date)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 185, in 
+test_forged_later_origin_date_cannot_admit_a_future_date
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_leap_day_and_year_boundary_use_calendar_days 
+(test_local_date_origins.LocalDateOriginTests.test_leap_day_and_year_boundary_use_calendar_days)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 51, in 
+test_leap_day_and_year_boundary_use_calendar_days
+    leap = derive_local_date_origin(date(2024, 5, 29), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_naive_and_invalid_availability_are_rejected 
+(test_local_date_origins.LocalDateOriginTests.test_naive_and_invalid_availability_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 129, in 
+test_naive_and_invalid_availability_are_rejected
+    origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_nonexistent_cutoff_midnight_fails_closed 
+(test_local_date_origins.LocalDateOriginTests.test_nonexistent_cutoff_midnight_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 155, in 
+test_nonexistent_cutoff_midnight_fails_closed
+    derive_local_date_origin(date(2020, 6, 5), "America/Havana")
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_nonexistent_origin_midnight_fails_closed 
+(test_local_date_origins.LocalDateOriginTests.test_nonexistent_origin_midnight_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 151, in 
+test_nonexistent_origin_midnight_fails_closed
+    derive_local_date_origin(date(2020, 6, 6), "America/Havana")
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_origin_is_ninety_local_calendar_days_before_close 
+(test_local_date_origins.LocalDateOriginTests.test_origin_is_ninety_local_calendar_days_before_close)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 21, in 
+test_origin_is_ninety_local_calendar_days_before_close
+    previous = derive_local_date_origin(date(2024, 6, 7), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_policy_hash_is_stable_and_identifies_zone_and_origin 
+(test_local_date_origins.LocalDateOriginTests.test_policy_hash_is_stable_and_identifies_zone_and_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 163, in 
+test_policy_hash_is_stable_and_identifies_zone_and_origin
+    a = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_skipped_civil_origin_date_fails_closed 
+(test_local_date_origins.LocalDateOriginTests.test_skipped_civil_origin_date_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 160, in 
+test_skipped_civil_origin_date_fails_closed
+    derive_local_date_origin(date(2012, 3, 29), "Pacific/Apia")
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_timestamp_comparison_uses_utc_instants_across_fall_fold 
+(test_local_date_origins.LocalDateOriginTests.test_timestamp_comparison_uses_utc_instants_across_fall_fold)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 106, in 
+test_timestamp_comparison_uses_utc_instants_across_fall_fold
+    origin = derive_local_date_origin(date(2025, 2, 1), "America/New_York")
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_unknown_zone_and_invalid_inputs_are_rejected 
+(test_local_date_origins.LocalDateOriginTests.test_unknown_zone_and_invalid_inputs_are_rejected) 
+(close_date=datetime.date(2024, 6, 8), zone_key='Unknown/Nowhere')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_local_date_origins.py", line 126, in 
+test_unknown_zone_and_invalid_inputs_are_rejected
+    derive_local_date_origin(close_date, zone_key)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 119, in derive_local_date_origin
+    return LocalDateOrigin(close_date, zone_key)
+  File "<string>", line 5, in __init__
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 39, in __post_init__
+    zone = _zone_from_pinned_data(self.zone_key)
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\src\tabpfn4realestate\evaluation\local_dates.py", 
+line 90, in _zone_from_pinned_data
+    raise RuntimeError("Installed tzdata differs from the frozen date policy")
+RuntimeError: Installed tzdata differs from the frozen date policy
+
+======================================================================
+ERROR: test_append_requires_exact_prior_hash_and_ledger_id 
+(test_nyc_sample_review.NycSourceReviewTest.test_append_requires_exact_prior_hash_and_ledger_id)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 192, in 
+test_append_requires_exact_prior_hash_and_ledger_id
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_complete_unknowns_need_attestation_and_source_checks 
+(test_nyc_sample_review.NycSourceReviewTest.test_complete_unknowns_need_attestation_and_source_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 247, in 
+test_complete_unknowns_need_attestation_and_source_checks
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_correction_history_cannot_extend_beyond_observation 
+(test_nyc_sample_review.NycSourceReviewTest.test_correction_history_cannot_extend_beyond_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 338, in 
+test_correction_history_cannot_extend_beyond_observation
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_future_time_bad_reference_and_missing_ordinal_rejected 
+(test_nyc_sample_review.NycSourceReviewTest.test_future_time_bad_reference_and_missing_ordinal_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 415, in 
+test_future_time_bad_reference_and_missing_ordinal_rejected
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_generic_urls_cannot_support_strong_conclusions 
+(test_nyc_sample_review.NycSourceReviewTest.test_generic_urls_cannot_support_strong_conclusions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 265, in 
+test_generic_urls_cannot_support_strong_conclusions
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_helper_rejects_acl_hard_link_and_summary_overlap 
+(test_nyc_sample_review.NycSourceReviewTest.test_helper_rejects_acl_hard_link_and_summary_overlap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 606, in 
+test_helper_rejects_acl_hard_link_and_summary_overlap
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_independent_identity_and_archive_metadata_are_not_automatic_matches 
+(test_nyc_sample_review.NycSourceReviewTest.test_independent_identity_and_archive_metadata_are_not_automatic_matches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 511, in 
+test_independent_identity_and_archive_metadata_are_not_automatic_matches
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_init_is_private_unique_and_no_overwrite 
+(test_nyc_sample_review.NycSourceReviewTest.test_init_is_private_unique_and_no_overwrite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 161, in 
+test_init_is_private_unique_and_no_overwrite
+    result = self.initialize()
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_manifest_and_history_tampering_do_not_get_repaired 
+(test_nyc_sample_review.NycSourceReviewTest.test_manifest_and_history_tampering_do_not_get_repaired)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 582, in 
+test_manifest_and_history_tampering_do_not_get_repaired
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_orphan_init_is_preserved_and_new_init_gets_new_identity 
+(test_nyc_sample_review.NycSourceReviewTest.test_orphan_init_is_preserved_and_new_init_gets_new_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 355, in 
+test_orphan_init_is_preserved_and_new_init_gets_new_identity
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_paths_lock_and_short_write (test_nyc_sample_review.NycSourceReviewTest.test_paths_lock_and_short_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 470, in 
+test_paths_lock_and_short_write
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_price_semantics_from_pinned_source_and_unit_na_guard 
+(test_nyc_sample_review.NycSourceReviewTest.test_price_semantics_from_pinned_source_and_unit_na_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 380, in 
+test_price_semantics_from_pinned_source_and_unit_na_guard
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_revisions_and_history_validation 
+(test_nyc_sample_review.NycSourceReviewTest.test_revisions_and_history_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 215, in 
+test_revisions_and_history_validation
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_structural_invalid_inputs_fail_cleanly 
+(test_nyc_sample_review.NycSourceReviewTest.test_structural_invalid_inputs_fail_cleanly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 562, in 
+test_structural_invalid_inputs_fail_cleanly
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_summary_after_report_failure_and_create_new 
+(test_nyc_sample_review.NycSourceReviewTest.test_summary_after_report_failure_and_create_new)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 434, in 
+test_summary_after_report_failure_and_create_new
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_unavailable_attempt_is_structured_and_relevant 
+(test_nyc_sample_review.NycSourceReviewTest.test_unavailable_attempt_is_structured_and_relevant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 319, in 
+test_unavailable_attempt_is_structured_and_relevant
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+ERROR: test_v1_rejects_strong_identity_timing_and_asof_findings 
+(test_nyc_sample_review.NycSourceReviewTest.test_v1_rejects_strong_identity_timing_and_asof_findings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 299, in 
+test_v1_rejects_strong_identity_timing_and_asof_findings
+    self.identity = self.initialize()["ledger_id"]
+                    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 85, in 
+initialize
+    return review.init_review(self.source, self.sample, self.ledger, self.manifest)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 617, in 
+init_review
+    ordinals, rows = _inputs(source, sample, ledger, manifest, initialize=True)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 276, in _inputs
+    _ensure_directory()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\review_nyc_sample.py", line 246, in 
+_ensure_directory
+    private_io.secure_directory(directory)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 141, in 
+secure_directory
+    verify_acl(directory)
+    ~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\scripts\private_review_io.py", line 121, in verify_acl
+    raise ValueError("Private review ACL verification failed")
+ValueError: Private review ACL verification failed
+
+======================================================================
+FAIL: test_missing_declared_length_still_hits_actual_byte_limit 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_missing_declared_length_still_hits_actual_byte_limit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+476, in test_missing_declared_length_still_hits_actual_byte_limit
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'status': 302})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'final_url': 'https://example.org/redirect'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'headers': {'Content-Type': 'text/html'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'headers': {'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; 
+charset=utf-8'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'headers': {'Content-Encoding': 'gzip'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'headers': {'Content-Length': 'abc'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'headers': {'Content-Length': '-1'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_response_rejects_redirect_status_mime_encoding_and_lengths 
+(test_capture_nyc_dof_borough_exports.CaptureTest.test_response_rejects_redirect_status_mime_encoding_and_lengths) 
+(values={'headers': {'Content-Length': '1'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_capture_nyc_dof_borough_exports.py", line 
+438, in test_response_rejects_redirect_status_mime_encoding_and_lengths
+    self.assertEqual(len(fake.calls), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_init_rejects_changed_inputs_and_malformed_sample 
+(test_nyc_sample_review.NycSourceReviewTest.test_init_rejects_changed_inputs_and_malformed_sample)
+----------------------------------------------------------------------
+ValueError: Private review ACL verification failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\tdech\Desktop\Coding_projects\TabPFN4RealEstate\tests\test_nyc_sample_review.py", line 183, in 
+test_init_rejects_changed_inputs_and_malformed_sample
+    with self.assertRaisesRegex(ValueError, "source.*hash"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "source.*hash" does not match "Private review ACL verification failed"
+
+----------------------------------------------------------------------
+Ran 815 tests in 133.423s
+
+FAILED (failures=10, errors=69, skipped=1)

@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import csv
+from contextlib import redirect_stdout
 from hashlib import sha256
 from io import StringIO
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -180,9 +183,10 @@ class LookupTests(unittest.TestCase):
         opener, calls = self._responses()
         result = self._run(opener)
         self.assertEqual(result["status"], "COMPLETE_ROUTE_ONLY")
-        self.assertEqual(result["http_requests"], 3)
+        self.assertEqual(result["request_intents"], 3)
         self.assertEqual(len(calls), 3)
         self.assertEqual(result["sale_labels_certified"], 0)
+        self.assertNotIn("query_sha256", result)
         self.assertNotIn("D1", json.dumps(result))
         self.assertNotIn("123456", json.dumps(result))
         replayed = lookup.replay_lookup(
@@ -203,7 +207,30 @@ class LookupTests(unittest.TestCase):
             '"rank": "', '"rank": "x', 1
         )
         self.sample.write_text(body, encoding="utf-8")
-        with self.assertRaises(ValueError):
+        with patch.object(
+            review, "SAMPLE_SHA256", sha256(self.sample.read_bytes()).hexdigest()
+        ):
+            with self.assertRaisesRegex(ValueError, "rank or cell"):
+                self._run(lambda *_: self.fail("network"))
+        self.assertFalse(self.run_dir.exists())
+
+    def test_completed_first_rank_is_skipped(self):
+        first = self._run(self._responses()[0])
+        self.assertEqual(first["sale_labels_certified"], 0)
+        selected = json.loads((self.run_dir / "state.json").read_text())["selected"]
+        with patch.object(
+            review,
+            "_history",
+            return_value={selected["ordinal"]: {"review_status": "complete"}},
+        ):
+            other = lookup.choose_next(
+                self.source, self.sample, self.ledger, self.manifest
+            )
+        self.assertNotEqual(other["ordinal"], selected["ordinal"])
+
+    def test_bad_code_table_stops_before_network_and_run_creation(self):
+        self.codes.write_bytes(b"[]")
+        with self.assertRaisesRegex(ValueError, "code table SHA"):
             self._run(lambda *_: self.fail("network"))
         self.assertFalse(self.run_dir.exists())
 
@@ -232,6 +259,314 @@ class LookupTests(unittest.TestCase):
         path.write_bytes(path.read_bytes() + b"x")
         with self.assertRaises(ValueError):
             lookup.replay_lookup(self.source, self.sample, self.codes, self.run_dir)
+
+    def test_crash_after_intent_remains_unknown_and_never_retries(self):
+        def interrupted(_url, _timeout):
+            raise KeyboardInterrupt()
+
+        with self.assertRaises(KeyboardInterrupt):
+            self._run(interrupted)
+        state = json.loads((self.run_dir / "state.json").read_text())
+        self.assertEqual(state["intents"][0]["result"], "pending")
+        result = lookup.replay_lookup(
+            self.source, self.sample, self.codes, self.run_dir
+        )
+        self.assertEqual(result["status"], "INCOMPLETE_ERROR")
+        self.assertEqual(self._run(lambda *_: self.fail("network")), result)
+
+    def test_received_body_is_saved_before_parser_interruption(self):
+        opener, _ = self._responses()
+        with patch.object(lookup.acris, "_parse", side_effect=KeyboardInterrupt()):
+            with self.assertRaises(KeyboardInterrupt):
+                self._run(opener)
+        self.assertTrue((self.run_dir / "response-001.bin").is_file())
+        state = json.loads((self.run_dir / "state.json").read_text())
+        self.assertEqual(state["intents"][0]["result"], "pending")
+
+    def test_orphan_body_after_write_interruption_needs_reconciliation(self):
+        original = lookup.acris._atomic_body
+
+        def interrupted(path, body):
+            original(path, body)
+            raise KeyboardInterrupt()
+
+        with patch.object(lookup.acris, "_atomic_body", side_effect=interrupted):
+            with self.assertRaises(KeyboardInterrupt):
+                self._run(self._responses()[0])
+        self.assertTrue((self.run_dir / "response-001.bin").is_file())
+        with self.assertRaisesRegex(ValueError, "orphan"):
+            lookup.replay_lookup(self.source, self.sample, self.codes, self.run_dir)
+
+    def test_non_deed_code_remains_context_without_linked_request(self):
+        calls = []
+
+        def opener(url, _timeout):
+            calls.append(url)
+            where = parse_qs(urlsplit(url).query)["$where"][0]
+            if where.startswith("borough="):
+                selected = json.loads((self.run_dir / "state.json").read_text())[
+                    "selected"
+                ]
+                return json.dumps(
+                    [
+                        {
+                            "document_id": "C1",
+                            "borough": str(selected["borough"]),
+                            "block": selected["block"],
+                            "lot": selected["lot"],
+                        }
+                    ]
+                ).encode()
+            return b'[{"document_id":"C1","doc_type":"CDEC"}]'
+
+        result = self._run(opener)
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(result["status"], "COMPLETE_ROUTE_ONLY")
+        self.assertFalse(result["document_triage_finished"])
+
+    def test_multiple_linked_lots_and_blank_unit_remain_unresolved(self):
+        def opener(url, _timeout):
+            where = parse_qs(urlsplit(url).query)["$where"][0]
+            selected = json.loads((self.run_dir / "state.json").read_text())["selected"]
+            if where.startswith("borough="):
+                return json.dumps(
+                    [
+                        {
+                            "document_id": "D1",
+                            "borough": str(selected["borough"]),
+                            "block": selected["block"],
+                            "lot": selected["lot"],
+                        }
+                    ]
+                ).encode()
+            if "bnx9-e6tj" in url:
+                return b'[{"document_id":"D1","doc_type":"DEED"}]'
+            return json.dumps(
+                [
+                    {
+                        "document_id": "D1",
+                        "borough": str(selected["borough"]),
+                        "block": selected["block"],
+                        "lot": selected["lot"],
+                        "unit": "",
+                    },
+                    {
+                        "document_id": "D1",
+                        "borough": str(selected["borough"]),
+                        "block": selected["block"],
+                        "lot": str(int(selected["lot"]) + 1),
+                        "unit": "2A",
+                    },
+                ]
+            ).encode()
+
+        result = self._run(opener)
+        self.assertEqual(result["status"], "COMPLETE_ROUTE_ONLY")
+        self.assertFalse(result["document_triage_finished"])
+        self.assertTrue((self.run_dir / "response-003.bin").is_file())
+        self.assertEqual(result["sale_labels_certified"], 0)
+        self.assertEqual(
+            lookup.replay_lookup(self.source, self.sample, self.codes, self.run_dir),
+            result,
+        )
+
+    def test_blank_sale_date_is_unresolved_before_deed_lookup(self):
+        selected = lookup._choose(
+            [{"ordinal": 1, "rank": "first"}],
+            {1: {"BOROUGH": "1", "BLOCK": "10", "LOT": "1", "SALE DATE": ""}},
+            {},
+        )
+        self.assertEqual(selected["status"], "missing_date")
+        with patch.object(
+            lookup, "_live_selection", return_value=(selected, b"", "synthetic-ledger")
+        ):
+            result = self._run(lambda *_: self.fail("network"))
+        self.assertEqual(result["status"], "INCOMPLETE_ERROR")
+        self.assertEqual(result["request_intents"], 0)
+
+    def test_missing_identity_makes_no_request(self):
+        selected = {
+            "ordinal": 1,
+            "rank": "synthetic",
+            "borough": 1,
+            "block": "",
+            "lot": "1",
+            "sale_date": "01/01/2026",
+            "status": "missing_identity",
+        }
+        with patch.object(
+            lookup, "_live_selection", return_value=(selected, b"", "synthetic-ledger")
+        ):
+            result = self._run(lambda *_: self.fail("network"))
+        self.assertEqual(result["status"], "INCOMPLETE_ERROR")
+        self.assertEqual(result["request_intents"], 0)
+
+    def test_saved_aggregate_tamper_is_rejected(self):
+        self._run(self._responses()[0])
+        path = self.run_dir / "state.json"
+        state = json.loads(path.read_text())
+        state["aggregate"] = {"status": "CERTIFIED"}
+        path.write_text(json.dumps(state))
+        with self.assertRaisesRegex(ValueError, "saved aggregate differs"):
+            lookup.replay_lookup(self.source, self.sample, self.codes, self.run_dir)
+
+    def test_non_object_private_state_is_rejected_cleanly(self):
+        self._run(self._responses()[0])
+        (self.run_dir / "state.json").write_text("[]", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "state must be an object"):
+            lookup.replay_lookup(self.source, self.sample, self.codes, self.run_dir)
+
+    def test_lookup_rejects_directory_outside_private_root(self):
+        self.run_dir = self.raw.parent / "outside"
+        with self.assertRaisesRegex(ValueError, "inside private raw data"):
+            self._run(lambda *_: self.fail("network"))
+        self.assertFalse(self.run_dir.exists())
+
+    def test_hardlinked_source_is_rejected_before_network(self):
+        alias = self.raw / "source-hardlink.csv"
+        os.link(self.source, alias)
+        with self.assertRaisesRegex(ValueError, "single-link"):
+            self._run(lambda *_: self.fail("network"))
+        self.assertFalse(self.run_dir.exists())
+
+    def test_private_acl_failure_blocks_get(self):
+        with patch.object(lookup, "_secure_directory", side_effect=ValueError("ACL")):
+            with self.assertRaisesRegex(ValueError, "ACL"):
+                self._run(lambda *_: self.fail("network"))
+
+    def test_first_get_is_paced_and_global_lock_is_released(self):
+        delays = []
+        opener, calls = self._responses()
+        result = lookup.run_lookup(
+            self.source,
+            self.sample,
+            self.ledger,
+            self.manifest,
+            self.codes,
+            self.run_dir,
+            opener=opener,
+            sleep=delays.append,
+        )
+        self.assertEqual(result["request_intents"], 3)
+        self.assertEqual(len(calls), 3)
+        self.assertIn(1, delays)
+        self.assertFalse((self.raw / "nyc-source-lookup-v1-global.lock").exists())
+
+    def test_existing_global_lock_blocks_concurrent_capture(self):
+        lock = self.raw / "nyc-source-lookup-v1-global.lock"
+        lock.write_text("synthetic owner", encoding="utf-8")
+        with self.assertRaises(FileExistsError):
+            self._run(lambda *_: self.fail("network"))
+        self.assertFalse(self.run_dir.exists())
+
+    def test_request_cap_stops_after_one_get_without_silent_completion(self):
+        opener, calls = self._responses()
+        with patch.object(lookup, "MAX_REQUESTS", 1):
+            result = self._run(opener)
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(result["request_intents"], 1)
+        self.assertNotEqual(result["status"], "COMPLETE_ROUTE_ONLY")
+        self.assertEqual(result["sale_labels_certified"], 0)
+
+    def test_hostile_url_is_rejected_before_opener_and_kept_private(self):
+        with patch.object(
+            lookup.acris, "legals_bbl_url", return_value="https://example.org/steal"
+        ):
+            result = self._run(lambda *_: self.fail("network"))
+        self.assertEqual(result["status"], "INCOMPLETE_ERROR")
+        self.assertNotIn("example.org", json.dumps(result))
+        self.assertFalse((self.run_dir / "response-001.bin").exists())
+
+    def test_cli_capture_requires_private_review_inputs(self):
+        arguments = [
+            "collector",
+            "capture",
+            "--source",
+            str(self.source),
+            "--sample",
+            str(self.sample),
+            "--code-table",
+            str(self.codes),
+            "--private-run-dir",
+            str(self.run_dir),
+        ]
+        with patch.object(sys, "argv", arguments):
+            with self.assertRaises(SystemExit) as stopped:
+                lookup.main()
+        self.assertEqual(stopped.exception.code, 2)
+        self.assertFalse(self.run_dir.exists())
+
+    def test_direct_script_cli_help_loads_without_pythonpath(self):
+        script = (
+            Path(__file__).resolve().parents[1]
+            / "scripts"
+            / "collect_nyc_review_lookups_v1.py"
+        )
+        completed = subprocess.run(
+            [sys.executable, str(script), "--help"],
+            cwd=script.parents[1],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("capture", completed.stdout)
+
+    def test_cli_replay_hides_private_incomplete_status(self):
+        arguments = [
+            "collector",
+            "replay",
+            "--source",
+            str(self.source),
+            "--sample",
+            str(self.sample),
+            "--code-table",
+            str(self.codes),
+            "--private-run-dir",
+            str(self.run_dir),
+        ]
+        output = StringIO()
+        aggregate = {"status": "INCOMPLETE_ERROR", "sale_labels_certified": 0}
+        with (
+            patch.object(sys, "argv", arguments),
+            patch.object(lookup, "replay_lookup", return_value=aggregate),
+        ):
+            with redirect_stdout(output):
+                lookup.main()
+        self.assertEqual(
+            json.loads(output.getvalue()),
+            {
+                "protocol": "nyc-source-lookup-v1",
+                "projection": "private_only_v1",
+                "manual_reviews_appended": 0,
+                "sale_labels_certified": 0,
+            },
+        )
+
+    def test_cli_exit_does_not_reveal_private_triage(self):
+        arguments = [
+            "collector",
+            "replay",
+            "--source",
+            str(self.source),
+            "--sample",
+            str(self.sample),
+            "--code-table",
+            str(self.codes),
+            "--private-run-dir",
+            str(self.run_dir),
+        ]
+        aggregate = {
+            "status": "COMPLETE_ROUTE_ONLY",
+            "document_triage_finished": False,
+            "sale_labels_certified": 0,
+        }
+        with (
+            patch.object(sys, "argv", arguments),
+            patch.object(lookup, "replay_lookup", return_value=aggregate),
+        ):
+            with redirect_stdout(StringIO()):
+                lookup.main()
 
 
 if __name__ == "__main__":

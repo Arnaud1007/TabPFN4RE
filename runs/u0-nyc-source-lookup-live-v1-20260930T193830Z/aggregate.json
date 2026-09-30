@@ -1,0 +1,11 @@
+{
+  "run_id": "u0-nyc-source-lookup-live-v1-20260930T193830Z",
+  "protocol": "nyc-source-lookup-v1",
+  "projection": "private_only_v1",
+  "capture_integrity": "verified",
+  "offline_replay": "verified",
+  "manual_reviews_appended": 0,
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

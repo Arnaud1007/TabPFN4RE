@@ -1,0 +1,41 @@
+{
+  "run_id": "u0-nyc-source-lookup-live-v1-20260930T193830Z",
+  "protocol": "nyc-source-lookup-v1",
+  "stage": "internal_source_qualification_only",
+  "collector_code_commit": "9aa6f5d3f6eeab299d68dd16042edf5dceb258d9",
+  "frozen_plan_commit": "4cb52bd",
+  "environment": "CPython 3.11.6; locks/nyc-review-ledger-environment.json",
+  "checks": [
+    {
+      "command": "collect_nyc_review_lookups_v1.py capture with pinned private inputs and an opaque run ID",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "duration_privacy_note": "Exact one-home duration is retained in protected evidence because timing can reveal request count.",
+      "output_artifact": "private capture command log and response evidence"
+    },
+    {
+      "command": "collect_nyc_review_lookups_v1.py replay with pinned private inputs and the same run ID",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "duration_privacy_note": "Exact one-home duration is retained in protected evidence because timing can reveal request count.",
+      "output_artifact": "private replay command log"
+    },
+    {
+      "command": "verify private ACL, current ledger hash, response-file inventory and fixed CLI projections",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "duration_privacy_note": "Exact one-home duration is retained in protected evidence because timing can reveal request count.",
+      "output_artifact": "protected source-lookup evidence manifest"
+    }
+  ],
+  "prior_unchanged_code_suite": {
+    "run_id": "u0-nyc-source-lookup-code-20260930T193000Z",
+    "observed": "815 tests passed, one optional source-integration skip, on project Python 3.11",
+    "output_artifact": "runs/u0-nyc-source-lookup-code-20260930T193000Z/full_suite_venv.log"
+  },
+  "fresh_full_suite_rerun": false,
+  "manual_reviews_appended": 0,
+  "sale_labels_certified": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

@@ -1,0 +1,19 @@
+{
+  "capture_manifest_sha256": "e29928b44a1b1f733219dac86b8d7e18704bf8c301b458afc2bf1a53895bb9e2",
+  "csv_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "inherited_v2_environment_lock": "locks/nyc-representation-diagnostic-v2-environment.json",
+  "new_runtime_modules": [
+    "scripts/nyc_verified_export_core.py",
+    "scripts/verify_nyc_review_artifacts_v2.py"
+  ],
+  "purpose": "Private same-publisher NYC verified-export pilot; no transaction label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": {
+    "defusedxml": "0.7.1"
+  },
+  "runtime_dependency_lock": "locks/nyc-workbook-requirements.txt",
+  "sample_sha256": "e137de2cf73aa4a9fea6d024e4564ef6e907020e73fc8dbec3e4026786b189ca",
+  "schema_version": 1,
+  "v3_result_sha256": "61dcb9bce362658c475df5e43fa2407e18cb0d85779654941ab67bbb8ee00f83"
+}

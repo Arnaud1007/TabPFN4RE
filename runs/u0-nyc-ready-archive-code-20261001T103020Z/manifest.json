@@ -1,0 +1,31 @@
+{
+  "checkpoint_identity": null,
+  "code_commit_at_gate": "41dfdd81a7c2591f19d886faf92a4f5b25bfbb37",
+  "configuration_sha256": "68eb5c6e6ae601bd2dfb9a17809bff261170ee9d378c3a5b32ea1fbd9a9a5b3c",
+  "dirty_tree_at_gate": true,
+  "environment_lock_sha256": "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+  "feature_policy_hash": null,
+  "file_sha256": {
+    "decisions/0042-nyc-ready-rolling-archive-capture.md": "0e69e67c1d56fa61fcd589f82231e65bf592ae440136335de2cb2cdaa50bc516",
+    "locks/nyc-ready-archive-environment.json": "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/coverage.log": "df88bdd97e432e4674b89d7d2a096e5b8c7930b4fe8d014bad2b2bf0e869dfb2",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/dependency_gate.json": "ece1a8b4af062978a0d13c8c229db2c01ab649c52489210b9df7f21560cf992d",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/focused_gate.json": "b8139b565ff4c48706eef0c7404eb201d58ec0ffac1205690b5153d1b51019bc",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/focused_tests.log": "15e437eb29ab3da3ca71e73a279a4525ddd238bfe23fcbe3b6c8d73ea21d4079",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/full_tests.log": "17357252ecfcfb42491de76847d35d9c53b2d6e7d3492675a0a4c7787e15f0ae",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/full_tests_gate.json": "d8e30e53543d6135cb34a394710b1fd6003a4977bca98c819b1340d30b280b77",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/lint_gate.json": "5ce2f2f3d099e559aae7121272736b92dd7489c5ff7ce5c290ba7e056fc7d7dc",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/pip_audit.log": "a2ae340d8959af8b05590e3f25bade3394b334a2fe363d067f746e762714f646",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/pip_check.log": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/report.md": "ec1d5c43dd0db8bcb3953d55dd88d1c74688f4d88c10795b0d37d0e3dcd9e17c",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/ruff_check.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "runs/u0-nyc-ready-archive-code-20261001T103020Z/ruff_format.log": "97d85b4b6c185a05396e2d09a3c304ff0f7cc77f8b7b7bb7989ec6cd875b3898",
+    "scripts/capture_nyc_generated_archive.py": "768b5647ab6babeb4972dc48e45957ea16575eca89a5cf196f6fa56311d625a2",
+    "tests/test_capture_nyc_generated_archive.py": "4a7d6dcec849257ea2c7c209f248d1c5ba0cb8eff2d22d92c773e30effa80a8e"
+  },
+  "protocol": "nyc-ready-rolling-archive-v1",
+  "run_id": "u0-nyc-ready-archive-code-20261001T103020Z",
+  "source_snapshot_sha256": null,
+  "split_hash": null,
+  "status": "verified_code_only"
+}

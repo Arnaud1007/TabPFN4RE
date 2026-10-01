@@ -1,0 +1,6 @@
+python.exe : No known vulnerabilities found
+At line:2 char:55
++ ... 1T103020Z'; & .venv\Scripts\python.exe -m pip_audit -r locks/local-da ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No known vulnerabilities found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError

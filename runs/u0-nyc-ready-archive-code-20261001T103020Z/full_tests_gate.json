@@ -1,0 +1,6 @@
+﻿{
+    "duration_seconds":  622.12,
+    "command":  "python -m unittest discover -s tests -q",
+    "ames_source":  "local pinned OpenML ARFF",
+    "exit_code":  0
+}

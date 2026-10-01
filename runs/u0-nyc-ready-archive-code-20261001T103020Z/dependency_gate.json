@@ -1,0 +1,7 @@
+{
+  "pip_check_exit_code": 0,
+  "pip_audit_exit_code": 0,
+  "requirement_lock": "locks/local-date-requirements.txt",
+  "audit_scope": "pinned local-date dependency lock",
+  "audit_result": "no known vulnerabilities found"
+}

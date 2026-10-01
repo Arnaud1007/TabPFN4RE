@@ -29,7 +29,10 @@ property_fields: [building_class_at_time_of_sale, building_class_as_of_final_rol
 area_semantics: gross building area and land area; neither is verified living area
 availability_field: absent
 historical_vintages: present file does not establish first publication of each row or attribute
-correction_policy: NYC Open Data terms permit updates and overwrites; older versions are not retained by the portal
+correction_policy: NYC Open Data terms permit updates and overwrites; historical row-level availability and correction history have not been verified
+system_timestamp_probe: runs/u0-nyc-system-timestamps-v1-20260930T212636Z/report.md
+system_timestamp_protocol: decisions/0041-nyc-socrata-row-timestamp-probe.md
+system_timestamp_result: current_845607_row_instances_created_between_2026_05_27_and_2026_06_09_not_historical_first_availability
 licence_field_in_metadata: null
 rights_reference: https://data.cityofnewyork.us/stories/s/Terms-of-Use/k9k7-3cje/
 rights_review: data/source_cards/nyc_open_data_use_review.yaml

@@ -1,0 +1,71 @@
+{
+  "aggregate_sha256": "7f1a87b407a7b4e3365ae97671d51f9d229f4c26452bd8fd472d3496c330328c",
+  "checkpoint_identity": null,
+  "code_commit": "0e04e327c4ba48f995c12c6f15cb00a97d1baf86",
+  "code_sha256": "6b2e68246bfc8f9e7cea2a0110d680e20c0d95400d41d469a65d914de50015a7",
+  "completed_at_utc": "2026-09-30T21:26:49.558Z",
+  "configuration_sha256": "0caa5441a9639bf56b041acacc9c02a443d08def84faeeebe4ad16d9041721bb",
+  "dirty_tree_at_start": false,
+  "environment_lock_sha256": "43839015303dd861e58bf348c3c9391621bc75ce5b6a21ff53ecbc159d08c2df",
+  "feature_policy_hash": null,
+  "protocol": "nyc-row-system-timestamps-v1",
+  "requests": [
+    {
+      "bytes": 37181,
+      "dataset_id": "usep-8jbt",
+      "file": "usep-8jbt-before.json",
+      "retrieved_at_utc": "2026-09-30T21:26:44.037Z",
+      "sha256": "54665b4bdba0d054fa8fcaa8a8ea3c7523a089d6ca1fbee7bd5a61a28d8e33e9",
+      "stage": "before",
+      "url": "https://data.cityofnewyork.us/api/views/usep-8jbt"
+    },
+    {
+      "bytes": 248,
+      "dataset_id": "usep-8jbt",
+      "file": "usep-8jbt-aggregate.json",
+      "retrieved_at_utc": "2026-09-30T21:26:45.693Z",
+      "sha256": "05b5e4c9d210efb0303440513c91b5e86c31a6f55f72d31710e00279081ed8fa",
+      "stage": "aggregate",
+      "url": "https://data.cityofnewyork.us/resource/usep-8jbt.json?%24select=count%28%2A%29+as+row_count%2Ccount%28%3Acreated_at%29+as+created_count%2Ccount%28%3Aupdated_at%29+as+updated_count%2Cmin%28%3Acreated_at%29+as+min_created_at%2Cmax%28%3Acreated_at%29+as+max_created_at%2Cmin%28%3Aupdated_at%29+as+min_updated_at%2Cmax%28%3Aupdated_at%29+as+max_updated_at"
+    },
+    {
+      "bytes": 37181,
+      "dataset_id": "usep-8jbt",
+      "file": "usep-8jbt-after.json",
+      "retrieved_at_utc": "2026-09-30T21:26:46.314Z",
+      "sha256": "54665b4bdba0d054fa8fcaa8a8ea3c7523a089d6ca1fbee7bd5a61a28d8e33e9",
+      "stage": "after",
+      "url": "https://data.cityofnewyork.us/api/views/usep-8jbt"
+    },
+    {
+      "bytes": 52900,
+      "dataset_id": "w2pb-icbu",
+      "file": "w2pb-icbu-before.json",
+      "retrieved_at_utc": "2026-09-30T21:26:46.977Z",
+      "sha256": "f2ecf0a28723fbd8f43eca93a2b156261e56cc916e65790989b43128bf2a293d",
+      "stage": "before",
+      "url": "https://data.cityofnewyork.us/api/views/w2pb-icbu"
+    },
+    {
+      "bytes": 251,
+      "dataset_id": "w2pb-icbu",
+      "file": "w2pb-icbu-aggregate.json",
+      "retrieved_at_utc": "2026-09-30T21:26:48.841Z",
+      "sha256": "36648d481f683d8723bfba534f9a7a9aeb3da2245481505804068f87e02765b8",
+      "stage": "aggregate",
+      "url": "https://data.cityofnewyork.us/resource/w2pb-icbu.json?%24select=count%28%2A%29+as+row_count%2Ccount%28%3Acreated_at%29+as+created_count%2Ccount%28%3Aupdated_at%29+as+updated_count%2Cmin%28%3Acreated_at%29+as+min_created_at%2Cmax%28%3Acreated_at%29+as+max_created_at%2Cmin%28%3Aupdated_at%29+as+min_updated_at%2Cmax%28%3Aupdated_at%29+as+max_updated_at"
+    },
+    {
+      "bytes": 52900,
+      "dataset_id": "w2pb-icbu",
+      "file": "w2pb-icbu-after.json",
+      "retrieved_at_utc": "2026-09-30T21:26:49.547Z",
+      "sha256": "f2ecf0a28723fbd8f43eca93a2b156261e56cc916e65790989b43128bf2a293d",
+      "stage": "after",
+      "url": "https://data.cityofnewyork.us/api/views/w2pb-icbu"
+    }
+  ],
+  "run_id": "system-timestamps-v1-20260930T212636Z",
+  "source_snapshot_sha256": "204205bc211c7c4b5965d1652781afb7cdfb1ae63633989f745331910c076d9d",
+  "split_hash": null
+}

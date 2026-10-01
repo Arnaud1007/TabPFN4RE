@@ -1,0 +1,14 @@
+{
+  "protocol": "nyc-row-system-timestamps-v1",
+  "status": "PASS_DIAGNOSTIC_ONLY",
+  "code_gate": "runs/u0-nyc-system-timestamps-code-20260930T212103Z/full_tests_gate.json",
+  "live_capture_exit_code": 0,
+  "offline_replay_exit_code": 0,
+  "metadata_stable_views": 2,
+  "requested_views": 2,
+  "requests": 6,
+  "sale_labels_certified": 0,
+  "historical_asof_eligible": false,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

@@ -1,0 +1,23 @@
+{
+  "aggregate_sha256": "eb35c83e473d98be4eae15bd5c0472a9690a5ef281017c11895253c64dcfd15e",
+  "archive_csv_sha256": "0746355101b245fb469ce97e19e088fa2b16f0f95728d7a5b07dd670e98c345f",
+  "archive_manifest_sha256": "a85186c249503435494e9c06e4274bbea85d986bba058375cbe7d3537b6e01bc",
+  "checkpoint_identity": null,
+  "code_commit": "635e621b256e3a2a07c3e34072bf6b3be8714294",
+  "code_sha256": "b1e339fe7e2c5482ae72431d370fc3d5cd90bed249340a402529e527c234a2be",
+  "configuration_sha256": "cae0b9c1967542da655da948e15ecccedd0095b930a759a091cd07dfa110b6d1",
+  "current_csv_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "dirty_tree_at_start": false,
+  "environment_lock_sha256": "324a2084ea010b4bf83b4c823b2b5532ba5ceb3ade40f4604b846ea951db5ef6",
+  "feature_policy_hash": null,
+  "historical_asof_eligible": false,
+  "private_run_id": "archive-current-v1-20261002T214801Z-d4b589edff65",
+  "protocol": "nyc-archive-current-concordance-v1",
+  "remote_tracking_commit": "635e621b256e3a2a07c3e34072bf6b3be8714294",
+  "run_id": "u0-nyc-archive-current-v1-20261002T214801Z",
+  "sale_labels_certified": 0,
+  "snapshot_manifest_sha256": "45049ce1622ba4a819f29c79097869c9f3601d049139869982ec7327ee11962b",
+  "split_hash": null,
+  "started_at_utc": "2026-10-02T21:48:02.712475Z",
+  "status": "verified_source_representation_only"
+}

@@ -1,0 +1,8 @@
+{
+  "command": "& 'runs/u0-nyc-archive-current-v1-20261002T214801Z/verify_artifacts.ps1'",
+  "duration_seconds": 4.039,
+  "environment_lock_sha256": "324a2084ea010b4bf83b4c823b2b5532ba5ceb3ade40f4604b846ea951db5ef6",
+  "exit_code": 0,
+  "offline_replay": true,
+  "output_artifact": "runs/u0-nyc-archive-current-v1-20261002T214801Z/verifier.log"
+}

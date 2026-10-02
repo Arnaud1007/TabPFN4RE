@@ -108,7 +108,7 @@ historical_vintages: >-
   row-containing CSV captured and offline replayed, without per-row first
   publication or correction history.
 correction_policy: current view can change; archived dataset versions are visible but row-level correction history is not audited
-archive_evidence: [decisions/0019-nyc-rolling-archive-correction.md, decisions/0024-nyc-archive-metadata-probe.md, runs/u0-nyc-archive-metadata-20260929T021258Z/report.md, decisions/0042-nyc-ready-rolling-archive-capture.md, decisions/0043-nyc-ready-archive-status-v2.md, runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/report.md]
+archive_evidence: [decisions/0019-nyc-rolling-archive-correction.md, decisions/0024-nyc-archive-metadata-probe.md, runs/u0-nyc-archive-metadata-20260929T021258Z/report.md, decisions/0042-nyc-ready-rolling-archive-capture.md, decisions/0043-nyc-ready-archive-status-v2.md, runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/report.md, decisions/0044-nyc-archive-current-concordance-v1.md, runs/u0-nyc-archive-current-v1-20261002T214801Z/report.md]
 archive_inspected_on: 2026-10-02
 archive_access: anonymous read-only internal version-62 CSV route captured; no archive generation requested
 archive_version_62_revision_created_at: 2026-04-20T18:29:25.966Z
@@ -117,6 +117,17 @@ archive_version_62_capture_status: inventory_only_not_historical_asof_eligible
 archive_version_62_rows: 81567
 archive_version_62_bytes: 11302195
 archive_version_62_csv_sha256: 0746355101b245fb469ce97e19e088fa2b16f0f95728d7a5b07dd670e98c345f
+archive_current_comparison_protocol: decisions/0044-nyc-archive-current-concordance-v1.md
+archive_current_comparison_report: runs/u0-nyc-archive-current-v1-20261002T214801Z/report.md
+archive_current_comparison_private_run_id: archive-current-v1-20261002T214801Z-d4b589edff65
+archive_current_comparison_code_commit: 635e621b256e3a2a07c3e34072bf6b3be8714294
+archive_current_comparison_replay: passed
+archive_current_comparison_raw_full_row_overlap_bucket: zero
+archive_current_comparison_date_only_normalized_overlap_bucket: 1000_plus
+archive_current_comparison_status: source_representation_diagnostic_only_no_first_row_availability
+archive_current_comparison_sale_labels_certified: 0
+u0_gate: PENDING
+g_us_gate: PENDING
 system_timestamp_probe: runs/u0-nyc-system-timestamps-v1-20260930T212636Z/report.md
 system_timestamp_protocol: decisions/0041-nyc-socrata-row-timestamp-probe.md
 system_timestamp_result: current_82345_row_instances_share_2026_09_15_creation_timestamp_not_historical_first_availability
@@ -136,4 +147,8 @@ notes: >-
   valuation origins without independently evidenced historical vintages.
   Version 62 is now a locally verified row-containing archive. Its portal
   revision time does not establish the first availability of each transaction
-  row or the historical vintage of property attributes.
+  row or the historical vintage of property attributes. The offline v1
+  comparison found zero raw full-row overlap with the 82,345-row current
+  snapshot and at least 1,000 date-only-normalized overlapping source rows.
+  Neither result establishes transfer identity, first row availability,
+  close-date meaning, unit scope, reuse rights or certified sale labels.

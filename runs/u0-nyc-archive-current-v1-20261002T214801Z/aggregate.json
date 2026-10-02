@@ -1,0 +1,11 @@
+{
+  "archive_rows": 81567,
+  "current_rows": 82345,
+  "date_overlap_bucket": "1000_plus",
+  "g_us_status": "PENDING",
+  "historical_asof_eligible": false,
+  "protocol": "nyc-archive-current-concordance-v1",
+  "raw_overlap_bucket": "zero",
+  "sale_labels_certified": 0,
+  "u0_status": "PENDING"
+}

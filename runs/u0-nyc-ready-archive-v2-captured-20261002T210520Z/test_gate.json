@@ -1,0 +1,9 @@
+{
+  "command": "& 'runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/verify_artifacts.ps1'",
+  "exit_code": 0,
+  "duration_seconds": 0.923,
+  "offline_replay": true,
+  "environment": "Windows PowerShell with project .venv Python 3.11",
+  "environment_lock_sha256": "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+  "output_artifact": "runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/verifier.log"
+}

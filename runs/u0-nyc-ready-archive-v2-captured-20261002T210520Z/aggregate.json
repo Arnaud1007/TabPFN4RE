@@ -1,0 +1,14 @@
+{
+  "bytes": 11302195,
+  "captured_at_utc": "2026-10-02T21:05:46.764Z",
+  "csv_sha256": "0746355101b245fb469ce97e19e088fa2b16f0f95728d7a5b07dd670e98c345f",
+  "dataset_id": "usep-8jbt",
+  "header_sha256": "8c6ae5508597dec1810b16654c1e0958f7b16b4d3425e55c8ea7c6614982048f",
+  "historical_asof_eligible": false,
+  "protocol": "nyc-ready-rolling-archive-v2",
+  "revision_created_at": "2026-04-20T18:29:25.966Z",
+  "rows": 81567,
+  "sale_labels_certified": 0,
+  "status": "inventory_only",
+  "version": 62
+}

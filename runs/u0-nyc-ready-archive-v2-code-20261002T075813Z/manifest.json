@@ -1,0 +1,30 @@
+﻿{
+    "run_id":  "u0-nyc-ready-archive-v2-code-20261002T075813Z",
+    "status":  "VERIFIED_ENGINEERING_ONLY",
+    "protocol":  "nyc-ready-rolling-archive-v2",
+    "precommit_parent":  "7878dbecd52657599ac69ad2398dfbe0d2bcc305",
+    "code_sha256":  "b075536b39478cb08df57079de076b4f6498eb977c502a3bb2ef8be3cfa53f97",
+    "tests_sha256":  "111fc277c584d8f52a41fac4bbc1c9904fd7a690625d62cdda355152c769ff15",
+    "environment_lock_sha256":  "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+    "decision_sha256":  "c4218d55e1b8702727ad5396cf595e99effbc85507606863ef9cfd65bad5a3ec",
+    "data_snapshot_sha256":  null,
+    "split_hash":  null,
+    "feature_policy_hash":  null,
+    "configuration_hash":  null,
+    "checkpoint_identity":  null,
+    "full_suite_before_final_fixture":  {
+                                            "passed_tests":  901,
+                                            "gate":  "full_tests_before_v1_fixture_gate.json"
+                                        },
+    "focused_after_final_fixture":  {
+                                        "passed_tests":  31,
+                                        "gate":  "coverage_final_gate.json",
+                                        "collector_branch_aware_coverage_percent":  86
+                                    },
+    "interrupted_full_suite_accepted":  false,
+    "audit_gate":  "pip_audit_final_gate.json",
+    "report_sha256":  "77cc2b1c0f4d46c0f60b5ebfb5f5d549b882cf591c800a22704da02dbb3d3cb1",
+    "sale_labels_certified":  0,
+    "u0_gate":  "PENDING",
+    "g_us_gate":  "PENDING"
+}

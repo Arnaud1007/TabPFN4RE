@@ -1,0 +1,5 @@
+{
+    "ruff_check_exit":  0,
+    "ruff_format_exit":  0,
+    "pip_check_exit":  0
+}

@@ -1,0 +1,4 @@
+{
+    "command":  "python -m pip_audit -r locks/local-date-requirements.txt",
+    "exit_code":  1
+}

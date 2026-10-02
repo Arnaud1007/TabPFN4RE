@@ -25,7 +25,7 @@ if __package__ in (None, ""):
 from scripts import private_review_io
 
 
-PROTOCOL = "nyc-ready-rolling-archive-v1"
+PROTOCOL = "nyc-ready-rolling-archive-v2"
 DATASET_ID = "usep-8jbt"
 VERSION = 62
 REVISION_CREATED_AT = "2026-04-20T18:29:25.966Z"
@@ -145,10 +145,25 @@ def _parse_status(body: bytes) -> dict:
     if (
         value["type"] != "done"
         or not isinstance(detail, dict)
-        or set(detail) != {"datasetName", "version"}
+        or set(detail)
+        != {
+            "datasetName",
+            "version",
+            "rowLocation",
+            "columnLocation",
+            "refSize",
+            "gzipped",
+        }
         or type(detail["version"]) is not int
         or detail["version"] != VERSION
         or detail["datasetName"] != ARCHIVE_DATASET_NAME
+        or detail["rowLocation"]
+        != "compressed/materializations/v3/foxtrot.67157/62/rows"
+        or detail["columnLocation"]
+        != "compressed/materializations/v3/foxtrot.67157/62/columns"
+        or type(detail["refSize"]) is not int
+        or not 0 < detail["refSize"] <= MAX_CSV_BYTES
+        or detail["gzipped"] is not True
     ):
         raise ValueError("Pinned archive is not already generated")
     return dict(detail)

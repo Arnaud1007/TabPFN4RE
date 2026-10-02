@@ -1,0 +1,6 @@
+{
+    "command":  "coverage run --branch ... -m unittest tests.test_capture_nyc_generated_archive -q",
+    "test_exit":  0,
+    "report_exit":  1,
+    "duration_seconds":  4.587
+}

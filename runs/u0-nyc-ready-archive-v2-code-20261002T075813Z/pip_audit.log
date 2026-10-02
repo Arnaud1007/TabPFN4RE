@@ -1,0 +1,45 @@
+python.exe : Traceback (most recent call last):
+At line:3 char:1
++ & .venv\Scripts\python.exe -m pip_audit -r locks/local-date-requireme ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\__main__.py", line 
+8, in <module>
+    audit()
+  File "<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\_cli.py", line 554, 
+in audit
+    for spec, vulns in auditor.audit(source):
+  File "<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\_audit.py", line 
+68, in audit
+    for dep, vulns in self._service.query_all(specs):
+  File 
+"<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\_service\interface.py", 
+line 179, in query_all
+    for spec in specs:
+  File "<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\_dependency_source\r
+equirement.py", line 134, in collect
+    yield from self._collect_from_files(collect_files)
+  File "<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\_dependency_source\r
+equirement.py", line 180, in _collect_from_files
+    ve.create(ve_dir)
+  File "<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\pip_audit\_virtual_env.py", 
+line 80, in create
+    return super().create(env_dir)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\venv\__init__.py", line 76, in create
+    self._setup_pip(context)
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\venv\__init__.py", line 358, in _setup_pip
+    self._call_new_python(context, '-m', 'ensurepip', '--upgrade',
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\venv\__init__.py", line 354, in _call_new_python
+    subprocess.check_output(args, **kwargs)
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['<USER_HOME>\\AppData\\Local\\Temp\\tmphpkmdveh\\Scripts\\python.exe', 
+'-m', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 1.

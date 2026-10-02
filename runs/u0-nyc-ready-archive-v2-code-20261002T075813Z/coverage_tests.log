@@ -1,0 +1,16 @@
+python.exe : ----------------------------------------------------------------------
+At line:4 char:1
++ & .venv\Scripts\python.exe -m coverage run --branch --source=scripts/ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 30 tests in 2.041s
+
+OK
+<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\coverage\inorout.py:508: 
+CoverageWarning: Module scripts/capture_nyc_generated_archive.py was never imported. (module-not-imported)
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+<USER_HOME>\Desktop\Coding_projects\TabPFN4RealEstate\.venv\Lib\site-packages\coverage\control.py:892: 
+CoverageWarning: No data was collected. (no-data-collected)
+  self._warn("No data was collected.", slug="no-data-collected")

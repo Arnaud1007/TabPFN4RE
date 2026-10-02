@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:4 char:1
++ & .venv\Scripts\python.exe -m coverage run --branch --include='*captu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 30 tests in 3.735s
+
+OK

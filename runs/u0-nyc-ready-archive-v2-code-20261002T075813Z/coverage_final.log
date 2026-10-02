@@ -1,0 +1,6 @@
+Name                                          Stmts   Miss Branch BrPart  Cover
+-------------------------------------------------------------------------------
+scripts\capture_nyc_generated_archive.py        344     38    130     17    86%
+tests\test_capture_nyc_generated_archive.py     410      8     64      6    97%
+-------------------------------------------------------------------------------
+TOTAL                                           754     46    194     23    92%

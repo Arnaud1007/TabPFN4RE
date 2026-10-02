@@ -1,0 +1,5 @@
+{
+    "command":  "python -m pip_audit --disable-pip --no-deps -r locks/local-date-requirements.txt",
+    "exit_code":  0,
+    "scope":  "pinned tzdata requirement; no transitive dependencies"
+}

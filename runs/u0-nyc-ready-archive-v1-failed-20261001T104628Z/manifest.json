@@ -1,0 +1,29 @@
+{
+  "code_commit": "7878dbecd52657599ac69ad2398dfbe0d2bcc305",
+  "code_sha256": "768b5647ab6babeb4972dc48e45957ea16575eca89a5cf196f6fa56311d625a2",
+  "configuration_sha256": "68eb5c6e6ae601bd2dfb9a17809bff261170ee9d378c3a5b32ea1fbd9a9a5b3c",
+  "csv_requested": false,
+  "environment_lock_sha256": "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+  "g_us_gate": "PENDING",
+  "historical_asof_eligible": false,
+  "manifest_written_by_collector": false,
+  "private_response_files": {
+    "list-before.json": {
+      "bytes": 1130,
+      "modified_at_utc": "2026-10-01T10:46:41.744702Z",
+      "sha256": "f384664c57b701a7908c8c9ec6620095c7f7ad3cceeaba9204d142d4aea0f2f9"
+    },
+    "status-before.json": {
+      "bytes": 245,
+      "modified_at_utc": "2026-10-01T10:46:42.252356Z",
+      "sha256": "c75eecd7b11b7707c10ee07f9690410748db24dbc3cec543c06a75786b902273"
+    }
+  },
+  "private_run_id": "ready-archive-v1-20261001T104628Z",
+  "protocol": "nyc-ready-rolling-archive-v1",
+  "requests_completed": 2,
+  "run_id": "u0-nyc-ready-archive-v1-failed-20261001T104628Z",
+  "sale_labels_certified": 0,
+  "status": "FAILED_STATUS_SCHEMA",
+  "u0_gate": "PENDING"
+}

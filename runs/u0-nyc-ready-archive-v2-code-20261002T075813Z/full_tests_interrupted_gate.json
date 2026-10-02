@@ -1,0 +1,6 @@
+{
+    "status":  "INTERRUPTED_NO_EXIT",
+    "observation":  "Unified exec session 92971 disappeared; no Python unittest process remained; no full_tests_gate.json was written",
+    "affected_command":  "python -m unittest discover -s tests -q",
+    "accepted_as_test_result":  false
+}

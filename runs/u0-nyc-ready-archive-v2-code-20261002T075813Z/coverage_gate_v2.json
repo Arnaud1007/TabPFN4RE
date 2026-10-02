@@ -1,0 +1,7 @@
+{
+    "command":  "coverage run --branch --include=*capture_nyc_generated_archive.py -m unittest tests.test_capture_nyc_generated_archive -q",
+    "test_exit":  0,
+    "report_exit":  0,
+    "duration_seconds":  7.442,
+    "previous_attempt":  "source filter misconfigured; no data collected"
+}

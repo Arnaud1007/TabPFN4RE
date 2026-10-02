@@ -21,6 +21,8 @@ import capture_nyc_generated_archive as archive  # noqa: E402
 
 NOW = datetime(2026, 10, 1, 9, 0, tzinfo=timezone.utc)
 HEADER = ("BOROUGH", "ADDRESS", "SALE PRICE", "SALE DATE")
+ROW_LOCATION = "compressed/materializations/v3/foxtrot.67157/62/rows"
+COLUMN_LOCATION = "compressed/materializations/v3/foxtrot.67157/62/columns"
 
 
 def _archive_list(*, version=62, visible=True, changed=False) -> bytes:
@@ -37,11 +39,31 @@ def _archive_list(*, version=62, visible=True, changed=False) -> bytes:
     ).encode()
 
 
-def _status(*, kind="done", version=62, dataset="foxtrot.67157") -> bytes:
+def _status(
+    *,
+    kind="done",
+    version=62,
+    dataset="foxtrot.67157",
+    row_location=ROW_LOCATION,
+    column_location=COLUMN_LOCATION,
+    ref_size=4_597_291,
+    gzipped=True,
+    extra_value=None,
+    extra_top=None,
+) -> bytes:
     return json.dumps(
         {
             "type": kind,
-            "value": {"datasetName": dataset, "version": version},
+            "value": {
+                "datasetName": dataset,
+                "version": version,
+                "rowLocation": row_location,
+                "columnLocation": column_location,
+                "refSize": ref_size,
+                "gzipped": gzipped,
+                **({"unexpected": extra_value} if extra_value is not None else {}),
+            },
+            **({"unexpected": extra_top} if extra_top is not None else {}),
         }
     ).encode()
 
@@ -187,6 +209,28 @@ class GeneratedArchiveCaptureTests(unittest.TestCase):
         self.assertNotIn("100000", json.dumps(result))
         self.assertNotIn("Main St", (self.run_dir / "manifest.json").read_text())
 
+    def test_observed_six_field_status_shape_is_accepted(self) -> None:
+        result = self.capture(FakeOpener())
+        self.assertEqual(result["version"], 62)
+        self.assertEqual(result["rows"], 1)
+        self.assertFalse(result["historical_asof_eligible"])
+
+    def test_valid_json_v1_two_field_status_rejects_before_csv(self) -> None:
+        v1_status = json.dumps(
+            {
+                "type": "done",
+                "value": {"datasetName": "foxtrot.67157", "version": 62},
+            }
+        ).encode()
+        opener = FakeOpener(status_before=v1_status)
+
+        with self.assertRaises(ValueError):
+            self.capture(opener)
+
+        self.assertEqual(opener.calls, [archive.LIST_URL, archive.STATUS_URL])
+        self.assertFalse((self.run_dir / "archive.csv").exists())
+        self.assertFalse((self.run_dir / "manifest.json").exists())
+
     def test_unfinished_archive_status_prevents_csv_request(self) -> None:
         opener = FakeOpener(status_before=_status(kind="in_progress"))
         with self.assertRaises(ValueError):
@@ -317,6 +361,8 @@ class GeneratedArchiveCaptureTests(unittest.TestCase):
             _status(version=True),
             _status(dataset=""),
             json.dumps({"type": "done", "value": {"version": 62}}).encode(),
+            _status(extra_value="wrong"),
+            _status(extra_top="wrong"),
         )
         for index, body in enumerate(invalid):
             with self.subTest(index=index):
@@ -326,6 +372,37 @@ class GeneratedArchiveCaptureTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         self.capture(opener)
                     self.assertNotIn(archive.CSV_URL, opener.calls)
+
+    def test_status_storage_paths_size_and_compression_are_pinned(self) -> None:
+        invalid = (
+            _status(row_location="../../rows"),
+            _status(row_location=COLUMN_LOCATION),
+            _status(row_location=ROW_LOCATION.replace("/62/", "/63/")),
+            _status(column_location="../../columns"),
+            _status(column_location=ROW_LOCATION),
+            _status(
+                column_location=COLUMN_LOCATION.replace(
+                    "foxtrot.67157", "foxtrot.99999"
+                )
+            ),
+            _status(ref_size=0),
+            _status(ref_size=-1),
+            _status(ref_size=archive.MAX_CSV_BYTES + 1),
+            _status(ref_size=True),
+            _status(ref_size="4597291"),
+            _status(gzipped=False),
+            _status(gzipped="true"),
+            _status(gzipped=1),
+        )
+        for index, body in enumerate(invalid):
+            with self.subTest(index=index):
+                test_dir = self.private_root / f"status-storage-{index}"
+                with patch.object(self, "run_dir", test_dir):
+                    opener = FakeOpener(status_before=body)
+                    with self.assertRaises(ValueError):
+                        self.capture(opener)
+                    self.assertNotIn(archive.CSV_URL, opener.calls)
+                    self.assertFalse((test_dir / "manifest.json").exists())
 
     def test_malformed_archive_list_rejects_before_status(self) -> None:
         record = json.loads(_archive_list())[0]
@@ -364,6 +441,13 @@ class GeneratedArchiveCaptureTests(unittest.TestCase):
             {"status_after": _status(kind="in_progress")},
             {"status_after": _status(version=63)},
             {"status_after": _status(dataset="different.dataset")},
+            {"status_after": _status(ref_size=4_597_292)},
+            {
+                "status_after": _status(
+                    row_location=ROW_LOCATION.replace("/rows", "/other")
+                )
+            },
+            {"status_after": _status(gzipped=False)},
             {"list_after": _archive_list(version=63)},
             {"list_after": _archive_list(changed=True)},
         ):

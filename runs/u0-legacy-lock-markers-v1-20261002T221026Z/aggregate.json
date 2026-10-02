@@ -1,0 +1,63 @@
+{
+  "all_match": true,
+  "code_commit": "09f9b4f19a7fafdea01811ee510fcafb119fb315",
+  "decision_sha256": "bf64dc8651f89006bff99d05395465c91ba4acbf57882e0e49a51408b757e255",
+  "evaluated_at_utc": "2026-10-02T22:11:04.474480+00:00",
+  "g_us_status": "PENDING",
+  "legacy_lock_sha256": "a165ac8d49bfa7d2b4d42f46db2d6e33883fe78662df0cee9846828ba2a2aa6f",
+  "new_model_fit": false,
+  "packages": {
+    "joblib": {
+      "lock_selected": "1.6.0",
+      "matches": true,
+      "replay_installed": "1.6.0"
+    },
+    "numpy": {
+      "lock_selected": "2.4.6",
+      "matches": true,
+      "replay_installed": "2.4.6"
+    },
+    "pandas": {
+      "lock_selected": "3.0.5",
+      "matches": true,
+      "replay_installed": "3.0.5"
+    },
+    "python-dateutil": {
+      "lock_selected": "2.9.0.post0",
+      "matches": true,
+      "replay_installed": "2.9.0.post0"
+    },
+    "scikit-learn": {
+      "lock_selected": "1.9.1",
+      "matches": true,
+      "replay_installed": "1.9.1"
+    },
+    "scipy": {
+      "lock_selected": "1.17.1",
+      "matches": true,
+      "replay_installed": "1.17.1"
+    },
+    "threadpoolctl": {
+      "lock_selected": "3.6.0",
+      "matches": true,
+      "replay_installed": "3.6.0"
+    },
+    "tzdata": {
+      "lock_selected": "2026.3",
+      "matches": true,
+      "replay_installed": "2026.3"
+    },
+    "xgboost": {
+      "lock_selected": "3.2.0",
+      "matches": true,
+      "replay_installed": "3.2.0"
+    }
+  },
+  "prior_environment_sha256": "348f41fe53681d972a683f71014c13933d052f5eaaa1f6a18be571dc47bcd01c",
+  "protocol": "ames_legacy_lock_markers_v1",
+  "run_id": "u0-legacy-lock-markers-v1-20261002T221026Z",
+  "sale_labels_certified": 0,
+  "target_python_full_version": "3.11.6",
+  "target_sys_platform": "win32",
+  "u0_status": "PENDING"
+}

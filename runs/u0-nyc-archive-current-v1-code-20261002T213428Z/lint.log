@@ -1,0 +1,4 @@
+ruff_check: .venv/Scripts/python.exe -m ruff check scripts/compare_nyc_archive_snapshot_v1.py tests/test_compare_nyc_archive_snapshot_v1.py
+All checks passed!
+ruff_format: .venv/Scripts/python.exe -m ruff format --check scripts/compare_nyc_archive_snapshot_v1.py tests/test_compare_nyc_archive_snapshot_v1.py
+2 files already formatted

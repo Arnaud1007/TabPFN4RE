@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline aggregate comparison of pinned NYC rolling archive and current snapshot; no sale-label admission",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": "Python standard library only",
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "archive_csv_sha256": "0746355101b245fb469ce97e19e088fa2b16f0f95728d7a5b07dd670e98c345f",
+  "current_csv_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2"
+}

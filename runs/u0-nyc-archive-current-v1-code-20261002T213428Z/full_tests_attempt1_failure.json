@@ -1,0 +1,5 @@
+﻿{
+    "completed_test_run":  false,
+    "status":  "runner_failed",
+    "reason":  "PowerShell ErrorActionPreference Stop treated an expected adversarial ZIP fixture warning on stderr as terminating"
+}

@@ -1,0 +1,8 @@
+﻿{
+    "exit_code":  0,
+    "output_artifact":  "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/full_tests_final.log",
+    "command":  ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+    "ames_arff_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "duration_seconds":  186.696,
+    "environment_lock_sha256":  "324a2084ea010b4bf83b4c823b2b5532ba5ceb3ade40f4604b846ea951db5ef6"
+}

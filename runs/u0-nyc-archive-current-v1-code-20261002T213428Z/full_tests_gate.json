@@ -1,0 +1,7 @@
+﻿{
+    "ames_arff_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "duration_seconds":  187.536,
+    "command":  ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+    "output_artifact":  "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/full_tests.log",
+    "exit_code":  0
+}

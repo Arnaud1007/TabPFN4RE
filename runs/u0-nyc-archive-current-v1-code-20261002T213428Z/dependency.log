@@ -1,0 +1,4 @@
+pip_check: .venv/Scripts/python.exe -m pip check
+No broken requirements found.
+pip_audit: .venv/Scripts/python.exe -m pip_audit -r locks/local-date-requirements.txt --disable-pip --progress-spinner off
+No known vulnerabilities found

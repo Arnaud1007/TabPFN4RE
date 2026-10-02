@@ -1,0 +1,5 @@
+focused: .venv/Scripts/python.exe -m unittest tests.test_compare_nyc_archive_snapshot_v1 -q
+----------------------------------------------------------------------
+Ran 17 tests in 0.647s
+
+OK

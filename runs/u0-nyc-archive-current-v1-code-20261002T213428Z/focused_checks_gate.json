@@ -1,0 +1,61 @@
+{
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m unittest tests.test_compare_nyc_archive_snapshot_v1 -q",
+      "duration_seconds": 0.874,
+      "exit_code": 0,
+      "name": "focused",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/focused_tests.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage erase",
+      "duration_seconds": 0.307,
+      "exit_code": 0,
+      "name": "coverage_erase",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/coverage.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --source compare_nyc_archive_snapshot_v1 -m unittest tests.test_compare_nyc_archive_snapshot_v1 -q",
+      "duration_seconds": 1.021,
+      "exit_code": 0,
+      "name": "coverage_run",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/coverage.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage report --include=*compare_nyc_archive_snapshot_v1.py",
+      "duration_seconds": 0.305,
+      "exit_code": 0,
+      "name": "coverage_report",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/coverage.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/compare_nyc_archive_snapshot_v1.py tests/test_compare_nyc_archive_snapshot_v1.py",
+      "duration_seconds": 0.149,
+      "exit_code": 0,
+      "name": "ruff_check",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/lint.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts/compare_nyc_archive_snapshot_v1.py tests/test_compare_nyc_archive_snapshot_v1.py",
+      "duration_seconds": 0.148,
+      "exit_code": 0,
+      "name": "ruff_format",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/lint.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "duration_seconds": 0.555,
+      "exit_code": 0,
+      "name": "pip_check",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/dependency.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip_audit -r locks/local-date-requirements.txt --disable-pip --progress-spinner off",
+      "duration_seconds": 1.029,
+      "exit_code": 0,
+      "name": "pip_audit",
+      "output_artifact": "runs/u0-nyc-archive-current-v1-code-20261002T213428Z/dependency.log"
+    }
+  ],
+  "environment_lock_sha256": "324a2084ea010b4bf83b4c823b2b5532ba5ceb3ade40f4604b846ea951db5ef6"
+}

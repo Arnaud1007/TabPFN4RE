@@ -1,6 +1,6 @@
 # Draft: NYC DOF rolling-sales source clarification
 
-Status: local draft, not sent. Prepared 2026-09-29. No response or dataset
+Status: local draft, not sent. Prepared 2026-09-29; refined 2026-10-03. No response or dataset
 permission is implied. Proposed route: the [NYC Open Data contact form](https://www.nyc.gov/opendata/contact-us),
 which accepts questions about an existing dataset. Ask the Open Data team to
 route technical and use-rights questions to the Department of Finance data
@@ -20,15 +20,19 @@ project that may later support a commercial residential sale-price prediction
 service. Could you please clarify these points or route them to the DOF data
 owner?
 
-1. What event does `SALE DATE` represent: contract signing, closing,
-   transfer/deed execution, City Register recording, or another date? Does
-   the meaning vary by borough, transaction type or release?
+1. Do rolling-file `SALE DATE` and `SALE PRICE` map directly to items 11
+   (Date of Sale / Transfer) and 12 (Full Sale Price) of the NYC RP-5217
+   transfer report? If not, what source and event define each column? Does
+   either mapping vary by borough, property class, co-op transaction or
+   release? In particular, is `SALE DATE` contract signing, closing/title
+   conveyance, deed execution, City Register recording, or another date?
 2. Is each row's first public availability timestamp retained? Are dated
    row-level releases, publication logs and correction/deletion histories
    available for the rolling file? If so, what is the supported access route?
 3. How do rows map to economic transfers and dwellings? In particular, can
    one deed's full `SALE PRICE` appear on several tax lots or units, and
-   which published fields identify those cases or a correction?
+   which published fields identify those cases or a correction? How are
+   co-op transfers and multi-parcel or partial-interest transactions sourced?
 4. Are the current borough XLSX files and `usep-8jbt` API generated from the
    same underlying release? What publication lag or revision differences
    should be expected when matching rows?

@@ -87,6 +87,12 @@ target_semantics: DOF glossary says price paid for the property; transfer scope 
 date_field: sale_date
 date_semantics: DOF glossary says date the property sold; contract and close mapping unverified
 date_semantics_evidence: https://www.nyc.gov/site/finance/property/glossary-property-sales.page
+transfer_report_semantics_boundary: decisions/0049-nyc-transfer-report-semantics.md
+transfer_report_instructions: https://www.nyc.gov/assets/finance/downloads/pdf/02pdf/rp5217nyci.pdf
+transfer_report_mapping_status: >-
+  RP-5217NYC item 11 generally means closing/title conveyance and item 12
+  defines full consideration, but direct mapping to rolling-file SALE DATE
+  and SALE PRICE is unverified, including co-ops and multi-parcel transfers.
 acris_date_distinction: >-
   Official ACRIS detail-view help defines Document Date as execution and
   Recorded/Filed as recording. Neither field is identified there as closing;
@@ -109,6 +115,8 @@ historical_vintages: >-
   replayed, without per-row first publication or correction history.
 correction_policy: current view can change; archived dataset versions are visible but row-level correction history is not audited
 archive_evidence: [decisions/0019-nyc-rolling-archive-correction.md, decisions/0024-nyc-archive-metadata-probe.md, runs/u0-nyc-archive-metadata-20260929T021258Z/report.md, decisions/0042-nyc-ready-rolling-archive-capture.md, decisions/0043-nyc-ready-archive-status-v2.md, runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/report.md, decisions/0047-nyc-ready-archive-v61.md, runs/u0-nyc-ready-archive-v61-20261002T230327Z/report.md, decisions/0044-nyc-archive-current-concordance-v1.md, runs/u0-nyc-archive-current-v1-20261002T214801Z/report.md, decisions/0048-nyc-adjacent-archive-concordance-v1.md, runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/report.md]
+archive_platform_guidance: https://support.socrata.com/hc/en-us/articles/9486838238743-Introducing-Dataset-Archiving
+archive_platform_guidance_limit: prior-version export does not establish row-level first public availability
 archive_inspected_on: 2026-10-02
 archive_access: anonymous internal CSV routes captured for versions 61 and 62 after confirming ready status; no archive generation requested
 archive_version_62_revision_created_at: 2026-04-20T18:29:25.966Z

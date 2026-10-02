@@ -1,0 +1,60 @@
+{
+  "aggregate_sha256": "b1adc20dd68ff2b5b65bb5c76fc2a3a0a01ab6ee86cd3bf905cf65510e497d34",
+  "checkpoint_identity": null,
+  "code_commit": "99dd1a0ce65937753afcc29c361d2228d8673533",
+  "code_sha256": "3a44b24344691c1e2a872d2d22cb016b4de0ea70cdc4c4f30cc6d0d60f626b9c",
+  "completed_at_utc": "2026-10-02T23:04:59.513Z",
+  "configuration_sha256": "58354526b517e301d1ce5874f73604448d69fcb709c77f1a00da845448263303",
+  "dirty_tree_at_start": false,
+  "environment_lock_sha256": "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+  "feature_policy_hash": null,
+  "helper_code_sha256": "b075536b39478cb08df57079de076b4f6498eb977c502a3bb2ef8be3cfa53f97",
+  "protocol": "nyc-ready-rolling-archive-v61-v1",
+  "requests": [
+    {
+      "bytes": 1130,
+      "file": "list-before.json",
+      "retrieved_at_utc": "2026-10-02T23:04:53.336Z",
+      "sha256": "f384664c57b701a7908c8c9ec6620095c7f7ad3cceeaba9204d142d4aea0f2f9",
+      "stage": "list_before",
+      "url": "https://data.cityofnewyork.us/api/archival?id=usep-8jbt&version=1"
+    },
+    {
+      "bytes": 245,
+      "file": "status-before.json",
+      "retrieved_at_utc": "2026-10-02T23:04:53.908Z",
+      "sha256": "19f0d47313ab5e129a39837867cba77bc5f0459f33a1cf91856b90c58b6bfa35",
+      "stage": "status_before",
+      "url": "https://data.cityofnewyork.us/api/archival?id=usep-8jbt&version=61&method=status"
+    },
+    {
+      "bytes": 11120362,
+      "file": "archive.csv",
+      "retrieved_at_utc": "2026-10-02T23:04:58.521Z",
+      "sha256": "19ecb0eb368df66f60758098213fd4855109e6afa20c82e99787930b893ba0f7",
+      "stage": "csv",
+      "url": "https://data.cityofnewyork.us/api/archival.csv?id=usep-8jbt&version=61&method=export"
+    },
+    {
+      "bytes": 245,
+      "file": "status-after.json",
+      "retrieved_at_utc": "2026-10-02T23:04:59.043Z",
+      "sha256": "19f0d47313ab5e129a39837867cba77bc5f0459f33a1cf91856b90c58b6bfa35",
+      "stage": "status_after",
+      "url": "https://data.cityofnewyork.us/api/archival?id=usep-8jbt&version=61&method=status"
+    },
+    {
+      "bytes": 1130,
+      "file": "list-after.json",
+      "retrieved_at_utc": "2026-10-02T23:04:59.513Z",
+      "sha256": "f384664c57b701a7908c8c9ec6620095c7f7ad3cceeaba9204d142d4aea0f2f9",
+      "stage": "list_after",
+      "url": "https://data.cityofnewyork.us/api/archival?id=usep-8jbt&version=1"
+    }
+  ],
+  "run_id": "ready-archive-v61-20261002T230327Z",
+  "source_snapshot_sha256": "19ecb0eb368df66f60758098213fd4855109e6afa20c82e99787930b893ba0f7",
+  "split_hash": null,
+  "started_at_utc": "2026-10-02T23:04:52.491Z",
+  "version": 61
+}

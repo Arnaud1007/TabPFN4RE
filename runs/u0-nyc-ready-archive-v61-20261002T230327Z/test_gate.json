@@ -1,0 +1,146 @@
+{
+  "gate": "nyc_ready_archive_v61_source_inventory",
+  "status": "PASS_FOR_SOURCE_INVENTORY_ONLY",
+  "requirements": [
+    "US05",
+    "US08",
+    "US22",
+    "US24"
+  ],
+  "environment": "Windows PowerShell, project .venv Python 3.11",
+  "environment_lock_sha256": "2e4af58978bb4aa67fcf8881f856942474def9300d834a24995bd85d7a4f9050",
+  "checks": {
+    "capture": {
+      "command": ".venv\\Scripts\\python.exe scripts/capture_nyc_generated_archive_v61.py capture data/raw/nyc_dof/ready-archive-v61-20261002T230327Z",
+      "exit_code": 0,
+      "output_artifacts": [
+        "runs/u0-nyc-ready-archive-v61-20261002T230327Z/manifest.json",
+        "runs/u0-nyc-ready-archive-v61-20261002T230327Z/aggregate.json"
+      ],
+      "duration_seconds": 8.599,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/manifest.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "timing_source": "exec_command wall time"
+    },
+    "offline_replay": {
+      "command": ".venv\\Scripts\\python.exe scripts/capture_nyc_generated_archive_v61.py replay data/raw/nyc_dof/ready-archive-v61-20261002T230327Z",
+      "exit_code": 0,
+      "aggregate_equal": true,
+      "duration_seconds": 0.863,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/aggregate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "timing_source": "exec_command wall time"
+    },
+    "public_verifier": {
+      "command": "& 'runs/u0-nyc-ready-archive-v61-20261002T230327Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "duration_seconds": 1.074,
+      "output": "NYC version-61 archive: private hashes and offline replay verified; zero labels certified; U0, U3 and G-US pending",
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/report.md",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "timing_source": "local Stopwatch verification rerun"
+    },
+    "focused_tests": {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest tests.test_capture_nyc_generated_archive_v61 -q",
+      "exit_code": 0,
+      "tests": 10,
+      "skipped": 0,
+      "duration_seconds": 0.461,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "timing_source": "unittest reported"
+    },
+    "v61_v62_tests": {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest tests.test_capture_nyc_generated_archive_v61 tests.test_capture_nyc_generated_archive -q",
+      "exit_code": 0,
+      "tests": 41,
+      "skipped": 0,
+      "duration_seconds": 1.19,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "timing_source": "unittest reported"
+    },
+    "v61_branch_coverage": {
+      "commands": [
+        ".venv\\Scripts\\coverage.exe run --branch --source=capture_nyc_generated_archive_v61 -m unittest tests.test_capture_nyc_generated_archive_v61 -q",
+        ".venv\\Scripts\\coverage.exe report -m --include=*capture_nyc_generated_archive_v61.py"
+      ],
+      "exit_code": 0,
+      "percent": 82,
+      "statements": 239,
+      "missing_statements": 34,
+      "branches": 96,
+      "partial_branches": 19,
+      "note": "Initial command selected the wrong source and collected no data; corrected coverage result is reported.",
+      "duration_seconds": null,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "independent_replay_commands": [
+        ".\\.venv\\Scripts\\python.exe -m coverage run --branch --source=scripts -m unittest tests.test_capture_nyc_generated_archive_v61 -q",
+        ".\\.venv\\Scripts\\python.exe -m coverage report --include='*capture_nyc_generated_archive_v61.py'"
+      ]
+    },
+    "full_suite": {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "environment": "AMES_ARFF_PATH set to local verified Ames ARFF",
+      "exit_code": 0,
+      "tests": 938,
+      "skipped": 0,
+      "duration_seconds": 170.25,
+      "earlier_successful_run_duration_seconds": 176.496,
+      "note": "Final rerun after the last v61 test assertion; no code changed during this rerun. Durations are reported by unittest.",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "timing_source": "unittest reported"
+    },
+    "ruff_check": {
+      "command": ".venv\\Scripts\\ruff.exe check scripts tests",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained."
+    },
+    "ruff_format_check": {
+      "command": ".\\.venv\\Scripts\\ruff.exe format --check scripts/capture_nyc_generated_archive_v61.py tests/test_capture_nyc_generated_archive_v61.py",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained."
+    },
+    "pip_audit": {
+      "command": ".\\.venv\\Scripts\\pip-audit.exe --path .venv\\Lib\\site-packages",
+      "exit_code": 0,
+      "known_vulnerabilities": 0,
+      "note": "Local tabpfn4realestate package skipped because it is not on PyPI.",
+      "duration_seconds": null,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v61-20261002T230327Z/test_gate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained."
+    },
+    "v62_private_replay": {
+      "exit_code": 0,
+      "rows": 81567,
+      "aggregate_equal": true,
+      "duration_seconds": 0.73,
+      "environment": "Windows PowerShell, project .venv Python 3.11",
+      "output_artifact": "runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/aggregate.json",
+      "output_record": "Structured observed result in this gate; no separate console log retained.",
+      "command": ".venv\\Scripts\\python.exe scripts/capture_nyc_generated_archive.py replay data/raw/nyc_dof/ready-archive-v2-20261002T210520Z",
+      "timing_source": "local Stopwatch verification rerun",
+      "csv_sha256": "0746355101b245fb469ce97e19e088fa2b16f0f95728d7a5b07dd670e98c345f"
+    }
+  },
+  "sale_labels_certified": 0,
+  "historical_asof_eligible": false,
+  "u0_status": "PENDING",
+  "u3_status": "PENDING",
+  "g_us_status": "PENDING"
+}

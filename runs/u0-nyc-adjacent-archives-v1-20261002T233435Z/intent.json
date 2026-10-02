@@ -1,0 +1,22 @@
+{
+  "checkpoint_identity": null,
+  "code_commit": "9dfa171cbb0e85527b549eea01638365edb33921",
+  "code_hashes": {
+    "scripts/compare_nyc_adjacent_archives_v1.py": "cef4c554dbe072bd112b227e7c3224abb48dea2ee22f9fabf4cea6b9f22c7ae0",
+    "scripts/compare_nyc_archive_snapshot_v1.py": "b1e339fe7e2c5482ae72431d370fc3d5cd90bed249340a402529e527c234a2be",
+    "scripts/private_review_io.py": "77c8741b10e2b98b910a51c89eefb04c9749c3a98e993aecda9a5b7bcfa165f5"
+  },
+  "configuration_sha256": "c2beb96d73862cc902ad8e558286b6a28de98cb47a165fed01400a2da86f6e29",
+  "dirty_tree_at_start": false,
+  "environment_lock_sha256": "fcf7f52c014c9af3277b12cd85330171ba492b7cd8a24f12ad2df33b4ebd25d8",
+  "feature_policy_hash": null,
+  "protocol": "nyc-adjacent-archives-v1",
+  "remote_tracking_commit": "9dfa171cbb0e85527b549eea01638365edb33921",
+  "run_id": "archive-adjacent-v1-20261002T233435Z-6db0ca9ec142",
+  "split_hash": null,
+  "started_at_utc": "2026-10-02T23:36:23.037443Z",
+  "v61_csv_sha256": "19ecb0eb368df66f60758098213fd4855109e6afa20c82e99787930b893ba0f7",
+  "v61_manifest_sha256": "52090b7c0279868c54adfbc4b5b043d87d896f79f3ec963a06a8e501b8b4cdab",
+  "v62_csv_sha256": "0746355101b245fb469ce97e19e088fa2b16f0f95728d7a5b07dd670e98c345f",
+  "v62_manifest_sha256": "a85186c249503435494e9c06e4274bbea85d986bba058375cbe7d3537b6e01bc"
+}

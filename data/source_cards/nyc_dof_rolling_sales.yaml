@@ -108,7 +108,7 @@ historical_vintages: >-
   and adjacent earlier version 61 row-containing CSVs captured and offline
   replayed, without per-row first publication or correction history.
 correction_policy: current view can change; archived dataset versions are visible but row-level correction history is not audited
-archive_evidence: [decisions/0019-nyc-rolling-archive-correction.md, decisions/0024-nyc-archive-metadata-probe.md, runs/u0-nyc-archive-metadata-20260929T021258Z/report.md, decisions/0042-nyc-ready-rolling-archive-capture.md, decisions/0043-nyc-ready-archive-status-v2.md, runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/report.md, decisions/0047-nyc-ready-archive-v61.md, runs/u0-nyc-ready-archive-v61-20261002T230327Z/report.md, decisions/0044-nyc-archive-current-concordance-v1.md, runs/u0-nyc-archive-current-v1-20261002T214801Z/report.md]
+archive_evidence: [decisions/0019-nyc-rolling-archive-correction.md, decisions/0024-nyc-archive-metadata-probe.md, runs/u0-nyc-archive-metadata-20260929T021258Z/report.md, decisions/0042-nyc-ready-rolling-archive-capture.md, decisions/0043-nyc-ready-archive-status-v2.md, runs/u0-nyc-ready-archive-v2-captured-20261002T210520Z/report.md, decisions/0047-nyc-ready-archive-v61.md, runs/u0-nyc-ready-archive-v61-20261002T230327Z/report.md, decisions/0044-nyc-archive-current-concordance-v1.md, runs/u0-nyc-archive-current-v1-20261002T214801Z/report.md, decisions/0048-nyc-adjacent-archive-concordance-v1.md, runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/report.md]
 archive_inspected_on: 2026-10-02
 archive_access: anonymous internal CSV routes captured for versions 61 and 62 after confirming ready status; no archive generation requested
 archive_version_62_revision_created_at: 2026-04-20T18:29:25.966Z
@@ -123,7 +123,15 @@ archive_version_61_capture_status: inventory_only_not_historical_asof_eligible
 archive_version_61_rows: 79335
 archive_version_61_bytes: 11120362
 archive_version_61_csv_sha256: 19ecb0eb368df66f60758098213fd4855109e6afa20c82e99787930b893ba0f7
-archive_version_61_comparison_with_version_62: not_run
+archive_version_61_comparison_with_version_62: source_representation_diagnostic_only
+archive_adjacent_comparison_protocol: decisions/0048-nyc-adjacent-archive-concordance-v1.md
+archive_adjacent_comparison_report: runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/report.md
+archive_adjacent_comparison_private_run_id: archive-adjacent-v1-20261002T233435Z-6db0ca9ec142
+archive_adjacent_comparison_code_commit: 9dfa171cbb0e85527b549eea01638365edb33921
+archive_adjacent_comparison_raw_overlap_bucket: 1000_plus
+archive_adjacent_comparison_date_only_normalized_overlap_bucket: 1000_plus
+archive_adjacent_comparison_sale_labels_certified: 0
+archive_adjacent_comparison_first_publication_verified: false
 archive_current_comparison_protocol: decisions/0044-nyc-archive-current-concordance-v1.md
 archive_current_comparison_report: runs/u0-nyc-archive-current-v1-20261002T214801Z/report.md
 archive_current_comparison_private_run_id: archive-current-v1-20261002T214801Z-d4b589edff65
@@ -155,7 +163,9 @@ notes: >-
   Versions 61 and 62 are locally verified row-containing archives. Their
   portal revision times do not establish the first availability of each
   transaction row or the historical vintage of property attributes. Their
-  row memberships have not yet been compared. The offline v1
+  row representations have now been compared under ADR 0048: the raw and
+  date-only-normalized 21-field tuple overlaps are both at least 1,000,
+  with exact private counts withheld. The offline archive/current v1
   comparison found zero raw full-row overlap with the 82,345-row current
   snapshot and at least 1,000 date-only-normalized overlapping source rows.
   Neither result establishes transfer identity, first row availability,

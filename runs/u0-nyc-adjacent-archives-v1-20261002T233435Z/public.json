@@ -1,0 +1,12 @@
+{
+  "date_overlap_bucket": "1000_plus",
+  "g_us_status": "PENDING",
+  "historical_asof_eligible": false,
+  "protocol": "nyc-adjacent-archives-v1",
+  "raw_overlap_bucket": "1000_plus",
+  "sale_labels_certified": 0,
+  "u0_status": "PENDING",
+  "u3_status": "PENDING",
+  "v61_rows": 79335,
+  "v62_rows": 81567
+}

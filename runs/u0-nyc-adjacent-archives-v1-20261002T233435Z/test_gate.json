@@ -1,0 +1,109 @@
+{
+  "gate": "nyc_adjacent_archives_source_inventory",
+  "status": "PASS_FOR_SOURCE_INVENTORY_ONLY",
+  "requirements": ["US05", "US06", "US08", "US22", "US23", "US24"],
+  "environment": "Windows PowerShell, project .venv CPython 3.11.6",
+  "environment_lock_sha256": "fcf7f52c014c9af3277b12cd85330171ba492b7cd8a24f12ad2df33b4ebd25d8",
+  "code_commit": "9dfa171cbb0e85527b549eea01638365edb33921",
+  "checks": {
+    "compare": {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/compare_nyc_adjacent_archives_v1.py compare data/raw/nyc_dof/archive-adjacent-v1-20261002T233435Z-6db0ca9ec142",
+      "exit_code": 0,
+      "duration_seconds": 4.718,
+      "timing_source": "exec_command wall time",
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/public.json",
+      "output_record": "Structured result and private aggregate; no separate console log retained."
+    },
+    "offline_replay": {
+      "command": ".\\.venv\\Scripts\\python.exe scripts/compare_nyc_adjacent_archives_v1.py replay data/raw/nyc_dof/archive-adjacent-v1-20261002T233435Z-6db0ca9ec142",
+      "exit_code": 0,
+      "duration_seconds": 4.081,
+      "timing_source": "exec_command wall time",
+      "aggregate_equal": true,
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/public.json",
+      "output_record": "Structured replay result; no separate console log retained."
+    },
+    "public_verifier": {
+      "command": "& 'runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "duration_seconds": 4.229,
+      "timing_source": "exec_command wall time",
+      "output": "NYC adjacent archives: private hashes and offline replay verified; zero labels certified; U0, U3 and G-US pending",
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/verify_artifacts.ps1"
+    },
+    "focused_tests": {
+      "command": ".venv\\Scripts\\python.exe -m unittest tests.test_compare_nyc_adjacent_archives_v1 -q",
+      "exit_code": 0,
+      "tests": 22,
+      "skipped": 0,
+      "duration_seconds": 1.039,
+      "timing_source": "unittest reported",
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    },
+    "runner_branch_coverage": {
+      "commands": [
+        "$env:COVERAGE_FILE = Join-Path $env:TEMP 'tabpfn-adjacent-coverage.db'",
+        ".\\.venv\\Scripts\\coverage.exe run --branch --source=compare_nyc_adjacent_archives_v1 -m unittest tests.test_compare_nyc_adjacent_archives_v1 -q",
+        ".\\.venv\\Scripts\\coverage.exe report -m --include='*compare_nyc_adjacent_archives_v1.py'"
+      ],
+      "exit_code": 0,
+      "tests": 22,
+      "skipped": 0,
+      "test_duration_seconds": 1.092,
+      "statements": 190,
+      "missing_statements": 24,
+      "branches": 48,
+      "partial_branches": 4,
+      "percent": 86,
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    },
+    "full_suite": {
+      "commands": [
+        "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path",
+        ".\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q"
+      ],
+      "exit_code": 0,
+      "tests": 960,
+      "skipped": 0,
+      "duration_seconds": 167.150,
+      "timing_source": "unittest reported",
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    },
+    "ruff_check": {
+      "command": ".venv\\Scripts\\ruff.exe check scripts tests",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    },
+    "ruff_format_check": {
+      "command": ".venv\\Scripts\\ruff.exe format --check scripts/compare_nyc_adjacent_archives_v1.py tests/test_compare_nyc_adjacent_archives_v1.py",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    },
+    "pip_check": {
+      "command": ".venv\\Scripts\\pip.exe check",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    },
+    "pip_audit": {
+      "command": ".venv\\Scripts\\pip-audit.exe --path .venv\\Lib\\site-packages",
+      "exit_code": 0,
+      "known_vulnerabilities": 0,
+      "note": "Local tabpfn4realestate package skipped because it is not on PyPI.",
+      "duration_seconds": null,
+      "output_artifact": "runs/u0-nyc-adjacent-archives-v1-20261002T233435Z/test_gate.json"
+    }
+  },
+  "development_failure": {
+    "check": "initial synthetic replay-runtime test",
+    "outcome": "RED before implementation fix; subsequent focused and full tests passed",
+    "private_archive_opened": false
+  },
+  "sale_labels_certified": 0,
+  "historical_asof_eligible": false,
+  "u0_status": "PENDING",
+  "u3_status": "PENDING",
+  "g_us_status": "PENDING"
+}

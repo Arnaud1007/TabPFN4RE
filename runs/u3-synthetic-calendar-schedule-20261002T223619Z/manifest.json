@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "run_id": "u3-synthetic-calendar-schedule-20261002T223619Z",
+  "status": "verified_synthetic_engineering",
+  "milestone": "U3 engineering checkpoint; milestone not accepted",
+  "requirements": ["US11", "US22", "US23", "US24"],
+  "code_commit": "33100dbcc95f824cf16652ec06e1040ad3232c8b",
+  "code_sha256": "44a4302c8f341438b4b9563c095b0e8be4de202fc71bf27725664711f5db7fbf",
+  "test_sha256": "33b63be255ec8fc9daebeacd99980596273715cd8384035ebe372ff87a6ab077",
+  "environment_lock": "locks/u3-calendar-environment.json",
+  "environment_lock_sha256": "d94919341de0aa054385454ed98f93109731c91b74c69f118afa7055e55cab89",
+  "source_snapshot_sha256": null,
+  "source_snapshot_note": "No certified real transaction source was accessed by the schedule checkpoint; the full suite used a local ignored Ames fixture only.",
+  "split_hash": "f1670e860faa0fb1e1e252be84258314ae91dc8157f6d46f7db348f32fd98859",
+  "split_hash_scope": "Deterministic synthetic fixture schedule, not a real frozen test cohort",
+  "feature_policy_hash": null,
+  "feature_policy_note": "Schedule membership consumes no predictive features",
+  "configuration": "decisions/0046-synthetic-calendar-evaluation-schedule.md",
+  "configuration_hash": "c622f2b93ca94e4da482c5762e844e2c0f43d90097fe227ffa17c6378f1dcf99",
+  "checkpoint_identity": null,
+  "checkpoint_note": "No model fit or prediction checkpoint in this run",
+  "certification_eligible": false,
+  "test_gate": "runs/u3-synthetic-calendar-schedule-20261002T223619Z/test_gate.json",
+  "report": "runs/u3-synthetic-calendar-schedule-20261002T223619Z/report.md",
+  "gate_status": {
+    "U0": "PENDING",
+    "U3": "PENDING",
+    "G-US": "PENDING"
+  }
+}

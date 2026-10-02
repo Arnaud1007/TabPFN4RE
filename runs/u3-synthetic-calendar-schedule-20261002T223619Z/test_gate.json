@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "run_id": "u3-synthetic-calendar-schedule-20261002T223619Z",
+  "status": "verified_synthetic_engineering",
+  "certification_eligible": false,
+  "environment": "locks/u3-calendar-environment.json",
+  "results": [
+    {
+      "name": "tdd_red",
+      "command": ".venv\\Scripts\\python.exe -m unittest tests.test_temporal_schedule -q",
+      "exit_code": 1,
+      "duration_seconds": null,
+      "observed": "ModuleNotFoundError before calendar_schedule.py was created; expected RED phase"
+    },
+    {
+      "name": "targeted_branch_coverage_run",
+      "command": ".venv\\Scripts\\coverage.exe run --branch --source=tabpfn4realestate.evaluation.calendar_schedule -m unittest tests.test_temporal_schedule -q",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "tests_run": 9,
+      "tests_failed": 0,
+      "tests_skipped": 0
+    },
+    {
+      "name": "targeted_branch_coverage_report",
+      "command": ".venv\\Scripts\\coverage.exe report -m --include=\"*calendar_schedule.py\"",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "statements": 116,
+      "missing_statements": 7,
+      "branches": 36,
+      "partial_branches": 5,
+      "total_coverage_percent_rounded": 92
+    },
+    {
+      "name": "full_suite_without_optional_source_path",
+      "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 177.556,
+      "tests_run": 928,
+      "tests_failed": 0,
+      "tests_skipped": 1,
+      "observed": "One optional source-integration test skipped because AMES_ARFF_PATH was unset; superseded by the complete rerun below"
+    },
+    {
+      "name": "full_suite_with_local_ames_fixture",
+      "environment_preparation": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path",
+      "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 168.878,
+      "tests_run": 928,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "observed": "Ran 928 tests in 168.878s; OK"
+    },
+    {
+      "name": "ruff_check",
+      "command": ".venv\\Scripts\\ruff.exe check src tests",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "observed": "All checks passed"
+    },
+    {
+      "name": "ruff_format_check",
+      "command": ".venv\\Scripts\\ruff.exe format --check src/tabpfn4realestate/evaluation/calendar_schedule.py tests/test_temporal_schedule.py",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "observed": "2 files already formatted"
+    },
+    {
+      "name": "dependency_audit_initial_invalid_invocation",
+      "command": ".venv\\Scripts\\pip-audit.exe --disable-pip --no-deps -r requirements.txt",
+      "exit_code": 1,
+      "duration_seconds": null,
+      "observed": "requirements.txt does not exist; command corrected below"
+    },
+    {
+      "name": "dependency_audit_local_environment",
+      "command": ".venv\\Scripts\\pip-audit.exe --path .venv\\Lib\\site-packages",
+      "exit_code": 0,
+      "duration_seconds": null,
+      "observed": "No known vulnerabilities in audited installed distributions; local project could not be audited on PyPI"
+    }
+  ],
+  "timing_note": "Unittest-reported durations were captured for both full-suite runs; other durations are null rather than reconstructed.",
+  "gate_verdict": "PASS for this synthetic engineering checkpoint only; U0, U3, and G-US remain PENDING"
+}

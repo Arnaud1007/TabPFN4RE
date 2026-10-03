@@ -74,3 +74,6 @@
 /data/us_market_candidates.json -text
 /scripts/validate_us_market_scope.py -text
 /tests/test_us_market_scope.py -text
+/decisions/0086-pinned-nonmetro-county-membership.md -text
+/src/tabpfn4realestate/evaluation/local_dates.py -text
+/tests/test_local_date_origins.py -text

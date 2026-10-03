@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, time, timedelta, timezone
+from functools import lru_cache
 from hashlib import sha256
 from importlib.resources import files
 import json
@@ -88,7 +89,13 @@ def _zone_from_pinned_data(zone_key: str) -> ZoneInfo:
         raise ValueError("zone_key must be a normalized IANA time-zone key")
     if tzdata.__version__ != TZDATA_VERSION:
         raise RuntimeError("Installed tzdata differs from the frozen date policy")
-    resource = files("tzdata.zoneinfo").joinpath(*parts)
+    return _load_pinned_zone(zone_key)
+
+
+@lru_cache(maxsize=64)
+def _load_pinned_zone(zone_key: str) -> ZoneInfo:
+    """Reuse immutable pinned zones after each caller validates key and version."""
+    resource = files("tzdata.zoneinfo").joinpath(*zone_key.split("/"))
     if not resource.is_file():
         raise ValueError(f"Unknown IANA time zone: {zone_key}")
     with resource.open("rb") as stream:

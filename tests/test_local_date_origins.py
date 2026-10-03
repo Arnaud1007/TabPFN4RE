@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
@@ -14,9 +15,34 @@ from tabpfn4realestate.evaluation.local_dates import (  # noqa: E402
     derive_local_date_origin,
     is_visible_at_date_origin,
 )
+from tabpfn4realestate.evaluation import local_dates  # noqa: E402
 
 
 class LocalDateOriginTests(unittest.TestCase):
+    def test_pinned_zone_load_is_cached_after_each_call_validates_inputs(self):
+        local_dates._load_pinned_zone.cache_clear()
+        self.addCleanup(local_dates._load_pinned_zone.cache_clear)
+        with patch.object(local_dates, "files", wraps=local_dates.files) as resources:
+            first = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+            second = derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+            self.assertEqual(first, second)
+            self.assertEqual(resources.call_count, 1)
+            with patch.object(local_dates.tzdata, "__version__", "unapproved"):
+                with self.assertRaisesRegex(RuntimeError, "frozen date policy"):
+                    derive_local_date_origin(date(2024, 6, 8), "America/New_York")
+            self.assertEqual(resources.call_count, 1)
+            with self.assertRaisesRegex(ValueError, "normalized IANA"):
+                derive_local_date_origin(date(2024, 6, 8), "America/../New_York")
+
+    def test_unknown_zone_failure_is_not_cached(self):
+        local_dates._load_pinned_zone.cache_clear()
+        self.addCleanup(local_dates._load_pinned_zone.cache_clear)
+        with patch.object(local_dates, "files", wraps=local_dates.files) as resources:
+            for _ in range(2):
+                with self.assertRaisesRegex(ValueError, "Unknown IANA"):
+                    derive_local_date_origin(date(2024, 6, 8), "Unknown/Nowhere")
+            self.assertEqual(resources.call_count, 2)
+
     def test_origin_is_ninety_local_calendar_days_before_close(self):
         previous = derive_local_date_origin(date(2024, 6, 7), "America/New_York")
         origin = derive_local_date_origin(date(2024, 6, 8), "America/New_York")

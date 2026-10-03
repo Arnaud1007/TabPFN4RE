@@ -1,17 +1,22 @@
 """A proposed market map must be geography-checked without admitting service."""
 
 from copy import deepcopy
+from contextlib import redirect_stdout
+from hashlib import sha256
+from io import StringIO
 import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from zipfile import ZipFile
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import validate_us_market_scope as scope  # noqa: E402
 from validate_us_market_scope import census_metros, validate_manifest  # noqa: E402
 
 
@@ -27,6 +32,10 @@ def candidate_fixture():
 
 
 class MarketScopeTests(unittest.TestCase):
+    def test_non_object_manifest_is_rejected_explicitly(self):
+        with self.assertRaisesRegex(ValueError, "schema differs"):
+            validate_manifest(None, {}, ROOT)
+
     def test_all_candidates_validate_without_service_claim(self):
         document, census = candidate_fixture()
         result = validate_manifest(document, census, ROOT)
@@ -46,10 +55,64 @@ class MarketScopeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "outside Census CBSA"):
             validate_manifest(document, census, ROOT)
 
+    def test_non_text_county_is_rejected_explicitly(self):
+        document, census = candidate_fixture()
+        document["metro_candidates"][0]["potential_source_counties"] = [12345]
+        with self.assertRaisesRegex(ValueError, "source county format"):
+            validate_manifest(document, census, ROOT)
+
     def test_supported_status_is_rejected(self):
         document, census = candidate_fixture()
         document["metro_candidates"][0]["status"] = "supported"
         with self.assertRaisesRegex(ValueError, "candidate status"):
+            validate_manifest(document, census, ROOT)
+
+    def test_manifest_cannot_claim_support_or_add_unreviewed_fields(self):
+        document, census = candidate_fixture()
+        document["status"] = "supported"
+        with self.assertRaisesRegex(ValueError, "unsupported service"):
+            validate_manifest(document, census, ROOT)
+        document["status"] = "candidate_inventory_not_service_area"
+        document["national_accuracy"] = "5%"
+        with self.assertRaisesRegex(ValueError, "schema differs"):
+            validate_manifest(document, census, ROOT)
+
+    def test_region_balance_and_nonmetro_state_are_checked(self):
+        document, census = candidate_fixture()
+        document["metro_candidates"][0]["region"] = "West"
+        with self.assertRaisesRegex(ValueError, "region differs"):
+            validate_manifest(document, census, ROOT)
+        document, census = candidate_fixture()
+        document["nonmetro_candidates"][1]["state_fips"] = "36"
+        with self.assertRaisesRegex(ValueError, "states are not distinct"):
+            validate_manifest(document, census, ROOT)
+
+    def test_census_count_and_nonmetro_rule_are_checked(self):
+        document, census = candidate_fixture()
+        document["metro_candidates"][0]["cbsa_county_count"] = 1
+        with self.assertRaisesRegex(ValueError, "county count"):
+            validate_manifest(document, census, ROOT)
+        document, census = candidate_fixture()
+        document["nonmetro_candidates"][0]["rule"] = "all New York counties"
+        with self.assertRaisesRegex(ValueError, "metro exclusion"):
+            validate_manifest(document, census, ROOT)
+
+    def test_unsafe_source_card_path_is_rejected(self):
+        document, census = candidate_fixture()
+        document["metro_candidates"][0]["source_cards"] = [
+            "data/source_cards/../us_market_candidates.json"
+        ]
+        with self.assertRaisesRegex(ValueError, "source card"):
+            validate_manifest(document, census, ROOT)
+
+    def test_missing_candidate_and_wrong_pin_are_rejected(self):
+        document, census = candidate_fixture()
+        document["metro_candidates"].pop()
+        with self.assertRaisesRegex(ValueError, "floors differ"):
+            validate_manifest(document, census, ROOT)
+        document, census = candidate_fixture()
+        document["census_delineation"]["sha256"] = "0" * 64
+        with self.assertRaisesRegex(ValueError, "Census pin"):
             validate_manifest(document, census, ROOT)
 
     def test_duplicate_metro_and_missing_source_card_are_rejected(self):
@@ -91,8 +154,41 @@ class MarketScopeTests(unittest.TestCase):
                 archive.writestr("xl/sharedStrings.xml", shared)
                 archive.writestr("xl/worksheets/sheet1.xml", sheet)
             self.assertEqual(
-                census_metros(workbook), {"12345": ("Example, ST", {"36001"})}
+                census_metros(workbook.read_bytes()),
+                {"12345": ("Example, ST", {"36001"})},
             )
+
+    def test_cli_rejects_wrong_workbook_hash_before_parse(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workbook = Path(directory) / "census.xlsx"
+            workbook.write_bytes(b"not a Census workbook")
+            with patch.object(
+                sys,
+                "argv",
+                ["validate_us_market_scope", "--census", str(workbook)],
+            ):
+                with self.assertRaisesRegex(ValueError, "independent pin"):
+                    scope.main()
+
+    def test_cli_records_pinned_hash_and_candidate_only_result(self):
+        _, census = candidate_fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            workbook = Path(directory) / "census.xlsx"
+            workbook.write_bytes(b"fixture")
+            capture = StringIO()
+            with (
+                patch.object(
+                    scope, "PINNED_CENSUS_SHA256", sha256(b"fixture").hexdigest()
+                ),
+                patch.object(scope, "census_metros", return_value=census),
+                patch.object(sys, "argv", ["scope", "--census", str(workbook)]),
+                redirect_stdout(capture),
+            ):
+                with patch.object(
+                    scope, "validate_manifest", return_value={"supported_markets": 0}
+                ):
+                    scope.main()
+            self.assertEqual(json.loads(capture.getvalue())["supported_markets"], 0)
 
 
 if __name__ == "__main__":

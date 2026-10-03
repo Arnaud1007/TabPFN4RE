@@ -20,6 +20,7 @@ from tabpfn4realestate.data.schema import (
 from tabpfn4realestate.features.asof import (
     NoAvailablePropertyVersionError,
     _effective_at,
+    _exact_boundary,
     _visible_property_version,
     select_property_version,
 )
@@ -75,9 +76,10 @@ def eligible_comparable_sales(
     """Return eligible, visible, non-subject transfers in deterministic order."""
     _instant(origin, "origin")
     cutoff = min(_utc(origin), _utc(source_snapshot.as_of))
+    boundary = _exact_boundary(origin, source_snapshot)
     if subject.source_id not in source_snapshot.source_ids:
         raise ValueError("Subject property source is absent from snapshot manifest")
-    if not _effective_at(subject, origin, cutoff):
+    if not _effective_at(subject, boundary):
         raise ValueError(
             "Subject property version was unavailable or invalid at origin"
         )
@@ -242,8 +244,9 @@ def retrieve_comparables(
         transactions=transactions,
         subject_economic_transfer_id=subject_economic_transfer_id,
     )
-    cutoff = min(_utc(origin), _utc(source_snapshot.as_of))
-    visible_subject = _visible_property_version(subject, cutoff)
+    visible_subject = _visible_property_version(
+        subject, _exact_boundary(origin, source_snapshot)
+    )
     subject_area = _square_feet(subject)
     if subject_area is None:
         return ComparableResult(
@@ -354,7 +357,7 @@ def comparable_price_per_area(
     """Weighted median USD per square foot times subject area, if support suffices."""
     _instant(origin, "origin")
     visible_subject = _visible_property_version(
-        subject, min(_utc(origin), _utc(source_snapshot.as_of))
+        subject, _exact_boundary(origin, source_snapshot)
     )
     if (
         replace(

@@ -15,8 +15,12 @@ U1 T01-T08 and a 200-row Ames OFF smoke flow are engineering checks, not a
 real-market release. An earlier full suite passed 1,115 tests at the
 [Cook staging checkpoint](runs/u0-cook-source-staging-v1-20261003T055304Z/report.md).
 The [synthetic T12 holdout ledger](runs/u1-synthetic-holdout-ledger-20261003T111210Z/report.md)
-now has a later 1,126-test passing suite and a crash/replay fixture. It has not
+has a crash/replay fixture and a recorded 1,126-test passing suite. It has not
 opened any real-market labels and is not a certification runner.
+The [synthetic chronology bridge](runs/u3-synthetic-chronological-plan-20261003T113906Z/report.md)
+has a later 1,136-test passing suite and verifies training-label maturity at
+one UTC fit cutoff per window across pinned source-local zones. It is still
+an engineering contract, not a certified real-market split.
 No real-market model training, final calibration or certification test has begun.
 ON mode and international implementation remain locked by the specification.
 

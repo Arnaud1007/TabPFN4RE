@@ -1,0 +1,36 @@
+{
+  "certification_eligible": false,
+  "checkpoint_identity": null,
+  "code_commit": "ab5cffbf955feb86b45b103c87ee4423d4d6f46c",
+  "code_sha256": "194735df892032a130ea8d21b16fa35becea45a538144759ca7c1b3be4e2ad31",
+  "configuration": "decisions/0068-synthetic-chronological-maturity-binding.md",
+  "configuration_hash": "5dcfe388f338d3796507888a1e139ecf44f0c7a555867bef2e4bf929595bcc23",
+  "dirty_tree_during_full_tests": true,
+  "dirty_tree_note": "Only run documentation and requirements mapping were edited while the committed production code and tests were under full-suite verification.",
+  "environment_lock": "locks/u3-calendar-environment.json",
+  "environment_lock_sha256": "d94919341de0aa054385454ed98f93109731c91b74c69f118afa7055e55cab89",
+  "feature_policy_hash": null,
+  "full_tests_log_sha256": "9bf999c9c87d8f3d733e9fe0afe8a0ccf36f3b7959958fcef015d4895e3d2796",
+  "gate_status": {
+    "G-US": "PENDING",
+    "U0": "PENDING",
+    "U3": "PENDING"
+  },
+  "milestone": "U3 engineering checkpoint; U3 not accepted",
+  "red_test_commit": "b5a2b8b775109223a2414423f874168799b54069",
+  "requirements": [
+    "US11",
+    "US22",
+    "US23",
+    "US24"
+  ],
+  "run_id": "u3-synthetic-chronological-plan-20261003T113906Z",
+  "schema_version": 1,
+  "source_snapshot_note": "No certified real transaction source was accessed by this fixture.",
+  "source_snapshot_sha256": null,
+  "split_hash": null,
+  "status": "verified_synthetic_engineering",
+  "synthetic_fixture_plan_hash": "b21567102536f23bddc930e1dfe70da0c73d06fe5e24e22b68a21403883ae169",
+  "synthetic_fixture_schedule_hash": "d7fa96aaf0b51699e57a0e3170e4a17d877b365b615fe05f3c27ffdf12adef67",
+  "test_sha256": "869e85d70ac2f5f9c7cfdbc32aa9a8ba330771017d7953e02e182a20e87a20cd"
+}

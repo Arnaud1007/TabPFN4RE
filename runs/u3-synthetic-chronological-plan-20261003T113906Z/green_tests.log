@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:2 char:1
++ & .\.venv\Scripts\python.exe -m unittest tests.test_chronological_pla ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 10 tests in 0.234s
+
+OK

@@ -1,0 +1,55 @@
+{
+  "certified_sale_labels": 0,
+  "focused": {
+    "command": ".\\.venv\\Scripts\\coverage.exe run --branch -m unittest tests.test_chronological_plan tests.test_local_date_origins tests.test_temporal_schedule -q",
+    "count": 36,
+    "coverage_log": "coverage.log",
+    "coverage_percent_combined": 88,
+    "duration_seconds": 1.323,
+    "exit_code": 0,
+    "log": "focused_tests.log"
+  },
+  "full": {
+    "command": "$env:AMES_ARFF_PATH = (Resolve-Path \"data/raw/openml/house_prices-42165.arff\").Path; .\\.venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+    "count": 1136,
+    "exit_code": 0,
+    "log": "full_suite.log",
+    "log_sha256": "9bf999c9c87d8f3d733e9fe0afe8a0ccf36f3b7959958fcef015d4895e3d2796",
+    "skipped": 0,
+    "unittest_duration_seconds": 202.587,
+    "wall_duration_seconds": 203.315
+  },
+  "gate_status": "PENDING",
+  "green": {
+    "command": ".\\.venv\\Scripts\\python.exe -m unittest tests.test_chronological_plan -q",
+    "commit": "ab5cffbf955feb86b45b103c87ee4423d4d6f46c",
+    "count": 10,
+    "exit_code": 0,
+    "log": "green_tests.log"
+  },
+  "pip_audit": {
+    "exit_code": 0,
+    "limitation": "Local editable project is not on PyPI and was skipped by pip-audit.",
+    "log": "pip_audit.log"
+  },
+  "pip_check": {
+    "exit_code": 0,
+    "result": "No broken requirements found."
+  },
+  "red": {
+    "command": ".\\.venv\\Scripts\\python.exe -m unittest tests.test_chronological_plan -q",
+    "commit": "b5a2b8b775109223a2414423f874168799b54069",
+    "exit_code": 1,
+    "reason": "ModuleNotFoundError: chronological_plan"
+  },
+  "ruff_check": {
+    "exit_code": 0,
+    "log": "ruff_check.log"
+  },
+  "ruff_format": {
+    "exit_code": 0,
+    "log": "ruff_format.log"
+  },
+  "run_id": "u3-synthetic-chronological-plan-20261003T113906Z",
+  "scope": "synthetic US11/US23 chronology engineering only"
+}

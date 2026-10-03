@@ -1,0 +1,10 @@
+coverage.exe : ----------------------------------------------------------------------
+At line:2 char:85
++ ... .exe erase; & .\.venv\Scripts\coverage.exe run --branch -m unittest t ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 36 tests in 0.373s
+
+OK

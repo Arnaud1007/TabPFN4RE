@@ -61,7 +61,9 @@ def fixture_schedule(origins=ORIGINS, zones=ZONES):
     )
 
 
-def plan(*, schedule=None, origins=ORIGINS, zones=ZONES, maturity=None, cutoffs=CUTOFFS):
+def plan(
+    *, schedule=None, origins=ORIGINS, zones=ZONES, maturity=None, cutoffs=CUTOFFS
+):
     return build_chronological_plan(
         fixture_schedule(origins, zones) if schedule is None else schedule,
         origins,
@@ -82,7 +84,9 @@ class ChronologicalPlanTests(unittest.TestCase):
         self.assertEqual(result.development[2].immature_row_ids, ("q2",))
         self.assertEqual(result.development[3].validation_row_ids, ("q4",))
         self.assertNotIn("q4", result.development[3].train_row_ids)
-        self.assertEqual(result.final_fit.train_row_ids, ("history", "q1", "q2", "q3", "q4"))
+        self.assertEqual(
+            result.final_fit.train_row_ids, ("history", "q1", "q2", "q3", "q4")
+        )
         self.assertFalse({"calibration", "test"} & set(result.final_fit.train_row_ids))
         self.assertEqual(len(result.plan_hash), 64)
 
@@ -91,7 +95,9 @@ class ChronologicalPlanTests(unittest.TestCase):
         refs[4] = ChronologicalMaturityRef("q4", date(2023, 12, 30), CUTOFFS[4])
         self.assertIn("q4", plan(maturity=tuple(refs)).final_fit.train_row_ids)
         refs[4] = ChronologicalMaturityRef(
-            "q4", date(2023, 12, 30), DateOnlyAvailability(date(2023, 12, 31), "America/New_York")
+            "q4",
+            date(2023, 12, 30),
+            DateOnlyAvailability(date(2023, 12, 31), "America/New_York"),
         )
         self.assertIn("q4", plan(maturity=tuple(refs)).final_fit.immature_row_ids)
 
@@ -109,12 +115,20 @@ class ChronologicalPlanTests(unittest.TestCase):
         self.assertEqual((close - date(2024, 3, 10)).days, 90)
         schedule = fixture_schedule(origins, zones)
         self.assertIn("dst", schedule.calibration.row_ids)
-        self.assertEqual(plan(schedule=schedule, origins=origins, zones=zones).schedule.schedule_hash, schedule.schedule_hash)
+        self.assertEqual(
+            plan(
+                schedule=schedule, origins=origins, zones=zones
+            ).schedule.schedule_hash,
+            schedule.schedule_hash,
+        )
 
     def test_reserved_unknown_duplicate_and_missing_maturity_fail(self):
         refs = fixture_maturity()
         for bad in (
-            (*refs, ChronologicalMaturityRef("calibration", date(2024, 3, 31), CUTOFFS[4])),
+            (
+                *refs,
+                ChronologicalMaturityRef("calibration", date(2024, 3, 31), CUTOFFS[4]),
+            ),
             (*refs, ChronologicalMaturityRef("unknown", date(2024, 3, 31), CUTOFFS[4])),
             (*refs, refs[0]),
             refs[:-1],
@@ -127,8 +141,19 @@ class ChronologicalPlanTests(unittest.TestCase):
         refs[0] = replace(refs[0], close_date=date(2021, 4, 2))
         with self.assertRaises(ValueError):
             plan(maturity=tuple(refs))
-        refs[0] = replace(fixture_maturity()[0], available_at=datetime(2020, 12, 31, tzinfo=UTC))
+        refs[0] = replace(
+            fixture_maturity()[0], available_at=datetime(2020, 12, 31, tzinfo=UTC)
+        )
         with self.assertRaises(ValueError):
+            plan(maturity=tuple(refs))
+
+    def test_same_close_day_timestamp_is_not_conservatively_mature(self):
+        refs = list(fixture_maturity())
+        refs[4] = replace(
+            refs[4],
+            available_at=datetime(2023, 12, 30, 12, 0, tzinfo=UTC),
+        )
+        with self.assertRaisesRegex(ValueError, "before its close date ended"):
             plan(maturity=tuple(refs))
 
     def test_schedule_policy_and_membership_tamper_fail(self):
@@ -155,10 +180,16 @@ class ChronologicalPlanTests(unittest.TestCase):
         original = plan()
         self.assertEqual(
             original.plan_hash,
-            plan(origins=tuple(reversed(ORIGINS)), maturity=tuple(reversed(fixture_maturity()))).plan_hash,
+            plan(
+                origins=tuple(reversed(ORIGINS)),
+                maturity=tuple(reversed(fixture_maturity())),
+            ).plan_hash,
         )
         refs = list(fixture_maturity())
-        refs[1] = replace(refs[1], available_at=DateOnlyAvailability(date(2023, 4, 6), "America/New_York"))
+        refs[1] = replace(
+            refs[1],
+            available_at=DateOnlyAvailability(date(2023, 4, 6), "America/New_York"),
+        )
         self.assertNotEqual(original.plan_hash, plan(maturity=tuple(refs)).plan_hash)
         shifted = (CUTOFFS[0] - timedelta(hours=1), *CUTOFFS[1:])
         self.assertNotEqual(original.plan_hash, plan(cutoffs=shifted).plan_hash)

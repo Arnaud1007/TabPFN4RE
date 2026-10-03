@@ -119,6 +119,31 @@ def derive_local_date_origin(close_date: date, zone_key: str) -> LocalDateOrigin
     return LocalDateOrigin(close_date, zone_key)
 
 
+def source_local_day_start_utc(day: date, zone_key: str) -> datetime:
+    """Return the pinned-zone first midnight as one comparable UTC instant."""
+    if type(day) is not date:
+        raise ValueError("day must be a source-local date")
+    return _first_midnight_utc(day, _zone_from_pinned_data(zone_key))
+
+
+def availability_cutoff_utc(available_at: datetime | DateOnlyAvailability) -> datetime:
+    """Place a date-only publication conservatively at that local day's end."""
+    if isinstance(available_at, datetime):
+        if available_at.tzinfo is None or available_at.utcoffset() is None:
+            raise ValueError("Timestamp availability must include a UTC offset")
+        return available_at.astimezone(timezone.utc)
+    if isinstance(available_at, DateOnlyAvailability):
+        try:
+            following_date = available_at.value + timedelta(days=1)
+        except OverflowError as exc:
+            raise ValueError("Availability date is outside supported range") from exc
+        _first_midnight_utc(
+            available_at.value, _zone_from_pinned_data(available_at.zone_key)
+        )
+        return source_local_day_start_utc(following_date, available_at.zone_key)
+    raise ValueError("Availability must be a dated source fact or aware datetime")
+
+
 def is_visible_at_date_origin(
     available_at: datetime | DateOnlyAvailability, origin: LocalDateOrigin
 ) -> bool:

@@ -206,6 +206,7 @@ class GuardedLocalDateMedian:
     training_rows_sha256: str
     allowed_source_ids: tuple[str, ...]
     feature_policy_version: str = LOCAL_DATE_ASSEMBLER_POLICY_VERSION
+    source_binding_kind: str = "caller_declared_synthetic_v1"
 
     def __post_init__(self) -> None:
         _instant(self.training_cutoff, "training_cutoff")
@@ -248,6 +249,11 @@ class GuardedLocalDateMedian:
             LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
         }:
             raise ValueError("Unsupported local-date feature policy")
+        if self.source_binding_kind not in {
+            "caller_declared_synthetic_v1",
+            "synthetic_capture_bytes_v1",
+        }:
+            raise ValueError("Unsupported synthetic source binding")
 
     @classmethod
     def fit(

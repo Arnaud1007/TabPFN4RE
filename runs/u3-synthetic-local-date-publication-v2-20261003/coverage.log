@@ -1,0 +1,11 @@
+Name                                                Stmts   Miss Branch BrPart  Cover   Missing
+-----------------------------------------------------------------------------------------------
+src/tabpfn4realestate/data/local_date_facts.py        101      1     40      2    98%   68, 107->113
+src/tabpfn4realestate/data/local_date_sale.py          73      6     32      3    90%   46-47, 75, 99, 127-136
+src/tabpfn4realestate/features/asof.py                291     19    154     15    91%   107, 109, 115, 329, 337, 349, 351, 356, 392, 544, 584, 586, 611, 628->634, 641-653
+src/tabpfn4realestate/features/asof_local_date.py      25      0     12      0   100%
+src/tabpfn4realestate/features/asof_prior.py           40      4     22      4    87%   48, 54, 63, 65
+src/tabpfn4realestate/features/asof_timing.py          93      4     20      4    93%   110, 122, 131, 153
+src/tabpfn4realestate/models/local_date_median.py     160     22     70     22    81%   73, 77, 82, 99, 101, 118, 169, 174, 178, 243, 250, 268, 270, 279, 282, 301, 305, 307, 309, 320, 376, 378
+-----------------------------------------------------------------------------------------------
+TOTAL                                                 783     56    350     50    90%

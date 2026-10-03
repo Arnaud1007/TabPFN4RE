@@ -4,6 +4,9 @@ publisher: Douglas County, Colorado Assessor's Office
 dataset_name: Assessor Data Downloads - Property Sales and Property Improvements
 landing_page: https://www.douglasco.gov/assessor/data-downloads/
 methodology_page: https://www.douglasco.gov/assessor/about/assessor-faqs/
+mass_appraisal_page: https://www.douglasco.gov/assessor/mass-appraisal/
+transfer_declaration_form: https://www.douglasco.gov/documents/transfer-declaration-form_-rev-10-18.pdf/
+transfer_declaration_status: confidential assessor document, not available for public inspection
 county_open_data_guidelines: https://www.douglasco.gov/documents/open-data-guidelines.pdf/
 county_privacy_policy: https://www.douglasco.gov/privacy-policy/
 sales_file_url: https://apps.douglasco.gov/realware/datadownloads/Property_Sales.txt
@@ -21,8 +24,17 @@ sales_linkage_fields: [Account_No, Book, Page, Recording_No]
 target_field: Sale_Price
 target_currency: USD, inferred from county context; confirm in source contract
 target_semantics: raw versus adjusted consideration and multi-parcel allocation unverified
+transfer_declaration_price_note: >-
+  The confidential TD-1000 form asks for total sale price including real and
+  personal property, a separately stated personal-property total and a
+  contracted price if different. The mass-appraisal page says selected sales
+  are screened, adjusted for personal property and time-adjusted. Neither
+  source defines the public download's Sale_Price field or its adjustment state.
 date_field: Sale_Date
 date_semantics: sale-date field; relationship to closing, contract and recording unverified
+transfer_declaration_date_note: >-
+  TD-1000 asks separately for closing and contract dates. The public download
+  lists Sale_Date but does not identify which, if either, populates it.
 sale_quality_fields: [Deed_Type]
 party_fields_to_exclude_from_minimized_extract: [Grantor, Grantee]
 improvements_row_grain: property improvement or building; multiple Building_ID values per Account_No possible
@@ -51,4 +63,5 @@ notes: >-
   valuation study, but does not say whether this raw Sale_Price field is a
   contractual, adjusted or other consideration amount. Do not join one sale
   to multiple Building_ID rows or use current improvements as historical
-  features without audited cardinality and dated vintages.
+  features without audited cardinality and dated vintages. The confidential
+  declaration cannot itself be used as a public row-level verification route.

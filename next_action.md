@@ -162,6 +162,12 @@ ON mode and international implementation remain locked by the specification.
    transfer-scope and historical-vintage definitions before row acquisition.
    The [Assessor inquiry draft](data/requests/douglas_county_assessor_source_inquiry_draft.md)
    collects these questions; it has not been sent or used to order a paid report.
+   [ADR 0083](decisions/0083-douglas-confidential-declaration-field-boundary.md)
+   records that the official confidential TD-1000 form has distinct closing,
+   contract and total-price fields, while the public download has no published
+   mapping to them. The revised inquiry asks for that mapping without seeking
+   confidential declarations. Do not infer a close date or gross target from
+   the form.
    The other Western candidate's
    [King County access review](runs/u0-king-rights-v1-20261003T154623Z/report.md)
    found a required Assessor download acknowledgment and separate eSales

@@ -1,0 +1,38 @@
+{
+  "run_id": "u0-douglas-declaration-boundary-v1-20261003",
+  "status": "PASS",
+  "gate": "source_documentation_validation_only",
+  "base_code_commit": "52d6ccede2ee806cbf8f7488498f7777bef3898a",
+  "environment_lock_sha256": "3a26961b083c868e5a33b3f433033d95cb83f7dc60a2072c32b66a6360cbb57c",
+  "source_row_snapshot_sha256": null,
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint": null,
+  "source_rows_acquired": 0,
+  "certified_sale_labels": 0,
+  "us_gate_status": "PENDING",
+  "commands": [
+    {
+      "command": "py -3.14 -c <YAML and admission assertion>",
+      "exit_code": 0,
+      "duration_seconds": 0.071317
+    },
+    {
+      "command": "git diff --cached --check",
+      "exit_code": 0,
+      "duration_seconds": 0.041784
+    },
+    {
+      "command": ".venv/Scripts/pip-audit.exe --skip-editable",
+      "exit_code": 0,
+      "duration_seconds": 2.075224
+    }
+  ],
+  "artifact_sha256": {
+    "data/source_cards/douglas_county_co_assessor_downloads.yaml": "18a01acc69f862faceb931fccfb548a27eab6e268e348499dde57c493264bd4a",
+    "requirements.yaml": "f780191f6b609befa54c3e379edb5589baeca049330556bf22a67c6bcd3a3cb1",
+    "decisions/0083-douglas-confidential-declaration-field-boundary.md": "edfe11b7cbb72d33f5cdeacab37718fd86a600623c18bfbf68959fc1732abee3",
+    "data/requests/douglas_county_assessor_source_inquiry_draft.md": "8a1b89e18f1c41ed96ea2619c72222edc3e6ab699d42d1ec775110299d08bacf",
+    "runs/u0-douglas-declaration-boundary-v1-20261003/report.md": "40ea1998d4a0035e068814efd39849773336ef4817056658fb5fb05402591a21"
+  }
+}

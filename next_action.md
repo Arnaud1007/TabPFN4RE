@@ -5,6 +5,14 @@ Updated: 2026-10-03. Branch: `audit/u0`.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [synthetic source-local date OFF bridge](runs/u3-synthetic-local-date-off-v1-20261003/report.md)
+now joins date-only sale labels to 90-calendar-date origins, timestamped
+as-of features and a guarded median fit under the frozen synthetic maturity
+plan. Its final suite passed 1,244 tests with zero skips and 89% combined
+branch-aware coverage of the four touched production modules. The recorded
+source digest is still a fixture declaration, not a verified raw-source hash;
+date-only feature publication remains an unimplemented adapter case. U3 has
+not been accepted and no real-market labels were trained.
 The [synthetic property-history selector](runs/u1-synthetic-property-history-v1-20261003T164855Z/report.md)
 now resolves structural versions at valuation time and comparable sale time,
 with separate information cutoffs, late-publication tests and deterministic
@@ -183,6 +191,7 @@ git status --short
 .\.venv\Scripts\python.exe -m unittest tests.test_asof_version_validity -q
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p test_property_version_selection.py -q
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p test_u2_comparables.py -q
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_local_date_*.py -q
 Get-Content data/acquisition_backlog.md
 Get-Content data/requests/cook_county_sales_inquiry_draft.md
 ```
@@ -195,3 +204,8 @@ After replay, the next source-evidence action is the Cook authorised
 instrument route in item 1, or the NYC single-document route in item 3.
 Neither has a runnable retrieval command until the access method is verified;
 record an access failure if that remains the observed result.
+Independent of source access, the next local-date engineering task is to
+specify and test typed date-only publication for property, attribute and
+prior-sale facts. Keep the existing timestamped and exact-UTC protocols
+separate, and do not connect a real adapter until its source file hash and
+date meanings are independently verified.

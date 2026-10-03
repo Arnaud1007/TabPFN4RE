@@ -1,0 +1,17 @@
+{
+  "certified_sale_labels": 0,
+  "command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p test_*.py -q",
+  "configuration_sha256": "c37a9c093000ce18f29c3dc861f671c66ecd3a412224e2a4e70085bdb66afd2f",
+  "coverage_combined_percent": 89,
+  "dependency_audit_exit_code": 0,
+  "duration_seconds": 220.095,
+  "environment_lock_sha256": "2c2d304fec10d675c29d6810ab51cd100d5c97388ebf42a0537b8e5c0049ade5",
+  "exit_code": 0,
+  "full_suite_log_sha256": "85cbe9d067be83932d65abd472bb8753c726274eb2c728482260dc61db7bbc53",
+  "g_us_gate": "PENDING",
+  "ruff_check_exit_code": 0,
+  "ruff_format_exit_code": 0,
+  "run_id": "u3-synthetic-local-date-off-v1-20261003",
+  "skipped": 0,
+  "tests": 1244
+}

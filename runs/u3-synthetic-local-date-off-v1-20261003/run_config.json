@@ -1,0 +1,16 @@
+{
+  "ames_arff_test_fixture_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "checkpoint_identity": null,
+  "code_commit": "30f8e3cd7da25df7a32ab827adc2bfb31e13af7b",
+  "declared_fixture_source_hash_is_artifact_verified": false,
+  "mode": "OFF",
+  "protocol_id": "us_local_date_90d_v1",
+  "purpose": "synthetic source-local date OFF integration",
+  "real_source_snapshot_sha256": null,
+  "run_id": "u3-synthetic-local-date-off-v1-20261003",
+  "synthetic_split_protocol_id": "us_synthetic_chronological_plan_v1",
+  "test_command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p test_*.py -q",
+  "test_environment": {
+    "AMES_ARFF_PATH": "data/raw/openml/house_prices-42165.arff"
+  }
+}

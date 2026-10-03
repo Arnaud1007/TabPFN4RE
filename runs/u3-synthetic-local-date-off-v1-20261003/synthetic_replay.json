@@ -1,0 +1,13 @@
+{
+  "checkpoint_identity": null,
+  "fixture_declared_source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "fixture_declared_source_hash_is_real_artifact": false,
+  "origin_policy_sha256": "af23647b588ddf4f6ff8102d60cc136bf326160cf336d41315d506a253c4c98b",
+  "plan_hash": "39266482aa35f18117dc374cd493a45f9807d85abb895508586befe7f91fc385",
+  "protocol_id": "us_synthetic_chronological_plan_v1",
+  "reversed_order_replay_equal": true,
+  "run_id": "u3-synthetic-local-date-off-v1-20261003",
+  "schedule_hash": "3ba9a9a9ada8bb97e06a6d57892d84ae85a1ba35f8bdcf91df7b8bbcc806add0",
+  "train_count": 5,
+  "training_rows_sha256": "e7ae7424455cdd66412cd5479c74140c8ed20904747f73223b72f9972ac9175f"
+}

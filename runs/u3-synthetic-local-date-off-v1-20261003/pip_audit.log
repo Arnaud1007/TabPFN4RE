@@ -1,0 +1,10 @@
+python.exe : No known vulnerabilities found
+At line:2 char:203
++ ... STEXITCODE; & .venv\Scripts\python.exe -m pip_audit --local --progres ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No known vulnerabilities found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Name              Skip Reason
+----------------- --------------------------------------------------------------------------------
+tabpfn4realestate Dependency not found on PyPI and could not be audited: tabpfn4realestate (0.0.1)

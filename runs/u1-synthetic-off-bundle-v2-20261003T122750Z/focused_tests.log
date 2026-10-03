@@ -1,0 +1,20 @@
+test_bundle_declares_narrow_uncertified_off_us_contract (test_off_baseline_bundle.OffMedianBundleTests.test_bundle_declares_narrow_uncertified_off_us_contract) ... ok
+test_bundle_is_deterministic_and_digest_covers_exact_bytes (test_off_baseline_bundle.OffMedianBundleTests.test_bundle_is_deterministic_and_digest_covers_exact_bytes) ... ok
+test_bundle_omits_raw_training_row_identifiers (test_off_baseline_bundle.OffMedianBundleTests.test_bundle_omits_raw_training_row_identifiers) ... ok
+test_changed_feature_assembler_policy_rejects_existing_bundle (test_off_baseline_bundle.OffMedianBundleTests.test_changed_feature_assembler_policy_rejects_existing_bundle) ... ok
+test_duplicate_json_key_is_rejected_even_with_matching_digest (test_off_baseline_bundle.OffMedianBundleTests.test_duplicate_json_key_is_rejected_even_with_matching_digest) ... ok
+test_existing_bundle_is_not_overwritten (test_off_baseline_bundle.OffMedianBundleTests.test_existing_bundle_is_not_overwritten) ... ok
+test_failed_atomic_publish_leaves_no_bundle_or_temporary_file (test_off_baseline_bundle.OffMedianBundleTests.test_failed_atomic_publish_leaves_no_bundle_or_temporary_file) ... ok
+test_huge_finite_decimal_is_rejected_before_fixed_point_expansion (test_off_baseline_bundle.OffMedianBundleTests.test_huge_finite_decimal_is_rejected_before_fixed_point_expansion) ... ok
+test_missing_and_extra_fields_are_rejected (test_off_baseline_bundle.OffMedianBundleTests.test_missing_and_extra_fields_are_rejected) ... ok
+test_model_exposes_the_same_save_load_contract (test_off_baseline_bundle.OffMedianBundleTests.test_model_exposes_the_same_save_load_contract) ... ok
+test_modified_bytes_fail_digest_check_even_if_json_remains_valid (test_off_baseline_bundle.OffMedianBundleTests.test_modified_bytes_fail_digest_check_even_if_json_remains_valid) ... ok
+test_non_json_and_non_object_payloads_are_rejected (test_off_baseline_bundle.OffMedianBundleTests.test_non_json_and_non_object_payloads_are_rejected) ... ok
+test_rehashed_incompatible_envelope_is_rejected (test_off_baseline_bundle.OffMedianBundleTests.test_rehashed_incompatible_envelope_is_rejected) ... ok
+test_rehashed_malformed_model_fields_are_rejected (test_off_baseline_bundle.OffMedianBundleTests.test_rehashed_malformed_model_fields_are_rejected) ... ok
+test_round_trip_preserves_model_manifest_cutoff_and_prediction (test_off_baseline_bundle.OffMedianBundleTests.test_round_trip_preserves_model_manifest_cutoff_and_prediction) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.159s
+
+OK

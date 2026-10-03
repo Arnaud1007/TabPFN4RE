@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
+from pathlib import Path
 import re
 from statistics import median
 from types import MappingProxyType
@@ -93,12 +94,54 @@ def _checked_snapshot(snapshot: FeatureSnapshot, source: SourceSnapshot) -> None
         raise ValueError("OFF feature has invalid source or future lineage")
 
 
+def _predict_off_median(
+    amount: Decimal,
+    training_cutoff: datetime,
+    property: Property,
+    origin: datetime,
+    source_snapshot: SourceSnapshot,
+    *,
+    attributes: tuple[Attribute, ...],
+    transactions: tuple[Transaction, ...],
+    listing_events: tuple[ListingEvent, ...],
+    subject_economic_transfer_id: str | None,
+) -> OffPrediction:
+    _instant(origin, "origin")
+    if _utc(origin) < _utc(training_cutoff):
+        raise ValueError("Prediction origin predates model training cutoff")
+    snapshot = assemble_snapshot(
+        property,
+        origin,
+        "OFF",
+        source_snapshot,
+        attributes=attributes,
+        transactions=transactions,
+        listing_events=listing_events,
+        subject_economic_transfer_id=subject_economic_transfer_id,
+    )
+    _checked_snapshot(snapshot, source_snapshot)
+    return OffPrediction(amount, snapshot)
+
+
 @dataclass(frozen=True)
 class GuardedOffMedian:
     amount: Decimal
     train_row_ids: tuple[str, ...]
     feature_snapshot_hashes: tuple[str, ...]
     training_cutoff: datetime
+
+    def save(self, path: Path) -> str:
+        """Publish the synthetic baseline bundle once; return its digest."""
+        from tabpfn4realestate.models.bundle import save_off_median_bundle
+
+        return save_off_median_bundle(self, path)
+
+    @classmethod
+    def load(cls, path: Path, *, expected_sha256: str) -> ServingOffMedian:
+        """Read the serving view of a trusted synthetic bundle."""
+        from tabpfn4realestate.models.bundle import load_off_median_bundle
+
+        return load_off_median_bundle(path, expected_sha256=expected_sha256)
 
     def __post_init__(self) -> None:
         _instant(self.training_cutoff, "training_cutoff")
@@ -194,18 +237,70 @@ class GuardedOffMedian:
         listing_events: tuple[ListingEvent, ...] = (),
         subject_economic_transfer_id: str | None = None,
     ) -> OffPrediction:
-        _instant(origin, "origin")
-        if _utc(origin) < _utc(self.training_cutoff):
-            raise ValueError("Prediction origin predates model training cutoff")
-        snapshot = assemble_snapshot(
+        return _predict_off_median(
+            self.amount,
+            self.training_cutoff,
             property,
             origin,
-            "OFF",
             source_snapshot,
             attributes=attributes,
             transactions=transactions,
             listing_events=listing_events,
             subject_economic_transfer_id=subject_economic_transfer_id,
         )
-        _checked_snapshot(snapshot, source_snapshot)
-        return OffPrediction(self.amount, snapshot)
+
+
+@dataclass(frozen=True)
+class ServingOffMedian:
+    """Serving view without training row identifiers or row-level feature hashes."""
+
+    amount: Decimal
+    training_cutoff: datetime
+    train_count: int
+    feature_snapshot_hashes_sha256: str
+
+    def __post_init__(self) -> None:
+        _instant(self.training_cutoff, "training_cutoff")
+        if (
+            not isinstance(self.amount, Decimal)
+            or not self.amount.is_finite()
+            or self.amount <= 0
+        ):
+            raise ValueError("OFF baseline amount must be a positive finite Decimal")
+        if type(self.train_count) is not int or self.train_count <= 0:
+            raise ValueError("OFF baseline train count must be a positive integer")
+        if (
+            type(self.feature_snapshot_hashes_sha256) is not str
+            or re.fullmatch(r"[0-9a-f]{64}", self.feature_snapshot_hashes_sha256)
+            is None
+        ):
+            raise ValueError("OFF baseline feature manifest hash is invalid")
+
+    @classmethod
+    def load(cls, path: Path, *, expected_sha256: str) -> ServingOffMedian:
+        from tabpfn4realestate.models.bundle import load_off_median_bundle
+
+        return load_off_median_bundle(path, expected_sha256=expected_sha256)
+
+    def predict(
+        self,
+        property: Property,
+        origin: datetime,
+        source_snapshot: SourceSnapshot,
+        *,
+        attributes: tuple[Attribute, ...] = (),
+        transactions: tuple[Transaction, ...] = (),
+        listing_events: tuple[ListingEvent, ...] = (),
+        subject_economic_transfer_id: str | None = None,
+    ) -> OffPrediction:
+        return _predict_off_median(
+            self.amount,
+            self.training_cutoff,
+            property,
+            origin,
+            source_snapshot,
+            attributes=attributes,
+            transactions=transactions,
+            listing_events=listing_events,
+            subject_economic_transfer_id=subject_economic_transfer_id,
+        )

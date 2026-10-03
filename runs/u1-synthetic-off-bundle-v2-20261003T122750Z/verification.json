@@ -1,0 +1,85 @@
+{
+  "baseline_commit": "89a1017d83a11328e610d454aa7e6c6739e52840",
+  "checks": [
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests",
+        "scripts"
+      ],
+      "duration_seconds": 0.11,
+      "exit_code": 0,
+      "name": "ruff_check",
+      "output_artifact": "runs/u1-synthetic-off-bundle-v2-20261003T122750Z/ruff_check.log",
+      "output_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests",
+        "scripts"
+      ],
+      "duration_seconds": 0.141,
+      "exit_code": 0,
+      "name": "ruff_format",
+      "output_artifact": "runs/u1-synthetic-off-bundle-v2-20261003T122750Z/ruff_format.log",
+      "output_sha256": "a859b28b91e346668e8eb9da749515988e9440d2ff0b6d4c7ab4451845da7a45"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "-m",
+        "--include=*/models/bundle.py,*/models/off_baseline.py,*/features/asof.py"
+      ],
+      "duration_seconds": 0.281,
+      "exit_code": 0,
+      "name": "coverage_touched",
+      "output_artifact": "runs/u1-synthetic-off-bundle-v2-20261003T122750Z/coverage_touched.log",
+      "output_sha256": "509e63c388e655d02f1ebb1d0911af65b4934ce8f910f1ba312a405671fa6c88"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "-m"
+      ],
+      "duration_seconds": 0.562,
+      "exit_code": 0,
+      "name": "coverage_full",
+      "output_artifact": "runs/u1-synthetic-off-bundle-v2-20261003T122750Z/coverage_full.log",
+      "output_sha256": "adad704e22bc288cf72df078c6a4f82b979abe1a571f947086bb3ae909ce915b"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip_audit",
+        "--local",
+        "--progress-spinner",
+        "off"
+      ],
+      "duration_seconds": 2.312,
+      "exit_code": 0,
+      "name": "pip_audit",
+      "output_artifact": "runs/u1-synthetic-off-bundle-v2-20261003T122750Z/pip_audit.log",
+      "output_sha256": "e0c7f91c3c85024111abd40de55b673a0ae8e532ef4e86b8a6b143cea19ebfb0"
+    }
+  ],
+  "environment_snapshot": "locks/u1-off-bundle-v2-environment.json",
+  "environment_snapshot_sha256": "546dfc57bb6c4c0e5a4cc885d4ec86516a689fbb17b1dbefa4a95477bff6d7df",
+  "run_id": "u1-synthetic-off-bundle-v2-20261003T122750Z"
+}

@@ -21,6 +21,10 @@ The [synthetic chronology bridge](runs/u3-synthetic-chronological-plan-20261003T
 has a later 1,136-test passing suite and verifies training-label maturity at
 one UTC fit cutoff per window across pinned source-local zones. It is still
 an engineering contract, not a certified real-market split.
+The [synthetic OFF bundle v2](runs/u1-synthetic-off-bundle-v2-20261003T122750Z/report.md)
+passed a 1,151-test suite with no skips. Its serving JSON omits training row
+IDs, requires a separately trusted digest, and remains uncertified; it does
+not establish a real-market model or accepted U6 release.
 No real-market model training, final calibration or certification test has begun.
 ON mode and international implementation remain locked by the specification.
 

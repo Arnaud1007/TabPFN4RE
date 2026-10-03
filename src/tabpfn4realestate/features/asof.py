@@ -22,6 +22,9 @@ from tabpfn4realestate.data.schema import (
 )
 
 
+ASSEMBLER_POLICY_VERSION = "synthetic_off_asof_v1"
+
+
 _ATTRIBUTE_TYPES = {
     "condition": str,
     "bedrooms": int,

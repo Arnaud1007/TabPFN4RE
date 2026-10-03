@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "purpose": "Synthetic OFF median bundle v2 engineering verification",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "runtime_dependencies": ["tzdata==2026.4"],
+  "test_dependencies": ["coverage==7.6.12"],
+  "lint_tool": "ruff==0.13.0",
+  "audit_tool": "pip-audit==2.10.1",
+  "build_dependencies": ["setuptools==84.0.0", "wheel==0.48.0"],
+  "project_pyproject_sha256": "32be5f2a813476198f7afdce2e98b21f37304867d6161cec44c62d3eb6976f51"
+}

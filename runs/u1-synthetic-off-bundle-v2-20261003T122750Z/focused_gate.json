@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_off_baseline_bundle.py",
+    "-v"
+  ],
+  "duration_seconds": 0.391,
+  "exit_code": 0,
+  "output_artifact": "runs/u1-synthetic-off-bundle-v2-20261003T122750Z/focused_tests.log",
+  "output_sha256": "80ed1ba38a21c30d072e61afcc877b3a18eafd4a66cdc7ab6a9e1ac781581074",
+  "tests": 15
+}

@@ -1,0 +1,8 @@
+﻿{
+    "command":  ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p \u0027test_*.py\u0027",
+    "exit_code":  0,
+    "duration_seconds":  221.913,
+    "python_version":  "3.11",
+    "ames_source":  "data/raw/openml/house_prices-42165.arff",
+    "output_artifact":  "runs\\u1-synthetic-off-bundle-v2-20261003T122750Z\\full_suite.log"
+}

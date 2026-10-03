@@ -1,0 +1,26 @@
+{
+  "baseline_commit": "89a1017d83a11328e610d454aa7e6c6739e52840",
+  "certification_eligible": false,
+  "certified_sale_labels": 0,
+  "code_and_test_sha256": {
+    "src/tabpfn4realestate/features/asof.py": "c6aadd1ee0d193c52c6d8fde117a808df7d8de174cbddc04deb4be64bc09a155",
+    "src/tabpfn4realestate/models/bundle.py": "019e56aebb3e7be0f3b18a22219384e90b5ced768e86352ce00f502035717d8c",
+    "src/tabpfn4realestate/models/off_baseline.py": "ffb192529db3995b536977899a8a9ed8441fdcc70c2c4291646cdf0f23a261f8",
+    "tests/test_off_baseline_bundle.py": "5132baf1e5ced793e735f03d9cd8a3ac93bc160aa159d063e98067852c404d12"
+  },
+  "dirty_tree_during_verification": true,
+  "environment_snapshot_sha256": "546dfc57bb6c4c0e5a4cc885d4ec86516a689fbb17b1dbefa4a95477bff6d7df",
+  "feature_schema_sha256": "e384f5d7b611f7e3d149c09694633bdded76b8c96b4a0b52b4f543fc58a89f6a",
+  "full_suite": {
+    "gate_sha256": "3e1841f5a1ab7dee77c4bdf28906170117a7b7f81826ba28301040b5059470c6",
+    "log_sha256": "6a35c57588295d87176d9a269555a3ca99fd89077113946f8c7445dd60d6064a",
+    "runner_seconds": 220.843,
+    "skipped": 0,
+    "tests": 1151
+  },
+  "g_us_gate": "PENDING",
+  "input_schema_sha256": "a3b680d6b2ae02bbe8c0daa2190d77a5310e1839a667da81d91f6a277450507f",
+  "run_id": "u1-synthetic-off-bundle-v2-20261003T122750Z",
+  "status": "verified_synthetic_engineering_only",
+  "u0_gate": "PENDING"
+}

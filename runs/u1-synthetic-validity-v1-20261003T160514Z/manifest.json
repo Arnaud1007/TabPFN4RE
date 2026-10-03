@@ -1,0 +1,72 @@
+{
+  "artifacts_sha256": {
+    "audit_gate.json": "6166226932a035866b4c3db3a04daaea6cc385d6e0a5e1fd720266759a7f6f1d",
+    "coverage_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "coverage_touched.log": "8792eb9013668c95ee44d7d40453511230ef84033620d0e6737d2920b357b1cc",
+    "focused_gate.json": "afda6da858dbe6699bcea7fa85b245e1d42ddf8497bc1e785c9ab863cbf44bba",
+    "focused_stderr.log": "e6a47cd79cdb3dad284ff9b382432a759cdee1536a7396beb1ca0213110ac228",
+    "focused_stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "full_gate.json": "783c56d2969a116789e9842b9e15eb98b2317375e2d719a9e50c60610b896c29",
+    "full_stderr.log": "8c10196e29c7b7215b3481fffd085c5d16f200ca7a405d153db8221c3147fb63",
+    "full_stdout.log": "1391ff9bf59971e311f809b4e3ed806fdeabf75413d05be2792b460662847cc8",
+    "host_audit_summary.md": "a562fc110cd638892a5e29a251e49c5a7e8fabb0ad22f962bdd6d55ee36e39c5",
+    "plan.md": "d1268a02d76178ab2e41e1896907bfeff0772c6c42a8f34f597fb1df14afe479",
+    "project_audit_gate.json": "09b8d79ebbc2a96379a882d5f93a9ba354497e268abda722a049a7ddad6588b4",
+    "project_pip_audit.log": "260f70b44f58ab23b941af380ef771f00b4b736be82d67599e478076cd00e495",
+    "report.md": "c9ffe5b6be4ff3220f4afb5a4b30cb1488e2dec15344558b6706b458d245bad6",
+    "ruff_check.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "ruff_format.log": "c6054335d9571c0c59ef2b8af5223d2f5d56a9db5aba43b6f39217add8928601",
+    "style_gate.json": "cc01cc58d001740ffab0bc19eb0c514f2885551962050199a54a4c6aa11e6b7b"
+  },
+  "certified_sale_labels": 0,
+  "checkpoint_identity": null,
+  "code_commit": "21850ca6dcc02f16a34b0bde04de09ae8eff783f",
+  "code_file_sha256": {
+    "src/tabpfn4realestate/data/schema.py": "087257c6ae86d1001c9de85a1e424ed74e3343546cb2e55df2411647f931ef81",
+    "src/tabpfn4realestate/features/asof.py": "5d00664dbba119f9c6c4b194d3cd8d3b368b86ee63170b565c668603dfc81c5a",
+    "src/tabpfn4realestate/models/bundle.py": "1fa2574ee540cff38b818b4f6fb081cc9e72ed03ce6fb9310f7ffb64eb0c25ad",
+    "tests/test_asof_version_validity.py": "d864a6d71673c1549fca59671c4127fee25ec81b5630f6475fd66db17e861698",
+    "tests/test_off_baseline_bundle.py": "b7eb3099e55c8f878dd264a0c85bf0d0a82505e84e8805694af16cc83345bdcb"
+  },
+  "code_was_uncommitted_at_test": true,
+  "configuration_sha256": "d1268a02d76178ab2e41e1896907bfeff0772c6c42a8f34f597fb1df14afe479",
+  "data_snapshot_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "environment_lock_sha256": "2fac12db1b56c7a11650489a4c3ad0ca5950586f21c577e2c1699c3c504f44f7",
+  "feature_policy_sha256": "7509163d7a4eb27da79f6c76aeacb46524e68c9e4996827b52e9b0c7a18c0505",
+  "focused_suite": {
+    "coverage_exit_code": 0,
+    "duration_seconds": 0.962,
+    "skipped": 0,
+    "test_duration_seconds": 0.143,
+    "test_exit_code": 0,
+    "tests": 65
+  },
+  "full_suite": {
+    "ames_arff_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+    "duration_seconds": 210.951,
+    "exit_code": 0,
+    "skipped": 0,
+    "test_duration_seconds": 210.134,
+    "tests": 1201
+  },
+  "g_us_gate": "PENDING",
+  "host_audit_exit_code": 1,
+  "input_schema_sha256": "4d468d0eea5bf690171fa5603823322b9b610e56133a51c2362c90f24eb055c3",
+  "project_dependency_audit": {
+    "command": "py -3.14 -m pip_audit --path .venv/Lib/site-packages --progress-spinner off",
+    "duration_seconds": 3.372,
+    "exit_code": 0
+  },
+  "run_id": "u1-synthetic-validity-v1-20261003T160514Z",
+  "split_hash": null,
+  "status": "verified_engineering_only",
+  "style": {
+    "duration_seconds": 0.355,
+    "format_exit_code": 0,
+    "lint_exit_code": 0
+  },
+  "tested_code_equals_commit_bytes": true,
+  "u0_gate": "PENDING",
+  "u1_gate": "PENDING"
+}

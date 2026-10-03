@@ -1,0 +1,56 @@
+py.exe : WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+At line:2 char:107
++ ... StartNew(); & py -3.14 -m pip_audit --path '.venv/Lib/site-packages'  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING:cacheco..., entry ignored:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+WARNING:cachecontrol.controller:Cache entry deserialization failed, entry ignored
+No known vulnerabilities found
+Name              Skip Reason
+----------------- --------------------------------------------------------------------------------
+tabpfn4realestate Dependency not found on PyPI and could not be audited: tabpfn4realestate (0.0.1)

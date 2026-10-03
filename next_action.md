@@ -29,6 +29,12 @@ The [synthetic OFF bundle v2](runs/u1-synthetic-off-bundle-v2-20261003T122750Z/r
 passed a 1,151-test suite with no skips. Its serving JSON omits training row
 IDs, requires a separately trusted digest, and remains uncertified; it does
 not establish a real-market model or accepted U6 release.
+The [synthetic effective-version check](runs/u1-synthetic-validity-v1-20261003T160514Z/report.md)
+passed a later 1,201-test full suite with zero skips and 88% branch-aware
+coverage of its three touched production modules. It requires dated end
+publication, closes identical source observation copies, and fails on
+unresolved overlapping corrections. The assembler still receives one
+preselected property version and has no certified real-source history.
 The [NYC observation history](runs/u0-nyc-observation-history-v1-20261003T125727Z/report.md)
 records the September and October source captures as two distinct private,
 replayable inventory events. Their row-representation multisets are equal;
@@ -156,6 +162,7 @@ git status --short
 & 'runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/verify_artifacts.ps1'
 & 'runs/u0-nyc-observation-history-v1-20261003T125727Z/verify_artifacts.ps1'
 & 'runs/u0-ames-source-integration-v1-20261003T132308Z/verify_artifacts.ps1'
+.\.venv\Scripts\python.exe -m unittest tests.test_asof_version_validity -q
 Get-Content data/acquisition_backlog.md
 Get-Content data/requests/cook_county_sales_inquiry_draft.md
 ```

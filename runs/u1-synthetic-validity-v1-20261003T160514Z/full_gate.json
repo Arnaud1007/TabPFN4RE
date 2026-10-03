@@ -1,0 +1,9 @@
+{
+  "ames_arff_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+  "duration_seconds": 210.951,
+  "exit_code": 0,
+  "skipped": 0,
+  "test_duration_seconds": 210.134,
+  "tests": 1201
+}

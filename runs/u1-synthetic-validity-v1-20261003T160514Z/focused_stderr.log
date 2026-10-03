@@ -1,0 +1,10 @@
+python.exe : ----------------------------------------------------------------------
+At line:2 char:107
++ ... StartNew(); & '.\.venv\Scripts\python.exe' -m coverage run --branch - ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 65 tests in 0.143s
+
+OK

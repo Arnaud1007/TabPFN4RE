@@ -1,0 +1,5 @@
+{
+    "command":  "py -3.14 -m pip_audit --path .venv/Lib/site-packages --progress-spinner off",
+    "exit_code":  0,
+    "duration_seconds":  3.372
+}

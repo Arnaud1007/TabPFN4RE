@@ -49,11 +49,16 @@ ON mode and international implementation remain locked by the specification.
    remains unsent. No repeat capture should be mistaken for a historical
    per-row availability timestamp.
 4. Continue [US source qualification](data/acquisition_backlog.md) if the Cook
-   and NYC evidence routes remain inaccessible. HCPA, Florida DOR and King
-   County are candidates, with separate unresolved identity, time and rights
-   issues. Select eight metros across four Census regions plus two nonmetro
-   strata before final tuning. No source's raw row count substitutes for an
-   eligible single-home transaction cohort.
+   and NYC evidence routes remain inaccessible. New York State Sales Web
+   outside NYC is now a [documented candidate](decisions/0066-nys-salesweb-source-feasibility.md)
+   for Northeast metro and nonmetro cohorts; verify its current export,
+   historical availability and reuse terms before requesting property rows.
+   Its [custodian inquiry](data/requests/nys_salesweb_inquiry_draft.md) is
+   an unsent draft.
+   HCPA, Florida DOR and King County have separate unresolved identity, time
+   and rights issues. Select eight metros across four Census regions plus two
+   nonmetro strata before final tuning. No source's raw row count substitutes
+   for an eligible single-home transaction cohort.
 
 ## Hard blockers to downstream training and release
 

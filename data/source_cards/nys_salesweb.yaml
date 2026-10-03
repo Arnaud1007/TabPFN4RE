@@ -1,0 +1,65 @@
+source_id: nys_orpts_sales_web
+status: official_candidate_inventory_only_not_certified
+publisher: New York State Department of Taxation and Finance, Office of Real Property Tax Services
+dataset_name: Municipal Data Portal Sales Web
+landing_page: https://www.tax.ny.gov/pit/property/munidataportal.htm
+application_entry: https://pad.tax.ny.gov/
+legacy_faq: https://www.tax.ny.gov/research/property/assess/sales/salesweb.htm
+legacy_faq_status: indexed older FAQ text; direct page retrieval failed in this audit
+legacy_field_dictionary: https://swcf.orpts.ny.gov/cfapps/salesWebProd/salesWeb/datadict.pdf
+legacy_field_dictionary_vintage: 2004-era
+legacy_field_dictionary_status: indexed PDF text inspected; direct PDF retrieval failed on 2026-10-03; current export mapping unverified
+transfer_form_instructions: https://www.tax.ny.gov/pdf/current_forms/orpts/rp5217pdfins.pdf
+sales_usability_rules: https://www.tax.ny.gov/research/property/assess/sales/salescriteria.htm
+property_class_codes: https://www.tax.ny.gov/research/property/assess/manuals/prclas.htm
+official_website_disclaimer: https://www.tax.ny.gov/help/tech/disclaimer.htm
+documentation_reviewed_on: 2026-10-03
+dataset_version: not_obtained
+source_checksum: not_obtained
+geography: New York State excluding all five New York City boroughs
+documented_window: 10 years of sales and transfers
+row_grain: candidate real property transfer record; current export grain unverified
+primary_record: deed and RP-5217 real property transfer report
+candidate_identity_fields: [swis_code, book, page, tax_map_identifier]
+identity_status: economic transfer, parcel and dwelling cardinality require audit
+target_candidate_field: sale_price
+target_candidate_currency: USD
+target_candidate_semantics: indexed legacy dictionary says total amount paid minus personal property; provisional until current export is verified
+full_sale_price_semantics: RP-5217 item 13 includes cash, property, assumed obligations and personal property
+concessions_note: RP-5217 instructions exclude seller concessions; confirm correction behavior in actual export
+sale_date_candidate_field: sale_date
+sale_date_candidate_semantics: indexed legacy dictionary maps to RP-5217 title conveyance; provisional until current export is verified
+contract_date_candidate_field_from_legacy_dictionary: contract_date
+contract_date_missing_sentinel: indexed legacy dictionary uses 1950-01-01 when absent; quarantine as missing
+recording_date_candidate_field_from_legacy_dictionary: deed_date
+date_status: current export field mapping and record-level closing evidence unverified
+candidate_eligibility_fields_from_legacy_dictionary: [arms_length_flag, cod_usable, rar_usable, part_parcel_flag, condo_flag, new_const_flag, nbr_of_parcels, condition_flags]
+property_class_candidate: 'indexed legacy prop_class_at_sale code 210 means one-family year-round residence; confirm in current export'
+property_class_last_roll_warning: indexed legacy prop_class_last_roll describes a later final roll and cannot populate historical as-of features
+documented_exclusions: [New York City, cooperative transfers, easements, rights_of_way, mineral_rights, cemetery_plots]
+current_documented_download: Excel search-result download from the Municipal Data Portal
+bulk_download_or_api: not_verified_for_current_portal
+legacy_download_note: older FAQ describes CSV downloads and a 3000-result search cap; current behavior unverified
+documented_refresh: weekly
+documented_publication_lag: weeks; older FAQ says weeks or months
+correction_policy: state and local review can change published records
+candidate_system_fields_from_legacy_dictionary: [load_date, last_fm_date, rps_update_date, assessor_reviewed_flag]
+first_public_availability: not_established
+load_date_warning: legacy dictionary says database load date is not Data Warehouse load date
+historical_attribute_vintages: not_established
+licence_or_reuse_grant: not_found_in_reviewed_public_pages
+commercial_use: unresolved
+redistribution: unresolved
+automated_download_permission: unresolved
+privacy_minimization: exclude buyer, seller, attorney and preparer identities from research exports
+permitted_use_decision: documentation_review_only; no property rows acquired
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+certified_sale_labels: 0
+next_evidence: >-
+  Verify current export schema, field meanings, access and reuse terms; obtain a
+  bounded authorised sample and at least 200 stratified manual source checks;
+  establish first public availability and historical property-attribute vintages.
+  A weekly prospective snapshot may establish project-observed availability
+  from capture onward, not first historical publication.
+custodian_inquiry_draft: data/requests/nys_salesweb_inquiry_draft.md

@@ -1,11 +1,14 @@
 """Synthetic T12 checks: one durable opening per reserved cohort."""
 
 from dataclasses import replace
+from contextlib import closing
+from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
 from pathlib import Path
 import sqlite3
 import sys
 from tempfile import TemporaryDirectory
+from threading import Barrier
 import unittest
 from unittest.mock import patch
 
@@ -42,10 +45,9 @@ class HoldoutLedgerTests(unittest.TestCase):
 
     def test_intent_and_predictions_are_committed_before_label_loader(self):
         def load_labels():
-            with sqlite3.connect(self.ledger) as connection:
+            with closing(sqlite3.connect(self.ledger)) as connection:
                 status, payload, digest = connection.execute(
-                    "SELECT status, predictions_json, predictions_sha256 "
-                    "FROM attempts"
+                    "SELECT status, predictions_json, predictions_sha256 FROM attempts"
                 ).fetchone()
             self.assertEqual(status, "opening_intent")
             self.assertIn("sale-1", payload)
@@ -116,10 +118,9 @@ class HoldoutLedgerTests(unittest.TestCase):
             with self.subTest(changed=changed):
                 with self.assertRaisesRegex(ValueError, "identity mismatch"):
                     replay_scorecard(self.ledger, changed)
-        with sqlite3.connect(self.ledger) as connection:
-            connection.execute(
-                "UPDATE attempts SET predictions_json = ?", ("[]",)
-            )
+        with closing(sqlite3.connect(self.ledger)) as connection:
+            connection.execute("UPDATE attempts SET predictions_json = ?", ("[]",))
+            connection.commit()
         with self.assertRaisesRegex(ValueError, "prediction digest mismatch"):
             replay_scorecard(self.ledger, IDENTITY)
 
@@ -146,6 +147,83 @@ class HoldoutLedgerTests(unittest.TestCase):
             )
         with self.assertRaisesRegex(RuntimeError, "no completed scorecard"):
             replay_scorecard(self.ledger, IDENTITY)
+
+    def test_loader_cannot_change_predictions_after_intent(self):
+        caller_owned = list(PREDICTIONS)
+
+        def mutate_then_load():
+            caller_owned[0] = FrozenEstimate(
+                "sale-1", "estimated", Decimal("200"), "USD"
+            )
+            return LABELS
+
+        result = evaluate_once(self.ledger, IDENTITY, caller_owned, mutate_then_load)
+        self.assertEqual(result.mdape, Decimal("0.1"))
+        self.assertEqual(replay_scorecard(self.ledger, IDENTITY), result)
+
+    def test_replay_does_not_create_tables_in_an_empty_database(self):
+        with closing(sqlite3.connect(self.ledger)) as connection:
+            self.assertEqual(
+                connection.execute("SELECT name FROM sqlite_master").fetchall(), []
+            )
+        with self.assertRaisesRegex(RuntimeError, "no completed scorecard"):
+            replay_scorecard(self.ledger, IDENTITY)
+        with closing(sqlite3.connect(self.ledger)) as connection:
+            self.assertEqual(
+                connection.execute("SELECT name FROM sqlite_master").fetchall(), []
+            )
+
+    def test_overlapping_cohort_cannot_reopen_a_reserved_row(self):
+        evaluate_once(self.ledger, IDENTITY, PREDICTIONS, lambda: LABELS)
+        changed = replace(IDENTITY, row_ids=("sale-1", "sale-3"))
+        changed_predictions = (
+            PREDICTIONS[0],
+            FrozenEstimate("sale-3", "estimated", Decimal("300"), "USD"),
+        )
+        with self.assertRaisesRegex(RuntimeError, "already opened"):
+            evaluate_once(
+                self.ledger,
+                changed,
+                changed_predictions,
+                lambda: {"sale-1": Decimal("100"), "sale-3": Decimal("300")},
+            )
+
+    def test_simultaneous_attempts_open_labels_only_once(self):
+        barrier = Barrier(2)
+        calls = []
+
+        def attempt():
+            barrier.wait()
+
+            def load():
+                calls.append("opened")
+                return LABELS
+
+            try:
+                return evaluate_once(self.ledger, IDENTITY, PREDICTIONS, load)
+            except RuntimeError as error:
+                return str(error)
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            futures = [pool.submit(attempt) for _ in range(2)]
+            outcomes = [future.result() for future in futures]
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(sum(hasattr(item, "mdape") for item in outcomes), 1)
+        self.assertEqual(
+            sum("already opened" in item for item in outcomes if isinstance(item, str)),
+            1,
+        )
+
+    def test_memory_ledger_is_rejected_before_label_access(self):
+        calls = []
+        with self.assertRaisesRegex(ValueError, "durable ledger path"):
+            evaluate_once(
+                Path(":memory:"),
+                IDENTITY,
+                PREDICTIONS,
+                lambda: calls.append("opened") or LABELS,
+            )
+        self.assertEqual(calls, [])
 
 
 if __name__ == "__main__":

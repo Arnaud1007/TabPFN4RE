@@ -64,3 +64,10 @@ Document Number and County fields and the Search button disabled while blank.
 The access condition is now met for a bounded future query, but no identifier
 has been entered. Freeze provenance, handling and one-query limits before one
 existing sample lead is submitted; keep the instrument and rights boundaries.
+
+The [one-document plan](../runs/u0-mydec-one-document-v1-20261003T153741Z/plan.md)
+now freezes a deterministic lead from the already pinned private Cook/PTAX
+worklist and a one-query cap. Its exact identifier remains in a Git-ignored,
+ACL-restricted selector. The plan is prepared, not executed: zero identifiers
+entered and zero queries submitted. Browser-use confirmation for transmitting
+that identifier remains the next action-time condition.

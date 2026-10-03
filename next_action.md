@@ -64,8 +64,12 @@ ON mode and international implementation remain locked by the specification.
    left that tab unselected in two headless attempts. A later
    [interactive check](runs/u0-mydec-document-form-interactive-v3-20261003T153202Z/report.md)
    observed the exact document-number form after navigation settled, with no
-   identifier or query submitted. Freeze one existing lead, its provenance,
-   private handling and a one-query cap before a bounded comparison. Continue
+   identifier or query submitted. The
+   [one-document plan](runs/u0-mydec-one-document-v1-20261003T153741Z/plan.md)
+   now freezes one existing private lead, provenance, handling and a one-query
+   cap; no identifier has been entered. Obtain action-time confirmation before
+   entering that exact document number into the official MyDec browser form.
+   Continue
    to seek the
    authoritative Clerk instrument and publisher date/rights clarification.
    Use the private quality findings to prioritize independent checks. The

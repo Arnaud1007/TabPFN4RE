@@ -1,0 +1,22 @@
+{
+  "branch": "audit/u0",
+  "certified_sale_labels": 0,
+  "code_commit_at_prepare": "12ebbffdc9b3c3cd61cf531ce6bbae53ac629791",
+  "data_snapshot_sha256": "7981f32fe1970afcb2c20768271c5c0c58dc05ff9a3905fe94981aeef9f8ac8e",
+  "declarations_opened": 0,
+  "environment_snapshot_path": "locks/mydec-access-environment.txt",
+  "environment_snapshot_sha256": "e5a7e32f0df346d1cda648f8374dc78c553a424e284d7b151f7a17b58cb9a737",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "identifiers_entered": 0,
+  "maximum_queries": 1,
+  "model_checkpoint_identity": null,
+  "plan_sha256": "87be3d55294de3fb2658ab3bce6aab1c12b3fc8975119d3fba0700623bed4a54",
+  "private_selection_path": "data/raw/illinois_ptax203/u0-mydec-one-document-v1-20261003T153741Z/selection.json",
+  "private_selection_verified": true,
+  "run_id": "u0-mydec-one-document-v1-20261003T153741Z",
+  "searches_submitted": 0,
+  "split_hash": null,
+  "status": "prepared_no_external_query",
+  "u0_status": "PENDING"
+}

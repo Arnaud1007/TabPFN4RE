@@ -133,7 +133,7 @@ def _example(raw: object) -> CalendarTrainingExample:
     published_at = DateOnlyAvailability(publication, zone)
     observed_at = _observed_utc(raw["property_observed_at_utc"])
     property_available_at = DateOnlyAvailability(property_publication, zone)
-    if observed_at > availability_cutoff_utc(property_available_at):
+    if observed_at >= availability_cutoff_utc(property_available_at):
         raise ValueError("Synthetic property was published before observation")
     property_fact = DatePublishedProperty(
         raw["property_id"],

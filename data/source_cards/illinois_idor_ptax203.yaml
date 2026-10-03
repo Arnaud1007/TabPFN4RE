@@ -31,8 +31,9 @@ public_declaration_search_url: https://mytax.illinois.gov/MyDec/
 public_declaration_search_status: no_login_search_view_reached_no_declaration_queried
 public_declaration_search_evidence: runs/u0-mydec-browser-click-v1-20261003T143000Z/report.md
 public_declaration_search_scope: declaration_representation_check_only_not_deed_or_close_date
-public_document_number_form_status: not_verified_after_two_headless_click_attempts
-public_document_number_form_evidence: runs/u0-mydec-document-form-v2-20261003T144507Z/report.md
+public_document_number_form_status: selected_interactive_form_verified_no_identifier_or_query
+public_document_number_form_prior_failure: runs/u0-mydec-document-form-v2-20261003T144507Z/report.md
+public_document_number_form_evidence: runs/u0-mydec-document-form-interactive-v3-20261003T153202Z/report.md
 publication_at_record_level: not_established
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false

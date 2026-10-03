@@ -58,5 +58,9 @@ did not establish the document-number form in this headless environment. Two
 different click targets returned successfully, but the saved DOMs still
 marked that tab not selected. No identifier was submitted. This does not
 disprove IDOR's public search claim; it makes a document-number lookup
-**not yet runnable here**. Keep the document-number preference, but require a
-verified selected form or an official alternative route before querying.
+unverified in those captures. The later [interactive browser check](../runs/u0-mydec-document-form-interactive-v3-20261003T153202Z/report.md)
+observed the document tab selected after the navigation settled, with exact
+Document Number and County fields and the Search button disabled while blank.
+The access condition is now met for a bounded future query, but no identifier
+has been entered. Freeze provenance, handling and one-query limits before one
+existing sample lead is submitted; keep the instrument and rights boundaries.

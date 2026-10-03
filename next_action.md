@@ -61,9 +61,12 @@ ON mode and international implementation remain locked by the specification.
    eligibility or order. The [MyDec public search access check](runs/u0-mydec-browser-click-v1-20261003T143000Z/report.md)
    reached the no-login declaration search view without submitting a PIN,
    document number or address. The [document-number tab check](runs/u0-mydec-document-form-v2-20261003T144507Z/report.md)
-   left that tab unselected in two headless attempts. Verify an interactive
-   document-number form or an official alternative route before freezing one
-   existing lead for a bounded private comparison. Continue to seek the
+   left that tab unselected in two headless attempts. A later
+   [interactive check](runs/u0-mydec-document-form-interactive-v3-20261003T153202Z/report.md)
+   observed the exact document-number form after navigation settled, with no
+   identifier or query submitted. Freeze one existing lead, its provenance,
+   private handling and a one-query cap before a bounded comparison. Continue
+   to seek the
    authoritative Clerk instrument and publisher date/rights clarification.
    Use the private quality findings to prioritize independent checks. The
    Cook inquiry is an

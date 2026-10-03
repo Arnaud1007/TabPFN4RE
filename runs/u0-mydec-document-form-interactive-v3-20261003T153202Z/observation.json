@@ -1,0 +1,22 @@
+{
+  "run_id": "u0-mydec-document-form-interactive-v3-20261003T153202Z",
+  "status": "public_document_number_form_verified_no_query",
+  "observed_on_utc": "2026-10-03",
+  "code_commit_at_observation": "595128beabeeac56b12913844207bd35278f97b6",
+  "branch": "audit/u0",
+  "publisher": "Illinois Department of Revenue",
+  "official_guidance": "https://tax.illinois.gov/localgovernments/property/property-transfer-tax-declarations-and-mydec.html",
+  "browser_page": "https://mytax.illinois.gov/MyDec/_/#3",
+  "action": "Opened the public declaration search link, selected Document Number Search, and read the settled UI state",
+  "selected_tab": "Document Number Search",
+  "selected_tab_aria_selected": "true",
+  "other_tabs_aria_selected": "false",
+  "visible_form_fields": ["Document Number", "County"],
+  "search_button_enabled": false,
+  "identifiers_entered": 0,
+  "searches_submitted": 0,
+  "declarations_opened": 0,
+  "certified_sale_labels": 0,
+  "u0_status": "PENDING",
+  "g_us_status": "PENDING"
+}

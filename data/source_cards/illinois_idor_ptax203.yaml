@@ -20,6 +20,8 @@ target_currency: USD
 date_fields: [date_recorded, line_4_instrument_date]
 date_semantics: recorded_date_and_coarse_instrument_month_year_not_verified_closing_date
 parcel_scope_fields: [line_2_total_parcels, line_3_additional_pins]
+additional_pins_field_semantics: line_3_additional_pins_is_presence_indicator_not_secondary_pin_values
+secondary_pin_source_status: additional_pins_view_not_captured_or_qualified
 publication_at_record_level: not_established
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false
@@ -30,6 +32,7 @@ raw_redistribution: not_planned
 candidate_link_certification: false
 certified_sale_labels: 0
 audit_plan: runs/u0-illinois-ptax203-link-v1-20261003T032248Z/plan.md
+offline_diagnostic_plan: runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/plan.md
 notes: >-
   The official full dataset contains 183 columns, including party and preparer
   information. The companion 12-column public view omits document number,

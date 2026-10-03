@@ -58,8 +58,13 @@ ON mode and international implementation remain locked by the specification.
    partial and 198 are untouched. The
    [private quality audit](runs/u2-cook-quality-v1-20261003T135237Z/report.md)
    now provides fixed review reasons for all 200 rows without changing their
-   eligibility or order. Use the private findings to prioritize independent
-   instrument checks. The Cook inquiry is an
+   eligibility or order. The [MyDec public search access check](runs/u0-mydec-browser-click-v1-20261003T143000Z/report.md)
+   reached the no-login declaration search view without submitting a PIN,
+   document number or address. Freeze one existing document-number lead for a
+   bounded private declaration comparison, while continuing to seek the
+   authoritative Clerk instrument and publisher date/rights clarification.
+   Use the private quality findings to prioritize independent checks. The
+   Cook inquiry is an
    [unsent draft](data/requests/cook_county_sales_inquiry_draft.md); its proposed
    sender/signature change is awaiting the owner's answer. Do not send it
    without that answer.

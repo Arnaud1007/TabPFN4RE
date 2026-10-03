@@ -26,6 +26,11 @@ additional_pins_source_card: data/source_cards/illinois_idor_ptax203_additional_
 additional_pins_capture_run: runs/u0-illinois-additional-pins-v2-20261003T050600Z/
 additional_pins_response_set_sha256: 5b9d230f76f66d33b024009ee1c81aec18d5318b0cd5c748752ddf4300fba013
 additional_pins_offline_triage_run: runs/u0-illinois-additional-pin-offline-v3-20261003T053506Z/
+public_declaration_search_guidance: https://tax.illinois.gov/localgovernments/property/property-transfer-tax-declarations-and-mydec.html
+public_declaration_search_url: https://mytax.illinois.gov/MyDec/
+public_declaration_search_status: no_login_search_view_reached_no_declaration_queried
+public_declaration_search_evidence: runs/u0-mydec-browser-click-v1-20261003T143000Z/report.md
+public_declaration_search_scope: declaration_representation_check_only_not_deed_or_close_date
 publication_at_record_level: not_established
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false

@@ -1,0 +1,33 @@
+{
+  "protocol": "mydec_public_browser_click_v1",
+  "status": "verified_public_search_view_only",
+  "environment_snapshot_sha256": "e5a7e32f0df346d1cda648f8374dc78c553a424e284d7b151f7a17b58cb9a737",
+  "checks": [
+    {
+      "action": "Capture two official IDOR guidance pages and rendered MyDec public landing without identifiers",
+      "exit_code": 0,
+      "mydec_guidance_sha256": "8e429e419a80383d7a263fc43c2ce4f1199bb1bd2666b5452b02b84b69f9e414",
+      "data_file_guidance_sha256": "b063b5668875b3d6414a4ced1c2ee1003bdb217c216ffaef0e55cf4957bcc4ed",
+      "landing_sha256": "f6f4fd9a6d11c18419b52834f94ad8c5c9495a64e237e08e8ae9b89f20e6f193"
+    },
+    {
+      "action": "Navigate once to observed internal hash",
+      "exit_code": 0,
+      "result": "landing view remained; no search form established"
+    },
+    {
+      "action": "Playwright Core 1.60.0 with local Chrome 155.0.8059.27: open public landing and click recorded-declaration search link",
+      "exit_code": 0,
+      "result": "PIN Search view and Document Number Search and Address Search options observed",
+      "dom_sha256": "af2d9dc49d5158f08cdda786c214c888dec12ee312a521f768ad88115b468589"
+    },
+    {
+      "action": "Verify protected captures, ACLs, hashes and parsed public search labels",
+      "exit_code": 0,
+      "result": "three capture directories verified; no property identifier submitted"
+    }
+  ],
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

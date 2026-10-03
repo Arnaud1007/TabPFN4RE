@@ -60,6 +60,8 @@ private_review_progress_run: runs/u0-cook-review-progress-20261003T025709Z/
 private_review_latest_snapshot_sha256: f8a25a6f098ea62b5891e1c1a852a4d20826302725664814e54ee3a112f36436
 clerk_date_and_access_decision: decisions/0053-cook-clerk-date-and-access-route.md
 clerk_candidate_source_card: data/source_cards/cook_county_clerk_transfer_list.yaml
+mydec_public_declaration_route: decisions/0074-illinois-mydec-public-declaration-route.md
+mydec_route_status: public_search_view_verified_no_declaration_queried
 certified_sale_labels: 0
 notes: >-
   The current published extract is a concrete acquisition candidate, not a certified

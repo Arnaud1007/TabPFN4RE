@@ -1,0 +1,8 @@
+MyDec access-check environment snapshot, 2026-10-03
+Windows desktop host
+CPython 3.11.6 from project .venv
+Node.js v24.12.0
+Playwright Core 1.60.0 from pre-existing global openclaw installation
+Google Chrome 155.0.8059.27 from pre-existing local installation
+Project Python package pins: locks/cook-quality-environment.txt
+This records the observed access tools; it is not a browser binary lock or a replay guarantee for a dynamic public portal.

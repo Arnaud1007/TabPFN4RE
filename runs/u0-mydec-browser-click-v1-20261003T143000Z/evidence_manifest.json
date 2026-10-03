@@ -1,0 +1,28 @@
+{
+  "run_id": "u0-mydec-browser-click-v1-20261003T143000Z",
+  "protocol": "mydec_public_browser_click_v1",
+  "code_base_commit_at_run": "283a23c",
+  "dirty_tree_at_run": true,
+  "environment_snapshot": "locks/mydec-access-environment.txt",
+  "environment_snapshot_sha256": "e5a7e32f0df346d1cda648f8374dc78c553a424e284d7b151f7a17b58cb9a737",
+  "plan_sha256": {
+    "u0-mydec-public-access-v1-20261003T142501Z": "050942c67085e1d1f41dbd46538254f8f9857611271c3b901c35bec4f3a6e841",
+    "u0-mydec-search-entry-v1-20261003T142900Z": "69d05302e7a6c1f3a12b3547f5b23a7b48fe9ff634154c5e8411d4733db22cc6",
+    "u0-mydec-browser-click-v1-20261003T143000Z": "82b58cbfa1e4f965faa47a13a0e124fd9723f20d184d0312c3245d252893df50"
+  },
+  "private_capture_manifest_sha256": {
+    "public_access": "15432544365e0da302979fbc46aa5c1a838b0c511598d2cf35f98a20df21590a",
+    "direct_hash_navigation": "9b088f8a9c40f7c315f13a14b71dfff5bc8618da34ab59b1f6881df226503694",
+    "browser_link_click": "6857d1d692cd99ada088ae772a0cad869169da51f08c7a7a0d2ff633f5f4600d"
+  },
+  "public_landing_dom_sha256": "f6f4fd9a6d11c18419b52834f94ad8c5c9495a64e237e08e8ae9b89f20e6f193",
+  "search_view_dom_sha256": "af2d9dc49d5158f08cdda786c214c888dec12ee312a521f768ad88115b468589",
+  "data_snapshot_hash": null,
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint": null,
+  "certification_eligible": false,
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

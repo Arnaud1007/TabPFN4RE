@@ -60,8 +60,10 @@ ON mode and international implementation remain locked by the specification.
    now provides fixed review reasons for all 200 rows without changing their
    eligibility or order. The [MyDec public search access check](runs/u0-mydec-browser-click-v1-20261003T143000Z/report.md)
    reached the no-login declaration search view without submitting a PIN,
-   document number or address. Freeze one existing document-number lead for a
-   bounded private declaration comparison, while continuing to seek the
+   document number or address. The [document-number tab check](runs/u0-mydec-document-form-v2-20261003T144507Z/report.md)
+   left that tab unselected in two headless attempts. Verify an interactive
+   document-number form or an official alternative route before freezing one
+   existing lead for a bounded private comparison. Continue to seek the
    authoritative Clerk instrument and publisher date/rights clarification.
    Use the private quality findings to prioritize independent checks. The
    Cook inquiry is an

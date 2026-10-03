@@ -50,3 +50,13 @@ historical characteristic availability or dataset-specific permitted use.
 No Cook row becomes a certified sale label through this route. Keep U0 and
 G-US pending and retain the Clerk instrument and custodian clarification as
 the authoritative evidence targets.
+
+## Follow-up: document-number tab access
+
+The [bounded document-tab check](../runs/u0-mydec-document-form-v2-20261003T144507Z/report.md)
+did not establish the document-number form in this headless environment. Two
+different click targets returned successfully, but the saved DOMs still
+marked that tab not selected. No identifier was submitted. This does not
+disprove IDOR's public search claim; it makes a document-number lookup
+**not yet runnable here**. Keep the document-number preference, but require a
+verified selected form or an official alternative route before querying.

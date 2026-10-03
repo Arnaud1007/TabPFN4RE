@@ -54,8 +54,10 @@ target_candidate_currency: USD
 target_candidate_semantics: >-
   Current CSV contains sale_price and personal_prop, but their transaction
   semantics are not verified from header names. The indexed legacy dictionary
-  says sale price is total amount paid minus personal property; this mapping
-  remains provisional pending current publisher or instrument evidence.
+  describes sale price as total amount paid minus personal property, whereas
+  the rendered current detail-page help says personal property is included in
+  the sale price. The mapping and price basis require current publisher or
+  instrument evidence before a gross consideration target is admitted.
 full_sale_price_semantics: RP-5217 item 13 includes cash, property, assumed obligations and personal property
 concessions_note: >-
   RP-5217 instructions exclude seller concessions from full sale price, while
@@ -87,12 +89,19 @@ current_portal_static_asset_review: runs/u0-nys-salesweb-ui-v1-20261003T115547Z/
 current_portal_static_asset_scope: >-
   Official live-hosted JavaScript declares UI labels for sale date, sale price,
   contract date, deed date, arm's length, part of parcel, class at sale,
-  sale loaded to database and last update to sale. These strings do not verify
-  the rendered UI, the Excel export schema, field values or reuse terms.
+  sale loaded to database and last update to sale. These strings alone do not
+  verify the rendered UI, export schema, field values or reuse terms.
+current_detail_help_review: runs/u0-nys-salesweb-detail-help-v1-20261003T152306Z/report.md
+current_detail_personal_property_help: Value of personal property included in the sale price
+current_detail_personal_property_conflict: >-
+  The current rendered help is in tension with the indexed legacy dictionary's
+  net-of-personal-property sale-price description. Neither source proves the
+  current CSV sale_price and personal_prop mapping or gross target semantics.
 current_load_date_ui_help: >-
-  The static UI help text describes the sale-loaded date as when the sale was
+  The live detail-page help describes the sale-loaded date as when the sale was
   initially entered or loaded by New York State. It does not say this was the
-  first public availability date.
+  first public availability date or prove its mapping to CSV load_dt.
+current_electronic_update_ui_help: Indicates whether this record was reviewed by the assessor
 current_last_update_ui_label: Last update to sale; exact event and timestamp meaning unverified
 bulk_download_or_api: bounded search-results CSV download verified; bulk or API access unverified
 legacy_download_note: older FAQ describes CSV downloads and a 3000-result search cap; current behavior unverified

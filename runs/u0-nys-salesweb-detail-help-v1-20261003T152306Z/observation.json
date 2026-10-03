@@ -1,0 +1,34 @@
+{
+  "run_id": "u0-nys-salesweb-detail-help-v1-20261003T152306Z",
+  "status": "official_live_ui_help_observed_source_admission_pending",
+  "observed_on_utc": "2026-10-03",
+  "code_commit_at_observation": "166929983e1cd4fa3beb9dcaab37ed8b8f4f8270",
+  "branch": "audit/u0",
+  "page": "https://pad.tax.ny.gov/salesDetailReport",
+  "selection": "First result from the Albany County (SWIS 01), 2025-08-01 sale-date search; no record values retained",
+  "related_bounded_export": "runs/u0-nys-salesweb-export-v1-20261003T150117Z/observation.json",
+  "related_export_sha256": "5548b290ac36772070799800dfc7f875bdaf04c1599aaa169562b43ec6f9b355",
+  "static_asset_sha256": "36af85aa06fce5839eec5a0adb354548cafd8adc2e2db410dd40bc810773627c",
+  "field_help": [
+    {
+      "propertykey": "personalProp",
+      "helpkey": "PADT_PERSONAL_PROPERTY",
+      "text": "Value of personal property included in the sale price"
+    },
+    {
+      "propertykey": "saleLoadedtoDataBase",
+      "helpkey": "PADT_SALE_LOADED",
+      "text": "Date the sale was initially entered or loaded by New York State"
+    },
+    {
+      "propertykey": "eletronicUpdate",
+      "helpkey": "PADT_ELECTRONIC_UPDATE",
+      "text": "Indicates whether this record was reviewed by the assessor"
+    }
+  ],
+  "csv_field_mapping": "not_confirmed_by_ui_help",
+  "first_public_availability": "not_established",
+  "price_semantics": "conflicting_current_ui_help_and_indexed_legacy_dictionary",
+  "certified_sale_labels": 0,
+  "gate_status": "PENDING"
+}

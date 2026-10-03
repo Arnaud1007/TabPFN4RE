@@ -99,6 +99,12 @@ ON mode and international implementation remain locked by the specification.
    verified a private 25-row CSV with 78 header fields, including sale,
    contract, deed, initial-load and update dates. This resolves the current
    format/header question left by the static UI audit, but no row is certified.
+   The [live detail-page help audit](runs/u0-nys-salesweb-detail-help-v1-20261003T152306Z/report.md)
+   exposed a price-basis conflict: current help says personal property is
+   included in sale price, while the older dictionary describes a net price.
+   It also defines initial database loading without establishing first public
+   availability. The [custodian draft](data/requests/nys_salesweb_inquiry_draft.md)
+   now asks about the exact current CSV mapping.
    The [official ORPTS quarterly-report guidance](decisions/0071-nys-orpts-report-date-price-boundary.md)
    maps report Sale Date to transfer date and distinguishes deed recording;
    it also documents concession and parcel-correction risks. The current

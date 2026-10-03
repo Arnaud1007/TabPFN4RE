@@ -10,22 +10,42 @@ import json
 from types import MappingProxyType
 from typing import Mapping, Sequence
 
+from tabpfn4realestate.data.local_date_facts import (
+    DateOnlyEvent,
+    DatePublishedAttribute,
+    DatePublishedProperty,
+)
+from tabpfn4realestate.data.local_date_sale import LocalDateSale
 from tabpfn4realestate.data.schema import (
     Attribute,
     ListingEvent,
     Property,
     SourceSnapshot,
     Transaction,
-    canonicalize_transactions,
     _identifier,
     _instant,
     _utc,
 )
-from tabpfn4realestate.evaluation.local_dates import LocalDateOrigin
+from tabpfn4realestate.evaluation.local_dates import (
+    DateOnlyAvailability,
+    LocalDateOrigin,
+)
+from tabpfn4realestate.features.asof_timing import (
+    _Boundary,
+    _ReconciledAttribute,
+    _ReconciledProperty,
+    _exact_boundary,
+    _local_boundary,
+    time_cutoff_utc,
+    time_sort_text,
+    typed_time_identity,
+)
+from tabpfn4realestate.features.asof_prior import select_prior_sale
 
 
 ASSEMBLER_POLICY_VERSION = "synthetic_off_asof_v2"
 LOCAL_DATE_ASSEMBLER_POLICY_VERSION = "synthetic_off_local_date_asof_v1"
+LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2 = "synthetic_off_local_date_asof_v2"
 
 
 _ATTRIBUTE_TYPES = {
@@ -35,15 +55,18 @@ _ATTRIBUTE_TYPES = {
 }
 _FORBIDDEN = {"SalePrice", "F172", "F349", "F350"}
 
+PropertyFact = Property | DatePublishedProperty | _ReconciledProperty
+AttributeFact = Attribute | DatePublishedAttribute | _ReconciledAttribute
+
 
 @dataclass(frozen=True)
 class Lineage:
     source_id: str
-    observed_at: datetime
-    available_at: datetime
+    observed_at: datetime | DateOnlyEvent
+    available_at: datetime | DateOnlyAvailability
     valid_from: datetime | None = None
     valid_to: datetime | None = None
-    valid_to_available_at: datetime | None = None
+    valid_to_available_at: datetime | DateOnlyAvailability | None = None
 
 
 @dataclass(frozen=True)
@@ -68,63 +91,11 @@ class LocalDateFeatureSnapshot:
     snapshot_hash: str
 
 
-@dataclass(frozen=True)
-class _Boundary:
-    """Keep effective time separate from the source's information cutoff."""
-
-    effective_utc: datetime
-    effective_exclusive: bool
-    known_utc: datetime
-    known_exclusive: bool
-
-    def effective_by(self, value: datetime) -> bool:
-        instant = _utc(value)
-        return (
-            instant < self.effective_utc
-            if self.effective_exclusive
-            else instant <= self.effective_utc
-        )
-
-    def known_by(self, value: datetime) -> bool:
-        instant = _utc(value)
-        return (
-            instant < self.known_utc
-            if self.known_exclusive
-            else instant <= self.known_utc
-        )
-
-    def valid_through(self, end: datetime) -> bool:
-        instant = _utc(end)
-        return (
-            self.effective_utc <= instant
-            if self.effective_exclusive
-            else self.effective_utc < instant
-        )
-
-
-def _exact_boundary(
-    origin: datetime, source_snapshot: SourceSnapshot, known_at: datetime | None = None
-) -> _Boundary:
-    effective = _utc(origin)
-    known = min(_utc(known_at or origin), _utc(source_snapshot.as_of))
-    return _Boundary(effective, False, known, False)
-
-
-def _local_boundary(
-    origin: LocalDateOrigin, source_snapshot: SourceSnapshot
-) -> _Boundary:
-    exclusive = origin.cutoff_exclusive_utc
-    source_cap = _utc(source_snapshot.as_of)
-    if source_cap < exclusive:
-        return _Boundary(exclusive, True, source_cap, False)
-    return _Boundary(exclusive, True, exclusive, True)
-
-
 class NoAvailablePropertyVersionError(ValueError):
     """The known history has no structural version at the requested origin."""
 
 
-def _validate_attribute(attribute: Attribute) -> None:
+def _validate_attribute(attribute: Attribute | DatePublishedAttribute) -> None:
     if attribute.name in _FORBIDDEN:
         raise ValueError(f"Forbidden feature: {attribute.name}")
     expected_type = _ATTRIBUTE_TYPES.get(attribute.name)
@@ -145,8 +116,9 @@ def _validate_attribute(attribute: Attribute) -> None:
 
 
 def _known_valid_to(
-    row: Property | Attribute, boundary: _Boundary
-) -> tuple[datetime | None, datetime | None]:
+    row: PropertyFact | AttributeFact,
+    boundary: _Boundary,
+) -> tuple[datetime | None, datetime | DateOnlyAvailability | None]:
     if (
         row.valid_to is not None
         and row.valid_to_available_at is not None
@@ -156,7 +128,7 @@ def _known_valid_to(
     return None, None
 
 
-def _visible_property_version(row: Property, boundary: _Boundary) -> Property:
+def _visible_property_version(row: PropertyFact, boundary: _Boundary) -> PropertyFact:
     """Remove an end date that was not available by the source cutoff."""
     end, _ = _known_valid_to(row, boundary)
     if end is None and row.valid_to is not None:
@@ -164,7 +136,10 @@ def _visible_property_version(row: Property, boundary: _Boundary) -> Property:
     return row
 
 
-def _effective_at(row: Property | Attribute, boundary: _Boundary) -> bool:
+def _effective_at(
+    row: PropertyFact | AttributeFact,
+    boundary: _Boundary,
+) -> bool:
     if not boundary.known_by(row.observed_at) or not boundary.known_by(
         row.available_at
     ):
@@ -175,7 +150,10 @@ def _effective_at(row: Property | Attribute, boundary: _Boundary) -> bool:
     return valid_to is None or boundary.valid_through(valid_to)
 
 
-def _version_lineage(row: Property | Attribute, boundary: _Boundary) -> Lineage:
+def _version_lineage(
+    row: PropertyFact | AttributeFact,
+    boundary: _Boundary,
+) -> Lineage:
     valid_to, valid_to_available_at = _known_valid_to(row, boundary)
     return Lineage(
         row.source_id,
@@ -188,10 +166,10 @@ def _version_lineage(row: Property | Attribute, boundary: _Boundary) -> Lineage:
 
 
 def _reconcile_attribute_copies(
-    observations: Sequence[Attribute], boundary: _Boundary
-) -> tuple[Attribute, ...]:
+    observations: Sequence[Attribute | DatePublishedAttribute], boundary: _Boundary
+) -> tuple[AttributeFact, ...]:
     """Apply a disclosed end to every copy of one source observation."""
-    grouped: dict[tuple[object, ...], list[Attribute]] = {}
+    grouped: dict[tuple[object, ...], list[Attribute | DatePublishedAttribute]] = {}
     for row in observations:
         if not boundary.known_by(row.observed_at) or not boundary.known_by(
             row.available_at
@@ -209,38 +187,53 @@ def _reconcile_attribute_copies(
         )
         grouped.setdefault(key, []).append(row)
 
-    reconciled: list[Attribute] = []
+    reconciled: list[AttributeFact] = []
     for copies in grouped.values():
-        base = min(copies, key=lambda row: _utc(row.available_at))
-        known_ends: list[tuple[datetime, datetime]] = []
-        open_copies: list[datetime] = []
+        base = min(copies, key=lambda row: time_cutoff_utc(row.available_at))
+        result: AttributeFact = base
+        known_ends: list[tuple[datetime, datetime | DateOnlyAvailability]] = []
+        open_copies: list[datetime | DateOnlyAvailability] = []
         for row in copies:
             end, published = _known_valid_to(row, boundary)
             if end is None or published is None:
                 open_copies.append(row.available_at)
             else:
-                known_ends.append((end, max(row.available_at, published, key=_utc)))
+                known_ends.append(
+                    (end, max(row.available_at, published, key=time_cutoff_utc))
+                )
         if known_ends:
             end_instants = {_utc(end) for end, _ in known_ends}
             if len(end_instants) != 1:
                 raise ValueError(f"Ambiguous attribute version end: {base.name}")
-            disclosed = min((published for _, published in known_ends), key=_utc)
-            if any(_utc(opened) >= _utc(disclosed) for opened in open_copies):
-                raise ValueError(f"Ambiguous attribute end retraction: {base.name}")
-            base = replace(
-                base,
-                valid_to=known_ends[0][0],
-                valid_to_available_at=disclosed,
+            disclosed = min(
+                (published for _, published in known_ends), key=time_cutoff_utc
             )
-        reconciled.append(base)
+            if any(
+                time_cutoff_utc(opened) >= time_cutoff_utc(disclosed)
+                for opened in open_copies
+            ):
+                raise ValueError(f"Ambiguous attribute end retraction: {base.name}")
+            if isinstance(base, Attribute) and isinstance(
+                disclosed, DateOnlyAvailability
+            ):
+                result = _ReconciledAttribute.from_exact(
+                    base, known_ends[0][0], disclosed
+                )
+            else:
+                result = replace(
+                    base,
+                    valid_to=known_ends[0][0],
+                    valid_to_available_at=disclosed,
+                )
+        reconciled.append(result)
     return tuple(reconciled)
 
 
 def _reconcile_property_copies(
-    observations: Sequence[Property], boundary: _Boundary
-) -> tuple[Property, ...]:
+    observations: Sequence[Property | DatePublishedProperty], boundary: _Boundary
+) -> tuple[PropertyFact, ...]:
     """Close identical source copies when their end becomes known."""
-    grouped: dict[tuple[object, ...], list[Property]] = {}
+    grouped: dict[tuple[object, ...], list[Property | DatePublishedProperty]] = {}
     for row in observations:
         if not boundary.known_by(row.observed_at) or not boundary.known_by(
             row.available_at
@@ -261,41 +254,60 @@ def _reconcile_property_copies(
         )
         grouped.setdefault(key, []).append(row)
 
-    reconciled: list[Property] = []
+    reconciled: list[PropertyFact] = []
     for copies in grouped.values():
         base = min(
             copies,
             key=lambda row: (
-                _utc(row.available_at),
+                time_cutoff_utc(row.available_at),
                 row.valid_from is not None,
                 str(row.living_area),
                 str(row.latitude),
                 str(row.longitude),
-                row.available_at.isoformat(),
+                time_sort_text(row.available_at),
                 row.observed_at.isoformat(),
                 row.valid_from.isoformat() if row.valid_from else "",
             ),
         )
-        known_ends: list[tuple[datetime, datetime]] = []
-        open_copies: list[datetime] = []
+        result: PropertyFact = base
+        known_ends: list[tuple[datetime, datetime | DateOnlyAvailability]] = []
+        open_copies: list[datetime | DateOnlyAvailability] = []
         for row in copies:
             end, published = _known_valid_to(row, boundary)
             if end is None or published is None:
                 open_copies.append(row.available_at)
             else:
-                known_ends.append((end, max(row.available_at, published, key=_utc)))
+                known_ends.append(
+                    (end, max(row.available_at, published, key=time_cutoff_utc))
+                )
         if known_ends:
             if len({_utc(end) for end, _ in known_ends}) != 1:
                 raise ValueError("Ambiguous property version end")
-            disclosed = min((published for _, published in known_ends), key=_utc)
-            if any(_utc(opened) >= _utc(disclosed) for opened in open_copies):
-                raise ValueError("Ambiguous property end retraction")
-            base = replace(
-                base,
-                valid_to=_utc(known_ends[0][0]),
-                valid_to_available_at=_utc(disclosed),
+            disclosed = min(
+                (published for _, published in known_ends), key=time_cutoff_utc
             )
-        reconciled.append(_visible_property_version(base, boundary))
+            if any(
+                time_cutoff_utc(opened) >= time_cutoff_utc(disclosed)
+                for opened in open_copies
+            ):
+                raise ValueError("Ambiguous property end retraction")
+            if isinstance(base, Property) and isinstance(
+                disclosed, DateOnlyAvailability
+            ):
+                result = _ReconciledProperty.from_exact(
+                    base, _utc(known_ends[0][0]), disclosed
+                )
+            else:
+                result = replace(
+                    base,
+                    valid_to=_utc(known_ends[0][0]),
+                    valid_to_available_at=(
+                        disclosed
+                        if isinstance(disclosed, DateOnlyAvailability)
+                        else _utc(disclosed)
+                    ),
+                )
+        reconciled.append(_visible_property_version(result, boundary))
     return tuple(reconciled)
 
 
@@ -309,16 +321,21 @@ def select_property_version(
 ) -> Property:
     """Select the effective version using only information known by a cutoff."""
     _instant(origin, "origin")
+    if any(type(row) is not Property for row in versions):
+        raise ValueError("Exact protocol rejects date-only property facts")
     if known_at is not None:
         _instant(known_at, "known_at")
         if _utc(known_at) < _utc(origin):
             raise ValueError("known_at cannot precede the effective origin")
-    return _select_property_version(
+    selected = _select_property_version(
         property_id,
         versions,
         _exact_boundary(origin, source_snapshot, known_at),
         source_snapshot,
     )
+    if type(selected) is not Property:
+        raise ValueError("Exact protocol selected a non-exact property fact")
+    return selected
 
 
 def select_local_date_property_version(
@@ -330,17 +347,22 @@ def select_local_date_property_version(
     """Select a version effective through a source-local origin date."""
     if not isinstance(origin, LocalDateOrigin):
         raise ValueError("origin must be a LocalDateOrigin")
-    return _select_property_version(
+    if any(type(row) is not Property for row in versions):
+        raise ValueError("Local-date v1 rejects date-only property facts; use v2")
+    selected = _select_property_version(
         property_id, versions, _local_boundary(origin, source_snapshot), source_snapshot
     )
+    if type(selected) is not Property:
+        raise ValueError("Local-date v1 selected a non-exact property fact")
+    return selected
 
 
 def _select_property_version(
     property_id: str,
-    versions: Sequence[Property],
+    versions: Sequence[Property | DatePublishedProperty],
     boundary: _Boundary,
     source_snapshot: SourceSnapshot,
-) -> Property:
+) -> PropertyFact:
     _identifier(property_id, "property_id")
     if not versions:
         raise ValueError("Property history is empty")
@@ -378,9 +400,9 @@ def _select_property_version(
 
 
 def _reject_unresolved_expiries(
-    observations: Sequence[Attribute], boundary: _Boundary
+    observations: Sequence[AttributeFact], boundary: _Boundary
 ) -> None:
-    grouped: dict[tuple[str, str, str], list[Attribute]] = {}
+    grouped: dict[tuple[str, str, str], list[AttributeFact]] = {}
     for row in observations:
         grouped.setdefault((row.property_id, row.name, row.source_id), []).append(row)
     for rows in grouped.values():
@@ -399,7 +421,9 @@ def _reject_unresolved_expiries(
                 )
 
 
-def _known_attribute_facts(row: Attribute, boundary: _Boundary) -> tuple[object, ...]:
+def _known_attribute_facts(
+    row: AttributeFact, boundary: _Boundary
+) -> tuple[object, ...]:
     return row.value, row.unit, row.missing_state, _version_lineage(row, boundary)
 
 
@@ -409,21 +433,34 @@ def _snapshot_hash(
     source_snapshot: SourceSnapshot,
     values: Mapping[str, str | int | Decimal],
     lineage: Mapping[str, Lineage],
+    *,
+    local_policy_version: str | None = None,
 ) -> str:
-    features: list[dict[str, str]] = []
+    typed = local_policy_version == LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2
+    features: list[dict[str, object]] = []
     for name in sorted(values):
         entry = lineage[name]
         feature = {
             "name": name,
             "value": str(values[name]),
             "source_id": entry.source_id,
-            "observed_at": _utc(entry.observed_at).isoformat(),
-            "available_at": _utc(entry.available_at).isoformat(),
+            "observed_at": (
+                typed_time_identity(entry.observed_at)
+                if typed
+                else _utc(entry.observed_at).isoformat()
+            ),
+            "available_at": (
+                typed_time_identity(entry.available_at)
+                if typed
+                else _utc(entry.available_at).isoformat()
+            ),
         }
         for field in ("valid_from", "valid_to", "valid_to_available_at"):
             value = getattr(entry, field)
             if value is not None:
-                feature[field] = _utc(value).isoformat()
+                feature[field] = (
+                    typed_time_identity(value) if typed else _utc(value).isoformat()
+                )
         features.append(feature)
     payload = {
         "property_id": property_id,
@@ -437,7 +474,9 @@ def _snapshot_hash(
     }
     if isinstance(origin, LocalDateOrigin):
         payload["origin_policy"] = {
-            "assembler_policy_version": LOCAL_DATE_ASSEMBLER_POLICY_VERSION,
+            "assembler_policy_version": (
+                local_policy_version or LOCAL_DATE_ASSEMBLER_POLICY_VERSION
+            ),
             "protocol_id": origin.protocol_id,
             "policy_hash": origin.policy_hash,
             "origin_date": origin.origin_date.isoformat(),
@@ -466,6 +505,12 @@ def assemble_snapshot(
 ) -> FeatureSnapshot:
     """Return source-backed features visible no later than a valuation origin."""
     _instant(origin, "origin")
+    if (
+        type(property) is not Property
+        or any(type(row) is not Attribute for row in attributes)
+        or any(type(row) is not Transaction for row in transactions)
+    ):
+        raise ValueError("Exact protocol rejects date-only facts")
     return _assemble_snapshot_core(
         property,
         origin,
@@ -497,6 +542,12 @@ def assemble_local_date_snapshot(
     """Assemble timestamped source facts before the local date's exclusive end."""
     if not isinstance(origin, LocalDateOrigin):
         raise ValueError("origin must be a LocalDateOrigin")
+    if (
+        type(property) is not Property
+        or any(type(row) is not Attribute for row in attributes)
+        or any(type(row) is not Transaction for row in transactions)
+    ):
+        raise ValueError("Local-date v1 rejects date-only facts; use v2")
     return _assemble_snapshot_core(
         property,
         origin,
@@ -513,18 +564,19 @@ def assemble_local_date_snapshot(
 
 
 def _assemble_snapshot_core(
-    property: Property,
+    property: PropertyFact,
     origin: datetime | LocalDateOrigin,
     mode: str,
     source_snapshot: SourceSnapshot,
     boundary: _Boundary,
     *,
-    attributes: Sequence[Attribute],
+    attributes: Sequence[Attribute | DatePublishedAttribute],
     listing_events: Sequence[ListingEvent],
-    transactions: Sequence[Transaction],
+    transactions: Sequence[Transaction | LocalDateSale],
     subject_transaction_id: str | None,
     subject_source_id: str | None,
     subject_economic_transfer_id: str | None,
+    local_policy_version: str | None = None,
 ) -> FeatureSnapshot | LocalDateFeatureSnapshot:
     if mode == "ON":
         raise NotImplementedError("ON requires authorised historical listing snapshots")
@@ -533,7 +585,9 @@ def _assemble_snapshot_core(
     if property.source_id not in source_snapshot.source_ids:
         raise ValueError("Property source is absent from snapshot manifest")
     if not _effective_at(property, boundary):
-        raise ValueError("Property version is unavailable or not valid at origin")
+        raise NoAvailablePropertyVersionError(
+            "Property version is unavailable or not valid at origin"
+        )
 
     property_lineage = _version_lineage(property, boundary)
     values: dict[str, str | int | Decimal] = {"property_type": property.property_type}
@@ -551,7 +605,7 @@ def _assemble_snapshot_core(
         values["living_area_state"] = property.living_area_state
         lineage["living_area_state"] = property_lineage
 
-    validated_attributes: list[Attribute] = []
+    validated_attributes: list[Attribute | DatePublishedAttribute] = []
     for observation in attributes:
         if observation.property_id != property.property_id:
             raise ValueError("Attribute property_id does not match requested property")
@@ -561,12 +615,12 @@ def _assemble_snapshot_core(
         validated_attributes.append(observation)
     reconciled = _reconcile_attribute_copies(validated_attributes, boundary)
     _reject_unresolved_expiries(reconciled, boundary)
-    candidates: dict[str, list[Attribute]] = {}
+    candidates: dict[str, list[AttributeFact]] = {}
     for observation in reconciled:
         if not _effective_at(observation, boundary):
             continue
         candidates.setdefault(observation.name, []).append(observation)
-    chosen: dict[str, Attribute] = {}
+    chosen: dict[str, AttributeFact] = {}
     for name, eligible in candidates.items():
         if len(eligible) > 1 and any(
             row.valid_from is not None or row.valid_to is not None for row in eligible
@@ -592,8 +646,8 @@ def _assemble_snapshot_core(
                 or observation.missing_state != earlier.missing_state
             ):
                 raise ValueError(f"Ambiguous attribute: {name}")
-            if (_utc(observation.available_at), observation.source_id) < (
-                _utc(earlier.available_at),
+            if (time_cutoff_utc(observation.available_at), observation.source_id) < (
+                time_cutoff_utc(earlier.available_at),
                 earlier.source_id,
             ):
                 chosen[name] = observation
@@ -606,56 +660,21 @@ def _assemble_snapshot_core(
         )
         lineage[output_name] = _version_lineage(observation, boundary)
 
-    if (subject_transaction_id is None) != (subject_source_id is None):
-        raise ValueError("Subject raw transaction ID requires its source ID")
-    subject_matches = (
-        {
-            sale.economic_transfer_id
-            for sale in transactions
-            if sale.property_id == property.property_id
-            and sale.source_id == subject_source_id
-            and sale.transaction_id == subject_transaction_id
-        }
-        if subject_transaction_id is not None
-        else set()
+    prior = select_prior_sale(
+        property.property_id,
+        transactions,
+        boundary,
+        source_snapshot,
+        subject_transaction_id=subject_transaction_id,
+        subject_source_id=subject_source_id,
+        subject_economic_transfer_id=subject_economic_transfer_id,
     )
-    if subject_transaction_id is not None and not subject_matches:
-        raise ValueError("Subject transaction identity cannot be resolved")
-    if len(subject_matches) > 1:
-        raise ValueError("Subject transaction maps to multiple transfers")
-    if (
-        subject_matches
-        and subject_economic_transfer_id is not None
-        and subject_economic_transfer_id not in subject_matches
-    ):
-        raise ValueError("Subject economic transfer identity conflicts")
-    excluded_transfer = (
-        subject_economic_transfer_id
-        if subject_economic_transfer_id is not None
-        else next(iter(subject_matches), None)
-    )
-    prior = []
-    for sale in transactions:
-        if sale.property_id != property.property_id:
-            continue
-        if sale.source_id not in source_snapshot.source_ids:
-            raise ValueError("Transaction source is absent from snapshot manifest")
-        if sale.economic_transfer_id == excluded_transfer:
-            continue
-        if boundary.known_by(sale.close_at) and boundary.known_by(sale.available_at):
-            prior.append(sale)
-    if prior:
-        canonical = canonicalize_transactions(prior)
-        eligible = tuple(sale for sale in canonical if sale.eligible_prior_sale)
-        if eligible:
-            latest = max(
-                eligible,
-                key=lambda row: (_utc(row.close_at), _utc(row.available_at)),
-            )
-            values["prior_sale_price"] = latest.price
-            lineage["prior_sale_price"] = Lineage(
-                latest.source_id, latest.close_at, latest.available_at
-            )
+    if prior is not None:
+        latest, close_event = prior
+        values["prior_sale_price"] = latest.price
+        lineage["prior_sale_price"] = Lineage(
+            latest.source_id, close_event, latest.available_at
+        )
 
     # OFF never reads listing_events; its events cannot affect this snapshot.
     del listing_events
@@ -672,7 +691,12 @@ def _assemble_snapshot_core(
         values=MappingProxyType(values),
         lineage=MappingProxyType(lineage),
         snapshot_hash=_snapshot_hash(
-            property.property_id, origin, source_snapshot, values, lineage
+            property.property_id,
+            origin,
+            source_snapshot,
+            values,
+            lineage,
+            local_policy_version=local_policy_version,
         ),
     )
 

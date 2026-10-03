@@ -5,13 +5,22 @@ Updated: 2026-10-03. Branch: `audit/u0`.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [synthetic local-date publication v2 decision](decisions/0082-source-local-feature-publication-v2.md)
+now permits typed date-only first publication for property and attribute facts
+and typed prior-sale dates in a separate OFF feature policy. It keeps source
+zones and precision in lineage, rejects future and duplicate sale facts, and
+does not change the exact-UTC or local-date v1 policy. This is synthetic
+engineering work; a real source still needs verified first-availability dates,
+rights, semantics and independently hashed raw artifacts. Continue the U0
+source audit before any real-data training.
 The [synthetic source-local date OFF bridge](runs/u3-synthetic-local-date-off-v1-20261003/report.md)
 now joins date-only sale labels to 90-calendar-date origins, timestamped
 as-of features and a guarded median fit under the frozen synthetic maturity
 plan. Its final suite passed 1,244 tests with zero skips and 89% combined
 branch-aware coverage of the four touched production modules. The recorded
-source digest is still a fixture declaration, not a verified raw-source hash;
-date-only feature publication remains an unimplemented adapter case. U3 has
+source digest is still a fixture declaration, not a verified raw-source hash.
+Date-only publication now has a typed synthetic contract but no verified
+real-source adapter. U3 has
 not been accepted and no real-market labels were trained.
 The [synthetic property-history selector](runs/u1-synthetic-property-history-v1-20261003T164855Z/report.md)
 now resolves structural versions at valuation time and comparable sale time,

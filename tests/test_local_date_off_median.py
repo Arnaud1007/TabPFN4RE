@@ -12,6 +12,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 
 from tabpfn4realestate.data.local_date_sale import LocalDateSale  # noqa: E402
+from tabpfn4realestate.data.local_date_facts import (  # noqa: E402
+    DatePublishedAttribute,
+    DatePublishedProperty,
+)
 from tabpfn4realestate.data.schema import Property, SourceSnapshot  # noqa: E402
 from tabpfn4realestate.evaluation.calendar_schedule import (  # noqa: E402
     CalendarOriginRef,
@@ -30,6 +34,9 @@ from tabpfn4realestate.evaluation.metrics import PredictionRow, score_prediction
 from tabpfn4realestate.models.local_date_median import (  # noqa: E402
     CalendarTrainingExample,
     GuardedLocalDateMedian,
+)
+from tabpfn4realestate.features.asof import (  # noqa: E402
+    LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
 )
 
 
@@ -129,6 +136,70 @@ def fit_examples(plan, maturity, examples):
 
 
 class LocalDateMedianTests(unittest.TestCase):
+    def test_date_published_training_requires_v2_and_keeps_typed_lineage(self):
+        plan, maturity = fixture_plan()
+        training = tuple(
+            replace(
+                base := example(row, str(100000 + index * 100)),
+                property=DatePublishedProperty(
+                    row.property_id,
+                    "US",
+                    "single_family",
+                    "synthetic-county",
+                    datetime(2020, 1, 1, tzinfo=UTC),
+                    DateOnlyAvailability(date(2020, 1, 2), ZONE),
+                    Decimal("1500"),
+                    "sqft",
+                ),
+                attributes=(
+                    DatePublishedAttribute(
+                        row.property_id,
+                        "condition",
+                        "good",
+                        datetime(2020, 1, 1, tzinfo=UTC),
+                        DateOnlyAvailability(base.origin.origin_date, ZONE),
+                        "synthetic-county",
+                    ),
+                ),
+            )
+            for index, row in enumerate(ORIGINS[:5])
+        )
+        with self.assertRaisesRegex(ValueError, "v2"):
+            fit_examples(plan, maturity, training)
+        model = GuardedLocalDateMedian.fit(
+            training,
+            plan,
+            ORIGINS,
+            ZONES,
+            maturity,
+            source_snapshot_sha256=SOURCE_HASH,
+            feature_policy_version=LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
+        )
+        self.assertEqual(
+            model.feature_policy_version, LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2
+        )
+        held_out = example(ORIGINS[-1], "150000")
+        prediction = model.predict(
+            held_out.property,
+            held_out.origin,
+            held_out.source_snapshot,
+            attributes=(
+                DatePublishedAttribute(
+                    held_out.property.property_id,
+                    "condition",
+                    "good",
+                    datetime(2020, 1, 1, tzinfo=UTC),
+                    DateOnlyAvailability(held_out.origin.origin_date, ZONE),
+                    "synthetic-county",
+                ),
+            ),
+        )
+        self.assertEqual(prediction.amount, Decimal("100200"))
+        self.assertEqual(
+            prediction.snapshot.lineage["condition"].available_at,
+            DateOnlyAvailability(held_out.origin.origin_date, ZONE),
+        )
+
     def test_sale_label_keeps_local_date_precision_and_rejects_premature_publication(
         self,
     ):

@@ -12,6 +12,10 @@ from statistics import median
 from typing import Mapping, Sequence
 
 from tabpfn4realestate.data.local_date_sale import LocalDateSale
+from tabpfn4realestate.data.local_date_facts import (
+    DatePublishedAttribute,
+    DatePublishedProperty,
+)
 from tabpfn4realestate.data.schema import (
     Attribute,
     ListingEvent,
@@ -36,9 +40,13 @@ from tabpfn4realestate.evaluation.local_dates import (
     derive_local_date_origin,
 )
 from tabpfn4realestate.features.asof import (
+    LOCAL_DATE_ASSEMBLER_POLICY_VERSION,
+    LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
     LocalDateFeatureSnapshot,
     assemble_local_date_snapshot,
 )
+from tabpfn4realestate.features.asof_local_date import assemble_local_date_snapshot_v2
+from tabpfn4realestate.features.asof_timing import _local_boundary
 from tabpfn4realestate.models.guards import validate_feature_columns
 from tabpfn4realestate.models.off_baseline import CORE_OFF_FEATURES
 
@@ -49,19 +57,19 @@ _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 @dataclass(frozen=True)
 class CalendarTrainingExample:
     row_id: str
-    property: Property
+    property: Property | DatePublishedProperty
     origin: LocalDateOrigin
     source_snapshot: SourceSnapshot
     label: LocalDateSale
-    attributes: tuple[Attribute, ...] = ()
-    transactions: tuple[Transaction, ...] = ()
+    attributes: tuple[Attribute | DatePublishedAttribute, ...] = ()
+    transactions: tuple[Transaction | LocalDateSale, ...] = ()
     listing_events: tuple[ListingEvent, ...] = ()
 
     def __post_init__(self) -> None:
         _identifier(self.row_id, "row_id")
-        if not isinstance(self.property, Property) or not isinstance(
-            self.source_snapshot, SourceSnapshot
-        ):
+        if not isinstance(
+            self.property, (Property, DatePublishedProperty)
+        ) or not isinstance(self.source_snapshot, SourceSnapshot):
             raise ValueError("Calendar example needs a property and source manifest")
         if not isinstance(self.origin, LocalDateOrigin) or not isinstance(
             self.label, LocalDateSale
@@ -80,20 +88,31 @@ class LocalDateOffPrediction:
     snapshot: LocalDateFeatureSnapshot
 
 
-def _check_snapshot(snapshot: LocalDateFeatureSnapshot, source: SourceSnapshot) -> None:
+def _check_snapshot(
+    snapshot: LocalDateFeatureSnapshot,
+    source: SourceSnapshot,
+    *,
+    feature_policy_version: str = LOCAL_DATE_ASSEMBLER_POLICY_VERSION,
+) -> None:
     validate_feature_columns(tuple(snapshot.values), CORE_OFF_FEATURES, mode="OFF")
     if set(snapshot.values) != set(snapshot.lineage):
         raise ValueError("Feature values and lineage do not match")
     if snapshot.source_snapshot_id != source.snapshot_id:
         raise ValueError("Feature source snapshot does not match request")
-    cutoff = snapshot.origin.cutoff_exclusive_utc
-    source_cap = _utc(source.as_of)
+    boundary = _local_boundary(
+        snapshot.origin,
+        source,
+        allow_date_only=feature_policy_version
+        == LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
+    )
     if any(
         entry.source_id not in source.source_ids
-        or _utc(entry.observed_at) >= cutoff
-        or _utc(entry.available_at) >= cutoff
-        or _utc(entry.observed_at) > source_cap
-        or _utc(entry.available_at) > source_cap
+        or not boundary.known_by(entry.observed_at)
+        or not boundary.known_by(entry.available_at)
+        or (
+            entry.valid_to_available_at is not None
+            and not boundary.known_by(entry.valid_to_available_at)
+        )
         for entry in snapshot.lineage.values()
     ):
         raise ValueError("OFF feature has invalid source or future lineage")
@@ -186,6 +205,7 @@ class GuardedLocalDateMedian:
     source_snapshot_sha256: str
     training_rows_sha256: str
     allowed_source_ids: tuple[str, ...]
+    feature_policy_version: str = LOCAL_DATE_ASSEMBLER_POLICY_VERSION
 
     def __post_init__(self) -> None:
         _instant(self.training_cutoff, "training_cutoff")
@@ -223,6 +243,11 @@ class GuardedLocalDateMedian:
             raise ValueError("Calendar model source contract is invalid")
         for source_id in self.allowed_source_ids:
             _identifier(source_id, "source ID")
+        if self.feature_policy_version not in {
+            LOCAL_DATE_ASSEMBLER_POLICY_VERSION,
+            LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
+        }:
+            raise ValueError("Unsupported local-date feature policy")
 
     @classmethod
     def fit(
@@ -234,7 +259,13 @@ class GuardedLocalDateMedian:
         maturity: Sequence[ChronologicalMaturityRef],
         *,
         source_snapshot_sha256: str,
+        feature_policy_version: str = LOCAL_DATE_ASSEMBLER_POLICY_VERSION,
     ) -> GuardedLocalDateMedian:
+        if feature_policy_version not in {
+            LOCAL_DATE_ASSEMBLER_POLICY_VERSION,
+            LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
+        }:
+            raise ValueError("Unsupported local-date feature policy")
         if not isinstance(examples, tuple) or not examples:
             raise ValueError("Calendar fit needs immutable training examples")
         membership = _verified_plan(
@@ -287,7 +318,12 @@ class GuardedLocalDateMedian:
                 raise ValueError("Sale timing differs from the frozen local origin")
             if availability_cutoff_utc(row.label.available_at) > cutoff:
                 raise ValueError("Training sale label has not matured by fit cutoff")
-            snapshot = assemble_local_date_snapshot(
+            assembler = (
+                assemble_local_date_snapshot_v2
+                if feature_policy_version == LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2
+                else assemble_local_date_snapshot
+            )
+            snapshot = assembler(
                 row.property,
                 row.origin,
                 "OFF",
@@ -297,7 +333,11 @@ class GuardedLocalDateMedian:
                 listing_events=row.listing_events,
                 subject_economic_transfer_id=row.label.economic_transfer_id,
             )
-            _check_snapshot(snapshot, row.source_snapshot)
+            _check_snapshot(
+                snapshot,
+                row.source_snapshot,
+                feature_policy_version=feature_policy_version,
+            )
             prices.append(row.label.price)
             hashes.append(snapshot.snapshot_hash)
             training_rows.append(_training_row_record(row, snapshot))
@@ -319,16 +359,17 @@ class GuardedLocalDateMedian:
             source_snapshot_sha256,
             training_rows_sha256,
             tuple(sorted(source_ids)),
+            feature_policy_version,
         )
 
     def predict(
         self,
-        property: Property,
+        property: Property | DatePublishedProperty,
         origin: LocalDateOrigin,
         source_snapshot: SourceSnapshot,
         *,
-        attributes: tuple[Attribute, ...] = (),
-        transactions: tuple[Transaction, ...] = (),
+        attributes: tuple[Attribute | DatePublishedAttribute, ...] = (),
+        transactions: tuple[Transaction | LocalDateSale, ...] = (),
         listing_events: tuple[ListingEvent, ...] = (),
     ) -> LocalDateOffPrediction:
         if not isinstance(origin, LocalDateOrigin):
@@ -337,7 +378,12 @@ class GuardedLocalDateMedian:
             raise ValueError("Prediction origin predates model fit cutoff")
         if not set(source_snapshot.source_ids).issubset(self.allowed_source_ids):
             raise ValueError("Prediction source is outside training source contract")
-        snapshot = assemble_local_date_snapshot(
+        assembler = (
+            assemble_local_date_snapshot_v2
+            if self.feature_policy_version == LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2
+            else assemble_local_date_snapshot
+        )
+        snapshot = assembler(
             property,
             origin,
             "OFF",
@@ -346,5 +392,9 @@ class GuardedLocalDateMedian:
             transactions=transactions,
             listing_events=listing_events,
         )
-        _check_snapshot(snapshot, source_snapshot)
+        _check_snapshot(
+            snapshot,
+            source_snapshot,
+            feature_policy_version=self.feature_policy_version,
+        )
         return LocalDateOffPrediction(self.amount, snapshot)

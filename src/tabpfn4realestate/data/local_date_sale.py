@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from decimal import Decimal
+from typing import Sequence
 
 from tabpfn4realestate.data.schema import _decimal, _identifier
 from tabpfn4realestate.evaluation.local_dates import (
@@ -85,3 +86,52 @@ class LocalDateSale:
             and self.arm_length_status == "confirmed"
             and not self.adjustment_flags
         )
+
+
+def canonicalize_local_date_sales(
+    sales: Sequence[LocalDateSale],
+) -> tuple[LocalDateSale, ...]:
+    """Collapse only matching copies of one dated economic transfer."""
+    by_transfer: dict[str, LocalDateSale] = {}
+    by_source_transaction: dict[tuple[str, str], str] = {}
+    for row in sales:
+        if not isinstance(row, LocalDateSale):
+            raise ValueError("Expected a local-date sale")
+        source_key = (row.source_id, row.transaction_id)
+        earlier_transfer = by_source_transaction.get(source_key)
+        if (
+            earlier_transfer is not None
+            and earlier_transfer != row.economic_transfer_id
+        ):
+            raise ValueError("Source transaction identifies two economic transfers")
+        by_source_transaction[source_key] = row.economic_transfer_id
+        earlier = by_transfer.get(row.economic_transfer_id)
+        if earlier is None:
+            by_transfer[row.economic_transfer_id] = row
+            continue
+        comparable_fields = (
+            "property_id",
+            "close_date",
+            "close_zone_key",
+            "price",
+            "currency",
+            "scope",
+            "consideration_type",
+            "arm_length_status",
+            "adjustment_flags",
+        )
+        if any(
+            getattr(earlier, name) != getattr(row, name) for name in comparable_fields
+        ):
+            raise ValueError("Conflicting duplicate economic transfer; quarantine")
+        if (
+            availability_cutoff_utc(row.available_at),
+            row.source_id,
+            row.transaction_id,
+        ) < (
+            availability_cutoff_utc(earlier.available_at),
+            earlier.source_id,
+            earlier.transaction_id,
+        ):
+            by_transfer[row.economic_transfer_id] = row
+    return tuple(by_transfer[key] for key in sorted(by_transfer))

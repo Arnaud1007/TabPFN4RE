@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "run_id": "u3-synthetic-spatial-20261003T021311Z",
+  "status": "verified_synthetic_engineering",
+  "certification_eligible": false,
+  "environment": "locks/u3-spatial-environment.json",
+  "results": [
+    {
+      "name": "tdd_red",
+      "command": ".venv\\Scripts\\python.exe -m unittest tests.test_spatial_splits -v",
+      "exit_code": 1,
+      "observed": "ModuleNotFoundError before spatial_splits.py existed; expected RED phase"
+    },
+    {
+      "name": "targeted_branch_coverage_run",
+      "command": ".venv\\Scripts\\python.exe -m coverage run --branch --source=tabpfn4realestate.evaluation.spatial_splits -m unittest tests.test_spatial_splits -q",
+      "exit_code": 0,
+      "tests_run": 11,
+      "tests_failed": 0,
+      "tests_skipped": 0
+    },
+    {
+      "name": "targeted_branch_coverage_report",
+      "command": ".venv\\Scripts\\python.exe -m coverage report -m",
+      "exit_code": 0,
+      "statements": 140,
+      "missing_statements": 4,
+      "branches": 38,
+      "partial_branches": 2,
+      "total_coverage_percent_rounded": 97
+    },
+    {
+      "name": "full_suite_initial_disk_failure",
+      "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "environment_preparation": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path",
+      "exit_code": 1,
+      "duration_seconds": 168.185,
+      "tests_run": 1028,
+      "observed": "One NYC audit fixture errored with OSError [Errno 28] No space left on device; this earlier run preceded final review fixes"
+    },
+    {
+      "name": "disk_recovery",
+      "command": ".venv\\Scripts\\python.exe -m pip cache purge",
+      "exit_code": 0,
+      "observed": "Removed 54 disposable package-cache files (61.8 MB); raw data was retained"
+    },
+    {
+      "name": "full_suite_final",
+      "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -q",
+      "environment_preparation": "$env:AMES_ARFF_PATH = (Resolve-Path 'data/raw/openml/house_prices-42165.arff').Path",
+      "exit_code": 0,
+      "duration_seconds": 169.734,
+      "tests_run": 1031,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "observed": "Ran 1031 tests in 169.734s; OK. Expected negative-canary diagnostics appeared on stderr."
+    },
+    {
+      "name": "ruff_check",
+      "command": ".venv\\Scripts\\python.exe -m ruff check src tests",
+      "exit_code": 0,
+      "observed": "All checks passed"
+    },
+    {
+      "name": "ruff_format_check",
+      "command": ".venv\\Scripts\\python.exe -m ruff format --check src/tabpfn4realestate/evaluation/spatial_splits.py tests/test_spatial_splits.py",
+      "exit_code": 0,
+      "observed": "2 files already formatted"
+    },
+    {
+      "name": "pip_check",
+      "command": ".venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "observed": "No broken requirements found"
+    },
+    {
+      "name": "dependency_audit",
+      "command": ".venv\\Scripts\\python.exe -m pip_audit --path .venv\\Lib\\site-packages",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found in audited installed distributions; local project package could not be audited on PyPI"
+    }
+  ],
+  "gate_verdict": "PASS for this synthetic engineering checkpoint only; U0, U3 and G-US remain PENDING"
+}

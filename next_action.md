@@ -39,6 +39,11 @@ passed 1,172 full-suite tests with zero skips after explicitly setting
 `AMES_ARFF_PATH` to the already available, hash-verified ARFF. This corrects
 the earlier interpretation of the one skipped test: the missing legacy file
 is `ames.csv`, not the OpenML ARFF. The fixture remains engineering-only.
+The [Cook private source-quality funnel](runs/u2-cook-quality-v1-20261003T135237Z/report.md)
+replayed the pinned 200 parcel observations, wrote private fixed-code findings
+and count partitions, and passed 1,185 full-suite tests with zero skips.
+Its public aggregate contains no new small-cell counts. Every observation
+remains audit-only, with zero certified sale labels.
 No real-market model training, final calibration or certification test has begun.
 ON mode and international implementation remain locked by the specification.
 
@@ -50,7 +55,11 @@ ON mode and international implementation remain locked by the specification.
    reuse rights. The [Cook source card](data/source_cards/cook_county_parcel_sales.yaml)
    and [private staging report](runs/u0-cook-source-staging-v1-20261003T055304Z/report.md)
    describe the frozen 200-row queue. One manual rubric is complete, one is
-   partial and 198 are untouched. The Cook inquiry is an
+   partial and 198 are untouched. The
+   [private quality audit](runs/u2-cook-quality-v1-20261003T135237Z/report.md)
+   now provides fixed review reasons for all 200 rows without changing their
+   eligibility or order. Use the private findings to prioritize independent
+   instrument checks. The Cook inquiry is an
    [unsent draft](data/requests/cook_county_sales_inquiry_draft.md); its proposed
    sender/signature change is awaiting the owner's answer. Do not send it
    without that answer.

@@ -1,0 +1,14 @@
+{
+    "command":  "python -m unittest discover -s tests -q",
+    "exit_code":  0,
+    "elapsed_seconds":  204.777,
+    "test_count":  1185,
+    "skipped_count":  0,
+    "python":  "CPython 3.11.6",
+    "ames_arff_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+    "original_stdout_sha256":  "3d3be62b918cd2eac01124d6a28e4f4cc5884dae1ae0078f0c2a5abe1eee8307",
+    "original_stderr_sha256":  "4fa9b312a6d6af356b28ace711fb5120955cf555eb28c49817340586514917c4",
+    "published_stdout_sha256":  "1391ff9bf59971e311f809b4e3ed806fdeabf75413d05be2792b460662847cc8",
+    "published_stderr_sha256":  "aaffddf98dad76a032296f3b2a0387dbb65324e2b084176801a2fd4d3732b23e",
+    "redaction":  "USERPROFILE replaced with \u003cUSER_HOME\u003e; original test output retained only until sanitized hashes recorded"
+}

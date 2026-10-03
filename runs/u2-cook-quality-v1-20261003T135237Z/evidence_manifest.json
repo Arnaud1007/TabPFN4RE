@@ -1,0 +1,25 @@
+{
+  "run_id": "u2-cook-quality-v1-20261003T135237Z",
+  "protocol": "cook_source_quality_v1",
+  "code_base_commit_at_run": "825a3d8",
+  "dirty_tree_at_run": true,
+  "code_file_sha256": {
+    "src/tabpfn4realestate/data/cook_quality.py": "ed94410df1e33f0cb8b929cc5204e08e32229492cb0b41282015eacef6d3fd65",
+    "scripts/profile_cook_staged_observations.py": "ae7462fe1c08dfae3a46c33e7e68408411106d675b0b0f2df0a47a82807b7abf"
+  },
+  "environment_pin_snapshot_sha256": "d53f760a4b1be3f1d1231335433617ba1e3982112db3d0e7e106894e31597156",
+  "source_metadata_sha256": "c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce",
+  "capture_manifest_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "staged_observations_sha256": "7b315b4b001d3b14ffc64ab0277f486738e53b83b120da592a952f94a175c167",
+  "plan_sha256": "ba6e0a2e3535b40cb413c9f1ca98e621c5138ee053785cbd6b137feeeacda3da",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint": null,
+  "certification_eligible": false,
+  "private_findings_sha256": "58708585e185e2b57aa865dff0d1dc250589f8d6214babd8600dc1326424eb5c",
+  "public_aggregate_sha256": "2865a67ab7de3d2b8af94bd0c9b76a22b80a9d6ef5fda244f4c899ebf5ffd326",
+  "certified_sale_labels": 0,
+  "historical_asof_eligible": false,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

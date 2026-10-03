@@ -1,0 +1,59 @@
+{
+  "protocol": "cook_source_quality_v1",
+  "python": "CPython 3.11.6",
+  "environment_pin_snapshot": "locks/cook-quality-environment.txt",
+  "environment_pin_snapshot_sha256": "d53f760a4b1be3f1d1231335433617ba1e3982112db3d0e7e106894e31597156",
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate.data.cook_quality,scripts.profile_cook_staged_observations -m unittest tests.test_cook_quality tests.test_profile_cook_staged_observations -q",
+      "exit_code": 0,
+      "result": "13 tests passed; 89.37% combined branch-aware coverage",
+      "evidence": ["coverage.json", "coverage_report.txt"]
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q (AMES_ARFF_PATH set to verified official ARFF)",
+      "exit_code": 0,
+      "duration_seconds": 204.777,
+      "result": "1185 tests passed; 0 skipped",
+      "evidence": ["full_gate.json", "full_stdout.log", "full_stderr.log"]
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check src/tabpfn4realestate/data/cook_quality.py scripts/profile_cook_staged_observations.py tests/test_cook_quality.py tests/test_profile_cook_staged_observations.py",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check src/tabpfn4realestate/data/cook_quality.py scripts/profile_cook_staged_observations.py tests/test_cook_quality.py tests/test_profile_cook_staged_observations.py",
+      "exit_code": 0,
+      "result": "4 files already formatted"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "exit_code": 0,
+      "result": "No broken requirements found"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip_audit --progress-spinner off",
+      "exit_code": 0,
+      "result": "No known vulnerabilities among auditable packages; local editable package not on PyPI"
+    },
+    {
+      "command": "runs/u0-cook-source-staging-v1-20261003T055304Z/verify_artifacts.ps1",
+      "exit_code": 0,
+      "duration_seconds": 2.327,
+      "result": "cook_source_staging_private_and_public_replay_pass"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m scripts.profile_cook_staged_observations run --output runs/u2-cook-quality-v1-20261003T135237Z/aggregate.json",
+      "exit_code": 0,
+      "duration_seconds": 5.261,
+      "result": "200 private quality findings; zero certified labels"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m scripts.profile_cook_staged_observations verify --run-dir data/raw/cook_county/parcel-quality-v1-130b5169ff81ccbc",
+      "exit_code": 0,
+      "duration_seconds": 2.193,
+      "result": "private findings, counts and completion manifest matched exact replay"
+    }
+  ]
+}

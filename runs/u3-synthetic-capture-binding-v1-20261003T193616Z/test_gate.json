@@ -1,0 +1,73 @@
+{
+  "run_id": "u3-synthetic-capture-binding-v1-20261003T193616Z",
+  "status": "PASS",
+  "code_commit": "999d3b73c27e548e71847766c641c4ecfc759ad5",
+  "environment_lock_sha256": "6e1c1bfb27105967bab07825e4cdcece011778eef2957492c92b95e0882e713e",
+  "configuration_sha256": "45dd7f94cd9df7d0c57e53745eec1ad5ba9b8a2167295f767fd8679d7132679d",
+  "data_snapshot_sha256": "7371c6e944713787bc67ef6eaa97501185aa3c55603c6c75b59391d760fd667d",
+  "split_hash": "557c0fb25ff77ebbf760e98865983097eb9d8b52d22e19ab09e7647449e6c109",
+  "feature_policy_manifest_sha256": "92a47b1835fe2492b180bbbabf8230adf848d75b883def8da2d7b4e58245edf7",
+  "checkpoint_sha256": "bba82fd6d8bb7016a381a8d20e52310d297585530140bf8e1adec6a225853c1b",
+  "full_suite": {
+    "command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p test_*.py -q",
+    "exit_code": 0,
+    "duration_seconds": 211.362,
+    "tests": 1262,
+    "skipped": 0,
+    "log_sha256": "6703fe702db38152ac20d10565eb4941b3c6eb3a16aba4097f06d7ec4eafadfd"
+  },
+  "coverage_by_module_percent": {
+    "local_date_artifact": 83,
+    "local_date_median": 80,
+    "combined": 81
+  },
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe runs\\u3-synthetic-capture-binding-v1-20261003T193616Z\\verify_artifacts.py",
+      "exit_code": 0,
+      "duration_seconds": 0.25,
+      "log_sha256": "1768b66ed73999026eb29e4eb54fef33bda0295b040f54b76bcd22980c59cfac"
+    },
+    {
+      "command": ".venv/Scripts/ruff.exe check src/tabpfn4realestate/models/local_date_artifact.py src/tabpfn4realestate/models/local_date_median.py tests/test_local_date_artifact.py runs\\u3-synthetic-capture-binding-v1-20261003T193616Z\\verify_artifacts.py",
+      "exit_code": 0,
+      "duration_seconds": 0.031,
+      "log_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    },
+    {
+      "command": ".venv/Scripts/ruff.exe format --check src/tabpfn4realestate/models/local_date_artifact.py src/tabpfn4realestate/models/local_date_median.py tests/test_local_date_artifact.py runs\\u3-synthetic-capture-binding-v1-20261003T193616Z\\verify_artifacts.py",
+      "exit_code": 0,
+      "duration_seconds": 0.031,
+      "log_sha256": "55b5a2cb0bdd55641f1b6dad60805a4c29520e41d507781e75aa8ec8d6ed9a10"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "exit_code": 0,
+      "duration_seconds": 0.484,
+      "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "command": ".venv/Scripts/pip-audit.exe --skip-editable",
+      "exit_code": 0,
+      "duration_seconds": 2.329,
+      "log_sha256": "b33e645dcb25bc903a3e7115015dab003d955555240a5018b26a4ab811fd034c"
+    }
+  ],
+  "artifact_sha256": {
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/synthetic_training.jsonl": "7371c6e944713787bc67ef6eaa97501185aa3c55603c6c75b59391d760fd667d",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/synthetic_replay.json": "d00280c34021b6960123897645adc39c36a36f53d8ebd976de63e946cfd13ba7",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/run_config.json": "45dd7f94cd9df7d0c57e53745eec1ad5ba9b8a2167295f767fd8679d7132679d",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/environment_lock.txt": "6e1c1bfb27105967bab07825e4cdcece011778eef2957492c92b95e0882e713e",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/full_suite.log": "6703fe702db38152ac20d10565eb4941b3c6eb3a16aba4097f06d7ec4eafadfd",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/coverage.log": "509f8920cf415dac4fecf95420fc085de94143600aef9c1e162c89ec7efbc079",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/verify_artifacts.py": "4ea1b0e5a0c22483149894928a66df795194047c2dda12a44760b405c2f3068d",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/tamper.log": "7133b4f02bc216738f8f6a1834815b4d18a99f8dd6000e231d7a84815e4da71f",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/report.md": "3687e1007e5ceff30d7664e3300a6e2fa7d75ce02c23e8daab1a846b9f71d50a",
+    "runs/u3-synthetic-capture-binding-v1-20261003T193616Z/review_evidence.md": "fe8548fb4065c9e982d7c890ec0cec16ee33eee836978f22e519cee375992c36",
+    "decisions/0084-synthetic-calendar-capture-byte-binding.md": "03c27cf23a19b2b03209b61961c4dfa565df69e3c4ea5dae607629e30a24edcb"
+  },
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "u3_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

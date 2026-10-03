@@ -1,0 +1,61 @@
+{
+  "protocol": "synthetic_calendar_capture_v1",
+  "source_snapshot_sha256": "7371c6e944713787bc67ef6eaa97501185aa3c55603c6c75b59391d760fd667d",
+  "capture_bytes": 1985,
+  "training_rows": 5,
+  "train_row_ids": [
+    "history",
+    "q1",
+    "q2",
+    "q3",
+    "q4"
+  ],
+  "reserved_row_ids": [
+    "calibration",
+    "test"
+  ],
+  "plan_hash": "557c0fb25ff77ebbf760e98865983097eb9d8b52d22e19ab09e7647449e6c109",
+  "schedule_hash": "6af15e64df16bd7e109e8e555f65b06814e411b7366e2245ebdfdefed43cb8ac",
+  "training_rows_sha256": "73475d1f62920a7cd065211c4914804138c1509beb51ab0f01a3e4b207f13012",
+  "feature_snapshot_hashes": [
+    "4c3a462114af39ab264877ed1ebbc807fecfba15116c1134e429b9b9d52a824e",
+    "363e93306dfa8101db4cd07f3851e50d07f35a44984f166dc8556c8837f039f0",
+    "6faa4f3083a4f9af79c929765d65d8871281c5a900c8b5da419a38e4c5bf2776",
+    "7ec24a3599fc90cc8617f0a0c4c3eddb3a7a81743d3260ee778408ad28d5a1a3",
+    "3213ef014d289270245a34e3258ab5364a8ad34e9f50c32ba6ab4dd9a887318a"
+  ],
+  "feature_policy_version": "synthetic_off_local_date_asof_v2",
+  "source_binding_kind": "synthetic_capture_bytes_v1",
+  "median_amount": "100200",
+  "replay_status": "PASS",
+  "real_market_labels": 0,
+  "us_gate_status": "PENDING",
+  "model": {
+    "amount": "100200",
+    "train_row_ids": [
+      "history",
+      "q1",
+      "q2",
+      "q3",
+      "q4"
+    ],
+    "feature_snapshot_hashes": [
+      "4c3a462114af39ab264877ed1ebbc807fecfba15116c1134e429b9b9d52a824e",
+      "363e93306dfa8101db4cd07f3851e50d07f35a44984f166dc8556c8837f039f0",
+      "6faa4f3083a4f9af79c929765d65d8871281c5a900c8b5da419a38e4c5bf2776",
+      "7ec24a3599fc90cc8617f0a0c4c3eddb3a7a81743d3260ee778408ad28d5a1a3",
+      "3213ef014d289270245a34e3258ab5364a8ad34e9f50c32ba6ab4dd9a887318a"
+    ],
+    "training_cutoff": "2024-01-01T00:00:00+00:00",
+    "plan_hash": "557c0fb25ff77ebbf760e98865983097eb9d8b52d22e19ab09e7647449e6c109",
+    "schedule_hash": "6af15e64df16bd7e109e8e555f65b06814e411b7366e2245ebdfdefed43cb8ac",
+    "origin_policy_sha256": "af23647b588ddf4f6ff8102d60cc136bf326160cf336d41315d506a253c4c98b",
+    "source_snapshot_sha256": "7371c6e944713787bc67ef6eaa97501185aa3c55603c6c75b59391d760fd667d",
+    "training_rows_sha256": "73475d1f62920a7cd065211c4914804138c1509beb51ab0f01a3e4b207f13012",
+    "allowed_source_ids": [
+      "synthetic-county"
+    ],
+    "feature_policy_version": "synthetic_off_local_date_asof_v2",
+    "source_binding_kind": "synthetic_capture_bytes_v1"
+  }
+}

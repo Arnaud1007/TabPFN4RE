@@ -1,0 +1,3 @@
+empty_reserved_ids: rejected as expected (exit 1)
+wrong_median_summary: rejected as expected (exit 1)
+false_replay_status: rejected as expected (exit 1)

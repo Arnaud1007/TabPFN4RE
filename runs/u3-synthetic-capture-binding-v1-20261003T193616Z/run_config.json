@@ -1,0 +1,27 @@
+{
+  "run_id": "u3-synthetic-capture-binding-v1-20261003T193616Z",
+  "purpose": "synthetic training capture byte and row binding",
+  "code_commit": "999d3b73c27e548e71847766c641c4ecfc759ad5",
+  "code_dirty_at_run": true,
+  "source_id": "synthetic-county",
+  "source_capture_protocol": "synthetic_calendar_capture_v1",
+  "source_capture_sha256": "7371c6e944713787bc67ef6eaa97501185aa3c55603c6c75b59391d760fd667d",
+  "source_capture_bytes": 1985,
+  "source_rights": "generated synthetic fixture only",
+  "real_market_labels": 0,
+  "split_protocol": "us_synthetic_chronological_plan_v1",
+  "split_hash": "557c0fb25ff77ebbf760e98865983097eb9d8b52d22e19ab09e7647449e6c109",
+  "feature_policy_manifest": {
+    "version": "synthetic_off_local_date_asof_v2",
+    "asof_source_sha256": "b9de7037ccf86ddc96bc79dbe0eb37c54d1fe225b69cc3346d7c0d1e7a5f7253",
+    "local_date_source_sha256": "7fc0cb7efccb322005ce6576251e22ae248c543683e43eb4d76844ae6abd5970"
+  },
+  "feature_policy_manifest_sha256": "92a47b1835fe2492b180bbbabf8230adf848d75b883def8da2d7b4e58245edf7",
+  "configuration_context": "training-only five-row synthetic capture; reserved prices absent",
+  "model_checkpoint_sha256": "bba82fd6d8bb7016a381a8d20e52310d297585530140bf8e1adec6a225853c1b",
+  "test_command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p test_*.py -q",
+  "ames_fixture_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "u0_status": "PENDING",
+  "u3_status": "PENDING",
+  "g_us_status": "PENDING"
+}

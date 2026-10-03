@@ -5,6 +5,14 @@ Updated: 2026-10-03. Branch: `audit/u0`.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [synthetic capture byte-binding run](runs/u3-synthetic-capture-binding-v1-20261003T193616Z/report.md)
+now replays a guarded OFF median from the exact five-row generated training
+file it hashed, with reserved prices absent. Its full suite passed 1,262 tests
+with zero skips and 81% branch-aware coverage across the two touched model
+modules. This verifies engineering provenance for a synthetic fixture only;
+no real sale source, rights, first-publication rule or economic-transfer
+meaning has been certified. Continue U0 source qualification before real-data
+training; U3 and G-US remain pending.
 The [synthetic local-date publication v2 decision](decisions/0082-source-local-feature-publication-v2.md)
 now permits typed date-only first publication for property and attribute facts
 and typed prior-sale dates in a separate OFF feature policy. It keeps source

@@ -1,0 +1,6 @@
+﻿{
+    "command":  ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p test_*.py -q",
+    "exit_code":  0,
+    "duration_seconds":  211.362,
+    "ames_arff_sha256":  "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279"
+}

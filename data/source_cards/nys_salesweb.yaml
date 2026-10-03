@@ -92,6 +92,19 @@ current_portal_static_asset_scope: >-
   sale loaded to database and last update to sale. These strings alone do not
   verify the rendered UI, export schema, field values or reuse terms.
 current_detail_help_review: runs/u0-nys-salesweb-detail-help-v1-20261003T152306Z/report.md
+current_ui_csv_concordance_review: runs/u0-nys-salesweb-ui-csv-concordance-v1-20261003T163610Z/report.md
+current_ui_csv_concordance_scope: >-
+  The 25 rendered Albany County results on 2025-08-01 matched the pinned CSV
+  for SWIS, property class on roll, sale date, displayed price and deed
+  book/page after display normalization. Four linked detail pages matched
+  12 CSV fields each, including date and class-at-sale fields. This verifies
+  a bounded current UI/export mapping, not target or as-of eligibility.
+current_ui_zero_price_display: >-
+  A zero sale price is shown as $0 in search results and 0 in CSV, but blank
+  on the inspected detail page. Preserve source zero rather than converting
+  that detail-page blank into a missing label without checking the CSV.
+current_ui_result_sha256: cf40e18f96fab9c7af28af359d34dfeac568d63cb7c0f7b4fc997e227a7f726c
+current_ui_detail_sha256: 3d05c28ff76995f4298f9db644ea35ae034ca38953b6f8c613a8d3609f431c1f
 current_detail_personal_property_help: Value of personal property included in the sale price
 current_detail_personal_property_conflict: >-
   The current rendered help is in tension with the indexed legacy dictionary's

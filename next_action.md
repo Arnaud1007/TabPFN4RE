@@ -116,7 +116,13 @@ ON mode and international implementation remain locked by the specification.
    exposed a price-basis conflict: current help says personal property is
    included in sale price, while the older dictionary describes a net price.
    It also defines initial database loading without establishing first public
-   availability. The [custodian draft](data/requests/nys_salesweb_inquiry_draft.md)
+   availability. The [current UI/CSV concordance check](runs/u0-nys-salesweb-ui-csv-concordance-v1-20261003T163610Z/report.md)
+   matched all 25 bounded search rows on six displayed fields and four detail
+   pages on 12 fields each. The detail page leaves a zero price blank even
+   though the result table and CSV show zero. A 2025 sale date with a 2026
+   deed and database-load date demonstrates why sale date is not availability.
+   These checks do not resolve price basis, first publication or reuse rights.
+   The [custodian draft](data/requests/nys_salesweb_inquiry_draft.md)
    now asks about the exact current CSV mapping.
    The [official ORPTS quarterly-report guidance](decisions/0071-nys-orpts-report-date-price-boundary.md)
    maps report Sale Date to transfer date and distinguishes deed recording;

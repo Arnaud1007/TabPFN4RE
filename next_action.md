@@ -58,8 +58,12 @@ ON mode and international implementation remain locked by the specification.
 4. Continue [US source qualification](data/acquisition_backlog.md) if the Cook
    and NYC evidence routes remain inaccessible. New York State Sales Web
    outside NYC is now a [documented candidate](decisions/0066-nys-salesweb-source-feasibility.md)
-   for Northeast metro and nonmetro cohorts; verify its current export,
-   historical availability and reuse terms before requesting property rows.
+   for Northeast metro and nonmetro cohorts. Its
+   [current static UI asset check](runs/u0-nys-salesweb-ui-v1-20261003T115547Z/report.md)
+   found labels for sale, contract, deed, initial-load and last-update dates,
+   but did not verify the Excel export or first public availability. Verify
+   its current export, historical availability and reuse terms before
+   requesting property rows.
    Its [custodian inquiry](data/requests/nys_salesweb_inquiry_draft.md) is
    an unsent draft.
    HCPA, Florida DOR and King County have separate unresolved identity, time

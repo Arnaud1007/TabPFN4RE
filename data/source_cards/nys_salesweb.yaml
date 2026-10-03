@@ -38,6 +38,19 @@ property_class_candidate: 'indexed legacy prop_class_at_sale code 210 means one-
 property_class_last_roll_warning: indexed legacy prop_class_last_roll describes a later final roll and cannot populate historical as-of features
 documented_exclusions: [New York City, cooperative transfers, easements, rights_of_way, mineral_rights, cemetery_plots]
 current_documented_download: Excel search-result download from the Municipal Data Portal
+current_portal_static_asset: https://pad.tax.ny.gov/base/js/spa.js
+current_portal_static_asset_sha256: 36af85aa06fce5839eec5a0adb354548cafd8adc2e2db410dd40bc810773627c
+current_portal_static_asset_review: runs/u0-nys-salesweb-ui-v1-20261003T115547Z/observation.json
+current_portal_static_asset_scope: >-
+  Official live-hosted JavaScript declares UI labels for sale date, sale price,
+  contract date, deed date, arm's length, part of parcel, class at sale,
+  sale loaded to database and last update to sale. These strings do not verify
+  the rendered UI, the Excel export schema, field values or reuse terms.
+current_load_date_ui_help: >-
+  The static UI help text describes the sale-loaded date as when the sale was
+  initially entered or loaded by New York State. It does not say this was the
+  first public availability date.
+current_last_update_ui_label: Last update to sale; exact event and timestamp meaning unverified
 bulk_download_or_api: not_verified_for_current_portal
 legacy_download_note: older FAQ describes CSV downloads and a 3000-result search cap; current behavior unverified
 documented_refresh: weekly

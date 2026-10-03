@@ -62,3 +62,19 @@ The [source inquiry](../data/requests/nys_salesweb_inquiry_draft.md) is ready
 for owner review but remains unsent.
 
 **Zero new sale labels are certified. U0 and G-US remain PENDING.**
+
+## Current static UI asset check, 3 October 2026
+
+The live portal served a 1,378,915-byte
+[JavaScript asset](https://pad.tax.ny.gov/base/js/spa.js) with SHA-256
+`36af85aa06fce5839eec5a0adb354548cafd8adc2e2db410dd40bc810773627c`.
+The [bounded label inventory](../runs/u0-nys-salesweb-ui-v1-20261003T115547Z/observation.json)
+records current static strings for sale, contract and deed dates; sale price;
+property class at sale; part of parcel; an arm's-length indicator; sale loaded
+to database; and last update to sale. The bundled help text describes the
+sale-loaded date as the date New York State initially entered or loaded a sale.
+This is a portal-side ingestion timestamp candidate, but the asset does not say
+when a row first became public. It does not prove the current Excel export
+includes those columns or that their values retain the older dictionary's
+semantics. No property row, export, or API response was acquired, and the
+documentation-only source decision above is unchanged.

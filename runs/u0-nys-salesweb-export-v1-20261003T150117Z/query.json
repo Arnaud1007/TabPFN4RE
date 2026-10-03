@@ -1,0 +1,10 @@
+{
+  "run_id": "u0-nys-salesweb-export-v1-20261003T150117Z",
+  "portal": "https://pad.tax.ny.gov/salesSearch",
+  "county_swis": "01",
+  "county_name": "Albany County",
+  "sale_date_from": "2025-08-01",
+  "sale_date_to": "2025-08-01",
+  "retrieval": "public browser UI; Download Search Results button",
+  "query_recording_note": "The UI criteria were chosen before search. This file was written after the browser download, so it is a retrospective record, not a preregistered experiment plan."
+}

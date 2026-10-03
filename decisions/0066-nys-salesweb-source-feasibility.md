@@ -66,6 +66,10 @@ for owner review but remains unsent.
 
 **Zero new sale labels are certified. U0 and G-US remain PENDING.**
 
+The later [ADR 0075](0075-nys-current-export-schema-boundary.md) verifies one
+bounded current CSV header and file format. It does not change the source's
+pending admission or any historical claim made at this decision's date.
+
 ## Current static UI asset check, 3 October 2026
 
 The live portal served a 1,378,915-byte

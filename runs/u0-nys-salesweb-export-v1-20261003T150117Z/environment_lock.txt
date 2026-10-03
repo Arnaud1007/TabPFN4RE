@@ -1,0 +1,5 @@
+Windows NT 10.0.26200.0
+PowerShell 5.1.26100.9444
+Google Chrome 155.0.8059.27
+Computer Use browser extension session (exact extension binary hash unavailable)
+Python and model checkpoints were not used for acquisition.

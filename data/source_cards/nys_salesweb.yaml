@@ -1,5 +1,5 @@
 source_id: nys_orpts_sales_web
-status: official_candidate_inventory_only_not_certified
+status: official_candidate_bounded_private_schema_inventory_not_certified
 publisher: New York State Department of Taxation and Finance, Office of Real Property Tax Services
 dataset_name: Municipal Data Portal Sales Web
 landing_page: https://www.tax.ny.gov/pit/property/munidataportal.htm
@@ -8,7 +8,7 @@ legacy_faq: https://www.tax.ny.gov/research/property/assess/sales/salesweb.htm
 legacy_faq_status: indexed older FAQ text; direct page retrieval failed in this audit
 legacy_field_dictionary: https://swcf.orpts.ny.gov/cfapps/salesWebProd/salesWeb/datadict.pdf
 legacy_field_dictionary_vintage: 2004-era
-legacy_field_dictionary_status: indexed PDF text inspected; direct PDF retrieval failed on 2026-10-03; current export mapping unverified
+legacy_field_dictionary_status: indexed PDF text inspected; direct PDF retrieval failed on 2026-10-03; current CSV header names observed but field meanings unverified
 transfer_form_instructions: https://www.tax.ny.gov/pdf/current_forms/orpts/rp5217pdfins.pdf
 official_quarterly_report_guidance: https://www.tax.ny.gov/research/property/assess/sales/qr1.htm
 official_quarterly_report_review: decisions/0071-nys-orpts-report-date-price-boundary.md
@@ -17,8 +17,8 @@ quarterly_report_date_mapping: >-
   transfer date and Deed Date to item C2 county-clerk recording. RP-5217 item
   11 is contract date; item 12 is generally closing/title conveyance.
 quarterly_report_mapping_limit: >-
-  Current Municipal Data Portal Sales Web Excel fields and corrected row values
-  have not been inspected; report definitions do not certify that export.
+  A bounded current CSV header has been inspected, but corrected row meanings
+  and instruments have not; report definitions do not certify that export.
 quarterly_report_correction_risks: >-
   ORPTS warns book/page mistakes can misapply local corrections, part-parcel
   status can be incorrectly overwritten, and some concession-inclusive full
@@ -29,34 +29,58 @@ official_website_disclaimer: https://www.tax.ny.gov/help/tech/disclaimer.htm
 documentation_reviewed_on: 2026-10-03
 dataset_version: not_obtained
 source_checksum: not_obtained
+bounded_export_review: runs/u0-nys-salesweb-export-v1-20261003T150117Z/report.md
+bounded_export_format: CSV created by the current portal Download Search Results control
+bounded_export_query: Albany County (SWIS 01), sale date 2025-08-01 through 2025-08-01
+bounded_export_rows_privately_acquired: 25
+bounded_export_columns: 78
+bounded_export_sha256: 5548b290ac36772070799800dfc7f875bdaf04c1599aaa169562b43ec6f9b355
+bounded_export_private_path: data/raw/nys_salesweb_portal/sample-20261003-albany-20250801.csv
+bounded_export_privacy: >-
+  The Git-ignored raw CSV contains names, addresses and contact fields. Only
+  header names and aggregate checks are in the public run evidence; party and
+  contact values are excluded from feature and label assembly.
 geography: New York State excluding all five New York City boroughs
 documented_window: 10 years of sales and transfers
-row_grain: candidate real property transfer record; current export grain unverified
+row_grain: candidate real property transfer record; economic-transfer and dwelling cardinality unverified
 primary_record: deed and RP-5217 real property transfer report
-candidate_identity_fields: [swis_code, book, page, tax_map_identifier]
+candidate_identity_fields: [swis_cd, book, page, print_key]
 identity_status: >-
   Economic transfer, parcel and dwelling cardinality require audit. Official
   quarterly guidance uses book/page for correction matching and warns that
   an erroneous match can update the wrong sale.
 target_candidate_field: sale_price
 target_candidate_currency: USD
-target_candidate_semantics: indexed legacy dictionary says total amount paid minus personal property; provisional until current export is verified
+target_candidate_semantics: >-
+  Current CSV contains sale_price and personal_prop, but their transaction
+  semantics are not verified from header names. The indexed legacy dictionary
+  says sale price is total amount paid minus personal property; this mapping
+  remains provisional pending current publisher or instrument evidence.
 full_sale_price_semantics: RP-5217 item 13 includes cash, property, assumed obligations and personal property
 concessions_note: >-
   RP-5217 instructions exclude seller concessions from full sale price, while
   official quarterly guidance documents wrongly inclusive prices corrected
   after discovery. Verify actual export values and correction history.
-sale_date_candidate_field: sale_date
-sale_date_candidate_semantics: indexed legacy dictionary maps to RP-5217 title conveyance; provisional until current export is verified
-contract_date_candidate_field_from_legacy_dictionary: contract_date
+sale_date_candidate_field: sale_dte
+sale_date_candidate_semantics: >-
+  Current CSV contains sale_dte and all 25 bounded sample values match the
+  searched sale date. The indexed legacy dictionary maps this field to RP-5217
+  title conveyance; current close-date semantics remain unverified.
+contract_date_candidate_field_from_current_csv: contract_dt
 contract_date_missing_sentinel: indexed legacy dictionary uses 1950-01-01 when absent; quarantine as missing
-recording_date_candidate_field_from_legacy_dictionary: deed_date
-date_status: current export field mapping and record-level closing evidence unverified
+recording_date_candidate_field_from_current_csv: deed_dte
+date_status: current CSV date field names verified; record-level closing and first-availability evidence unverified
 candidate_eligibility_fields_from_legacy_dictionary: [arms_length_flag, cod_usable, rar_usable, part_parcel_flag, condo_flag, new_const_flag, nbr_of_parcels, condition_flags]
 property_class_candidate: 'official ORPTS quarterly guidance says property-use code 210 is a one-family year-round residence at sale; confirm current export mapping'
 property_class_last_roll_warning: indexed legacy prop_class_last_roll describes a later final roll and cannot populate historical as-of features
 documented_exclusions: [New York City, cooperative transfers, easements, rights_of_way, mineral_rights, cemetery_plots]
-current_documented_download: Excel search-result download from the Municipal Data Portal
+current_documented_download: Portal description calls search-result download Excel
+current_observed_download: Bounded browser search created SaleswebExtract.csv, not an Excel workbook
+current_observed_date_and_price_fields: [deed_dte, sale_dte, contract_dt, sale_price, personal_prop, load_dt, last_fm_dt]
+current_observed_eligibility_fields: [arms_length_flag, nbr_of_parcels, prop_class_at_sale, part_parcel_flag, condo_flag, new_const_flag]
+current_observed_field_limit: >-
+  Presence in one 25-row CSV verifies header names only. It does not establish
+  price/close semantics, correction history, first publication or eligibility.
 current_portal_static_asset: https://pad.tax.ny.gov/base/js/spa.js
 current_portal_static_asset_sha256: 36af85aa06fce5839eec5a0adb354548cafd8adc2e2db410dd40bc810773627c
 current_portal_static_asset_review: runs/u0-nys-salesweb-ui-v1-20261003T115547Z/observation.json
@@ -70,7 +94,7 @@ current_load_date_ui_help: >-
   initially entered or loaded by New York State. It does not say this was the
   first public availability date.
 current_last_update_ui_label: Last update to sale; exact event and timestamp meaning unverified
-bulk_download_or_api: not_verified_for_current_portal
+bulk_download_or_api: bounded search-results CSV download verified; bulk or API access unverified
 legacy_download_note: older FAQ describes CSV downloads and a 3000-result search cap; current behavior unverified
 documented_refresh: weekly
 documented_publication_lag: weeks; older FAQ says weeks or months
@@ -82,15 +106,15 @@ historical_attribute_vintages: not_established
 licence_or_reuse_grant: not_found_in_reviewed_public_pages
 commercial_use: unresolved
 redistribution: unresolved
-automated_download_permission: unresolved
-privacy_minimization: exclude buyer, seller, attorney and preparer identities from research exports
-permitted_use_decision: documentation_review_only; no property rows acquired
+automated_download_permission: repeated or bulk automated retrieval unresolved; one bounded interactive UI export was captured for private schema audit
+privacy_minimization: raw portal export contains party and contact fields; exclude them from derived research data and models
+permitted_use_decision: bounded_private_schema_audit_only; no release, training or redistribution
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false
 certified_sale_labels: 0
 next_evidence: >-
-  Verify current export schema, field meanings, access and reuse terms; obtain a
-  bounded authorised sample and at least 200 stratified manual source checks;
+  Verify current field meanings, access and reuse terms; register and complete
+  at least 200 stratified manual source checks using an authorised route;
   establish first public availability and historical property-attribute vintages.
   A weekly prospective snapshot may establish project-observed availability
   from capture onward, not first historical publication.

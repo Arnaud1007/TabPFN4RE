@@ -93,17 +93,18 @@ ON mode and international implementation remain locked by the specification.
    per-row availability timestamp.
 4. Continue [US source qualification](data/acquisition_backlog.md) if the Cook
    and NYC evidence routes remain inaccessible. New York State Sales Web
-   outside NYC is now a [documented candidate](decisions/0066-nys-salesweb-source-feasibility.md)
-   for Northeast metro and nonmetro cohorts. Its
-   [current static UI asset check](runs/u0-nys-salesweb-ui-v1-20261003T115547Z/report.md)
-   found labels for sale, contract, deed, initial-load and last-update dates,
-   but did not verify the Excel export or first public availability. The
-   [official ORPTS quarterly-report guidance](decisions/0071-nys-orpts-report-date-price-boundary.md)
+   outside NYC is a [documented candidate](decisions/0066-nys-salesweb-source-feasibility.md)
+   for Northeast metro and nonmetro cohorts. The
+   [bounded current export check](runs/u0-nys-salesweb-export-v1-20261003T150117Z/report.md)
+   verified a private 25-row CSV with 78 header fields, including sale,
+   contract, deed, initial-load and update dates. This resolves the current
+   format/header question left by the static UI audit, but no row is certified.
+   The [official ORPTS quarterly-report guidance](decisions/0071-nys-orpts-report-date-price-boundary.md)
    maps report Sale Date to transfer date and distinguishes deed recording;
    it also documents concession and parcel-correction risks. The current
-   Sales Web export mapping remains unverified. Verify
-   its current export, historical availability and reuse terms before
-   requesting property rows.
+   CSV's date/price meanings, historical public availability and reuse terms
+   remain unverified. Register a 200-record stratified audit only after those
+   access and rights questions are resolved.
    Its [custodian inquiry](data/requests/nys_salesweb_inquiry_draft.md) is
    an unsent draft.
    HCPA, Florida DOR and King County have separate unresolved identity, time

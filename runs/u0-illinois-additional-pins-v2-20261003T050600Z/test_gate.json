@@ -3,7 +3,7 @@
   "protocol": "illinois-ptax203-additional-pins-v2",
   "code_commit_at_execution": "45ead231dde468a2fad256073bb7d5ba0a97293c",
   "dirty_worktree_at_execution": true,
-  "committed_collector_commit": null,
+  "committed_collector_commit": "514345912de49913aaec67263465522e47cb19a2",
   "collector_sha256": "e38202fd61d082e0c3dbf67fd2683690d652db4132591de6c637273d06922f93",
   "test_sha256": "1c86c2bb5ec667eedde0cada22c06a96172d086ebc14e1e81ae26fc6104f0587",
   "environment_lock": "runs/u0-illinois-additional-pins-v2-20261003T050600Z/environment_lock.txt",

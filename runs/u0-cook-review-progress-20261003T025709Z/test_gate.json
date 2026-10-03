@@ -1,0 +1,72 @@
+{
+  "capture_manifest_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "certified_sale_labels": 0,
+  "code_commit": "80411fa233809170492d8516c9e4b480a1e9902a",
+  "configuration_sha256": "4327dbbfdcef7680b0bcec9a582ac4e15b7d8e9a265cf99d3bbbb2f18b8f7363",
+  "environment_lock_sha256": "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+  "feature_policy_hash": null,
+  "g_us_gate": "PENDING",
+  "ledger_snapshot_sha256": "f8a25a6f098ea62b5891e1c1a852a4d20826302725664814e54ee3a112f36436",
+  "model_checkpoint": null,
+  "protocol": "cook-source-review-v1",
+  "results": [
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "tests.test_review_cook_sales_sample",
+        "-q"
+      ],
+      "duration_ms": 1486,
+      "exit_code": 0,
+      "name": "focused_tests",
+      "output": "focused_tests.log",
+      "output_sha256": "43aab9928d9c44ec9640291434dd4d2b2045f061e8000210e4e46f9a0dc93955"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "duration_ms": 500,
+      "exit_code": 0,
+      "name": "pip_check",
+      "output": "pip_check.log",
+      "output_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip_audit",
+        "--progress-spinner",
+        "off"
+      ],
+      "duration_ms": 1686,
+      "exit_code": 0,
+      "name": "pip_audit",
+      "output": "pip_audit.log",
+      "output_sha256": "8fd4c2448af88b11e908adf04d102256b05f148b04d5bbfc57d7726a90c7859b"
+    },
+    {
+      "command": [
+        "powershell.exe",
+        "-NoProfile",
+        "-File",
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\runs\\u0-cook-review-progress-20261003T025709Z\\verify_artifacts.ps1"
+      ],
+      "duration_ms": 3825,
+      "exit_code": 0,
+      "name": "snapshot_verifier",
+      "output": "verification.log",
+      "output_sha256": "da3e7866c84b6c66a2cc087336083fb558026c3971b515992681300b6be3c35d"
+    }
+  ],
+  "run_id": "u0-cook-review-progress-20261003T025709Z",
+  "source_metadata_sha256": "c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce",
+  "split_hash": null,
+  "u0_gate": "PENDING"
+}

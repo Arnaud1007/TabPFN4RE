@@ -40,13 +40,15 @@ private_sample_captured_on: 2026-10-03
 private_sample_metadata_sha256: c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce
 private_sample_manifest_sha256: 130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7
 private_sample_rows: 200
-manual_sample_rubrics_complete: 0
+manual_sample_rubrics_complete: 1
 manual_sample_rubrics_partial: 1
-manual_sample_rubrics_unreviewed: 199
+manual_sample_rubrics_unreviewed: 198
 private_review_protocol: cook-source-review-v1
 private_review_run: runs/u0-cook-review-init-20261003T013215Z/
 private_review_code_gate: runs/u0-cook-review-code-20261003T012707Z/
 private_review_snapshot_sha256: c12b5a161299d5e7a5f0eabec3bf3a2423c02378a72325bab2e65c551f12b043
+private_review_progress_run: runs/u0-cook-review-progress-20261003T025709Z/
+private_review_latest_snapshot_sha256: f8a25a6f098ea62b5891e1c1a852a4d20826302725664814e54ee3a112f36436
 clerk_date_and_access_decision: decisions/0053-cook-clerk-date-and-access-route.md
 clerk_candidate_source_card: data/source_cards/cook_county_clerk_transfer_list.yaml
 certified_sale_labels: 0

@@ -1,0 +1,31 @@
+{
+  "capture_code_git_blob": "4eb25143b431d94cf3f0c02ec4f27c1dee85122f",
+  "capture_code_sha256": "4d4b8e8bba32a432c3b9fd4261db84ea491c32b852087acdfbcb7d9e138a0f3b",
+  "checkpoint_identity": null,
+  "code_commit_at_capture": "e1e3f1337315bb51c3f94ca2819f0906b6647bc9",
+  "configuration_hash": "69da8f8198f34e9f403ec1f25c71fe809bd91b8fab71a15aa6bad8a4010e7875",
+  "data_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "environment_lock_path": "locks/nyc-capture-environment.json",
+  "environment_lock_sha256": "36704b74db06542538d2e4b3c8c1359d523872500729f1a433764b25532dd751",
+  "feature_policy_hash": null,
+  "g_us_status": "PENDING",
+  "immutable_run_files_sha256": {
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/focused_tests.log": "0322bc3be49c84a8524865471e8cc1c20d6d844f2ec1ab2226c409d221873fa6",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/focused_tests_replay.log": "fd271f55d6dad25f1005bc92a3406d93353d9e3cac1279e1732f557bdcb3b778",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/plan.md": "69da8f8198f34e9f403ec1f25c71fe809bd91b8fab71a15aa6bad8a4010e7875",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/prior_replay.log": "16851181c9fdaa32e5e273be2ac7ef7c5ce1cd9897b7e80e7855abfa0219b6cd",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/report.md": "adcf7d583bf8a4d0803ad2e07a2644a467c65c956b8c4f2df2b3d02328fdab90",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/snapshot.json": "a11831e395331ca219316567f52131796ee36b56c1eb791252c0dc51918876db",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/test_gate.json": "aa7c12a0ef86fba119696b9560a073a1ff4aee1c54c3d2e6ecda8aa6be1ace60",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/verification.json": "97a957c8219b725b7c5178f0f6dfe33c90122f03df934f99d3f6bc5fef250015",
+    "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/verify_artifacts.ps1": "d1ef775f9957c9921cf94a232ec5b7f918847348403db16bc3b6fdf3b63e5f85",
+    "runs/u0-nyc-rolling-snapshot-20260928T225512Z/snapshot.json": "45049ce1622ba4a819f29c79097869c9f3601d049139869982ec7327ee11962b"
+  },
+  "license_decision": "private_source_inventory_only; releasable use unresolved",
+  "protocol": "nyc-rolling-resnapshot-v1",
+  "run_id": "u0-nyc-rolling-resnapshot-v1-20261003T101029Z",
+  "sale_labels_certified": 0,
+  "split_hash": null,
+  "u0_status": "PENDING",
+  "working_tree_clean_at_capture_start": true
+}

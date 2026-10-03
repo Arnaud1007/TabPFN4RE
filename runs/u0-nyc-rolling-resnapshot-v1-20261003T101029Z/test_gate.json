@@ -1,0 +1,52 @@
+{
+  "run_id": "u0-nyc-rolling-resnapshot-v1-20261003T101029Z",
+  "code_commit_at_capture": "e1e3f1337315bb51c3f94ca2819f0906b6647bc9",
+  "working_tree_clean_at_capture_start": true,
+  "python_version": "3.11.6",
+  "environment_lock_path": "locks/nyc-capture-environment.json",
+  "environment_lock_sha256": "36704b74db06542538d2e4b3c8c1359d523872500729f1a433764b25532dd751",
+  "checks": [
+    {
+      "name": "single_live_capture",
+      "command": "PowerShell here-string calling capture_snapshot() and create-only snapshot.json via .venv/Scripts/python.exe -",
+      "exit_code": 0,
+      "duration_seconds": 17.125,
+      "output_artifact": "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/snapshot.json"
+    },
+    {
+      "name": "independent_private_csv_verification",
+      "command": "PowerShell here-string: independent hashlib.sha256 and csv.reader verification of both pinned private files via .venv/Scripts/python.exe -",
+      "exit_code": 0,
+      "duration_seconds": 0.589,
+      "output_artifact": "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/verification.json"
+    },
+    {
+      "name": "focused_synthetic_tests",
+      "command": ".venv/Scripts/python.exe -m unittest tests.test_capture_nyc_rolling_snapshot -q",
+      "exit_code": 0,
+      "duration_seconds": 1.096,
+      "tests_passed": 19,
+      "output_artifact": "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/focused_tests.log"
+    },
+    {
+      "name": "focused_synthetic_tests_clean_replay",
+      "command": "subprocess.run([python, '-m', 'unittest', 'tests.test_capture_nyc_rolling_snapshot', '-q'])",
+      "exit_code": 0,
+      "duration_seconds": 0.891,
+      "tests_passed": 19,
+      "output_artifact": "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/focused_tests_replay.log"
+    },
+    {
+      "name": "prior_snapshot_replay",
+      "command": "& 'runs/u0-nyc-rolling-snapshot-20260928T225512Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "duration_seconds": 0.382,
+      "output_artifact": "runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/prior_replay.log"
+    }
+  ],
+  "full_suite_rerun": false,
+  "full_suite_reason": "No implementation code changed; focused capture tests and source artifact verification were repeated.",
+  "sale_labels_certified": 0,
+  "u0_status": "PENDING",
+  "g_us_status": "PENDING"
+}

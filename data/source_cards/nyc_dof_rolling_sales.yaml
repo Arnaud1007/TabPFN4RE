@@ -20,6 +20,14 @@ private_snapshot_bytes: 10397977
 private_snapshot_rows: 82345
 private_snapshot_known_by_utc: 2026-09-28T22:55:43.929203Z
 private_snapshot_status: inventory_only_not_asof_eligible
+repeat_private_snapshot_manifest: runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/snapshot.json
+repeat_private_snapshot_report: runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/report.md
+repeat_private_snapshot_known_by_utc: 2026-10-03T10:13:06.833850Z
+repeat_private_snapshot_rows: 82345
+repeat_private_snapshot_bytes: 10397977
+repeat_private_snapshot_sha256: 84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2
+repeat_private_snapshot_comparison: exact_CSV_bytes_equal_to_2026_09_28_capture_only
+repeat_private_snapshot_status: inventory_only_zero_certified_labels
 aggregate_profile: runs/u0-nyc-rolling-profile-20260928T232337Z/aggregate.json
 aggregate_profile_report: runs/u0-nyc-rolling-profile-20260928T232337Z/report.md
 aggregate_profile_status: source_inventory_only_not_sale_eligibility

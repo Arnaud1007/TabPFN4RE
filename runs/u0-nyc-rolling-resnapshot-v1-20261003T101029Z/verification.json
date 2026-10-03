@@ -1,0 +1,24 @@
+{
+  "current": {
+    "bytes": 10397977,
+    "columns": 21,
+    "ignored_by_git": true,
+    "label": "current",
+    "rows": 82345,
+    "sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2"
+  },
+  "exact_file_sha256_and_size_equal": true,
+  "g_us_status": "PENDING",
+  "historical_asof_eligible": false,
+  "previous": {
+    "bytes": 10397977,
+    "columns": 21,
+    "ignored_by_git": true,
+    "label": "previous",
+    "rows": 82345,
+    "sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2"
+  },
+  "sale_labels_certified": 0,
+  "status": "verified_source_inventory_only",
+  "u0_status": "PENDING"
+}

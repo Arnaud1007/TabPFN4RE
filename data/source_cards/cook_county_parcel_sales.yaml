@@ -28,10 +28,13 @@ multi_parcel_fields: [is_multisale, num_parcels_sale]
 arm_length_fields: [deed_type, mydec_deed_type, sale_type, sale_filter_same_sale_within_365, sale_filter_less_than_10k, sale_filter_deed_type]
 identifier_note: PIN must remain 14-character text with leading zeros
 licence_field_in_metadata: absent
-permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+permitted_use_decision: bounded_private_internal_source_audit_only_adr_0051
 redistribution: not_established
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false
+row_identity_note: row_id identifies an API row, not a verified dwelling transfer; sale document number is unique only for non-multisales per Assessor SOP
+filter_semantics_status: contradictory_publisher_description_requires_clarification
+internal_audit_limit: 200 selected rows without buyer or seller names; no model training
 notes: >-
   The current published extract is a concrete acquisition candidate, not a certified
   label source. The portal's own description says sale_date is recorded rather than

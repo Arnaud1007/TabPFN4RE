@@ -5,6 +5,10 @@ Updated: 2026-10-03. Branch: `audit/u0`.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [consolidated U0 gate review](runs/u0-gate-review-20261003T134443Z/report.md)
+records the verified inventory and the failed historical XGBoost reproduction.
+[ADR 0072](decisions/0072-u0-legacy-replay-acceptance-boundary.md) keeps the
+mandatory criterion open; no acceptance exception has been adopted.
 The legacy Ames split and saved aggregate scores were recovered, but the
 original CSV, feature catalogue, row predictions, checkpoint and historical
 runtime are missing. The guarded development replay did not reproduce the old

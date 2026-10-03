@@ -1,0 +1,1 @@
+PASS: bounded HEAD-only configuration; two matching 200 HEAD responses with positive lengths and no bodies; unadmitted source policy and zero certified labels; YAML parses, audit artifacts exist and five planned requirements link evidence

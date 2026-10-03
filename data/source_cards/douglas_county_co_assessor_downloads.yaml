@@ -1,0 +1,54 @@
+source_id: douglas_county_co_assessor_downloads
+status: candidate_metadata_only_not_ingested
+publisher: Douglas County, Colorado Assessor's Office
+dataset_name: Assessor Data Downloads - Property Sales and Property Improvements
+landing_page: https://www.douglasco.gov/assessor/data-downloads/
+methodology_page: https://www.douglasco.gov/assessor/about/assessor-faqs/
+county_open_data_guidelines: https://www.douglasco.gov/documents/open-data-guidelines.pdf/
+county_privacy_policy: https://www.douglasco.gov/privacy-policy/
+sales_file_url: https://apps.douglasco.gov/realware/datadownloads/Property_Sales.txt
+improvements_file_url: https://apps.douglasco.gov/realware/datadownloads/Property_Improvements.txt
+documentation_retrieved_on: 2026-10-03
+page_displayed_last_updated: 2026-10-01
+page_displayed_next_update: 2026-11-02
+head_metadata_run: runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/head_metadata.json
+geography: Douglas County, Colorado
+documented_population: active accounts only
+documented_date_range: unknown
+sales_row_grain: sales information for each parcel; economic-transfer multiplicity unverified
+sales_documented_key: none established
+sales_linkage_fields: [Account_No, Book, Page, Recording_No]
+target_field: Sale_Price
+target_currency: USD, inferred from county context; confirm in source contract
+target_semantics: raw versus adjusted consideration and multi-parcel allocation unverified
+date_field: Sale_Date
+date_semantics: sale-date field; relationship to closing, contract and recording unverified
+sale_quality_fields: [Deed_Type]
+party_fields_to_exclude_from_minimized_extract: [Grantor, Grantee]
+improvements_row_grain: property improvement or building; multiple Building_ID values per Account_No possible
+improvements_linkage_fields: [Account_No, Building_ID]
+area_fields: [Built_as_SF, Total_Finished_Basement_SF, Total_Unfinished_Basement_SF]
+area_semantics: published names do not establish living-area definition or historical vintage
+availability_field: none documented for either file
+historical_vintages: not recovered
+source_refresh: page displays one last and next update date; stable monthly schedule not established
+publication_lag: unknown
+correction_policy: current full-file replacement behavior and prior row versions unverified
+identifier_stability: Account_No and Recording_No stability across corrections unverified
+raw_file_sha256: null # no row-level file downloaded
+licence: county portal guidelines allow unrestricted portal-data use; applicability to these assessor text downloads unconfirmed
+redistribution: not established
+permitted_use_decision: public metadata and HEAD-only feasibility audit; no row-level ingestion or release
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+certified_sale_labels: 0
+notes: >-
+  The official page calls these current database records for active accounts
+  and disclaims accuracy and timeliness. Its download language supports
+  public reporting access but does not establish commercial AVM or row
+  redistribution rights. A file Last-Modified header is not a transaction's
+  first public availability. The assessor FAQ describes adjustments in its
+  valuation study, but does not say whether this raw Sale_Price field is a
+  contractual, adjusted or other consideration amount. Do not join one sale
+  to multiple Building_ID rows or use current improvements as historical
+  features without audited cardinality and dated vintages.

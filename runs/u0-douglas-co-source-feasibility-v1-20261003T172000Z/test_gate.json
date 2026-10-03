@@ -1,0 +1,18 @@
+{
+  "run_id": "u0-douglas-co-source-feasibility-v1-20261003T172000Z",
+  "gate": "metadata_artifact_validation_only",
+  "status": "PASS",
+  "command": "py -3.14 runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/validate_metadata.py",
+  "exit_code": 0,
+  "duration_seconds": 0.156079,
+  "environment_lock_sha256": "3a26961b083c868e5a33b3f433033d95cb83f7dc60a2072c32b66a6360cbb57c",
+  "checks": [
+    "bounded HEAD-only configuration",
+    "two matching 200 HEAD responses with positive lengths and no bodies",
+    "unadmitted source policy and zero certified labels",
+    "YAML parses, audit artifacts exist and five planned requirements link evidence"
+  ],
+  "source_rows_downloaded": 0,
+  "certified_sale_labels": 0,
+  "us_gate_status": "PENDING"
+}

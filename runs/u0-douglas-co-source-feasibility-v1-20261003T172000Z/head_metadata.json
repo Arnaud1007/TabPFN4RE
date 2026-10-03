@@ -1,0 +1,31 @@
+{
+  "files": [
+    {
+      "content_length_bytes": 97830143,
+      "content_type": "text/plain",
+      "last_modified": "Thu, 01 Oct 2026 15:59:58 GMT",
+      "method": "HEAD",
+      "observed_at_utc": "2026-10-03T17:20:42Z",
+      "request_url": "https://apps.douglasco.gov/realware/datadownloads/Property_Sales.txt",
+      "response_body_downloaded": false,
+      "response_url": "https://apps.douglasco.gov/realware/datadownloads/Property_Sales.txt",
+      "status_code": 200
+    },
+    {
+      "content_length_bytes": 45358468,
+      "content_type": "text/plain",
+      "last_modified": "Thu, 01 Oct 2026 15:48:24 GMT",
+      "method": "HEAD",
+      "observed_at_utc": "2026-10-03T17:20:43Z",
+      "request_url": "https://apps.douglasco.gov/realware/datadownloads/Property_Improvements.txt",
+      "response_body_downloaded": false,
+      "response_url": "https://apps.douglasco.gov/realware/datadownloads/Property_Improvements.txt",
+      "status_code": 200
+    }
+  ],
+  "run_id": "u0-douglas-co-source-feasibility-v1-20261003T172000Z",
+  "source_page": "https://www.douglasco.gov/assessor/data-downloads/",
+  "source_page_displayed_last_updated": "2026-10-01",
+  "source_page_displayed_next_update": "2026-11-02",
+  "source_page_retrieved_on": "2026-10-03"
+}

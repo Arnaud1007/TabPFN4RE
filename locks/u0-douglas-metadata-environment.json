@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "purpose": "Douglas County official source metadata and HTTP HEAD audit",
+  "shell": "Windows PowerShell 5.1.26100.9444",
+  "http_client": "Microsoft.PowerShell.Utility Invoke-WebRequest",
+  "http_method": "HEAD",
+  "timeout_seconds_per_request": 20,
+  "row_level_body_downloads": 0,
+  "verification_python": "CPython 3.14.0",
+  "verification_pyyaml": "6.0.3"
+}

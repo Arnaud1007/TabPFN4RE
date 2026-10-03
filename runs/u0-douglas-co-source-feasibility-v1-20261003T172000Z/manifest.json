@@ -1,0 +1,29 @@
+{
+  "run_id": "u0-douglas-co-source-feasibility-v1-20261003T172000Z",
+  "status": "metadata_validated_source_candidate_only",
+  "code_base_commit": "c0a6926614c8558541d38ed7a3a34076e3426ecf",
+  "dirty_tree_at_audit": true,
+  "environment_lock_sha256": "3a26961b083c868e5a33b3f433033d95cb83f7dc60a2072c32b66a6360cbb57c",
+  "data_snapshot_sha256": null,
+  "split_sha256": null,
+  "feature_policy_sha256": null,
+  "configuration_sha256": "2ae07e75b9ffd17ba040dc7a5dc1a84efd0948daed0358bbc56b15bec0121756",
+  "checkpoint_identity": null,
+  "source_rows_downloaded": 0,
+  "certified_sale_labels": 0,
+  "us_gate_status": "PENDING",
+  "artifact_sha256": {
+    "data/source_cards/douglas_county_co_assessor_downloads.yaml": "a35297d0b40c91ed0e05b63dda7d292228c488aced86c01bd8a0749fa3e20de1",
+    "data/acquisition_backlog.md": "3d6ea921271512d898ba887d56f5106adfdeaba19b229121750586224b6f4182",
+    "decisions/0080-douglas-county-western-source-candidate.md": "b62b526d7f3e420ac5ba2c8b9423cdbfe90cee5dc16e0ef8dc526cfa03821055",
+    "locks/u0-douglas-metadata-environment.json": "3a26961b083c868e5a33b3f433033d95cb83f7dc60a2072c32b66a6360cbb57c",
+    "requirements.yaml": "5c027fb1eb5214796b09cf8866c129299d6d9923f178689b4bd4ca95b4921e08",
+    "next_action.md": "8e681cb4487c43a9c7336775d8c75dffdbe01cbc5cb2adad59eac5369e0bb058",
+    "runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/head_metadata.json": "a790776b5bd40a0ba7c21f736a292053c5935fd0687366d84c15ca21e37dbcc9",
+    "runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/run_config.json": "2ae07e75b9ffd17ba040dc7a5dc1a84efd0948daed0358bbc56b15bec0121756",
+    "runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/report.md": "ae938d6b6ab8673b150b57d75771febb59f1a25cc45c5c68c646cec6fd35bc8a",
+    "runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/validate_metadata.py": "a9ab765d11d63522957ebb17cb56630631a80e30d91991f1ec248e6c85e47b8b",
+    "runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/validation.log": "dbdaa7fbbd7330deb21d90e489b93285bc41d14a5da28a026f0e9453bd01d845",
+    "runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/test_gate.json": "43336666f5fad16d06ed2829ac5e42f00fb2f773bc5bf1767ab71fd2f3caaad5"
+  }
+}

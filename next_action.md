@@ -138,13 +138,18 @@ ON mode and international implementation remain locked by the specification.
    Its [custodian inquiry](data/requests/nys_salesweb_inquiry_draft.md) is
    an unsent draft.
    HCPA and Florida DOR have separate unresolved identity, time and rights
-   issues. For the Western candidate, the
+   issues. The [Douglas County, Colorado metadata check](runs/u0-douglas-co-source-feasibility-v1-20261003T172000Z/report.md)
+   found direct parcel-sale and improvement downloads, but only current
+   active-account coverage. Confirm whether County portal reuse guidance
+   applies to these files, and obtain gross-price, close-date, first-publication,
+   transfer-scope and historical-vintage definitions before row acquisition.
+   The other Western candidate's
    [King County access review](runs/u0-king-rights-v1-20261003T154623Z/report.md)
    found a required Assessor download acknowledgment and separate eSales
    commercial-content restriction. No acknowledgment was accepted; the
    [King inquiry](data/requests/king_county_assessor_source_inquiry_draft.md)
-   remains unsent. Seek a written use decision or an alternative Western
-   source before acquisition. Select eight metros across four Census regions plus two
+   remains unsent. Seek a source-specific use decision for either Western
+   candidate before acquisition. Select eight metros across four Census regions plus two
    nonmetro strata before final tuning. No source's raw row count substitutes
    for an eligible single-home transaction cohort.
 

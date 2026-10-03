@@ -1,0 +1,14 @@
+{
+  "run_id": "u0-douglas-co-source-feasibility-v1-20261003T172000Z",
+  "method": "HEAD",
+  "timeout_seconds_per_request": 20,
+  "urls": [
+    "https://apps.douglasco.gov/realware/datadownloads/Property_Sales.txt",
+    "https://apps.douglasco.gov/realware/datadownloads/Property_Improvements.txt"
+  ],
+  "download_row_level_body": false,
+  "max_row_level_records": 0,
+  "source_page": "https://www.douglasco.gov/assessor/data-downloads/",
+  "split_hash": null,
+  "checkpoint_identity": null
+}

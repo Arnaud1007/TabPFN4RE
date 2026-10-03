@@ -1,0 +1,145 @@
+{
+  "run_id": "u0-cook-source-staging-v1-20261003T055304Z",
+  "protocol": "cook-parcel-source-staging-v1",
+  "generated_at_utc": "2026-10-03T09:46:29.410667+00:00",
+  "code_commit_at_execution": "55aac7eae77a0f7e0b1a900c0e8c7a7203b69b1c",
+  "dirty_worktree_at_execution": true,
+  "code_artifacts": {
+    "adapter": {
+      "path": "src/tabpfn4realestate/data/cook_parcel_sales.py",
+      "sha256": "a599969fddb799193569b6e11a37124b07ef535e09ba0e61c33d143abb9e3dd5"
+    },
+    "runner": {
+      "path": "scripts/assemble_cook_parcel_observations.py",
+      "sha256": "235c1fb3ec36e193096cca2ea8f2941f1de9274b0c68cf9dcee3360f845c9672"
+    },
+    "adapter_tests": {
+      "path": "tests/test_cook_parcel_sales.py",
+      "sha256": "e9766b3952c772f1195e265352f100a0ff592fcfbfbcdee67991a4bea67c00b8"
+    },
+    "runner_tests": {
+      "path": "tests/test_assemble_cook_parcel_observations.py",
+      "sha256": "05bbaeda461e9a5412e5e324eaa1c7613c9c361eff27683bd1960dab7cd599fc"
+    }
+  },
+  "configuration_path": "runs/u0-cook-source-staging-v1-20261003T055304Z/plan.md",
+  "configuration_sha256": "8f50aef1f7067c481a40e6b6f299ddae08a878d1b10b4ebeacf6b618721b2cfa",
+  "environment_lock": "runs/u0-cook-source-staging-v1-20261003T055304Z/environment_lock.txt",
+  "environment_lock_sha256": "58e032cbc65963599cd0f2debf10f18941955e1e486360302de5e03c6947ebed",
+  "hardware": {
+    "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+    "ram_gib": 31.7,
+    "os": "Microsoft Windows 11 Pro",
+    "python": "3.11.6",
+    "gpu_used": false
+  },
+  "data_snapshot_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "source_metadata_sha256": "c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint": null,
+  "private_observations_sha256": "7b315b4b001d3b14ffc64ab0277f486738e53b83b120da592a952f94a175c167",
+  "public_aggregate_sha256": "07dfa3b0b038e8d4bbac50a54b365c1cd93a397127ae94ed0b7fbd6b8c490488",
+  "certified_sale_labels": 0,
+  "historical_asof_eligible": false,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "results": [
+    {
+      "name": "first_full_suite_attempt",
+      "status": "incomplete_disk_exhaustion",
+      "valid_test_result": false,
+      "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/full_tests.log",
+      "artifact_sha256": "3519940a12b814788d9ffa5a4da7296945ac2ba4f2118ed1cdcee060a2483106"
+    },
+    {
+      "name": "focused_tests_and_branch_coverage",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m coverage run --branch --source=scripts.assemble_cook_parcel_observations,tabpfn4realestate.data.cook_parcel_sales -m unittest tests.test_assemble_cook_parcel_observations tests.test_cook_parcel_sales -q",
+      "exit_code": 0,
+      "observed_tests": 18,
+      "branch_aware_coverage_percent": 91,
+      "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/focused_tests.log",
+      "artifact_sha256": "c2fec626d765d007e60fd795faa52ee417ff0b40ac159b1b30bc64a62017355c",
+      "coverage_artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/coverage_current.json",
+      "coverage_sha256": "bcedde22745f674be54a74bc0eaf7beef0f5d7dfea4716ec8b535617de6b13bd"
+    },
+    {
+      "name": "full_unittest_retry",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m unittest discover -s tests -q",
+      "environment": "AMES_ARFF_PATH=verified local OpenML ARFF; PYTHONDONTWRITEBYTECODE=1",
+      "exit_code": 0,
+      "duration_seconds": 196.177,
+      "observed_tests": 1115,
+      "skipped": 0,
+      "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/full_tests_retry.log",
+      "artifact_sha256": "d9e31824f65f2017b1814b520a6199e551c39f5b2d00d5045dbf1fe7ef7a507c"
+    },
+    {
+      "name": "ruff_check",
+      "command": ".\\.venv\\Scripts\\ruff.exe check scripts/assemble_cook_parcel_observations.py src/tabpfn4realestate/data/cook_parcel_sales.py tests/test_assemble_cook_parcel_observations.py tests/test_cook_parcel_sales.py",
+      "exit_code": 0
+    },
+    {
+      "name": "ruff_format_check",
+      "command": ".\\.venv\\Scripts\\ruff.exe format --check scripts/assemble_cook_parcel_observations.py src/tabpfn4realestate/data/cook_parcel_sales.py tests/test_assemble_cook_parcel_observations.py tests/test_cook_parcel_sales.py",
+      "exit_code": 0
+    },
+    {
+      "name": "pip_check",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m pip check",
+      "exit_code": 0
+    },
+    {
+      "name": "pip_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m pip_audit -l --progress-spinner off",
+      "exit_code": 0,
+      "known_vulnerabilities_found": 0,
+      "local_editable_package_audited": false
+    },
+    {
+      "name": "one_shot_offline_staging",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m scripts.assemble_cook_parcel_observations run --output runs/u0-cook-source-staging-v1-20261003T055304Z/aggregate.json",
+      "exit_code": 0,
+      "duration_seconds": 4.132,
+      "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/run.log",
+      "artifact_sha256": "fb4315ba9ca7c9fa991898c769ef3c5f29087673dc9fd0378f3f36eed466ea0b"
+    },
+    {
+      "name": "private_public_exact_byte_replay",
+      "command": "& 'runs/u0-cook-source-staging-v1-20261003T055304Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "output": "cook_source_staging_private_and_public_replay_pass"
+    },
+    {
+      "name": "public_allowlist_and_gate_state",
+      "exit_code": 0,
+      "output": "public_allowlist_and_gate_state_pass"
+    }
+  ],
+  "log_presentation": {
+    "encoding": "UTF-8",
+    "redaction": "Local home path replaced with %USERPROFILE%; test and failure text retained",
+    "artifacts": [
+      {
+        "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/full_tests.log",
+        "original_sha256": "5911be8dd2774765a26da37970dacb3b43ba588d92b51c776837f6f155e78e1e",
+        "published_sha256": "3519940a12b814788d9ffa5a4da7296945ac2ba4f2118ed1cdcee060a2483106"
+      },
+      {
+        "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/full_tests_retry.log",
+        "original_sha256": "b18771a8140a692f6839b8f526fced828162b2ed0bbd84560be8b5fd9eff6dab",
+        "published_sha256": "d9e31824f65f2017b1814b520a6199e551c39f5b2d00d5045dbf1fe7ef7a507c"
+      },
+      {
+        "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/focused_tests.log",
+        "original_sha256": "e9588b8a187882f3ade630e86d7ee3c85190acb0755322aed1f2539ae322dadc",
+        "published_sha256": "c2fec626d765d007e60fd795faa52ee417ff0b40ac159b1b30bc64a62017355c"
+      },
+      {
+        "artifact": "runs/u0-cook-source-staging-v1-20261003T055304Z/run.log",
+        "original_sha256": "96bc157b3c599b403433bfcfcbf530879fab96b34b220c685596510acc9a0b05",
+        "published_sha256": "fb4315ba9ca7c9fa991898c769ef3c5f29087673dc9fd0378f3f36eed466ea0b"
+      }
+    ]
+  }
+}

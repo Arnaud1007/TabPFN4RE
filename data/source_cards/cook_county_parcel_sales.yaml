@@ -1,5 +1,5 @@
 source_id: cook_county_parcel_sales_wvhk_k5uv
-status: candidate_private_audit_sample_captured_not_certified
+status: candidate_private_source_observations_staged_not_certified
 publisher: Cook County Assessor's Office Data Department
 dataset_name: Assessor - Parcel Sales
 dataset_id: wvhk-k5uv
@@ -45,6 +45,10 @@ private_sample_captured_on: 2026-10-03
 private_sample_metadata_sha256: c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce
 private_sample_manifest_sha256: 130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7
 private_sample_rows: 200
+private_staging_protocol: cook-parcel-source-staging-v1
+private_staging_run: runs/u0-cook-source-staging-v1-20261003T055304Z/
+private_staging_observations_sha256: 7b315b4b001d3b14ffc64ab0277f486738e53b83b120da592a952f94a175c167
+private_staging_note: source-only parcel observations; zero certified sale labels and no historical as-of eligibility
 manual_sample_rubrics_complete: 1
 manual_sample_rubrics_partial: 1
 manual_sample_rubrics_unreviewed: 198

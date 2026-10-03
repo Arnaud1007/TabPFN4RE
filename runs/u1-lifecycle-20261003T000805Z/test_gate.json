@@ -1,0 +1,124 @@
+{
+  "run_id": "u1-lifecycle-20261003T000805Z",
+  "protocol": "us_listing_lifecycle_v1",
+  "code_commit": "286273dd0afde6621b78f3e70dfaf2bd24b11b2b",
+  "python": "3.11.6 (tags/v3.11.6:8b6ee5b, Oct  2 2023, 14:57:12) [MSC v.1935 64 bit (AMD64)]",
+  "environment_lock": "environment_lock.txt",
+  "environment_lock_sha256": "4dab350810dcf03e23ac0c345449eb4dad823f1ac81e7b6ffc122c63a0cc4ff6",
+  "source_sha256": "8da4d6828d7c15dbca0c2de4c3a76321dc7fb8626034b4b1c4691faa34dd9972",
+  "tests_sha256": "66d644920bcf85fda903fac2adc96199877a78fc46f2e65fc357b86ea467c259",
+  "synthetic_only": true,
+  "certified_sale_labels": 0,
+  "u1_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "results": [
+    {
+      "name": "focused_coverage",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "run",
+        "--branch",
+        "--source=tabpfn4realestate.data.lifecycle",
+        "-m",
+        "unittest",
+        "tests.test_listing_lifecycle",
+        "-q"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.298,
+      "output": "focused_coverage.log",
+      "output_sha256": "443d9da8eefa97fd85f4525064873d0f074cc6631a593f7d2812579522efdca4"
+    },
+    {
+      "name": "coverage_report",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "--include=*lifecycle.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.218,
+      "output": "coverage_report.log",
+      "output_sha256": "ef7488205753da6313d45f7ed16a2810cbff61b360b6854bffd99aa03833e7f2"
+    },
+    {
+      "name": "full_suite",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 170.376,
+      "output": "full_suite.log",
+      "output_sha256": "b488a1589b14370fb7cddc01d62d28ec2793969a137e1b4b875d94052a47d37b"
+    },
+    {
+      "name": "ruff_check",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "src",
+        "tests"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.128,
+      "output": "ruff_check.log",
+      "output_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    },
+    {
+      "name": "ruff_format",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "src",
+        "tests"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.122,
+      "output": "ruff_format.log",
+      "output_sha256": "70ef7b85cbf177c8c6538425a87c4394cb8b5e3c6a3abce2eb9b76c0d230856b"
+    },
+    {
+      "name": "pip_check",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.527,
+      "output": "pip_check.log",
+      "output_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "name": "pip_audit",
+      "command": [
+        "C:\\Users\\tdech\\Desktop\\Coding_projects\\TabPFN4RealEstate\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip_audit",
+        "--progress-spinner",
+        "off"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.337,
+      "output": "pip_audit.log",
+      "output_sha256": "8fd4c2448af88b11e908adf04d102256b05f148b04d5bbfc57d7726a90c7859b"
+    }
+  ],
+  "status": "PASS"
+}

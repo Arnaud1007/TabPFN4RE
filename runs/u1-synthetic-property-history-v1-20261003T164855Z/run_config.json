@@ -1,0 +1,12 @@
+{
+  "run_id": "u1-synthetic-property-history-v1-20261003T164855Z",
+  "purpose": "Synthetic property-version and comparable as-of engineering verification",
+  "python": "3.11",
+  "test_command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+  "coverage_command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate.features.asof,tabpfn4realestate.features.comparables -m unittest discover -s tests -q",
+  "ames_input": "data/raw/openml/house_prices-42165.arff",
+  "source_snapshot": "synthetic in tests; no real-market input admitted",
+  "mode": "OFF",
+  "split_hash": null,
+  "checkpoint_identity": null
+}

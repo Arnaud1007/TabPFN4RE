@@ -1,0 +1,14 @@
+{
+  "ames_arff_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate.features.asof,tabpfn4realestate.features.comparables -m unittest discover -s tests -q",
+  "coverage_combined_percent": 90,
+  "exit_code": 0,
+  "project_dependency_audit_exit_code": 0,
+  "python": "CPython 3.11.6",
+  "ruff_check_exit_code": 0,
+  "ruff_format_exit_code": 0,
+  "run_id": "u1-synthetic-property-history-v1-20261003T164855Z",
+  "skipped": 0,
+  "test_duration_seconds": 222.276,
+  "tests": 1224
+}

@@ -5,6 +5,11 @@ Updated: 2026-10-03. Branch: `audit/u0`.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [synthetic property-history selector](runs/u1-synthetic-property-history-v1-20261003T164855Z/report.md)
+now resolves structural versions at valuation time and comparable sale time,
+with separate information cutoffs, late-publication tests and deterministic
+copy reconciliation. Its checks are engineering evidence only. A real adapter
+still has to prove recoverable historical versions and first availability.
 The [consolidated U0 gate review](runs/u0-gate-review-20261003T134443Z/report.md)
 records the verified inventory and the failed historical XGBoost reproduction.
 [ADR 0072](decisions/0072-u0-legacy-replay-acceptance-boundary.md) keeps the
@@ -169,6 +174,8 @@ git status --short
 & 'runs/u0-nyc-observation-history-v1-20261003T125727Z/verify_artifacts.ps1'
 & 'runs/u0-ames-source-integration-v1-20261003T132308Z/verify_artifacts.ps1'
 .\.venv\Scripts\python.exe -m unittest tests.test_asof_version_validity -q
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_property_version_selection.py -q
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p test_u2_comparables.py -q
 Get-Content data/acquisition_backlog.md
 Get-Content data/requests/cook_county_sales_inquiry_draft.md
 ```

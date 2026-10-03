@@ -1,0 +1,39 @@
+{
+  "artifacts_sha256": {
+    "coverage_verified.log": "7a1417f3bdb6b3e6501782a2c8c1a36760a4e78618103f58745492d3bdcab60e",
+    "full_suite.log": "992c9e8d451621f70440ae2fd8dfcd396c550747b6a75846a17eeb5c8706b2a8",
+    "full_suite_final.log": "4ec2327bb8a324ebde3a149fa467bcc3178dbe4ebb75c18a05c5d18170f83c6d",
+    "full_suite_verified.log": "796e28714fe7812d90a62e082dcec8bc1ca36c47bddd3473859da86ba184ff4e",
+    "pip_audit.log": "abd6080dc825491cb79dddd155088d20d2bfc613576ff694ff5c8661801f4380",
+    "report.md": "3d218f33f32fe5540e68bd5b4fd2cd9746969f39cac5a93a71e6d91cde530b26",
+    "ruff_check.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "ruff_format.log": "c6054335d9571c0c59ef2b8af5223d2f5d56a9db5aba43b6f39217add8928601",
+    "run_config.json": "c56c109eb358e58d0f0679524f5d85062b2df843ec7dab7235c5512e6516a2d8",
+    "test_gate.json": "51809f7e1d2b060e2d7b163eb97327ada10ec961b2aca630983b148a2e91f469"
+  },
+  "certified_sale_labels": 0,
+  "checkpoint_identity": null,
+  "code_commit": "b04b12cbe82f7650628b7bb7970dbee5b8f01659",
+  "code_file_sha256": {
+    "decisions/0079-synthetic-property-history-selection.md": "079de642ff76b2b5f8d0780422c2bd610332acd5feb2adcd73dc24c06c3b1a32",
+    "src/tabpfn4realestate/features/asof.py": "f9cddc6955dbdb1aabc8faa2eb6f7e008804ecbe4a165e752ad76a98cc3fc5cc",
+    "src/tabpfn4realestate/features/comparables.py": "e77336670521fdb0cf509236357a81d69984ebc88416037b1815be75f0855fd3",
+    "tests/test_property_version_selection.py": "f628c9b3f44a1fdd09ea660e3884ddd4c0236f7b8196b6755aa4698d53f2db67",
+    "tests/test_u1_remaining_canaries.py": "f20b4c84e40965863b38d6ab5f6f36e17c255d363f7fb804904759ba113e9e0b",
+    "tests/test_u2_comparables.py": "da9a86bb042a8f8f3e6fb93d7135ec4a5006b4fdd8b057cac00668d8839efa23"
+  },
+  "code_was_uncommitted_at_test": true,
+  "configuration_sha256": "c56c109eb358e58d0f0679524f5d85062b2df843ec7dab7235c5512e6516a2d8",
+  "data_snapshot_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "environment_lock_path": "locks/u1-validity-environment.json",
+  "environment_lock_sha256": "2fac12db1b56c7a11650489a4c3ad0ca5950586f21c577e2c1699c3c504f44f7",
+  "feature_policy_sha256": "f9cddc6955dbdb1aabc8faa2eb6f7e008804ecbe4a165e752ad76a98cc3fc5cc",
+  "feature_policy_source": "code-defined synthetic OFF guard",
+  "g_us_gate": "PENDING",
+  "run_id": "u1-synthetic-property-history-v1-20261003T164855Z",
+  "split_hash": null,
+  "status": "verified_engineering_only",
+  "tested_code_equals_commit_bytes": true,
+  "u0_gate": "PENDING",
+  "u1_gate": "PENDING"
+}

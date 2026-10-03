@@ -7,6 +7,7 @@ __pycache__/
 .ipynb_checkpoints/
 .coverage
 .coverage.*
+.coverage-*
 htmlcov/
 build/
 dist/

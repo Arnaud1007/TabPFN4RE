@@ -1,0 +1,15 @@
+{
+  "certified_sale_labels": 0,
+  "cook_capture_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "g_us_gate": "PENDING",
+  "historical_asof_eligible": false,
+  "protocol": "illinois-ptax203-link-v1",
+  "request_count": 20,
+  "response_set_sha256": "69d86b7fb9c221dee662d49ebc01b94ef26f5e2862a0c9d26afb887f997cd05a",
+  "returned_declarations": 80,
+  "selected_cook_rows": 100,
+  "source_metadata_sha256": "4bd1d915f693a144d0bca20d90849d0ae49972c3e5ad7128b55f5752b16f443c",
+  "status": "complete",
+  "u0_gate": "PENDING",
+  "unique_document_strings": 83
+}

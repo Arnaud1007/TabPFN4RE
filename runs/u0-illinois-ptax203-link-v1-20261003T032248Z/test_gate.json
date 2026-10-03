@@ -1,0 +1,161 @@
+{
+  "run_id": "u0-illinois-ptax203-link-v1-20261003T032248Z",
+  "protocol": "illinois-ptax203-link-v1",
+  "baseline_code_commit": "69ba276401b520bea77850ce7ead165f079baf78",
+  "code_state_at_capture": "dirty_worktree_new_probe_reviewed",
+  "environment_lock_sha256": "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+  "configuration_sha256": "490dd24ba371d645c4c9f4011fda9b62f0e8100e5d6309a4c747ca73903bfc75",
+  "source_snapshot_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "ptax_metadata_sha256": "4bd1d915f693a144d0bca20d90849d0ae49972c3e5ad7128b55f5752b16f443c",
+  "response_set_sha256": "69d86b7fb9c221dee662d49ebc01b94ef26f5e2862a0c9d26afb887f997cd05a",
+  "feature_policy_hash": null,
+  "split_hash": null,
+  "model_checkpoint": null,
+  "selected_cook_rows": 100,
+  "unique_document_strings": 83,
+  "returned_declarations": 80,
+  "certified_sale_labels": 0,
+  "historical_asof_eligible": false,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "results": [
+    {
+      "name": "one_shot_capture",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "scripts.probe_illinois_ptax203",
+        "capture"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 14.645,
+      "output_artifact": "data/raw/illinois_ptax203/ptax-link-v1-130b5169ff81ccbc/ (private, Git-ignored)"
+    },
+    {
+      "name": "offline_replay_and_public_aggregate",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "scripts.probe_illinois_ptax203",
+        "verify",
+        "--run-dir",
+        "data/raw/illinois_ptax203/ptax-link-v1-130b5169ff81ccbc",
+        "--output",
+        "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/aggregate.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.719,
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/aggregate.json"
+    },
+    {
+      "name": "focused_unittest",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "tests.test_probe_illinois_ptax203",
+        "-q"
+      ],
+      "exit_code": 0,
+      "observed_tests": 9,
+      "branch_coverage_percent": 84,
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/test_gate.json"
+    },
+    {
+      "name": "branch_coverage",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "run",
+        "--branch",
+        "--source=scripts.probe_illinois_ptax203",
+        "-m",
+        "unittest",
+        "tests.test_probe_illinois_ptax203",
+        "-q"
+      ],
+      "report_command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "-m",
+        "--include=*/scripts/probe_illinois_ptax203.py"
+      ],
+      "exit_code": 0,
+      "observed_tests": 9,
+      "branch_coverage_percent": 84,
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/coverage_report.txt"
+    },
+    {
+      "name": "full_unittest",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 175.883,
+      "observed_tests": 1052,
+      "skipped": 1,
+      "skip_identity": "not captured",
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/test_gate.json"
+    },
+    {
+      "name": "ruff_check",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "scripts/probe_illinois_ptax203.py",
+        "tests/test_probe_illinois_ptax203.py"
+      ],
+      "exit_code": 0,
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/test_gate.json"
+    },
+    {
+      "name": "ruff_format_check",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "scripts/probe_illinois_ptax203.py",
+        "tests/test_probe_illinois_ptax203.py"
+      ],
+      "exit_code": 0,
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/test_gate.json"
+    },
+    {
+      "name": "pip_check",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/test_gate.json"
+    },
+    {
+      "name": "pip_audit",
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip_audit",
+        "--progress-spinner",
+        "off"
+      ],
+      "exit_code": 0,
+      "local_package_pypi_lookup": "excluded",
+      "output_artifact": "runs/u0-illinois-ptax203-link-v1-20261003T032248Z/test_gate.json"
+    }
+  ]
+}

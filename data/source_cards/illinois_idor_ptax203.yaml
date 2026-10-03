@@ -1,0 +1,39 @@
+source_id: illinois_idor_ptax203_it54_y4c6
+status: candidate_bounded_private_linkage_audit_not_certified
+publisher: Illinois Department of Revenue
+dataset_name: PTAX-203, 203-A, and 203-B
+dataset_id: it54-y4c6
+metadata_url: https://illinois-edp.data.socrata.com/api/views/it54-y4c6.json
+api_url: https://illinois-edp.data.socrata.com/resource/it54-y4c6.json
+public_companion_view: https://data.illinois.gov/Government-and-Public-Employees/PTAX-203-A-AND-B-Records-Since-January-2024/kpdj-zmhb
+additional_pins_view: https://data.illinois.gov/Government-and-Public-Employees/PTAX-203-Additional-PINs/ay2h-5hx3
+source_instructions: https://tax.illinois.gov/localgovernments/property/general-information/ptax-203_instructions.html
+metadata_observed_on: 2026-10-03
+documented_date_range: filed_since_2013-01-01
+documented_refresh: weekly
+row_grain: declaration
+documented_key: declaration_id
+linkage_candidate_fields: [document_number, line_1_primary_pin, line_1_county]
+target_candidate_field: line_11_full_consideration
+target_candidate_semantics: declaration_level_full_actual_consideration_not_verified_single_home_sale_price
+target_currency: USD
+date_fields: [date_recorded, line_4_instrument_date]
+date_semantics: recorded_date_and_coarse_instrument_month_year_not_verified_closing_date
+parcel_scope_fields: [line_2_total_parcels, line_3_additional_pins]
+publication_at_record_level: not_established
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+licence_id_in_official_metadata: PUBLIC_DOMAIN
+permitted_use_decision: bounded_private_linkage_audit_only_adr_0057
+party_and_address_fields: excluded_from_audit_query
+raw_redistribution: not_planned
+candidate_link_certification: false
+certified_sale_labels: 0
+audit_plan: runs/u0-illinois-ptax203-link-v1-20261003T032248Z/plan.md
+notes: >-
+  The official full dataset contains 183 columns, including party and preparer
+  information. The companion 12-column public view omits document number,
+  declaration ID and PIN and cannot support exact row linkage by itself.
+  Line 11 follows IDOR declaration instructions, so property-level allocation,
+  arm's-length status, source correction and first public availability require
+  separate audits before training.

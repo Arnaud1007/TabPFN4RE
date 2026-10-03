@@ -106,7 +106,7 @@ def _input_schema_sha256() -> str:
     )
     return _fingerprint(
         {
-            "schema_version": "us_synthetic_u1_v1",
+            "schema_version": "us_synthetic_u1_v2",
             "contracts": [
                 {
                     "name": contract.__name__,

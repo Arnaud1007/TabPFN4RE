@@ -47,6 +47,26 @@ def _missing_state(value: object, state: str | None, name: str) -> None:
         raise ValueError(f"{name} cannot have a missing state with a value")
 
 
+def _validity(
+    observed_at: datetime,
+    valid_from: datetime | None,
+    valid_to: datetime | None,
+    valid_to_available_at: datetime | None,
+) -> None:
+    if valid_from is not None:
+        _instant(valid_from, "valid_from")
+    if valid_to is None:
+        if valid_to_available_at is not None:
+            raise ValueError("valid_to_available_at requires valid_to")
+        return
+    _instant(valid_to, "valid_to")
+    if valid_to_available_at is None:
+        raise ValueError("valid_to requires valid_to_available_at")
+    _instant(valid_to_available_at, "valid_to_available_at")
+    if _utc(valid_to) <= _utc(valid_from or observed_at):
+        raise ValueError("valid_to must follow the effective start")
+
+
 @dataclass(frozen=True)
 class Property:
     property_id: str
@@ -60,6 +80,9 @@ class Property:
     living_area_state: str | None = None
     latitude: Decimal | None = None
     longitude: Decimal | None = None
+    valid_from: datetime | None = None
+    valid_to: datetime | None = None
+    valid_to_available_at: datetime | None = None
 
     def __post_init__(self) -> None:
         for name in ("property_id", "property_type", "source_id"):
@@ -68,6 +91,12 @@ class Property:
             raise ValueError("U1 property contract supports US only")
         _instant(self.observed_at, "observed_at")
         _instant(self.available_at, "available_at")
+        _validity(
+            self.observed_at,
+            self.valid_from,
+            self.valid_to,
+            self.valid_to_available_at,
+        )
         _missing_state(self.living_area, self.living_area_state, "living_area")
         if self.living_area is None:
             if self.living_area_unit is not None:
@@ -161,12 +190,21 @@ class Attribute:
     source_id: str
     unit: str | None = None
     missing_state: str | None = None
+    valid_from: datetime | None = None
+    valid_to: datetime | None = None
+    valid_to_available_at: datetime | None = None
 
     def __post_init__(self) -> None:
         for name in ("property_id", "name", "source_id"):
             _identifier(getattr(self, name), name)
         _instant(self.observed_at, "observed_at")
         _instant(self.available_at, "available_at")
+        _validity(
+            self.observed_at,
+            self.valid_from,
+            self.valid_to,
+            self.valid_to_available_at,
+        )
         if type(self.value) not in {str, int, Decimal, type(None)}:
             raise ValueError("attribute value must be a scalar")
         if isinstance(self.value, Decimal) and not self.value.is_finite():

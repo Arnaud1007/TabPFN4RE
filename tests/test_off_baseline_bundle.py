@@ -156,7 +156,7 @@ class OffMedianBundleTests(unittest.TestCase):
         _, digest = self.saved_payload()
         with patch(
             "tabpfn4realestate.models.bundle.ASSEMBLER_POLICY_VERSION",
-            "synthetic_off_asof_v2",
+            "synthetic_off_asof_v3",
         ):
             with self.assertRaisesRegex(ValueError, "feature_schema_sha256"):
                 load_off_median_bundle(self.path, expected_sha256=digest)

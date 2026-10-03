@@ -1,0 +1,73 @@
+{
+  "certified_sale_labels": 0,
+  "code_commit": "ba29f63b6ef16324bf12e562884e712290df8a9c",
+  "command_path_policy": "project-relative from repository root; absolute local workspace prefix omitted",
+  "configuration_sha256": "82bfdf50280ed2f86717fada903fae8e7184c21992f093225d6d395e42d6e509",
+  "environment_lock_sha256": "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+  "feature_policy_hash": null,
+  "g_us_gate": "PENDING",
+  "model_checkpoint": null,
+  "private_probe_manifest_sha256": "eba8d7a28f7f50bb241d1591c16470a9ac35f9347ccd28b8d0da80be77f1c598",
+  "protocol": "cook-system-fields-v1",
+  "response_sha256": "888ac8fdadcca884ad2cd619814bb22a85ee0410931fa715755104ace0048e71",
+  "results": [
+    {
+      "command": [
+        "powershell.exe",
+        "-NoProfile",
+        "-File",
+        "runs\\u0-cook-system-fields-v1-20261003T030715Z\\verify_artifacts.ps1"
+      ],
+      "duration_ms": 1750,
+      "exit_code": 0,
+      "name": "snapshot_verifier",
+      "output": "verification.log",
+      "output_sha256": "33e0f3c2a638f528a02928713a5e5f89cc6ba01f9cd8b4a66b558bbd2b79a011"
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "tests.test_review_cook_sales_sample",
+        "-q"
+      ],
+      "duration_ms": 1439,
+      "exit_code": 0,
+      "name": "focused_tests",
+      "output": "focused_tests.log",
+      "output_sha256": "5e69fad0b244b4feb3809504da7e5ae4b4525d0c4fb05a29d40bef86f18c5714"
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "duration_ms": 494,
+      "exit_code": 0,
+      "name": "pip_check",
+      "output": "pip_check.log",
+      "output_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "command": [
+        ".\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip_audit",
+        "--progress-spinner",
+        "off"
+      ],
+      "duration_ms": 1791,
+      "exit_code": 0,
+      "name": "pip_audit",
+      "output": "pip_audit.log",
+      "output_sha256": "8fd4c2448af88b11e908adf04d102256b05f148b04d5bbfc57d7726a90c7859b"
+    }
+  ],
+  "run_id": "u0-cook-system-fields-v1-20261003T030715Z",
+  "source_snapshot_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "split_hash": null,
+  "u0_gate": "PENDING"
+}

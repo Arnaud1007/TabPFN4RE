@@ -21,7 +21,10 @@ target_semantics: sale price; consideration scope needs row-level validation
 date_field: sale_date
 date_semantics: recorded date, not executed/close date
 date_quality_note: older sale dates may have been truncated to first of month; is_mydec_date flags more precise replacements
-availability_field: absent
+availability_field: not_established
+platform_timestamp_fields: [':created_at', ':updated_at']
+platform_timestamp_status: exposed_for_one_pinned_row_not_first_public_availability
+platform_timestamp_probe: runs/u0-cook-system-fields-v1-20261003T030715Z/
 publication_lag: county says records may arrive months after official recording
 correction_policy: current extract may contain later date corrections; historical versions not recovered
 multi_parcel_fields: [is_multisale, num_parcels_sale]
@@ -57,5 +60,7 @@ notes: >-
   label source. The portal's own description says sale_date is recorded rather than
   executed, older dates may be monthly, and many rows reach the Assessor months late.
   No per-record first-publication timestamp or historical extract was found in the
-  retrieved schema. Do not map sale_date to a precise close_date or infer unknown
+  retrieved publisher schema. Hidden Socrata row timestamps are platform
+  diagnostics, not verified first-publication evidence. Do not map sale_date
+  to a precise close_date or infer unknown
   concessions and arm's-length status from price alone.

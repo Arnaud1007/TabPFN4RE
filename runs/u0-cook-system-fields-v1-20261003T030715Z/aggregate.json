@@ -1,0 +1,23 @@
+{
+  "capture_manifest_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "certified_sale_labels": 0,
+  "first_public_availability_established": false,
+  "historical_asof_eligible": false,
+  "http_status": 200,
+  "identity_match": true,
+  "plan_sha256": "82bfdf50280ed2f86717fada903fae8e7184c21992f093225d6d395e42d6e509",
+  "private_manifest_sha256": "eba8d7a28f7f50bb241d1591c16470a9ac35f9347ccd28b8d0da80be77f1c598",
+  "protocol": "cook-system-fields-v1",
+  "request_duration_ms": 526,
+  "response_bytes": 133,
+  "response_fields": [
+    ":created_at",
+    ":id",
+    ":updated_at",
+    "row_id"
+  ],
+  "response_row_count": 1,
+  "response_sha256": "888ac8fdadcca884ad2cd619814bb22a85ee0410931fa715755104ace0048e71",
+  "run_id": "u0-cook-system-fields-v1-20261003T030715Z",
+  "source_metadata_sha256": "c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce"
+}

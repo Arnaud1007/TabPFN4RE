@@ -1,0 +1,14 @@
+{
+  "added_occurrences_bucket": "zero",
+  "asof_eligible": false,
+  "capture_status": "inventory_only",
+  "certified_sale_labels": 0,
+  "first_public_availability_verified": false,
+  "known_by_utc": "2026-10-03T10:13:06.833850Z",
+  "manifest_sha256": "a11831e395331ca219316567f52131796ee36b56c1eb791252c0dc51918876db",
+  "observation_sha256": "dae6af0e37cea2fa2cbc50ec39f83d53970d1a71a7a19e250886f728d6276f0a",
+  "removed_occurrences_bucket": "zero",
+  "rows": 82345,
+  "source_id": "nyc_dof_rolling_usep_8jbt",
+  "write_status": "replayed"
+}

@@ -25,6 +25,11 @@ The [synthetic OFF bundle v2](runs/u1-synthetic-off-bundle-v2-20261003T122750Z/r
 passed a 1,151-test suite with no skips. Its serving JSON omits training row
 IDs, requires a separately trusted digest, and remains uncertified; it does
 not establish a real-market model or accepted U6 release.
+The [NYC observation history](runs/u0-nyc-observation-history-v1-20261003T125727Z/report.md)
+records the September and October source captures as two distinct private,
+replayable inventory events. Their row-representation multisets are equal;
+this does not establish first public availability. Its exact test result is
+in the linked report.
 No real-market model training, final calibration or certification test has begun.
 ON mode and international implementation remain locked by the specification.
 
@@ -56,7 +61,9 @@ ON mode and international implementation remain locked by the specification.
    manual review when independent instruments are available. The
    [October repeat capture](runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/report.md)
    is byte-identical to the September rolling CSV (82,345 source rows) and
-   certifies no label. The NYC [inquiry draft](data/requests/nyc_dof_rolling_sales_inquiry_draft.md)
+   now has a [two-event private ledger](decisions/0070-nyc-source-observation-history.md)
+   with no later row-representation difference and no certified label. The NYC
+   [inquiry draft](data/requests/nyc_dof_rolling_sales_inquiry_draft.md)
    remains unsent. No repeat capture should be mistaken for a historical
    per-row availability timestamp.
 4. Continue [US source qualification](data/acquisition_backlog.md) if the Cook
@@ -98,6 +105,7 @@ git status --short
 & 'runs/u0-cook-source-staging-v1-20261003T055304Z/verify_artifacts.ps1'
 & 'runs/u0-illinois-additional-pin-offline-v3-20261003T053506Z/verify_artifacts.ps1'
 & 'runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/verify_artifacts.ps1'
+& 'runs/u0-nyc-observation-history-v1-20261003T125727Z/verify_artifacts.ps1'
 Get-Content data/acquisition_backlog.md
 Get-Content data/requests/cook_county_sales_inquiry_draft.md
 ```

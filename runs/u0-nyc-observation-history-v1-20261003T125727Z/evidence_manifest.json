@@ -1,0 +1,26 @@
+{
+  "run_id": "u0-nyc-observation-history-v1-20261003T125727Z",
+  "protocol": "nyc-observation-v1",
+  "status": "verified_source_inventory_only",
+  "code_commit_replayed": "410b6523daa528565af7505845f92abc65a9e9ed",
+  "initial_recording_tree": "implementation worktree before code commit; replays verified committed code",
+  "environment_lock_path": "locks/nyc-capture-environment.json",
+  "environment_lock_sha256": "36704b74db06542538d2e4b3c8c1359d523872500729f1a433764b25532dd751",
+  "configuration_hash": "f1cc70be01bd1c557dbae6734db92880a40870955ba5619038bc7c50b5ecfd55",
+  "source_snapshot_sha256": "84c06057c52a2822f982cd98fb77ef7edf2c14134d00f46b073d2e4b762b2ef2",
+  "source_capture_manifests_sha256": [
+    "45049ce1622ba4a819f29c79097869c9f3601d049139869982ec7327ee11962b",
+    "a11831e395331ca219316567f52131796ee36b56c1eb791252c0dc51918876db"
+  ],
+  "private_observation_sha256": [
+    "333ac02578cff1b4cdc62c82abc024deddcc34aac72375f75ac3ed68a5a91aaa",
+    "dae6af0e37cea2fa2cbc50ec39f83d53970d1a71a7a19e250886f728d6276f0a"
+  ],
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_configuration_hash": null,
+  "checkpoint_identity": null,
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

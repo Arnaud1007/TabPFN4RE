@@ -71,3 +71,6 @@
 /requirements.yaml -text
 /decisions/0085-us-market-candidates-before-tuning.md -text
 /.gitattributes -text
+/data/us_market_candidates.json -text
+/scripts/validate_us_market_scope.py -text
+/tests/test_us_market_scope.py -text

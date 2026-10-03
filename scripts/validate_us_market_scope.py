@@ -21,6 +21,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PINNED_CENSUS_SHA256 = (
     "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629"
 )
+PINNED_COUNTY_SHA256 = {
+    "12": "8026e05146f65d9cb3749a699e2d56a572535d620bd88451b5eb6bf59ffb7ffb",
+    "36": "da451828242610580fad16caf7f6699fbe58d27277e4468e0a2811f0aacf8f16",
+}
+COUNTY_USPS = {"12": "FL", "36": "NY"}
+COUNTY_COUNTS = {"12": 67, "36": 62}
 NAMESPACE = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 REGION_BY_STATE = {
     "08": "West",
@@ -41,6 +47,7 @@ TOP_KEYS = {
     "property_scope",
     "target_origin",
     "census_delineation",
+    "census_county_references",
     "census_region_reference",
     "common_admission_blockers",
     "metro_candidates",
@@ -62,6 +69,7 @@ NONMETRO_KEYS = {
     "id",
     "region",
     "state_fips",
+    "county_fips",
     "rule",
     "source_cards",
     "scope_gap",
@@ -118,6 +126,51 @@ def census_metros(body: bytes) -> dict[str, tuple[str, set[str]]]:
     if not result:
         raise ValueError("Census workbook has no metropolitan rows")
     return result
+
+
+def gazetteer_counties(body: bytes, state_fips: str, usps: str) -> set[str]:
+    """Parse the complete 2023 county universe for one state."""
+    try:
+        lines = body.decode("utf-8-sig").splitlines()
+    except UnicodeDecodeError as exc:
+        raise ValueError("County Gazetteer text is invalid UTF-8") from exc
+    if not lines or lines[0].split("\t")[:4] != ["USPS", "GEOID", "ANSICODE", "NAME"]:
+        raise ValueError("County Gazetteer header differs")
+    counties: set[str] = set()
+    for line in lines[1:]:
+        cells = line.split("\t")
+        if len(cells) < 4 or cells[0] != usps or not cells[3].strip():
+            raise ValueError("County Gazetteer state or GEOID differs")
+        geoid = cells[1]
+        if re.fullmatch(r"[0-9]{5}", geoid) is None or geoid[:2] != state_fips:
+            raise ValueError("County Gazetteer state or GEOID differs")
+        if geoid in counties:
+            raise ValueError("County Gazetteer has a duplicate GEOID")
+        counties.add(geoid)
+    if not counties:
+        raise ValueError("County Gazetteer has no counties")
+    return counties
+
+
+def _check_county_references(references: object) -> None:
+    if not isinstance(references, dict) or set(references) != set(COUNTY_USPS):
+        raise ValueError("County Gazetteer references differ")
+    for state, reference in references.items():
+        expected_url = (
+            "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/"
+            f"2023_Gazetteer/2023_gaz_counties_{state}.txt"
+        )
+        if (
+            not isinstance(reference, dict)
+            or set(reference) != {"url", "sha256", "vintage", "usps", "county_count"}
+            or reference["url"] != expected_url
+            or reference["sha256"] != PINNED_COUNTY_SHA256[state]
+            or reference["vintage"] != "2023"
+            or reference["usps"] != COUNTY_USPS[state]
+            or type(reference["county_count"]) is not int
+            or reference["county_count"] != COUNTY_COUNTS[state]
+        ):
+            raise ValueError("County Gazetteer reference pin differs")
 
 
 def _check_source_cards(cards: object, root: Path) -> None:
@@ -197,15 +250,34 @@ def _check_nonmetro(area: dict, root: Path) -> None:
         raise ValueError("Nonmetro candidate rule lacks metro exclusion")
     if not area["scope_gap"]:
         raise ValueError("Nonmetro candidate needs an admission gap")
+    counties = area["county_fips"]
+    if (
+        not isinstance(counties, list)
+        or not counties
+        or any(
+            not isinstance(code, str)
+            or re.fullmatch(r"[0-9]{5}", code) is None
+            or code[:2] != area["state_fips"]
+            for code in counties
+        )
+        or counties != sorted(set(counties))
+    ):
+        raise ValueError("Nonmetro county list is invalid")
     _check_source_cards(area["source_cards"], root)
 
 
-def validate_manifest(document: dict, census: dict, root: Path) -> dict:
+def validate_manifest(
+    document: dict,
+    census: dict,
+    root: Path,
+    *,
+    county_universes: dict[str, set[str]] | None = None,
+) -> dict:
     """Validate geography and conservative claims, never data admission."""
     if (
         not isinstance(document, dict)
         or set(document) != TOP_KEYS
-        or document["schema_version"] != 1
+        or document["schema_version"] != 2
     ):
         raise ValueError("Market candidate manifest schema differs")
     if (
@@ -221,6 +293,7 @@ def validate_manifest(document: dict, census: dict, root: Path) -> dict:
         or document["census_delineation"]["sha256"] != PINNED_CENSUS_SHA256
     ):
         raise ValueError("Manifest Census pin differs")
+    _check_county_references(document["census_county_references"])
     if not isinstance(document["metro_candidates"], list) or not isinstance(
         document["nonmetro_candidates"], list
     ):
@@ -254,12 +327,38 @@ def validate_manifest(document: dict, census: dict, root: Path) -> dict:
     if len(set(metro_codes)) != 8 or len(set(ids)) != 10:
         raise ValueError("Market candidate has a duplicate CBSA or ID")
     states = [item["state_fips"] for item in document["nonmetro_candidates"]]
-    if len(set(states)) != 2:
+    if set(states) != set(COUNTY_USPS):
         raise ValueError("Nonmetro candidate states are not distinct")
     for market in document["metro_candidates"]:
         _check_metro(market, census, root)
     for area in document["nonmetro_candidates"]:
         _check_nonmetro(area, root)
+    if county_universes is not None:
+        if not isinstance(county_universes, dict) or set(county_universes) != set(
+            COUNTY_USPS
+        ):
+            raise ValueError("Nonmetro county universes are incomplete")
+        metropolitan = set().union(*(entry[1] for entry in census.values()))
+        for area in document["nonmetro_candidates"]:
+            state = area["state_fips"]
+            universe = county_universes[state]
+            if (
+                not isinstance(universe, set)
+                or len(universe) != COUNTY_COUNTS[state]
+                or any(
+                    not isinstance(code, str)
+                    or re.fullmatch(r"[0-9]{5}", code) is None
+                    or not code.startswith(state)
+                    for code in universe
+                )
+            ):
+                raise ValueError("Nonmetro county universe differs")
+            state_metros = {code for code in metropolitan if code.startswith(state)}
+            if not state_metros <= universe:
+                raise ValueError("Metropolitan county is absent from county universe")
+            expected = sorted(universe - metropolitan)
+            if area["county_fips"] != expected:
+                raise ValueError("Nonmetro county membership differs from Census")
     regions = Counter(item["region"] for item in document["metro_candidates"])
     if set(regions) != REGIONS or any(count != 2 for count in regions.values()):
         raise ValueError("Market candidate Census-region balance differs")
@@ -269,15 +368,39 @@ def validate_manifest(document: dict, census: dict, root: Path) -> dict:
     ):
         raise ValueError("Market candidate admission blockers are incomplete")
     return {
-        "status": "PASS_CANDIDATE_GEOGRAPHY_ONLY",
+        "status": (
+            "PASS_CANDIDATE_MEMBERSHIP_CONSISTENCY_ONLY"
+            if county_universes is not None
+            else "PASS_CANDIDATE_STRUCTURE_ONLY"
+        ),
         "metro_candidates": 8,
         "metro_regions": dict(sorted(regions.items())),
         "nonmetro_candidates": 2,
         "nonmetro_membership_verified": False,
+        "nonmetro_counties": (
+            {
+                area["state_fips"]: len(area["county_fips"])
+                for area in document["nonmetro_candidates"]
+            }
+            if county_universes is not None
+            else None
+        ),
         "supported_markets": 0,
         "certified_sale_labels": 0,
         "g_us_status": "PENDING",
     }
+
+
+def read_pinned_counties(path: Path, state: str) -> tuple[set[str], str]:
+    with path.open("rb") as stream:
+        body = stream.read(64_001)
+    digest = sha256(body).hexdigest()
+    if len(body) > 64_000 or digest != PINNED_COUNTY_SHA256[state]:
+        raise ValueError("Official County Gazetteer bytes differ from independent pin")
+    counties = gazetteer_counties(body, state, COUNTY_USPS[state])
+    if len(counties) != COUNTY_COUNTS[state]:
+        raise ValueError("Official County Gazetteer county count differs")
+    return counties, digest
 
 
 def main() -> None:
@@ -287,6 +410,16 @@ def main() -> None:
     )
     parser.add_argument(
         "--census", type=Path, default=ROOT / "data/raw/census/list1_2023.xlsx"
+    )
+    parser.add_argument(
+        "--fl-counties",
+        type=Path,
+        default=ROOT / "data/raw/census/2023_gaz_counties_12.txt",
+    )
+    parser.add_argument(
+        "--ny-counties",
+        type=Path,
+        default=ROOT / "data/raw/census/2023_gaz_counties_36.txt",
     )
     args = parser.parse_args()
     with args.census.open("rb") as stream:
@@ -298,9 +431,26 @@ def main() -> None:
     if len(manifest_bytes) > 64_000:
         raise ValueError("Market candidate manifest is oversized")
     document = json.loads(manifest_bytes)
-    result = validate_manifest(document, census_metros(body), ROOT)
-    result["census_sha256"] = sha256(body).hexdigest()
-    result["manifest_sha256"] = sha256(manifest_bytes).hexdigest()
+    county_universes = {}
+    county_digests = {}
+    for state, path in {"12": args.fl_counties, "36": args.ny_counties}.items():
+        county_universes[state], county_digests[state] = read_pinned_counties(
+            path, state
+        )
+    validated = validate_manifest(
+        document, census_metros(body), ROOT, county_universes=county_universes
+    )
+    result = {
+        **validated,
+        "status": "PASS_CANDIDATE_GEOGRAPHY_ONLY",
+        "nonmetro_membership_verified": True,
+        "census_sha256": sha256(body).hexdigest(),
+        "county_universe_sha256": county_digests,
+        "county_universe_counts": {
+            state: len(counties) for state, counties in county_universes.items()
+        },
+        "manifest_sha256": sha256(manifest_bytes).hexdigest(),
+    }
     print(json.dumps(result, sort_keys=True))
 
 

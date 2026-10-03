@@ -12,7 +12,7 @@ record_date_range: not_established_no_record_date_field
 refresh_schedule: not_established
 known_publication_lag: not_established
 correction_policy: not_established
-missingness: not_measured_before_bounded_capture
+missingness: not_measured_on_complete_source_population
 metadata_sha256_at_inventory: 25a80a2c9274813cfda7d84ad717562765743fae7a9e33aced92edd7daa829cd
 metadata_rows_updated_at: 1790506807
 metadata_view_last_modified: 1789611867
@@ -34,6 +34,10 @@ certified_sale_labels: 0
 raw_redistribution: not_planned
 failed_audit_plan: runs/u0-illinois-additional-pins-v1-20261003T044111Z/plan.md
 audit_plan: runs/u0-illinois-additional-pins-v2-20261003T050600Z/plan.md
+bounded_capture_run: runs/u0-illinois-additional-pins-v2-20261003T050600Z/
+bounded_capture_response_set_sha256: 5b9d230f76f66d33b024009ee1c81aec18d5318b0cd5c748752ddf4300fba013
+offline_identity_triage_run: runs/u0-illinois-additional-pin-offline-v3-20261003T053506Z/
+offline_identity_worklist_sha256: cd9e86a4888dee74eb8c6d9a0c5e4b1349dca2c2561284d2a223f2c37e8a2c3d
 notes: >-
   The official page describes additional properties included in declarations
   transferring two or more properties. A declaration ID is a foreign key, not

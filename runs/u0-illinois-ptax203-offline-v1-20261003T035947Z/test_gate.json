@@ -1,0 +1,91 @@
+{
+  "run_id": "u0-illinois-ptax203-offline-v1-20261003T035947Z",
+  "protocol": "illinois-ptax203-offline-link-v1",
+  "code_commit": "8a8c6c35fd1c6bd54b0e8e806ba631d29fc569c0",
+  "audit_script_sha256": "8f82614012ce1a690e80cf885ba8ea889346671c8831e3e69cf3e464e75c02e0",
+  "environment_lock": "locks/u0-illinois-ptax203-offline-environment.json",
+  "environment_lock_sha256": "a1531461d7a0111ff1c693c8660b291e6fcd7ec916a435a5aec404dbc8bd3091",
+  "configuration_sha256": "a3343cb009a5241b3b579ba62daf64d13407e7897a1c21e81dba10839b55d8a4",
+  "cook_source_snapshot_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "ptax_response_set_sha256": "69d86b7fb9c221dee662d49ebc01b94ef26f5e2862a0c9d26afb887f997cd05a",
+  "private_worklist_sha256": "7981f32fe1970afcb2c20768271c5c0c58dc05ff9a3905fe94981aeef9f8ac8e",
+  "public_aggregate_sha256": "f2b4d61d47f9385ba4c160f78a777cbe7c6bd05da4dde86d22995c23a33c437e",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint": null,
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "results": [
+    {
+      "name": "initial_offline_attempt",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m scripts.audit_illinois_ptax203_links run --source-run-dir data/raw/illinois_ptax203/ptax-link-v1-130b5169ff81ccbc --output runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/aggregate.json",
+      "exit_code": 1,
+      "cause": "Loader retained all 200 audited Cook rows instead of the frozen 100 recent rows; detected by the denominator guard before any output was written",
+      "private_output_created": false,
+      "public_output_created": false
+    },
+    {
+      "name": "corrected_offline_diagnostic",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m scripts.audit_illinois_ptax203_links run --source-run-dir data/raw/illinois_ptax203/ptax-link-v1-130b5169ff81ccbc --output runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/aggregate.json",
+      "exit_code": 0,
+      "duration_seconds": 8.59,
+      "output_artifact": "runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/aggregate.json"
+    },
+    {
+      "name": "offline_exact_byte_replay",
+      "command": "& 'runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "output": "offline_private_and_public_replay_pass"
+    },
+    {
+      "name": "focused_tests_and_branch_coverage",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m coverage run --branch --source=scripts.audit_illinois_ptax203_links -m unittest tests.test_audit_illinois_ptax203_links -q",
+      "exit_code": 0,
+      "observed_tests": 15,
+      "branch_aware_coverage_percent": 85,
+      "statements": 307,
+      "branches": 130,
+      "output_artifact": "runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/coverage.json"
+    },
+    {
+      "name": "full_unittest",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 179.247,
+      "observed_tests": 1067,
+      "skipped": 1,
+      "skip_cause": "AMES_ARFF_PATH was unset for the optional local-source integration fixture",
+      "output_artifact": "runs/u0-illinois-ptax203-offline-v1-20261003T035947Z/test_gate.json"
+    },
+    {
+      "name": "ames_source_integration_followup",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m unittest tests.test_ames_smoke.RealAmesSourceTests -q with AMES_ARFF_PATH set to the verified local OpenML ARFF",
+      "exit_code": 0,
+      "observed_tests": 1,
+      "skipped": 0
+    },
+    {
+      "name": "ruff_check",
+      "command": ".\\.venv\\Scripts\\ruff.exe check scripts/audit_illinois_ptax203_links.py tests/test_audit_illinois_ptax203_links.py",
+      "exit_code": 0
+    },
+    {
+      "name": "ruff_format_check",
+      "command": ".\\.venv\\Scripts\\ruff.exe format --check scripts/audit_illinois_ptax203_links.py tests/test_audit_illinois_ptax203_links.py",
+      "exit_code": 0
+    },
+    {
+      "name": "pip_check",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m pip check",
+      "exit_code": 0
+    },
+    {
+      "name": "pip_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m pip_audit --progress-spinner off --timeout 10",
+      "exit_code": 0,
+      "known_vulnerabilities_found": 0,
+      "local_project_pypi_lookup": "excluded"
+    }
+  ]
+}

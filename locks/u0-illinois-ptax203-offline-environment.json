@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline U0 Cook-PTAX linkage diagnostic; no model training",
+  "python_implementation": "CPython",
+  "python_version": "3.11.6",
+  "project_dependency_lock": "locks/local-date-requirements.txt",
+  "project_dependency_lock_sha256": "9f5a47d3d20dbfad7e60470959e2f2083e461fcac6f284f493c2da7283b42127",
+  "runtime_dependencies_observed": {"tzdata": "2026.4"},
+  "test_tools_observed": {
+    "coverage": "7.6.12",
+    "ruff": "0.13.0",
+    "pip-audit": "2.10.1"
+  }
+}

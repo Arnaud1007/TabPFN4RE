@@ -1,0 +1,14 @@
+{
+  "certified_sale_labels": 0,
+  "cook_capture_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "g_us_gate": "PENDING",
+  "historical_asof_eligible": false,
+  "private_worklist_sha256": "7981f32fe1970afcb2c20768271c5c0c58dc05ff9a3905fe94981aeef9f8ac8e",
+  "protocol": "illinois-ptax203-offline-link-v1",
+  "response_set_sha256": "69d86b7fb9c221dee662d49ebc01b94ef26f5e2862a0c9d26afb887f997cd05a",
+  "returned_declarations": 80,
+  "review_queue_size": 100,
+  "selected_cook_rows": 100,
+  "u0_gate": "PENDING",
+  "unique_document_strings": 83
+}

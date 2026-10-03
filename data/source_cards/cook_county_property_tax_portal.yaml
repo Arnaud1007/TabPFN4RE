@@ -1,0 +1,31 @@
+source_id: cook_county_treasurer_property_tax_portal
+status: candidate_manual_document_discovery_only
+publisher: Cook County Treasurer's Office
+geography: Cook County, Illinois
+landing_page: https://cookcountypropertyinfo.com/default.aspx
+county_service_page: https://www.cookcountyil.gov/service/property-tax-portal
+disclaimer: https://cookcountypropertyinfo.com/Disclaimer.aspx
+verified_on: 2026-10-03
+interface: interactive property search by 14-digit PIN or address
+published_scope: summary_of_most_recent_recorded_documents_with_clerk_copy_links
+source_grain: property_page_not_a_transaction_export
+row_query_performed: false
+private_pin_transmitted: false
+document_summary_fields_verified: false
+copy_access: Clerk copies offered for purchase; no purchase authorised
+official_record_status: portal_disclaimer_explicitly_says_not_an_official_record
+freshness: periodically_updated_with_no_row_level_first_publication_time
+correction_policy: portal_disclaimer_warns_of_audit_reconciliation_and_later_changes
+dataset_specific_reuse_rights: not_established
+bulk_or_automated_access_rights: not_established
+historical_asof_eligible: false
+sale_label_eligible: false
+permitted_use_decision: public_landing_page_review_only
+decision_record: decisions/0065-cook-property-portal-discovery-route.md
+notes: >-
+  The county's service page and the Treasurer-maintained portal identify a
+  possible manual lead to recent recorded documents. The portal disclaims
+  official-record status and does not establish a close date, sale consideration,
+  economic-transfer scope or first availability. A matching summary would need
+  verification against an authoritative Clerk instrument and separate source
+  rights review before any label admission.

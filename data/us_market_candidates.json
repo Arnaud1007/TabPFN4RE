@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "selection_version": "us-market-candidates-v1",
+  "selected_on": "2026-10-03",
+  "status": "candidate_inventory_not_service_area",
+  "product_mode": "OFF",
+  "property_scope": "existing_single_family",
+  "target_origin": "90_calendar_days_before_verified_close",
+  "census_delineation": {
+    "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
+    "sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629",
+    "vintage": "July 2023"
+  },
+  "census_region_reference": "https://www.census.gov/programs-surveys/economic-census/geographies/levels/2022-levels.html",
+  "common_admission_blockers": [
+    "source-specific permitted use and redistribution decision",
+    "verified single-home gross consideration and economic-transfer identity",
+    "verified close-date and first-publication semantics",
+    "historical physical-attribute vintages and eligible sample floors",
+    "pre-tuning price, density, housing-stock and recent-direction audit"
+  ],
+  "metro_candidates": [
+    {
+      "id": "nyc_five_boroughs",
+      "region": "Northeast",
+      "cbsa_code": "35620",
+      "cbsa_title": "New York-Newark-Jersey City, NY-NJ",
+      "cbsa_county_count": 22,
+      "potential_source_counties": ["36005", "36047", "36061", "36081", "36085"],
+      "source_cards": ["data/source_cards/nyc_dof_rolling_sales.yaml"],
+      "scope_gap": "Only five NYC boroughs are inventoried; most of this multi-state CBSA is outside the candidate source.",
+      "variation_hypothesis": "Dense urban housing and high-price tail; measure stock and price bands before final selection.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "albany_schenectady_troy",
+      "region": "Northeast",
+      "cbsa_code": "10580",
+      "cbsa_title": "Albany-Schenectady-Troy, NY",
+      "cbsa_county_count": 5,
+      "potential_source_counties": ["36001", "36083", "36091", "36093", "36095"],
+      "source_cards": ["data/source_cards/nys_salesweb.yaml"],
+      "scope_gap": "The statewide portal has one bounded Albany-day sample; the five-county cohort has not been audited.",
+      "variation_hypothesis": "Smaller Northeast metro contrast to NYC; measure price, density and stock before final selection.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "chicago_cook",
+      "region": "Midwest",
+      "cbsa_code": "16980",
+      "cbsa_title": "Chicago-Naperville-Elgin, IL-IN",
+      "cbsa_county_count": 13,
+      "potential_source_counties": ["17031"],
+      "source_cards": ["data/source_cards/cook_county_parcel_sales.yaml"],
+      "scope_gap": "The frozen Cook sample covers one of thirteen CBSA counties; source semantics and rights are unresolved.",
+      "variation_hypothesis": "Large Midwest urban/suburban contrast; verify physical stock and market direction.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "springfield_illinois",
+      "region": "Midwest",
+      "cbsa_code": "44100",
+      "cbsa_title": "Springfield, IL",
+      "cbsa_county_count": 2,
+      "potential_source_counties": ["17129", "17167"],
+      "source_cards": ["data/source_cards/illinois_idor_ptax203.yaml"],
+      "scope_gap": "A statewide declaration source is identified, but no Springfield transaction or historical property-attribute cohort is qualified.",
+      "variation_hypothesis": "Smaller Midwest metro contrast to Chicago; validate density and price distribution.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "tampa_hillsborough",
+      "region": "South",
+      "cbsa_code": "45300",
+      "cbsa_title": "Tampa-St. Petersburg-Clearwater, FL",
+      "cbsa_county_count": 4,
+      "potential_source_counties": ["12057"],
+      "source_cards": ["data/source_cards/hillsborough_hcpa_allsales.yaml"],
+      "scope_gap": "The pinned county archive covers Hillsborough only; three other CBSA counties and close-date meaning are unresolved.",
+      "variation_hypothesis": "South suburban/coastal-market candidate; quantify housing stock and recent direction.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "miami_fort_lauderdale_west_palm_beach",
+      "region": "South",
+      "cbsa_code": "33100",
+      "cbsa_title": "Miami-Fort Lauderdale-West Palm Beach, FL",
+      "cbsa_county_count": 3,
+      "potential_source_counties": ["12011", "12086", "12099"],
+      "source_cards": ["data/source_cards/florida_dor_sales.yaml", "data/source_cards/miami_dade_clerk_official_records.yaml"],
+      "scope_gap": "State sales files are month-granular and unacquired; an exact daily close and dwelling link need independent evidence.",
+      "variation_hypothesis": "Large South coastal/high-price contrast to Tampa; measure all selection dimensions.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "denver_douglas",
+      "region": "West",
+      "cbsa_code": "19740",
+      "cbsa_title": "Denver-Aurora-Centennial, CO",
+      "cbsa_county_count": 10,
+      "potential_source_counties": ["08035"],
+      "source_cards": ["data/source_cards/douglas_county_co_assessor_downloads.yaml"],
+      "scope_gap": "Douglas County is one of ten CBSA counties; current active-account files lack verified target and history semantics.",
+      "variation_hypothesis": "Mountain West suburban stock candidate; validate density, price and market direction.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "seattle_king",
+      "region": "West",
+      "cbsa_code": "42660",
+      "cbsa_title": "Seattle-Tacoma-Bellevue, WA",
+      "cbsa_county_count": 3,
+      "potential_source_counties": ["53033"],
+      "source_cards": ["data/source_cards/king_county_sales.yaml"],
+      "scope_gap": "King County is one of three CBSA counties, and access terms and commercial use remain unresolved.",
+      "variation_hypothesis": "Pacific Northwest urban/suburban contrast to Denver; measure stock and recent direction.",
+      "status": "candidate_not_supported"
+    }
+  ],
+  "nonmetro_candidates": [
+    {
+      "id": "nys_outside_metro_cbsa",
+      "region": "Northeast",
+      "state_fips": "36",
+      "rule": "New York counties outside every Metropolitan Statistical Area in the pinned Census delineation; micropolitan counties may remain.",
+      "source_cards": ["data/source_cards/nys_salesweb.yaml"],
+      "scope_gap": "No eligible county list, sample floor, daily close meaning or historical availability has been audited.",
+      "status": "candidate_not_supported"
+    },
+    {
+      "id": "florida_outside_metro_cbsa",
+      "region": "South",
+      "state_fips": "12",
+      "rule": "Florida counties outside every Metropolitan Statistical Area in the pinned Census delineation; micropolitan counties may remain.",
+      "source_cards": ["data/source_cards/florida_dor_sales.yaml"],
+      "scope_gap": "Month-granular statewide sale records need a daily close source, rights decision and audited attribute coverage.",
+      "status": "candidate_not_supported"
+    }
+  ]
+}

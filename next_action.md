@@ -77,7 +77,11 @@ ON mode and international implementation remain locked by the specification.
    for Northeast metro and nonmetro cohorts. Its
    [current static UI asset check](runs/u0-nys-salesweb-ui-v1-20261003T115547Z/report.md)
    found labels for sale, contract, deed, initial-load and last-update dates,
-   but did not verify the Excel export or first public availability. Verify
+   but did not verify the Excel export or first public availability. The
+   [official ORPTS quarterly-report guidance](decisions/0071-nys-orpts-report-date-price-boundary.md)
+   maps report Sale Date to transfer date and distinguishes deed recording;
+   it also documents concession and parcel-correction risks. The current
+   Sales Web export mapping remains unverified. Verify
    its current export, historical availability and reuse terms before
    requesting property rows.
    Its [custodian inquiry](data/requests/nys_salesweb_inquiry_draft.md) is

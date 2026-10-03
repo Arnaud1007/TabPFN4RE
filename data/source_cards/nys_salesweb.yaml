@@ -10,6 +10,19 @@ legacy_field_dictionary: https://swcf.orpts.ny.gov/cfapps/salesWebProd/salesWeb/
 legacy_field_dictionary_vintage: 2004-era
 legacy_field_dictionary_status: indexed PDF text inspected; direct PDF retrieval failed on 2026-10-03; current export mapping unverified
 transfer_form_instructions: https://www.tax.ny.gov/pdf/current_forms/orpts/rp5217pdfins.pdf
+official_quarterly_report_guidance: https://www.tax.ny.gov/research/property/assess/sales/qr1.htm
+official_quarterly_report_review: decisions/0071-nys-orpts-report-date-price-boundary.md
+quarterly_report_date_mapping: >-
+  Official ORPTS quarterly-report guidance maps Sale Date to RP-5217 item 12
+  transfer date and Deed Date to item C2 county-clerk recording. RP-5217 item
+  11 is contract date; item 12 is generally closing/title conveyance.
+quarterly_report_mapping_limit: >-
+  Current Municipal Data Portal Sales Web Excel fields and corrected row values
+  have not been inspected; report definitions do not certify that export.
+quarterly_report_correction_risks: >-
+  ORPTS warns book/page mistakes can misapply local corrections, part-parcel
+  status can be incorrectly overwritten, and some concession-inclusive full
+  sale prices require correction when discovered.
 sales_usability_rules: https://www.tax.ny.gov/research/property/assess/sales/salescriteria.htm
 property_class_codes: https://www.tax.ny.gov/research/property/assess/manuals/prclas.htm
 official_website_disclaimer: https://www.tax.ny.gov/help/tech/disclaimer.htm
@@ -21,12 +34,18 @@ documented_window: 10 years of sales and transfers
 row_grain: candidate real property transfer record; current export grain unverified
 primary_record: deed and RP-5217 real property transfer report
 candidate_identity_fields: [swis_code, book, page, tax_map_identifier]
-identity_status: economic transfer, parcel and dwelling cardinality require audit
+identity_status: >-
+  Economic transfer, parcel and dwelling cardinality require audit. Official
+  quarterly guidance uses book/page for correction matching and warns that
+  an erroneous match can update the wrong sale.
 target_candidate_field: sale_price
 target_candidate_currency: USD
 target_candidate_semantics: indexed legacy dictionary says total amount paid minus personal property; provisional until current export is verified
 full_sale_price_semantics: RP-5217 item 13 includes cash, property, assumed obligations and personal property
-concessions_note: RP-5217 instructions exclude seller concessions; confirm correction behavior in actual export
+concessions_note: >-
+  RP-5217 instructions exclude seller concessions from full sale price, while
+  official quarterly guidance documents wrongly inclusive prices corrected
+  after discovery. Verify actual export values and correction history.
 sale_date_candidate_field: sale_date
 sale_date_candidate_semantics: indexed legacy dictionary maps to RP-5217 title conveyance; provisional until current export is verified
 contract_date_candidate_field_from_legacy_dictionary: contract_date
@@ -34,7 +53,7 @@ contract_date_missing_sentinel: indexed legacy dictionary uses 1950-01-01 when a
 recording_date_candidate_field_from_legacy_dictionary: deed_date
 date_status: current export field mapping and record-level closing evidence unverified
 candidate_eligibility_fields_from_legacy_dictionary: [arms_length_flag, cod_usable, rar_usable, part_parcel_flag, condo_flag, new_const_flag, nbr_of_parcels, condition_flags]
-property_class_candidate: 'indexed legacy prop_class_at_sale code 210 means one-family year-round residence; confirm in current export'
+property_class_candidate: 'official ORPTS quarterly guidance says property-use code 210 is a one-family year-round residence at sale; confirm current export mapping'
 property_class_last_roll_warning: indexed legacy prop_class_last_roll describes a later final roll and cannot populate historical as-of features
 documented_exclusions: [New York City, cooperative transfers, easements, rights_of_way, mineral_rights, cemetery_plots]
 current_documented_download: Excel search-result download from the Municipal Data Portal

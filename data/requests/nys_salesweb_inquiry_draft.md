@@ -19,9 +19,11 @@ or clarify the following?
    parcel count and condition codes mean in the current export?
    Does the older `1950-01-01` missing-contract-date sentinel still apply,
    and are class-at-sale and last-roll-class fields distinguished?
-3. Does `sale_date` come directly from RP-5217 item 12 for every included
-   transfer? How are corrections to the transfer date and consideration
-   represented, and can the original values be recovered?
+3. The official ORPTS quarterly-report guidance maps its Sale Date to RP-5217
+   item 12 and Deed Date to item C2. Do current Sales Web Excel columns use
+   those same definitions for every included transfer? How are corrections to
+   the transfer date, parcel scope and consideration represented, and can the
+   original values be recovered?
 4. Is there a reliable record-level first-publication or public-correction
    timestamp? Does `load_date` refer to the public Sales Web release, or only
    an internal database? Are dated historical exports available?

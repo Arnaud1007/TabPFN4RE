@@ -27,6 +27,9 @@ arm's-length and update fields. Direct PDF retrieval failed in this audit;
 these field claims remain provisional until the actual current export or a
 publisher-confirmed dictionary is archived. Whether a price net of personal
 property matches the primary target also needs an explicit cohort decision.
+The later [ADR 0071](0071-nys-orpts-report-date-price-boundary.md) adds direct
+official quarterly-report date, price and correction guidance, while keeping
+the current Sales Web Excel mapping unverified.
 The indexed dictionary calls the recorded-deed field `deed_date`, uses
 `1950-01-01` for a missing contract date, and separates property class at
 sale from class on the last roll. The sentinel cannot be treated as a real

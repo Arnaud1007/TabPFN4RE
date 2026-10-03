@@ -1,5 +1,6 @@
 """A synthetic training capture must supply the rows and the digest used by fit."""
 
+from dataclasses import replace
 from datetime import date, datetime, timedelta, timezone
 from hashlib import sha256
 import json
@@ -22,6 +23,7 @@ from tabpfn4realestate.evaluation.chronological_plan import (  # noqa: E402
 from tabpfn4realestate.evaluation.local_dates import DateOnlyAvailability  # noqa: E402
 from tabpfn4realestate.models.local_date_artifact import (  # noqa: E402
     fit_synthetic_calendar_capture,
+    verify_synthetic_calendar_capture,
 )
 
 
@@ -118,6 +120,28 @@ class SyntheticCaptureFitTests(unittest.TestCase):
         self.assertEqual(first.source_snapshot_sha256, sha256(self.body).hexdigest())
         self.assertEqual(first.source_binding_kind, "synthetic_capture_bytes_v1")
         self.assertEqual(first.train_row_ids, self.plan.final_fit.train_row_ids)
+
+    def test_independent_replay_rejects_model_or_capture_drift(self):
+        model = self.fit()
+        verify_synthetic_calendar_capture(
+            self.path, model, self.plan, ORIGINS, ZONES, self.maturity
+        )
+        with self.assertRaisesRegex(ValueError, "replay"):
+            verify_synthetic_calendar_capture(
+                self.path,
+                replace(model, amount=model.amount + 1),
+                self.plan,
+                ORIGINS,
+                ZONES,
+                self.maturity,
+            )
+        altered = [dict(row) for row in self.rows]
+        altered[0]["price_usd"] = "999999"
+        self.path.write_bytes(capture_bytes(altered))
+        with self.assertRaisesRegex(ValueError, "digest"):
+            verify_synthetic_calendar_capture(
+                self.path, model, self.plan, ORIGINS, ZONES, self.maturity
+            )
 
     def test_modified_price_or_row_order_rejected_against_frozen_schedule(self):
         changed = [dict(row) for row in self.rows]

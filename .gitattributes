@@ -77,3 +77,6 @@
 /decisions/0086-pinned-nonmetro-county-membership.md -text
 /src/tabpfn4realestate/evaluation/local_dates.py -text
 /tests/test_local_date_origins.py -text
+/decisions/0087-cook-sale-validation-version-boundary.md -text
+/data/requests/cook_county_sales_inquiry_draft.md -text
+/data/source_cards/cook_county_parcel_sales.yaml -text

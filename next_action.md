@@ -127,6 +127,11 @@ ON mode and international implementation remain locked by the specification.
    Continue
    to seek the
    authoritative Clerk instrument and publisher date/rights clarification.
+   [ADR 0087](decisions/0087-cook-sale-validation-version-boundary.md)
+   records the Assessor's separate, internally versioned sale-validation
+   flags and its reported 2026 rerun after omitted 2025 sales were added.
+   Ask whether historical flag vintages and late-sale publication logs can be
+   obtained under suitable terms; neither has been admitted as an input.
    Use the private quality findings to prioritize independent checks. The
    Cook inquiry is an
    [unsent draft](data/requests/cook_county_sales_inquiry_draft.md); its proposed

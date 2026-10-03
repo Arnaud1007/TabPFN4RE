@@ -14,6 +14,7 @@ I am evaluating the public Parcel Sales (`wvhk-k5uv`) and Single and Multi-Famil
 5. What are the meanings and correction histories of `sale_type`, `deed_type`, `mydec_deed_type` and any arm's-length flags? Are concessions recorded separately from gross consideration?
 6. In the characteristics dataset, does a historical `year` row contain values as published in that tax year, or can it reflect later corrections? Is a publication date available for each PIN/year/card version?
 7. Please clarify any dataset-specific conditions for private internal AVM research, subsequent commercial prediction use, and publication of aggregate findings or derived model outputs. I do not plan to redistribute raw rows, names or images.
+8. Your published sales-validation model describes versioned internal flags, and the residential AVM notes a 2026 rerun after omitted 2025 sales were added. Is a permitted historical status or dated correction log available for `wvhk-k5uv` rows, including the first publication of late sales? Can it be linked by document number and PIN without disclosing buyer or seller identities?
 
 Thank you for any guidance. A link to an existing technical note or the right custodian would be helpful.
 

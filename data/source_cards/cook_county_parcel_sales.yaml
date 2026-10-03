@@ -27,6 +27,10 @@ platform_timestamp_status: exposed_for_one_pinned_row_not_first_public_availabil
 platform_timestamp_probe: runs/u0-cook-system-fields-v1-20261003T030715Z/
 publication_lag: county says records may arrive months after official recording
 correction_policy: current extract may contain later date corrections; historical versions not recovered
+publisher_validation_reference: https://github.com/ccao-data/model-sales-val/blob/44da5d6bb143ab5f0e09a6374bfb738beed0446c/README.md
+publisher_validation_status: internal versioned flags described; row-level historical public access and applicability to this extract not established
+publisher_late_sales_reference: https://github.com/ccao-data/model-res-avm/blob/feec9b79229e5ea9cfcbe042184855c2e047ae14/README.md
+publisher_late_sales_note: 2026 residential model rerun after omitted 2025 sales were added; affected public extract rows and first-publication dates unknown
 multi_parcel_fields: [is_multisale, num_parcels_sale]
 candidate_sale_quality_fields: [deed_type, mydec_deed_type, sale_type, sale_filter_same_sale_within_365, sale_filter_less_than_10k, sale_filter_deed_type]
 identifier_note: PIN must remain 14-character text with leading zeros

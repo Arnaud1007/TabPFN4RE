@@ -5,7 +5,8 @@ dataset_name: Real Property Sale Record Assessor extract table
 documentation_url: https://www5.kingcounty.gov/sdc?Layer=rpsale_extr
 authoritative_download_route: https://info.kingcounty.gov/assessor/DataDownload/default.aspx
 glossary_url: https://info.kingcounty.gov/assessor/esales/Glossary.aspx?type=k
-retrieved_on: 2026-09-28
+documentation_retrieved_on: 2026-09-28
+rights_terms_retrieved_on: 2026-10-03
 geography: King County, Washington
 refresh_schedule: GIS derivative weekly; authoritative Assessor schedule not verified
 row_grain: one or more parcel records per sale
@@ -21,6 +22,16 @@ availability_field: absent_in_documented_derivative
 historical_vintages: historical first-publication snapshots not recovered
 derivative_access: GIS catalog marks this layer Not Public
 rights_reference: https://kingcounty.gov/en/dept/kcit/data-information-services/gis-center/about/terms-conditions-copyrights
+assessor_download_terms: https://info.kingcounty.gov/assessor/DataDownload/default.aspx
+assessor_download_acknowledgment: required; not accepted in this audit
+assessor_download_commercial_warning: >-
+  The official page warns against release or commercial use of lists of
+  individuals. The applicability to a minimized transaction-and-attribute
+  extract without party fields requires a source-specific decision.
+esales_terms: https://info.kingcounty.gov/assessor/esales/Glossary.aspx?type=k
+esales_commercial_content_permission: prior written King County permission stated for commercial exploitation of eSales content
+rights_review: runs/u0-king-rights-v1-20261003T154623Z/report.md
+rights_inquiry_draft: data/requests/king_county_assessor_source_inquiry_draft.md
 permitted_use_decision: source_inventory_only_pending_access_and_specific_reuse_review
 redistribution: not_established
 historical_asof_eligible: false

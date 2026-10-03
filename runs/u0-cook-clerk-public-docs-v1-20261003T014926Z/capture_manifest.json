@@ -1,0 +1,53 @@
+﻿{
+    "results":  [
+                    {
+                        "url":  "https://www.cookcountyclerkil.gov/recordings/search-recordings",
+                        "status_code":  200,
+                        "name":  "search.html",
+                        "content_type":  "text/html; charset=UTF-8",
+                        "retrieved_at_utc":  "2026-10-03T01:50:29.587Z",
+                        "duration_seconds":  0.641,
+                        "bytes":  57718,
+                        "sha256":  "2010e4bcbd03a9e8cb711626ecd6ecc0b28d440d27d2df2d9fb184cc76c1c9a6"
+                    },
+                    {
+                        "url":  "https://www.cookcountyclerkil.gov/publication/transfer-list-license-agreement-summary",
+                        "status_code":  200,
+                        "name":  "transfer-list.pdf",
+                        "content_type":  "application/pdf",
+                        "retrieved_at_utc":  "2026-10-03T01:50:30.429Z",
+                        "duration_seconds":  0.615,
+                        "bytes":  143985,
+                        "sha256":  "1b0423cea3a2ffe42a02ed4eec9ff4e6aa48474254423a88816241c812801819"
+                    },
+                    {
+                        "url":  "https://www.cookcountyclerkil.gov/recordings/recording-fees",
+                        "status_code":  200,
+                        "name":  "fees.html",
+                        "content_type":  "text/html; charset=UTF-8",
+                        "retrieved_at_utc":  "2026-10-03T01:50:31.060Z",
+                        "duration_seconds":  0.227,
+                        "bytes":  61960,
+                        "sha256":  "ae5e91da8a09a475801108fc863a3310bdb1c80bdff7f3def41d3f312daae416"
+                    },
+                    {
+                        "url":  "https://www.cookcountyclerkil.gov/recordings/recording-faqs",
+                        "status_code":  200,
+                        "name":  "faqs.html",
+                        "content_type":  "text/html; charset=UTF-8",
+                        "retrieved_at_utc":  "2026-10-03T01:50:31.412Z",
+                        "duration_seconds":  0.244,
+                        "bytes":  90995,
+                        "sha256":  "4aa93ab2a32cb2f7b042d6bb27b294e0d9a1c2eeae72575629023c5a2b72e185"
+                    }
+                ],
+    "code_commit":  "da87a4d2583d8acf0a5cf09cc9bbeb5f3f9f459a",
+    "source_rows_requested":  0,
+    "u0_gate":  "PENDING",
+    "g_us_gate":  "PENDING",
+    "certified_sale_labels":  0,
+    "private_acl_verified":  true,
+    "run_id":  "u0-cook-clerk-public-docs-v1-20261003T014926Z",
+    "paid_actions":  0,
+    "protocol":  "cook-clerk-public-docs-v1"
+}

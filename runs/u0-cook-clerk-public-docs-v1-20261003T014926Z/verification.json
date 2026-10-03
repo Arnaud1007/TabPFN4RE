@@ -1,0 +1,22 @@
+{
+  "run_id": "u0-cook-clerk-public-docs-v1-20261003T014926Z",
+  "technical_capture_status": "PASS",
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "baseline_commit": "da87a4d2583d8acf0a5cf09cc9bbeb5f3f9f459a",
+  "environment_lock_sha256": "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+  "capture_manifest_sha256": "07133c72543e73f0da5eba07da1f20317d13cc313a4e1a2a66ae533811d94bf7",
+  "plan_sha256": "6972f88d0bd15507bcd9800567b2c35e0960edab41d863b358bf71e099223568",
+  "command": "& 'runs/u0-cook-clerk-public-docs-v1-20261003T014926Z/verify_artifacts.ps1'",
+  "exit_code": 0,
+  "duration_seconds": 0.706,
+  "output": "verify.log",
+  "output_sha256": "11247c7174614f55ef00f8f665671c7b2cc8cb86b58b08a0c95a0e3f7bdcc50a",
+  "source_rows_requested": 0,
+  "paid_actions": 0,
+  "certified_sale_labels": 0,
+  "data_snapshot_sha256": null,
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "checkpoint_identity": null
+}

@@ -1,0 +1,30 @@
+source_id: cook_county_clerk_transfer_list_candidate
+status: paid_candidate_not_acquired
+publisher: Cook County Clerk, Recording Operations
+product: Transfer List monthly deed-transfer index
+official_summary_url: https://www.cookcountyclerkil.gov/publication/transfer-list-license-agreement-summary
+official_search_url: https://www.cookcountyclerkil.gov/recordings/search-recordings
+official_fees_url: https://www.cookcountyclerkil.gov/recordings/recording-fees
+official_faq_url: https://www.cookcountyclerkil.gov/recordings/recording-faqs
+source_document_capture: runs/u0-cook-clerk-public-docs-v1-20261003T014926Z/
+summary_pdf_sha256: 1b0423cea3a2ffe42a02ed4eec9ff4e6aa48474254423a88816241c812801819
+retrieved_on: 2026-10-03
+row_grain: deed-transfer indexing record; exact product schema uninspected
+documented_fields: [document_number, address, amount_of_consideration, recording_date, execution_date, seller, buyer, pin, township]
+address_caveat: summary says address is not part of the Clerk's own index
+price_semantics: amount of consideration; dwelling allocation and inclusion rules unverified
+date_semantics: execution and recording are distinct; neither accepted as close date
+first_publication: not documented in the inspected summary
+correction_policy: not established for the licensed product
+fee_usd_per_year: 400
+agreement_required: true
+agreement_obtained: false
+payment_authorized: false
+data_obtained: false
+reuse_rights: unknown until actual license terms are reviewed and accepted by owner
+individual_noncertified_electronic_copy_fee_usd: 5
+individual_copy_acquired: false
+recording_search_status: official route identified; shell returned HTTP 403 in this environment
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+certified_sale_labels: 0

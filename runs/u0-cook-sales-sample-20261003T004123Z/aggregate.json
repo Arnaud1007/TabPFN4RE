@@ -1,0 +1,50 @@
+{
+  "capture_completed_at": "2026-10-03T00:42:14.862412Z",
+  "capture_started_at": "2026-10-03T00:41:23.032937Z",
+  "cell_counts": {
+    "old-high": 35919,
+    "old-low": 145589,
+    "old-lower": 76241,
+    "old-middle": 212042,
+    "old-upper": 153472,
+    "recent-high": 16186,
+    "recent-low": 1783,
+    "recent-lower": 9475,
+    "recent-middle": 53049,
+    "recent-upper": 75240
+  },
+  "certified_sale_labels": 0,
+  "checkpoint_identity": null,
+  "code_commit": "4851fb9dc86f38262a7a170a36f2332c514729b5",
+  "configuration_sha256": "c38b2474c7d5926066d5e1e16218227d281800f24a7d477541eb0c7bf26f9d92",
+  "data_snapshot_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "environment_lock_sha256": "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+  "feature_policy_hash": null,
+  "historical_asof_eligible": false,
+  "manual_rubrics_complete": 0,
+  "primary_90_day_close_origin_eligible": false,
+  "response_count": 42,
+  "run_id": "u0-cook-sales-sample-20261003T004123Z",
+  "sample_cell_count": 10,
+  "sample_class_nonblank": 200,
+  "sample_duplicate_document_groups": 10,
+  "sample_duplicate_document_rows": 30,
+  "sample_missing_document_number": 0,
+  "sample_multisale": {
+    "false": 140,
+    "other": 0,
+    "true": 60
+  },
+  "sample_pin_14_digits": 200,
+  "sample_rows": 200,
+  "sample_sale_type": {
+    "land": 2,
+    "land_and_building": 98,
+    "missing": 100,
+    "other": 0
+  },
+  "source_dataset_id": "wvhk-k5uv",
+  "source_metadata_sha256": "c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce",
+  "split_hash": null,
+  "status": "private_source_audit_sample_only"
+}

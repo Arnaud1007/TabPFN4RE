@@ -1,5 +1,5 @@
 source_id: cook_county_parcel_sales_wvhk_k5uv
-status: candidate_metadata_audited_not_ingested
+status: candidate_private_audit_sample_captured_not_certified
 publisher: Cook County Assessor's Office Data Department
 dataset_name: Assessor - Parcel Sales
 dataset_id: wvhk-k5uv
@@ -25,7 +25,7 @@ availability_field: absent
 publication_lag: county says records may arrive months after official recording
 correction_policy: current extract may contain later date corrections; historical versions not recovered
 multi_parcel_fields: [is_multisale, num_parcels_sale]
-arm_length_fields: [deed_type, mydec_deed_type, sale_type, sale_filter_same_sale_within_365, sale_filter_less_than_10k, sale_filter_deed_type]
+candidate_sale_quality_fields: [deed_type, mydec_deed_type, sale_type, sale_filter_same_sale_within_365, sale_filter_less_than_10k, sale_filter_deed_type]
 identifier_note: PIN must remain 14-character text with leading zeros
 licence_field_in_metadata: absent
 permitted_use_decision: bounded_private_internal_source_audit_only_adr_0051
@@ -35,6 +35,13 @@ primary_90_day_close_origin_eligible: false
 row_identity_note: row_id identifies an API row, not a verified dwelling transfer; sale document number is unique only for non-multisales per Assessor SOP
 filter_semantics_status: contradictory_publisher_description_requires_clarification
 internal_audit_limit: 200 selected rows without buyer or seller names; no model training
+private_sample_run: runs/u0-cook-sales-sample-20261003T004123Z/
+private_sample_captured_on: 2026-10-03
+private_sample_metadata_sha256: c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e5466e95e31731119dce
+private_sample_manifest_sha256: 130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7
+private_sample_rows: 200
+manual_sample_rubrics_complete: 0
+certified_sale_labels: 0
 notes: >-
   The current published extract is a concrete acquisition candidate, not a certified
   label source. The portal's own description says sale_date is recorded rather than

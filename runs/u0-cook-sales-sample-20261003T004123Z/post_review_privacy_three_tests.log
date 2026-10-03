@@ -1,0 +1,11 @@
+python.exe : ----------------------------------------------------------------------
+At <user-profile>\Desktop\Coding_projects\TabPFN4RealEstate\runs\u0-cook-sales-sample-20261003T004123Z\run_post_review_
+check.ps1:26 char:23
++             $output = & $python @($check.arguments) 2>&1 | Out-String
++                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 3 tests in 0.000s
+
+OK

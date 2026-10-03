@@ -1,0 +1,185 @@
+{
+    "run_id":  "u0-cook-sales-sample-20261003T004123Z",
+    "protocol":  "adr-0051-cook-sales-v1",
+    "capture_code_commit":  "4851fb9dc86f38262a7a170a36f2332c514729b5",
+    "environment_lock_sha256":  "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+    "data_snapshot_sha256":  "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+    "sample_rows":  200,
+    "manual_rubrics_complete":  0,
+    "certified_sale_labels":  0,
+    "u0_gate":  "PENDING",
+    "g_us_gate":  "PENDING",
+    "results":  [
+                    {
+                        "name":  "capture_coverage",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "run",
+                                        "--branch",
+                                        "--source=capture_cook_sales_audit",
+                                        "-m",
+                                        "unittest",
+                                        "tests.test_capture_cook_sales_audit",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.599,
+                        "output":  "capture_coverage.log",
+                        "output_sha256":  "b10178233fb1c783d8488584b6b835afbb28354504ebc12238d2d0d09ba5c6dd",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "capture_coverage_report",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "report",
+                                        "-m"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.245,
+                        "output":  "capture_coverage_report.log",
+                        "output_sha256":  "cf1bdd9d1bf6d518ef787ea638957a234444c2741658d4432da93b06ea992d8f",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "aggregate_privacy",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "unittest",
+                                        "tests.test_cook_aggregate_privacy",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.184,
+                        "output":  "aggregate_privacy.log",
+                        "output_sha256":  "128bde055b9bd48c71dc24cc8f9af5b06901b2ab4fceaff6f9b282531a26b937",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "private_replay",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "scripts/capture_cook_sales_audit.py",
+                                        "--verify",
+                                        "data/raw/cook_county/cook-sales-v1-20261003T004123.032937Z-c08de13e9f1d"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.179,
+                        "output":  "private_replay.log",
+                        "output_sha256":  "8ef84a8d871cb905cfb7d93fb24493fc173a849cbdd55b66740de7f548d5d528",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "aggregate_replay",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py",
+                                        "--check"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.185,
+                        "output":  "aggregate_replay.log",
+                        "output_sha256":  "2ef1c928155af7b9e26f0229b21adec52100a720e217e4220801e62a0bdb7a35",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "full_suite",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "unittest",
+                                        "discover",
+                                        "-s",
+                                        "tests",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  175.533,
+                        "output":  "full_suite.log",
+                        "output_sha256":  "e8ee3e0553f0a50c5905d4b4decc3a6ef7b0be18cdd1db3ae4b5f74a518ab9e5",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "ruff_check",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "check",
+                                        "src",
+                                        "tests",
+                                        "scripts/capture_cook_sales_audit.py",
+                                        "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.135,
+                        "output":  "ruff_check.log",
+                        "output_sha256":  "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "ruff_format",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "format",
+                                        "--check",
+                                        "src",
+                                        "tests",
+                                        "scripts/capture_cook_sales_audit.py",
+                                        "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.119,
+                        "output":  "ruff_format.log",
+                        "output_sha256":  "9144b1a7fd7af309e14ae8b98d8730a6b4cfaccb8b6d9f957122c5043b2b12df",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "pip_check",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip",
+                                        "check"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.497,
+                        "output":  "pip_check.log",
+                        "output_sha256":  "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    },
+                    {
+                        "name":  "pip_audit",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip_audit",
+                                        "--progress-spinner",
+                                        "off"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  3.497,
+                        "output":  "pip_audit.log",
+                        "output_sha256":  "dbff7620c17116620184bf1f75560122f5be3d9a32feb932947529b26e1d788e",
+                        "output_redacted_user_profile":  true,
+                        "output_redacted_username":  true
+                    }
+                ],
+    "status":  "PASS"
+}

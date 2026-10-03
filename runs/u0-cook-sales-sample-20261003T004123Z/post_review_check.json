@@ -1,0 +1,52 @@
+﻿{
+    "run_id":  "u0-cook-sales-sample-20261003T004123Z",
+    "reason":  "timestamp-order fix and added regression after the original ten-check gate",
+    "original_gate":  "test_gate.json",
+    "original_gate_unchanged":  true,
+    "rebuild_aggregate_sha256":  "51c5b56e4704b802ba17e0e1620e45c8bf99dd38b321c723867941683071678a",
+    "privacy_tests_sha256":  "b881384f15055e0334ccb2e879635398acd471c221e6cab7ebbd7083256f8e60",
+    "checks":  [
+                   {
+                       "exit_code":  0,
+                       "name":  "privacy_three_tests",
+                       "output":  "post_review_privacy_three_tests.log",
+                       "command":  [
+                                       ".\\.venv\\Scripts\\python.exe",
+                                       "-m",
+                                       "unittest",
+                                       "tests.test_cook_aggregate_privacy",
+                                       "-q"
+                                   ],
+                       "duration_seconds":  0.28,
+                       "output_sha256":  "58a353b08e4bc3d6c439d0a61f36497d20fae564ae1145affadc0fd637542126"
+                   },
+                   {
+                       "exit_code":  0,
+                       "name":  "aggregate_replay",
+                       "output":  "post_review_aggregate_replay.log",
+                       "command":  [
+                                       ".\\.venv\\Scripts\\python.exe",
+                                       "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py",
+                                       "--check"
+                                   ],
+                       "duration_seconds":  0.181,
+                       "output_sha256":  "2ef1c928155af7b9e26f0229b21adec52100a720e217e4220801e62a0bdb7a35"
+                   },
+                   {
+                       "exit_code":  0,
+                       "name":  "ruff_changed_python",
+                       "output":  "post_review_ruff_changed_python.log",
+                       "command":  [
+                                       ".\\.venv\\Scripts\\python.exe",
+                                       "-m",
+                                       "ruff",
+                                       "check",
+                                       "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py",
+                                       "tests/test_cook_aggregate_privacy.py"
+                                   ],
+                       "duration_seconds":  0.14,
+                       "output_sha256":  "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+                   }
+               ],
+    "status":  "PASS"
+}

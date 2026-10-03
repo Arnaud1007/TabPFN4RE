@@ -31,6 +31,8 @@ multi_parcel_fields: [is_multisale, num_parcels_sale]
 candidate_sale_quality_fields: [deed_type, mydec_deed_type, sale_type, sale_filter_same_sale_within_365, sale_filter_less_than_10k, sale_filter_deed_type]
 identifier_note: PIN must remain 14-character text with leading zeros
 licence_field_in_metadata: absent
+portal_open_data_guidance: https://datacatalog.cookcountyil.gov/stories/s/About-Open-Data/pvqg-z4sc/
+portal_guidance_scope: general_license_free_principle_where_reasonable_not_a_dataset_specific_commercial_use_decision
 permitted_use_decision: bounded_private_internal_source_audit_only_adr_0051
 redistribution: not_established
 historical_asof_eligible: false

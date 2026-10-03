@@ -66,3 +66,8 @@
 /locks/nyc-v2-field-diagnostic-environment.json -text
 /tests/test_nyc_representation_fields_v1.py -text
 /decisions/0035-nyc-v2-field-diagnostic.md -text
+/data/acquisition_backlog.md -text
+/next_action.md -text
+/requirements.yaml -text
+/decisions/0085-us-market-candidates-before-tuning.md -text
+/.gitattributes -text

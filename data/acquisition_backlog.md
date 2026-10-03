@@ -2,6 +2,12 @@
 
 Evidence updated: 2026-10-03. This is a source qualification order, not an accepted data pipeline or a performance result. Source cards contain provenance and field details. Information gain is a hypothesis until a matched-cohort ablation exists; no model results were used to rank these sources.
 
+The [pre-tuning market candidate map](us_market_candidates.json) separately
+records eight metro candidates across the four Census regions and two proposed
+nonmetro strata. It does not alter the acquisition ranks or admit any source:
+several candidate feeds cover only part of a CBSA, and zero markets or sale
+labels are certified.
+
 | Rank | Source family | Expected marginal information | Linkage quality to validate | Cost and access | Rights and timing status | Next decision |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [Hillsborough County Property Appraiser All Sales](https://downloads.hcpafl.org/Default.aspx), with [Hillsborough Clerk Official Records](https://www.hillsclerk.com/propertyrecords-and-recording) for manual cross-checking and Florida DOR SDF/NAL for later statewide linkage | County sale-date entries and parcel/deed references could support a South-market pilot if their meanings and timing are verified; county parcel archives may add physical attributes only after a checked dwelling link | `PIN`, `FOLIO`, OR book/page and Clerk document number need transaction and unit audits. The [county parcel readme](source_cards/hillsborough_hcpa_parcel_archives.yaml) says area and room totals cover all buildings on a parcel | Current HCPA download and documentation were inspected without paid access; 200 stratified entries were selected privately with zero completed full review rubrics. One sampled instrument partially matched a recent public Clerk daily index row; a local HEAD request to the bulk index readme timed out | `S_DATE` is documented only as date of sale; Clerk index exposes recording date, not verified closing date. HCPA entry can lag Clerk receipt by weeks. Annual parcel ZIP names and listing timestamps do not prove historical field availability. Specific reuse rights are unresolved | Review the 200 source entries through authorised public routes, resolve close-date and parcel-field semantics, archive prospective publication snapshots and decide rights before any certified adapter |

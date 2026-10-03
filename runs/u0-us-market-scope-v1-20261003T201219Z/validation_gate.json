@@ -1,0 +1,7 @@
+{
+  "command": ".venv/Scripts/python.exe scripts/validate_us_market_scope.py",
+  "exit_code": 0,
+  "duration_seconds": 1.547,
+  "status": "PASS_CANDIDATE_GEOGRAPHY_ONLY",
+  "output_sha256": "39dfa2f3ba901572bad5f16e701a8bdc138f261f555c45530fbb22bdd64aaf35"
+}

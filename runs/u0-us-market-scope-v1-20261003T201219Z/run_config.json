@@ -1,0 +1,29 @@
+{
+  "run_id": "u0-us-market-scope-v1-20261003T201219Z",
+  "purpose": "pre-tuning US candidate geography inventory",
+  "code_commit": "412d05e88bf03b0f5e408bdc14716c9f78171c5c",
+  "code_dirty_at_run": true,
+  "census_reference_url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
+  "census_reference_sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629",
+  "candidate_manifest_sha256": "65a3ef4e286dc7a92340aac0bcde36a3358a47d63a692a718790977d1fc3da90",
+  "source_card_sha256": {
+    "data/source_cards/cook_county_parcel_sales.yaml": "fd42416def5356c9e1d1e65a855926c2ef5a1e3c9330bb9588b74627e75ff1a9",
+    "data/source_cards/douglas_county_co_assessor_downloads.yaml": "18a01acc69f862faceb931fccfb548a27eab6e268e348499dde57c493264bd4a",
+    "data/source_cards/florida_dor_sales.yaml": "39334999509d0c589df5e99314077e22d0d8fcf9a7cfef63b64076c517d1d996",
+    "data/source_cards/hillsborough_hcpa_allsales.yaml": "94921a2cf67c6b27486097054f4fbaa2973870c6f19b053ce4ad59949a662b29",
+    "data/source_cards/illinois_idor_ptax203.yaml": "94f731dce3ffe769a1ca4ca3ccd84b4cc05ed11387c26417d9e88ffcb3f94f47",
+    "data/source_cards/king_county_sales.yaml": "5fe0565d76ceac12bcd22d75ccf2c3eb28679713ba9e2284174c54931cc73aa2",
+    "data/source_cards/miami_dade_clerk_official_records.yaml": "501e73a259719129e2f7df0410e121097e48a1148ad093cf90f482d785a19608",
+    "data/source_cards/nyc_dof_rolling_sales.yaml": "6b12e91ed9aa4b2f4a7907bb26728c398ec7f08f6e170ce56d7de14d34689211",
+    "data/source_cards/nys_salesweb.yaml": "8305261f26126401e0bb7406a026cdc7feb834b81f46eeac41896738cfaa3217"
+  },
+  "environment_lock_sha256": "893ac83a481a56a1bd4829fc7afc84371b62046314eb040d3f2bb7bf78faa546",
+  "sale_data_snapshot_sha256": null,
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint_sha256": null,
+  "certified_sale_labels": 0,
+  "supported_markets": 0,
+  "u0_status": "PENDING",
+  "g_us_status": "PENDING"
+}

@@ -1,0 +1,17 @@
+{
+  "census_sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629",
+  "certified_sale_labels": 0,
+  "g_us_status": "PENDING",
+  "manifest_sha256": "65a3ef4e286dc7a92340aac0bcde36a3358a47d63a692a718790977d1fc3da90",
+  "metro_candidates": 8,
+  "metro_regions": {
+    "Midwest": 2,
+    "Northeast": 2,
+    "South": 2,
+    "West": 2
+  },
+  "nonmetro_candidates": 2,
+  "nonmetro_membership_verified": false,
+  "status": "PASS_CANDIDATE_GEOGRAPHY_ONLY",
+  "supported_markets": 0
+}

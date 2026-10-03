@@ -1,0 +1,26 @@
+[
+  {
+    "command": ".venv/Scripts/ruff.exe check scripts/validate_us_market_scope.py tests/test_us_market_scope.py",
+    "exit_code": 0,
+    "duration_seconds": 0.359,
+    "log_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+  },
+  {
+    "command": ".venv/Scripts/ruff.exe format --check scripts/validate_us_market_scope.py tests/test_us_market_scope.py",
+    "exit_code": 0,
+    "duration_seconds": 0.234,
+    "log_sha256": "97d85b4b6c185a05396e2d09a3c304ff0f7cc77f8b7b7bb7989ec6cd875b3898"
+  },
+  {
+    "command": ".venv/Scripts/python.exe -m pip check",
+    "exit_code": 0,
+    "duration_seconds": 2.219,
+    "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+  },
+  {
+    "command": ".venv/Scripts/pip-audit.exe --skip-editable",
+    "exit_code": 0,
+    "duration_seconds": 8.39,
+    "log_sha256": "b33e645dcb25bc903a3e7115015dab003d955555240a5018b26a4ab811fd034c"
+  }
+]

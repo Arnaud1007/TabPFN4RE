@@ -1,0 +1,14 @@
+[
+  {
+    "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m coverage run --branch -m unittest tests.test_us_market_scope -q",
+    "exit_code": 0,
+    "duration_seconds": 1.266,
+    "log_sha256": "4d487e9f441889b893ce2937155631f92332230a6aa4b6e5679d7b7c800e6d59"
+  },
+  {
+    "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m coverage report -m scripts/validate_us_market_scope.py",
+    "exit_code": 0,
+    "duration_seconds": 0.719,
+    "log_sha256": "80c549930b4c4e11329fcf118deae6af1a79fb5cea4d0cdfb019af6012d891cb"
+  }
+]

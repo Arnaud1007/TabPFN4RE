@@ -5,6 +5,13 @@ Updated: 2026-10-03. Branch: `audit/u0`.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [pre-tuning US market candidate map](data/us_market_candidates.json)
+now names eight metros across four Census regions and two separate proposed
+nonmetro strata, checked against a pinned Census delineation workbook. It is
+an inventory with zero supported markets. Several source footprints cover
+only part of a metro, and nonmetro membership and market variation still need
+qualified data. [ADR 0085](decisions/0085-us-market-candidates-before-tuning.md)
+requires a versioned replacement before final tuning if a candidate fails.
 The [synthetic capture byte-binding run](runs/u3-synthetic-capture-binding-v1-20261003T193616Z/report.md)
 now replays a guarded OFF median from the exact five-row generated training
 file it hashed, with reserved prices absent. Its full suite passed 1,262 tests
@@ -227,8 +234,8 @@ After replay, the next source-evidence action is the Cook authorised
 instrument route in item 1, or the NYC single-document route in item 3.
 Neither has a runnable retrieval command until the access method is verified;
 record an access failure if that remains the observed result.
-Independent of source access, the next local-date engineering task is to
-specify and test typed date-only publication for property, attribute and
-prior-sale facts. Keep the existing timestamped and exact-UTC protocols
-separate, and do not connect a real adapter until its source file hash and
-date meanings are independently verified.
+The typed date-only publication and synthetic capture byte-binding engineering
+tasks have been verified. Their next dependency is a real source with
+independently hashed raw bytes, permitted use, true target and availability
+semantics, and an audited property/unit mapping. The candidate market map
+does not open a real-data fit or substitute for those U0 checks.

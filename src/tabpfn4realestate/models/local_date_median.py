@@ -206,6 +206,7 @@ class GuardedLocalDateMedian:
     training_rows_sha256: str
     allowed_source_ids: tuple[str, ...]
     feature_policy_version: str = LOCAL_DATE_ASSEMBLER_POLICY_VERSION
+    # Descriptive only. Provenance claims require independent artifact replay.
     source_binding_kind: str = "caller_declared_synthetic_v1"
 
     def __post_init__(self) -> None:

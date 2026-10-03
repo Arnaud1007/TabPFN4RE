@@ -27,6 +27,7 @@ from tabpfn4realestate.evaluation.chronological_plan import (
 )
 from tabpfn4realestate.evaluation.local_dates import (
     DateOnlyAvailability,
+    availability_cutoff_utc,
     derive_local_date_origin,
 )
 from tabpfn4realestate.features.asof import LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2
@@ -130,13 +131,17 @@ def _example(raw: object) -> CalendarTrainingExample:
     zone = raw["close_zone"]
     origin = derive_local_date_origin(close_date, zone)
     published_at = DateOnlyAvailability(publication, zone)
+    observed_at = _observed_utc(raw["property_observed_at_utc"])
+    property_available_at = DateOnlyAvailability(property_publication, zone)
+    if observed_at > availability_cutoff_utc(property_available_at):
+        raise ValueError("Synthetic property was published before observation")
     property_fact = DatePublishedProperty(
         raw["property_id"],
         "US",
         "single_family",
         SOURCE_ID,
-        _observed_utc(raw["property_observed_at_utc"]),
-        DateOnlyAvailability(property_publication, zone),
+        observed_at,
+        property_available_at,
         _positive_decimal(raw["living_area_sqft"], _AREA, "living_area_sqft"),
         "sqft",
     )
@@ -205,3 +210,23 @@ def fit_synthetic_calendar_capture(
         feature_policy_version=LOCAL_DATE_ASSEMBLER_POLICY_VERSION_V2,
     )
     return replace(model, source_binding_kind="synthetic_capture_bytes_v1")
+
+
+def verify_synthetic_calendar_capture(
+    path: Path,
+    model: GuardedLocalDateMedian,
+    plan: ChronologicalPlan,
+    origins: Sequence[CalendarOriginRef],
+    zones: Mapping[str, str],
+    maturity: Sequence[ChronologicalMaturityRef],
+) -> None:
+    """Rehash source bytes and reproduce a saved synthetic model exactly.
+
+    Model metadata alone does not attest to the capture; this replay is required
+    when reporting the byte-bound engineering result.
+    """
+    if not isinstance(model, GuardedLocalDateMedian):
+        raise ValueError("Synthetic replay needs a saved calendar median")
+    replay = fit_synthetic_calendar_capture(path, plan, origins, zones, maturity)
+    if replay != model:
+        raise ValueError("Synthetic capture replay differs from saved model")

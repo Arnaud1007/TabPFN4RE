@@ -1,0 +1,15 @@
+{
+  "benchmark": "fresh_process_204_row_calendar_fit_replay_and_score",
+  "phase": "before_cache",
+  "command": ".venv/Scripts/python.exe -B -m unittest tests.test_local_date_off_median.LocalDateMedianTests.test_two_hundred_development_rows_replay_through_calendar_fit_and_score -q",
+  "repetitions": 3,
+  "wall_seconds": [
+    3.0792,
+    2.5185,
+    2.5363
+  ],
+  "median_wall_seconds": 2.5363,
+  "python_version": "3.11.6",
+  "local_dates_sha256": "b64b823f2dbdfb5bdfee9e40ffae55574d693e1711106872e5401f43935f172c",
+  "code_commit": "ad9205bdbc1806f840ebfbe74d71cf96b86f0da7"
+}

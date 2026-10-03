@@ -7,6 +7,9 @@ records eight metro candidates across the four Census regions and two proposed
 nonmetro strata. It does not alter the acquisition ranks or admit any source:
 several candidate feeds cover only part of a CBSA, and zero markets or sale
 labels are certified.
+Its version 2 county lists now verify New York and Florida nonmetro geography
+against pinned 2023 Census county and metro files. Geography membership does
+not establish transaction coverage, rights or eligible sample floors.
 
 | Rank | Source family | Expected marginal information | Linkage quality to validate | Cost and access | Rights and timing status | Next decision |
 | --- | --- | --- | --- | --- | --- | --- |

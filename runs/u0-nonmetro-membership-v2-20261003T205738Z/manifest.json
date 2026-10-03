@@ -1,0 +1,31 @@
+{
+  "run_id": "u0-nonmetro-membership-v2-20261003T205738Z",
+  "evidence_status": "VERIFIED_CANDIDATE_GEOGRAPHY_ONLY",
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "code_commit": "85ce6b331416349e43987e56062002240494d5b7",
+  "artifact_sha256": {
+    ".gitattributes": "1c08f1cb78de655106cf9cfc012b9cf638ca330522becd3c1d163bf64f0043df",
+    "data/acquisition_backlog.md": "e5d55cb3d4175b985ec6306b2268ce9bdd2f283ea058db01c9364e712d26e57e",
+    "data/us_market_candidates.json": "d207b0d2984596e4fed06d9cb4e8a493ce1daab616591837115eefb2f3ee7773",
+    "decisions/0086-pinned-nonmetro-county-membership.md": "5592b15f7eccfd54dec87c5ec6a7219e18f6f2d6610a2af83a12d7a40a7adef4",
+    "next_action.md": "8ce744a8a64877cde48226380702fb876abb27704c02ee4d83e45d2bfc78376e",
+    "requirements.yaml": "2309062f60a7e2aa67779f45bda0731bcec95b19c0834e1cb842e933c0215f01",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/attempt1_failure.json": "7c388e1ee221262b9218cfeb853d3066b2a24a3428ad1a49279662c65d8d330d",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/candidate_validation.json": "5145d041d2fd7444656765655e33bcadfb7be8462c25418b88307a80f1384a7a",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/coverage.log": "aa88944edad8a5282f33927561eac6df37cfa2be05ac022f55054c020b1f3a08",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/coverage_retry.log": "75fea485b6e040dfca44bd9ed2d42bd4801bae1c1831da48650dd265612345c8",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/environment_lock.txt": "893ac83a481a56a1bd4829fc7afc84371b62046314eb040d3f2bb7bf78faa546",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/focused.log": "e7b8cf171ca21e1fc6642949683fe270265f5aae6abd3b823df30af649929568",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/focused_gate.json": "f6f696a368293640b67e80abd5bbbf09aabcd51235157a394b20cf4d32095c05",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/focused_retry.log": "3aafa451e1246063c0f6dfb12b599d89c1d080186ddd45ecdf647e85a276528b",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/full_suite.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/full_suite_gate.json": "0f302b069dd5a7e23f9f5e997710cca0d75e9dd144cbdc1449610d4d07b197a1",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/full_suite_retry.log": "e650ec3eea15ed964c943313b24a9c64ee668a1e42217f5ee18e205b63ea6de9",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/report.md": "a609768de8f74a23160743d32c1171ef2c43b49f558e7d54ee778fad8af2d8ff",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/run_config.json": "19e282058c4d5457057bfbe4486c143af8a8f0844ed65e33f5b31c23a9a5ec2b",
+    "runs/u0-nonmetro-membership-v2-20261003T205738Z/test_gate.json": "f8cd70ed426b6b624e5748da71dfbc25b680e50453a3045b56e77d7c00c3846a",
+    "scripts/validate_us_market_scope.py": "10466c7aec2e216b45088ecc16f1b906eedccc55e198741fa13f755a838e213e",
+    "tests/test_us_market_scope.py": "a28263523f9123f6b4db8c4ec1ec88d4d2d15dc89485eb794f6f736d705de0ed"
+  }
+}

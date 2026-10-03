@@ -1,0 +1,26 @@
+{
+  "run_id": "u1-local-date-fit-speed-v1-20261003T220221Z",
+  "evidence_status": "VERIFIED_SYNTHETIC_SPEED_ONLY",
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "code_commit": "85ce6b331416349e43987e56062002240494d5b7",
+  "artifact_sha256": {
+    ".gitattributes": "1c08f1cb78de655106cf9cfc012b9cf638ca330522becd3c1d163bf64f0043df",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/after.json": "0e9912044ddb033d5f3dc11d53d36a2b767ccbf8622cfb41715bf86c918db4ed",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/before.json": "560d57e71880e97657526bee7284c7c38ba67701355eaa50de707a0a35bef4ad",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/check_records.json": "1600147b79354064f24e2f48af8dbf51e7a8e312a8020d89db4cc4226aee53c9",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/coverage.log": "a500a369e726e3ca8a12306343f94f75df4fd7769068876e658abff9555d2099",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/environment_lock.txt": "893ac83a481a56a1bd4829fc7afc84371b62046314eb040d3f2bb7bf78faa546",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/focused.log": "7e7f4dfd7fb23b6012b60cf77a620f834e8a57aa99bc2f69b93f0295dcca5df6",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/pip_audit.log": "ba09a43eea0fe76f07a42c29d921e1f65e13afa90d241071467c709f7adae644",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/pip_check.log": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/report.md": "86f8d892ead3e4a4f37f59c68d5af6c9ed31efc1c1f87227c1696a588869acbb",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/review_evidence.md": "60536000330d3effe487d89b1fd27ac3ee43ff24c9f6781738b3b68819d81f01",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/ruff_check.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/ruff_format.log": "97d85b4b6c185a05396e2d09a3c304ff0f7cc77f8b7b7bb7989ec6cd875b3898",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/run_config.json": "531d87238838e1bfcd67760b3e0c0eebe130343ad06bd6297d28fb26e2a370c0",
+    "runs/u1-local-date-fit-speed-v1-20261003T220221Z/test_gate.json": "30194ca5c3340842805ac1db8b9483f9167bde486aa68e38719127323102fd0a",
+    "src/tabpfn4realestate/evaluation/local_dates.py": "c3d63139635de20f707826272b70e5b836e168b75a2918af4bd42e9b5838d26b",
+    "tests/test_local_date_origins.py": "54dd7d16b574e2bf854271819fe87c999d88870969c271aeb37989bb091588b0"
+  }
+}

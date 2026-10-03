@@ -1,0 +1,10 @@
+﻿python.exe : ----------------------------------------------------------------------
+At line:10 char:1
++ & '.venv/Scripts/python.exe' -m coverage run --branch -m unittest tes ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 23 tests in 0.763s
+
+OK

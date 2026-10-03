@@ -1,0 +1,9 @@
+{
+  "command": ".venv/Scripts/python.exe -m coverage run --branch --source=tabpfn4realestate -m unittest discover -s tests -p test_*.py -q",
+  "harness": "PowerShell with ErrorActionPreference=Stop and native stderr redirected",
+  "shell_exit_code": 1,
+  "test_verdict": null,
+  "observed_error": "Expected offline PTAX negative-fixture stderr surfaced as NativeCommandError before a final test summary or gate was written",
+  "full_suite_log_bytes": 0,
+  "disposition": "harness attempt invalid; retry separately; do not count as a test failure or pass"
+}

@@ -1,0 +1,21 @@
+{
+  "code_commit": "85ce6b331416349e43987e56062002240494d5b7",
+  "environment_lock_sha256": "893ac83a481a56a1bd4829fc7afc84371b62046314eb040d3f2bb7bf78faa546",
+  "sale_data_snapshot_sha256": null,
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint_sha256": null,
+  "certified_sale_labels": 0,
+  "u0_status": "PENDING",
+  "g_us_status": "PENDING",
+  "run_id": "u1-local-date-fit-speed-v1-20261003T220221Z",
+  "purpose": "synthetic local calendar model fit and replay performance",
+  "baseline_implementation_commit": "ad9205bdbc1806f840ebfbe74d71cf96b86f0da7",
+  "optimized_implementation_commit": "85ce6b331416349e43987e56062002240494d5b7",
+  "before_local_dates_sha256": "b64b823f2dbdfb5bdfee9e40ffae55574d693e1711106872e5401f43935f172c",
+  "after_local_dates_sha256": "c3d63139635de20f707826272b70e5b836e168b75a2918af4bd42e9b5838d26b",
+  "benchmark_rows": 204,
+  "benchmark_repetitions": 3,
+  "real_market_training": false,
+  "checkpoint_identity": null
+}

@@ -1,0 +1,58 @@
+{
+  "run_id": "u1-local-date-fit-speed-v1-20261003T220221Z",
+  "code_commit": "85ce6b331416349e43987e56062002240494d5b7",
+  "status": "PASS_SYNTHETIC_SPEED_AND_REGRESSION_CHECKS_ONLY",
+  "before_median_wall_seconds": 2.5363,
+  "after_median_wall_seconds": 0.5123,
+  "median_speedup_ratio": 4.95,
+  "after_source_sha256_matches_committed_file": true,
+  "focused_tests": 42,
+  "focused_coverage_percent": 89,
+  "checks": [
+    {
+      "check": "focused",
+      "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m coverage run --branch --source=tabpfn4realestate.evaluation.local_dates -m unittest tests.test_local_date_origins tests.test_local_date_off_median tests.test_local_date_publication_v2 -q",
+      "exit_code": 0,
+      "duration_seconds": 3.58,
+      "log_sha256": "7e7f4dfd7fb23b6012b60cf77a620f834e8a57aa99bc2f69b93f0295dcca5df6"
+    },
+    {
+      "check": "coverage",
+      "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m coverage report -m src/tabpfn4realestate/evaluation/local_dates.py",
+      "exit_code": 0,
+      "duration_seconds": 1.134,
+      "log_sha256": "a500a369e726e3ca8a12306343f94f75df4fd7769068876e658abff9555d2099"
+    },
+    {
+      "check": "ruff_check",
+      "command": "<PROJECT_ROOT>\\.venv\\Scripts\\ruff.exe check src/tabpfn4realestate/evaluation/local_dates.py tests/test_local_date_origins.py",
+      "exit_code": 0,
+      "duration_seconds": 2.979,
+      "log_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+    },
+    {
+      "check": "ruff_format",
+      "command": "<PROJECT_ROOT>\\.venv\\Scripts\\ruff.exe format --check src/tabpfn4realestate/evaluation/local_dates.py tests/test_local_date_origins.py",
+      "exit_code": 0,
+      "duration_seconds": 0.231,
+      "log_sha256": "97d85b4b6c185a05396e2d09a3c304ff0f7cc77f8b7b7bb7989ec6cd875b3898"
+    },
+    {
+      "check": "pip_check",
+      "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0,
+      "duration_seconds": 2.056,
+      "log_sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "check": "pip_audit",
+      "command": "<PROJECT_ROOT>\\.venv\\Scripts\\pip-audit.exe --skip-editable",
+      "exit_code": 0,
+      "duration_seconds": 6.909,
+      "log_sha256": "ba09a43eea0fe76f07a42c29d921e1f65e13afa90d241071467c709f7adae644"
+    }
+  ],
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "committed_blob_sha256": "c3d63139635de20f707826272b70e5b836e168b75a2918af4bd42e9b5838d26b"
+}

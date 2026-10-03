@@ -1,16 +1,28 @@
 # Next action
 
-Updated: 2026-10-03. Branch: `audit/u0`.
+Updated: 2026-10-04. Branch: `audit/u0`.
 
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [synthetic calendar fit speed run](runs/u1-local-date-fit-speed-v1-20261003T220221Z/report.md)
+measured a 4.95-fold reduction in median wall time for its 204-row fit,
+replay and score test after caching pinned time zones. This is engineering
+speed evidence, not a real-market or TabPFN training result. The associated
+full project suite passed 1,287 tests with zero skips. Continue U0
+source qualification before any real-data model training.
+The [version 2 candidate map](data/us_market_candidates.json) now derives
+New York's 25 and Florida's 22 proposed nonmetro counties from pinned official
+2023 Census county lists minus every metropolitan county in the pinned July
+2023 delineation. [ADR 0086](decisions/0086-pinned-nonmetro-county-membership.md)
+records the definition and limits. This verifies candidate geography only;
+neither statewide feed has an eligible sale cohort or supported service area.
 The [pre-tuning US market candidate map](data/us_market_candidates.json)
 now names eight metros across four Census regions and two separate proposed
 nonmetro strata, checked against a pinned Census delineation workbook. It is
 an inventory with zero supported markets. Several source footprints cover
-only part of a metro, and nonmetro membership and market variation still need
-qualified data. [ADR 0085](decisions/0085-us-market-candidates-before-tuning.md)
+only part of a metro, and market variation still needs qualified data.
+[ADR 0085](decisions/0085-us-market-candidates-before-tuning.md)
 requires a versioned replacement before final tuning if a candidate fails.
 The [synthetic capture byte-binding run](runs/u3-synthetic-capture-binding-v1-20261003T193616Z/report.md)
 now replays a guarded OFF median from the exact five-row generated training

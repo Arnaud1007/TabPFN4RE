@@ -1,0 +1,26 @@
+[
+  {
+    "check": "validation",
+    "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe scripts/validate_us_market_scope.py",
+    "exit_code": 0,
+    "duration_seconds": 0.873,
+    "log_sha256": "5145d041d2fd7444656765655e33bcadfb7be8462c25418b88307a80f1384a7a",
+    "log": "runs/u0-nonmetro-membership-v2-20261003T205738Z/candidate_validation.json"
+  },
+  {
+    "check": "focused",
+    "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m coverage run --branch -m unittest tests.test_us_market_scope -q",
+    "exit_code": 0,
+    "duration_seconds": 1.906,
+    "log_sha256": "3aafa451e1246063c0f6dfb12b599d89c1d080186ddd45ecdf647e85a276528b",
+    "log": "runs/u0-nonmetro-membership-v2-20261003T205738Z/focused_retry.log"
+  },
+  {
+    "check": "coverage",
+    "command": "<PROJECT_ROOT>\\.venv\\Scripts\\python.exe -m coverage report -m scripts/validate_us_market_scope.py",
+    "exit_code": 0,
+    "duration_seconds": 1.019,
+    "log_sha256": "75fea485b6e040dfca44bd9ed2d42bd4801bae1c1831da48650dd265612345c8",
+    "log": "runs/u0-nonmetro-membership-v2-20261003T205738Z/coverage_retry.log"
+  }
+]

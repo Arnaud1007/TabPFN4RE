@@ -1,0 +1,15 @@
+{
+  "run_id": "u0-nonmetro-membership-v2-20261003T205738Z",
+  "command": ".venv/Scripts/python.exe -m unittest discover -s tests -p test_*.py -q",
+  "exit_code": 0,
+  "duration_seconds": 750.577,
+  "unittest_elapsed_seconds": 749.554,
+  "tests_run": 1287,
+  "skipped": 0,
+  "ames_arff_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "log_sha256": "e650ec3eea15ed964c943313b24a9c64ee668a1e42217f5ee18e205b63ea6de9",
+  "code_commit": "85ce6b331416349e43987e56062002240494d5b7",
+  "status": "PASS_ENGINEERING_REGRESSION_ONLY",
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

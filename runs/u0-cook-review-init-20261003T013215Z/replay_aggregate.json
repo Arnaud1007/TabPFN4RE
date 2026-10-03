@@ -1,0 +1,11 @@
+{
+  "capture_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "certified_sale_labels": 0,
+  "complete_records": 0,
+  "historical_asof_eligible": false,
+  "ledger_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "partial_records": 0,
+  "protocol": "cook-source-review-v1",
+  "sample_count": 200,
+  "unreviewed_records": 200
+}

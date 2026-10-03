@@ -1,0 +1,12 @@
+python.exe : Cook review operation failed; inspect private state
+At C:\Users\<redacted>\Desktop\Coding_projects\TabPFN4RealEstate\runs\u0-cook-review-code-20261003T012707Z\run_gate.ps1:45 
+char:24
++         $outputText = (& $python @($check.arguments) 2>&1 | Out-Strin ...
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Cook review ope...t private state:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+----------------------------------------------------------------------
+Ran 21 tests in 1.488s
+
+OK

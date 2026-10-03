@@ -1,0 +1,58 @@
+{
+  "run_id": "u0-cook-review-init-20261003T013215Z",
+  "protocol": "cook-source-review-v1",
+  "code_commit": "a6632c0e755ebac6ea3a1c297c3769a2108526f9",
+  "environment_lock_sha256": "92d4969aa37973d021c9215c67448b26ac689ca8d6f5b4414c701f126f4ac3e7",
+  "capture_manifest_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "data_snapshot_kind": "private_immutable_200_row_source_capture",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "checkpoint_identity": null,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "events": [
+    {
+      "action": "init",
+      "command_pattern": "python -m scripts.review_cook_sales_sample init --output <public:init_aggregate.json>",
+      "exit_code_observed": 0,
+      "duration_seconds": null,
+      "output_sha256": "3c76896d5a983fbd4fc92760ab89597fdc60a4a24c2a3912afd9ca57963a0b8b"
+    },
+    {
+      "action": "initial_replay",
+      "command_pattern": "python -m scripts.review_cook_sales_sample summary --output <public:replay_aggregate.json>",
+      "exit_code_observed": 0,
+      "duration_seconds": null,
+      "output_sha256": "3c76896d5a983fbd4fc92760ab89597fdc60a4a24c2a3912afd9ca57963a0b8b"
+    },
+    {
+      "action": "relative_private_entry_rejected",
+      "command_pattern": "python -m scripts.review_cook_sales_sample append --entry <relative-private-entry> --expected-ledger-sha256 <empty-ledger-hash> --output <public:new-file>",
+      "exit_code_observed": 1,
+      "duration_seconds": null,
+      "ledger_unchanged_confirmed_by": "initial_replay"
+    },
+    {
+      "action": "absolute_private_entry_appended",
+      "command_pattern": "python -m scripts.review_cook_sales_sample append --entry <resolved-absolute-private-entry> --expected-ledger-sha256 <empty-ledger-hash> --output <public:partial_aggregate.json>",
+      "exit_code_observed": 0,
+      "duration_seconds": null,
+      "output_sha256": "5d3283eacc6eb1749cf56806e947c826687bdf968d1d7201fd3f9a2c5a827bdf"
+    },
+    {
+      "action": "partial_replay",
+      "command_pattern": "python -m scripts.review_cook_sales_sample summary --output <public:replay_after_partial.json>",
+      "exit_code_observed": 0,
+      "duration_seconds": null,
+      "output_sha256": "5d3283eacc6eb1749cf56806e947c826687bdf968d1d7201fd3f9a2c5a827bdf"
+    },
+    {
+      "action": "private_snapshot_verifier",
+      "command_pattern": "& 'runs/u0-cook-review-init-20261003T013215Z/verify_artifacts.ps1'",
+      "exit_code_observed": 0,
+      "duration_seconds": 2.291,
+      "result": "200 rows; 1 partial; 0 complete; 0 certified labels"
+    }
+  ],
+  "limitation": "The original init, append and summary commands were observed in-session but not timed or captured as process manifests; their durations and expanded private paths cannot be reconstructed. The replay verifier and code gate provide the separately measured checks. This U0 source-audit run is not a passed release gate."
+}

@@ -1,0 +1,142 @@
+{
+    "run_id":  "u0-cook-review-code-20261003T012707Z",
+    "protocol":  "cook-source-review-v1",
+    "baseline_commit":  "057e61036f291facf7f0022fd62895bb4614f2a6",
+    "dirty_tree_at_run":  true,
+    "capture_manifest_sha256":  "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+    "code_sha256":  "a276033acb5e9765252c789b417c9c342052c66a8b7067b53f6256b1b843e11a",
+    "tests_sha256":  "648af23af62a41686ade3ee1ef0463762a1e11776a14304d4c91c5d1568e772e",
+    "decision_sha256":  "4327dbbfdcef7680b0bcec9a582ac4e15b7d8e9a265cf99d3bbbb2f18b8f7363",
+    "inputs_stable_during_gate":  true,
+    "sample_rows":  200,
+    "certified_sale_labels":  0,
+    "u0_gate":  "PENDING",
+    "g_us_gate":  "PENDING",
+    "results":  [
+                    {
+                        "name":  "focused_coverage",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "run",
+                                        "--branch",
+                                        "--source=scripts.review_cook_sales_sample",
+                                        "-m",
+                                        "unittest",
+                                        "tests.test_review_cook_sales_sample",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  1.922,
+                        "output":  "focused_coverage.log",
+                        "output_sha256":  "0b8c00e5c6455a73da4f7995b38cd90f6d234b32678b960735a61a0af4684f2b"
+                    },
+                    {
+                        "name":  "focused_coverage_report",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "coverage",
+                                        "report",
+                                        "-m",
+                                        "scripts/review_cook_sales_sample.py"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.259,
+                        "output":  "focused_coverage_report.log",
+                        "output_sha256":  "2b9cf6cf4a7c813f00c7349e5bc5d5aef5d34c5d6175e8f57ca98234756b9f5d"
+                    },
+                    {
+                        "name":  "private_capture_acl_replay",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-c",
+                                        "from scripts import review_cook_sales_sample as r; rows=r._capture_rows(); assert len(rows)==200; print(\u0027200 pinned rows and private ACLs verified\u0027)"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.885,
+                        "output":  "private_capture_acl_replay.log",
+                        "output_sha256":  "86ed496069d53afebb28d6bf4579eb0895cc08ac2663361e8a3380f7678d2ce6"
+                    },
+                    {
+                        "name":  "full_suite",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "unittest",
+                                        "discover",
+                                        "-s",
+                                        "tests",
+                                        "-q"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  173.616,
+                        "output":  "full_suite.log",
+                        "output_sha256":  "3db2c20b52de9ffea16bc58294f0d5a78005fac37fa54ab46a6351c65b2eabd5"
+                    },
+                    {
+                        "name":  "ruff_check",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "check",
+                                        "src",
+                                        "tests",
+                                        "scripts",
+                                        "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.133,
+                        "output":  "ruff_check.log",
+                        "output_sha256":  "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0"
+                    },
+                    {
+                        "name":  "ruff_format",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "ruff",
+                                        "format",
+                                        "--check",
+                                        "src",
+                                        "tests",
+                                        "scripts",
+                                        "runs/u0-cook-sales-sample-20261003T004123Z/rebuild_aggregate.py"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.127,
+                        "output":  "ruff_format.log",
+                        "output_sha256":  "875a21eb7522c817878d30ceb9fb3ae1fe140fd169ec37dc163997fd8a5ae11a"
+                    },
+                    {
+                        "name":  "pip_check",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip",
+                                        "check"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  0.559,
+                        "output":  "pip_check.log",
+                        "output_sha256":  "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+                    },
+                    {
+                        "name":  "pip_audit",
+                        "command":  [
+                                        ".\\.venv\\Scripts\\python.exe",
+                                        "-m",
+                                        "pip_audit",
+                                        "--progress-spinner",
+                                        "off"
+                                    ],
+                        "exit_code":  0,
+                        "duration_seconds":  3.687,
+                        "output":  "pip_audit.log",
+                        "output_sha256":  "d832063b09ecadd4f2b3bce0304a47899a2efdab94cf78e0dd29d657d0abd2eb"
+                    }
+                ],
+    "status":  "PASS"
+}

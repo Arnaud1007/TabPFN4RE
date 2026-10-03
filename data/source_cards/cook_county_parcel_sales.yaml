@@ -41,6 +41,12 @@ private_sample_metadata_sha256: c967e289fdd1a45319b1efdedf38276c670b1cdb0e11e546
 private_sample_manifest_sha256: 130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7
 private_sample_rows: 200
 manual_sample_rubrics_complete: 0
+manual_sample_rubrics_partial: 1
+manual_sample_rubrics_unreviewed: 199
+private_review_protocol: cook-source-review-v1
+private_review_run: runs/u0-cook-review-init-20261003T013215Z/
+private_review_code_gate: runs/u0-cook-review-code-20261003T012707Z/
+private_review_snapshot_sha256: c12b5a161299d5e7a5f0eabec3bf3a2423c02378a72325bab2e65c551f12b043
 certified_sale_labels: 0
 notes: >-
   The current published extract is a concrete acquisition candidate, not a certified

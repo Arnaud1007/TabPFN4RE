@@ -1,0 +1,25 @@
+python.exe : C:\Users\<redacted>\AppData\Local\Programs\Python\Python311\Lib\zipfile.py:1550: UserWarning: Duplicate name: 
+'xl/workbook.xml'
+At C:\Users\<redacted>\Desktop\Coding_projects\TabPFN4RealEstate\runs\u0-cook-review-code-20261003T012707Z\run_gate.ps1:45 
+char:24
++         $outputText = (& $python @($check.arguments) 2>&1 | Out-Strin ...
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\<redacted>\...l/workbook.xml':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+usage: collector [-h] --source SOURCE --sample SAMPLE --code-table CODE_TABLE
+                 --private-run-dir PRIVATE_RUN_DIR
+                 [--review-ledger REVIEW_LEDGER]
+                 [--review-manifest REVIEW_MANIFEST]
+                 {capture,replay}
+collector: error: capture requires review ledger and manifest
+Code-table audit failed: Archive SHA-256 mismatch
+Code-table audit failed: [WinError 183] Cannot create a file when that file already exists: 
+'C:\\Users\\<redacted>\\AppData\\Local\\Temp\\tmpu7zxkq1g\\.report.json-398qtbj4.tmp' -> 
+'C:\\Users\\<redacted>\\AppData\\Local\\Temp\\tmpu7zxkq1g\\report.json'
+Cook review operation failed; inspect private state
+----------------------------------------------------------------------
+Ran 1020 tests in 172.974s
+
+OK

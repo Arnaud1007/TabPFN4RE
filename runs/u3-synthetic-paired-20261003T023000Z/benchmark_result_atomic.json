@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_cost_probe",
+  "python_version": "3.11.6",
+  "rows": 10000,
+  "draws": 100,
+  "markets": 2,
+  "independent_components": 10000,
+  "status": "ESTIMABLE",
+  "comparison_hash": "9af3b80a7a7b73abe96ceb67b4847111e986d381936d26113ea34bee698a1b5b",
+  "elapsed_seconds": 36.535,
+  "certification_eligible": false
+}

@@ -153,6 +153,19 @@ class ComparableEligibilityTests(unittest.TestCase):
             with self.subTest(candidate=candidate):
                 self.assertEqual(self.candidates(properties=(candidate,)), ())
 
+    def test_candidate_property_version_must_be_valid_at_its_sale(self):
+        expired = property_record(
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=31),
+            valid_to_available_at=ORIGIN - timedelta(days=35),
+        )
+        later_start = property_record(
+            valid_from=ORIGIN - timedelta(days=10),
+        )
+        for candidate in (expired, later_start):
+            with self.subTest(candidate=candidate):
+                self.assertEqual(self.candidates(properties=(candidate,)), ())
+
     def test_wrong_property_class_and_subject_property_are_excluded(self):
         condo = property_record(property_type="condo")
         subject_history = transaction_record(property_id="home-1")

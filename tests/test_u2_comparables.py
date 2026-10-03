@@ -14,6 +14,7 @@ from tabpfn4realestate.features.comparables import (  # noqa: E402
     ComparableConfig,
     comparable_price_per_area,
     retrieve_comparables,
+    retrieve_comparables_from_versions,
 )
 
 
@@ -303,6 +304,181 @@ class ComparableRetrievalTests(unittest.TestCase):
         result = retrieve(candidates=(later_area,), sales=(sale,))
         self.assertEqual(result.comparables, ())
         self.assertEqual(result.support, "low")
+
+    def test_expired_subject_and_candidate_versions_are_not_used(self):
+        expired_subject = property_record(
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=1),
+            valid_to_available_at=ORIGIN - timedelta(days=2),
+        )
+        with self.assertRaisesRegex(ValueError, "valid|expired"):
+            retrieve(subject=expired_subject)
+
+        sale = sale_record(close_at=ORIGIN - timedelta(days=30))
+        expired_candidate = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=31),
+            valid_to_available_at=ORIGIN - timedelta(days=35),
+        )
+        result = retrieve(candidates=(expired_candidate,), sales=(sale,))
+        self.assertEqual(result.comparables, ())
+
+    def test_comparable_effective_start_must_precede_its_sale(self):
+        sale = sale_record(close_at=ORIGIN - timedelta(days=30))
+        later_effective = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            observed_at=ORIGIN - timedelta(days=80),
+            available_at=ORIGIN - timedelta(days=79),
+            valid_from=ORIGIN - timedelta(days=10),
+        )
+        result = retrieve(candidates=(later_effective,), sales=(sale,))
+        self.assertEqual(result.comparables, ())
+
+    def test_post_sale_expiry_does_not_discard_valid_historical_comparable(self):
+        sale = sale_record(close_at=ORIGIN - timedelta(days=30))
+        later_expired = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=10),
+            valid_to_available_at=ORIGIN - timedelta(days=20),
+        )
+        result = retrieve(candidates=(later_expired,), sales=(sale,))
+        self.assertEqual(len(result.comparables), 1)
+
+    def test_candidate_history_uses_version_visible_at_comparable_sale(self):
+        sale = sale_record(
+            close_at=ORIGIN - timedelta(days=40), price=Decimal("200000")
+        )
+        old = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            living_area=Decimal("1000"),
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=20),
+            valid_to_available_at=ORIGIN - timedelta(days=30),
+        )
+        new = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            living_area=Decimal("2000"),
+            observed_at=ORIGIN - timedelta(days=20),
+            available_at=ORIGIN - timedelta(days=19),
+            valid_from=ORIGIN - timedelta(days=20),
+        )
+        result = retrieve(candidates=(new, old), sales=(sale,))
+        self.assertEqual(len(result.comparables), 1)
+        self.assertEqual(result.comparables[0].property.living_area, Decimal("1000"))
+        self.assertEqual(price(property_record(), result), Decimal("300000"))
+
+    def test_late_published_correction_changes_sale_date_area_when_known_at_origin(
+        self,
+    ):
+        sale = sale_record(close_at=ORIGIN - timedelta(days=30))
+        old = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            living_area=Decimal("1000"),
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=40),
+            valid_to_available_at=ORIGIN - timedelta(days=20),
+        )
+        corrected = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            living_area=Decimal("2000"),
+            available_at=ORIGIN - timedelta(days=20),
+            valid_from=ORIGIN - timedelta(days=40),
+        )
+        result = retrieve(candidates=(old, corrected), sales=(sale,))
+        self.assertEqual(len(result.comparables), 1)
+        self.assertEqual(result.comparables[0].property.living_area, Decimal("2000"))
+        self.assertEqual(price(property_record(), result), Decimal("150000"))
+
+    def test_late_published_expiry_excludes_invalid_sale_date_area(self):
+        sale = sale_record(close_at=ORIGIN - timedelta(days=30))
+        invalid = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=40),
+            valid_to_available_at=ORIGIN - timedelta(days=20),
+        )
+        self.assertEqual(retrieve(candidates=(invalid,), sales=(sale,)).comparables, ())
+
+    def test_post_sale_observation_cannot_backdate_comparable_area(self):
+        sale = sale_record(close_at=ORIGIN - timedelta(days=30))
+        later_observation = property_record(
+            "home-2",
+            latitude=Decimal("40.001"),
+            observed_at=ORIGIN - timedelta(days=20),
+            available_at=ORIGIN - timedelta(days=19),
+            valid_from=ORIGIN - timedelta(days=40),
+        )
+        self.assertEqual(
+            retrieve(candidates=(later_observation,), sales=(sale,)).comparables,
+            (),
+        )
+
+    def test_visible_unlisted_candidate_source_fails_even_without_sale(self):
+        unlisted = property_record("home-3", source_id="unlisted")
+        with self.assertRaisesRegex(ValueError, "source"):
+            retrieve(candidates=(unlisted,), sales=())
+        future = property_record(
+            "home-3",
+            source_id="unlisted",
+            observed_at=ORIGIN + timedelta(days=1),
+            available_at=ORIGIN + timedelta(days=1),
+        )
+        self.assertEqual(retrieve(candidates=(future,), sales=()).comparables, ())
+
+    def test_subject_history_selects_origin_version(self):
+        old_subject = property_record(
+            living_area=Decimal("1000"),
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN - timedelta(days=20),
+            valid_to_available_at=ORIGIN - timedelta(days=25),
+        )
+        new_subject = property_record(
+            living_area=Decimal("1500"),
+            observed_at=ORIGIN - timedelta(days=20),
+            available_at=ORIGIN - timedelta(days=19),
+            valid_from=ORIGIN - timedelta(days=20),
+        )
+        candidate = property_record("home-2", latitude=Decimal("40.001"))
+        result = retrieve_comparables_from_versions(
+            "home-1",
+            (new_subject, old_subject),
+            ORIGIN,
+            source_snapshot(),
+            candidate_properties=(candidate,),
+            transactions=(sale_record(),),
+            config=config(),
+        )
+        self.assertEqual(result.subject.living_area, Decimal("1500"))
+        self.assertEqual(
+            comparable_price_per_area(
+                result.subject, ORIGIN, source_snapshot(), result
+            ),
+            Decimal("200000"),
+        )
+
+    def test_future_end_metadata_is_hidden_in_comparable_result(self):
+        late_end = property_record(
+            valid_from=ORIGIN - timedelta(days=365),
+            valid_to=ORIGIN + timedelta(days=10),
+            valid_to_available_at=ORIGIN + timedelta(days=20),
+        )
+        candidate = property_record("home-2", latitude=Decimal("40.001"))
+        result = retrieve(
+            subject=late_end, candidates=(candidate,), sales=(sale_record(),)
+        )
+        self.assertIsNone(result.subject.valid_to)
+        self.assertIsNone(result.subject.valid_to_available_at)
+        self.assertIsNotNone(price(late_end, result))
 
     def test_config_requires_immutable_radii_and_extreme_areas_do_not_crash(self):
         with self.assertRaises(ValueError):

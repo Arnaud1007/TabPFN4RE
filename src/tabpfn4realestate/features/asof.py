@@ -17,6 +17,7 @@ from tabpfn4realestate.data.schema import (
     SourceSnapshot,
     Transaction,
     canonicalize_transactions,
+    _identifier,
     _instant,
     _utc,
 )
@@ -54,6 +55,10 @@ class FeatureSnapshot:
     snapshot_hash: str
 
 
+class NoAvailablePropertyVersionError(ValueError):
+    """The known history has no structural version at the requested origin."""
+
+
 def _validate_attribute(attribute: Attribute) -> None:
     if attribute.name in _FORBIDDEN:
         raise ValueError(f"Forbidden feature: {attribute.name}")
@@ -84,6 +89,14 @@ def _known_valid_to(
     ):
         return row.valid_to, row.valid_to_available_at
     return None, None
+
+
+def _visible_property_version(row: Property, cutoff: datetime) -> Property:
+    """Remove an end date that was not available by the source cutoff."""
+    end, _ = _known_valid_to(row, cutoff)
+    if end is None and row.valid_to is not None:
+        return replace(row, valid_to=None, valid_to_available_at=None)
+    return row
 
 
 def _effective_at(
@@ -154,6 +167,116 @@ def _reconcile_attribute_copies(
             )
         reconciled.append(base)
     return tuple(reconciled)
+
+
+def _reconcile_property_copies(
+    observations: Sequence[Property], cutoff: datetime
+) -> tuple[Property, ...]:
+    """Close identical source copies when their end becomes known."""
+    grouped: dict[tuple[object, ...], list[Property]] = {}
+    for row in observations:
+        if _utc(row.observed_at) > cutoff or _utc(row.available_at) > cutoff:
+            continue
+        key = (
+            row.property_id,
+            row.country,
+            row.property_type,
+            row.source_id,
+            _utc(row.observed_at),
+            _utc(row.valid_from or row.observed_at),
+            row.living_area,
+            row.living_area_unit,
+            row.living_area_state,
+            row.latitude,
+            row.longitude,
+        )
+        grouped.setdefault(key, []).append(row)
+
+    reconciled: list[Property] = []
+    for copies in grouped.values():
+        base = min(
+            copies,
+            key=lambda row: (
+                _utc(row.available_at),
+                row.valid_from is not None,
+                str(row.living_area),
+                str(row.latitude),
+                str(row.longitude),
+                row.available_at.isoformat(),
+                row.observed_at.isoformat(),
+                row.valid_from.isoformat() if row.valid_from else "",
+            ),
+        )
+        known_ends: list[tuple[datetime, datetime]] = []
+        open_copies: list[datetime] = []
+        for row in copies:
+            end, published = _known_valid_to(row, cutoff)
+            if end is None or published is None:
+                open_copies.append(row.available_at)
+            else:
+                known_ends.append((end, max(row.available_at, published, key=_utc)))
+        if known_ends:
+            if len({_utc(end) for end, _ in known_ends}) != 1:
+                raise ValueError("Ambiguous property version end")
+            disclosed = min((published for _, published in known_ends), key=_utc)
+            if any(_utc(opened) >= _utc(disclosed) for opened in open_copies):
+                raise ValueError("Ambiguous property end retraction")
+            base = replace(
+                base,
+                valid_to=_utc(known_ends[0][0]),
+                valid_to_available_at=_utc(disclosed),
+            )
+        reconciled.append(_visible_property_version(base, cutoff))
+    return tuple(reconciled)
+
+
+def select_property_version(
+    property_id: str,
+    versions: Sequence[Property],
+    origin: datetime,
+    source_snapshot: SourceSnapshot,
+    *,
+    known_at: datetime | None = None,
+) -> Property:
+    """Select the effective version using only information known by a cutoff."""
+    _identifier(property_id, "property_id")
+    _instant(origin, "origin")
+    if known_at is not None:
+        _instant(known_at, "known_at")
+        if _utc(known_at) < _utc(origin):
+            raise ValueError("known_at cannot precede the effective origin")
+    if not versions:
+        raise ValueError("Property history is empty")
+    for row in versions:
+        if row.property_id != property_id:
+            raise ValueError("Property history contains another property_id")
+
+    cutoff = min(_utc(known_at or origin), _utc(source_snapshot.as_of))
+    for row in versions:
+        if _utc(row.observed_at) > cutoff or _utc(row.available_at) > cutoff:
+            continue
+        if row.source_id not in source_snapshot.source_ids:
+            raise ValueError("Property source is absent from snapshot manifest")
+    visible = _reconcile_property_copies(versions, cutoff)
+    active = tuple(row for row in visible if _effective_at(row, origin, cutoff))
+    for expired in visible:
+        end, _ = _known_valid_to(expired, cutoff)
+        if end is None or _utc(origin) < _utc(end):
+            continue
+        if any(
+            contender is not expired
+            and contender in active
+            and _utc(contender.valid_from or contender.observed_at) < _utc(end)
+            for contender in visible
+        ):
+            raise ValueError("Unresolved overlapping property versions")
+    if not active:
+        raise NoAvailablePropertyVersionError(
+            "No property version is available and valid at origin"
+        )
+    if len(active) > 1:
+        raise ValueError("Ambiguous overlapping property versions")
+    return active[0]
 
 
 def _reject_unresolved_expiries(
@@ -378,4 +501,34 @@ def assemble_snapshot(
         snapshot_hash=_snapshot_hash(
             property.property_id, origin, source_snapshot, values, lineage
         ),
+    )
+
+
+def assemble_snapshot_from_versions(
+    property_id: str,
+    versions: Sequence[Property],
+    origin: datetime,
+    mode: str,
+    source_snapshot: SourceSnapshot,
+    *,
+    attributes: Sequence[Attribute] = (),
+    listing_events: Sequence[ListingEvent] = (),
+    transactions: Sequence[Transaction] = (),
+    subject_transaction_id: str | None = None,
+    subject_source_id: str | None = None,
+    subject_economic_transfer_id: str | None = None,
+) -> FeatureSnapshot:
+    """Assemble after resolving the property's visible structural history."""
+    selected = select_property_version(property_id, versions, origin, source_snapshot)
+    return assemble_snapshot(
+        selected,
+        origin,
+        mode,
+        source_snapshot,
+        attributes=attributes,
+        listing_events=listing_events,
+        transactions=transactions,
+        subject_transaction_id=subject_transaction_id,
+        subject_source_id=subject_source_id,
+        subject_economic_transfer_id=subject_economic_transfer_id,
     )

@@ -17,6 +17,50 @@ from tabpfn4realestate.data.schema import (
     _utc,
     canonicalize_transactions,
 )
+from tabpfn4realestate.features.asof import (
+    NoAvailablePropertyVersionError,
+    _effective_at,
+    _visible_property_version,
+    select_property_version,
+)
+
+
+def _candidate_histories(
+    candidate_properties: Sequence[Property],
+) -> dict[str, tuple[Property, ...]]:
+    grouped: dict[str, list[Property]] = {}
+    for row in candidate_properties:
+        grouped.setdefault(row.property_id, []).append(row)
+    return {property_id: tuple(rows) for property_id, rows in grouped.items()}
+
+
+def _candidate_at_sale(
+    sale: Transaction,
+    histories: dict[str, tuple[Property, ...]],
+    subject: Property,
+    source_snapshot: SourceSnapshot,
+    origin: datetime,
+) -> Property | None:
+    versions = histories.get(sale.property_id)
+    if versions is None or sale.property_id == subject.property_id:
+        return None
+    try:
+        selected = select_property_version(
+            sale.property_id,
+            versions,
+            sale.close_at,
+            source_snapshot,
+            known_at=origin,
+        )
+    except NoAvailablePropertyVersionError:
+        return None
+    if (
+        _utc(selected.observed_at) > _utc(sale.close_at)
+        or selected.country != subject.country
+        or selected.property_type != subject.property_type
+    ):
+        return None
+    return selected
 
 
 def eligible_comparable_sales(
@@ -33,28 +77,22 @@ def eligible_comparable_sales(
     cutoff = min(_utc(origin), _utc(source_snapshot.as_of))
     if subject.source_id not in source_snapshot.source_ids:
         raise ValueError("Subject property source is absent from snapshot manifest")
-    if _utc(subject.observed_at) > cutoff or _utc(subject.available_at) > cutoff:
-        raise ValueError("Subject property version was unavailable at origin")
+    if not _effective_at(subject, origin, cutoff):
+        raise ValueError(
+            "Subject property version was unavailable or invalid at origin"
+        )
 
-    candidates: dict[str, Property] = {}
-    for property in candidate_properties:
-        if property.source_id not in source_snapshot.source_ids:
+    for candidate in candidate_properties:
+        if (
+            _utc(candidate.observed_at) <= cutoff
+            and _utc(candidate.available_at) <= cutoff
+            and candidate.source_id not in source_snapshot.source_ids
+        ):
             raise ValueError(
                 "Candidate property source is absent from snapshot manifest"
             )
-        if property.property_id in candidates:
-            raise ValueError("Duplicate candidate property identity")
-        candidates[property.property_id] = property
 
-    eligible_property_ids = {
-        property_id
-        for property_id, property in candidates.items()
-        if property_id != subject.property_id
-        and property.country == subject.country
-        and property.property_type == subject.property_type
-        and _utc(property.observed_at) <= cutoff
-        and _utc(property.available_at) <= cutoff
-    }
+    histories = _candidate_histories(candidate_properties)
     visible_sales = tuple(
         sale
         for sale in transactions
@@ -68,9 +106,12 @@ def eligible_comparable_sales(
             (
                 sale
                 for sale in canonical
-                if sale.property_id in eligible_property_ids
-                and sale.economic_transfer_id != subject_economic_transfer_id
+                if sale.economic_transfer_id != subject_economic_transfer_id
                 and sale.eligible_prior_sale
+                and _candidate_at_sale(
+                    sale, histories, subject, source_snapshot, origin
+                )
+                is not None
             ),
             key=lambda sale: (_utc(sale.close_at), sale.economic_transfer_id),
         )
@@ -201,10 +242,12 @@ def retrieve_comparables(
         transactions=transactions,
         subject_economic_transfer_id=subject_economic_transfer_id,
     )
+    cutoff = min(_utc(origin), _utc(source_snapshot.as_of))
+    visible_subject = _visible_property_version(subject, cutoff)
     subject_area = _square_feet(subject)
     if subject_area is None:
         return ComparableResult(
-            subject,
+            visible_subject,
             origin,
             source_snapshot,
             (),
@@ -212,7 +255,7 @@ def retrieve_comparables(
             config.radii_km[-1],
             config.sale_window_months,
         )
-    properties = {property.property_id: property for property in candidate_properties}
+    histories = _candidate_histories(candidate_properties)
     latest_by_property: dict[str, Transaction] = {}
     window_start = _months_before(_utc(origin), config.sale_window_months)
     for sale in eligible:
@@ -232,14 +275,14 @@ def retrieve_comparables(
 
     ranked: list[RankedComparable] = []
     for sale in latest_by_property.values():
-        property = properties[sale.property_id]
+        property = _candidate_at_sale(sale, histories, subject, source_snapshot, origin)
+        if property is None:
+            raise ValueError("Eligible comparable lost its property version")
         candidate_area = _square_feet(property)
         if (
             candidate_area is None
             or property.latitude is None
             or property.longitude is None
-            or _utc(property.observed_at) > _utc(sale.close_at)
-            or _utc(property.available_at) > _utc(sale.close_at)
         ):
             continue
         distance = _distance_km(subject, property)
@@ -266,13 +309,39 @@ def retrieve_comparables(
             break
     support = "supported" if len(selected) >= config.min_comparables else "low"
     return ComparableResult(
-        subject,
+        visible_subject,
         origin,
         source_snapshot,
         selected,
         support,
         selected_radius,
         config.sale_window_months,
+    )
+
+
+def retrieve_comparables_from_versions(
+    subject_property_id: str,
+    subject_versions: Sequence[Property],
+    origin: datetime,
+    source_snapshot: SourceSnapshot,
+    *,
+    candidate_properties: Sequence[Property],
+    transactions: Sequence[Transaction],
+    config: ComparableConfig,
+    subject_economic_transfer_id: str | None = None,
+) -> ComparableResult:
+    """Resolve the subject at origin and each candidate at its sale date."""
+    subject = select_property_version(
+        subject_property_id, subject_versions, origin, source_snapshot
+    )
+    return retrieve_comparables(
+        subject,
+        origin,
+        source_snapshot,
+        candidate_properties=candidate_properties,
+        transactions=transactions,
+        config=config,
+        subject_economic_transfer_id=subject_economic_transfer_id,
     )
 
 
@@ -284,9 +353,12 @@ def comparable_price_per_area(
 ) -> Decimal | None:
     """Weighted median USD per square foot times subject area, if support suffices."""
     _instant(origin, "origin")
+    visible_subject = _visible_property_version(
+        subject, min(_utc(origin), _utc(source_snapshot.as_of))
+    )
     if (
         replace(
-            subject,
+            visible_subject,
             observed_at=result.subject.observed_at,
             available_at=result.subject.available_at,
         )

@@ -1,0 +1,98 @@
+{
+  "run_id": "u0-illinois-additional-pins-v2-20261003T050600Z",
+  "protocol": "illinois-ptax203-additional-pins-v2",
+  "code_commit_at_execution": "45ead231dde468a2fad256073bb7d5ba0a97293c",
+  "dirty_worktree_at_execution": true,
+  "committed_collector_commit": null,
+  "collector_sha256": "e38202fd61d082e0c3dbf67fd2683690d652db4132591de6c637273d06922f93",
+  "test_sha256": "1c86c2bb5ec667eedde0cada22c06a96172d086ebc14e1e81ae26fc6104f0587",
+  "environment_lock": "runs/u0-illinois-additional-pins-v2-20261003T050600Z/environment_lock.txt",
+  "environment_lock_sha256": "d956e1a6a266235a10a73f3ccf1a1997d8bfb8ebf2896090e3da2814bcc71f2a",
+  "cook_source_snapshot_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "ptax_response_set_sha256": "69d86b7fb9c221dee662d49ebc01b94ef26f5e2862a0c9d26afb887f997cd05a",
+  "additional_metadata_sha256": "25a80a2c9274813cfda7d84ad717562765743fae7a9e33aced92edd7daa829cd",
+  "additional_response_set_sha256": "5b9d230f76f66d33b024009ee1c81aec18d5318b0cd5c748752ddf4300fba013",
+  "public_aggregate_sha256": "79165c27ae69b2c915c00cbd644dd76dc6d8cf2da83000ffe53f9cc45169e265",
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_checkpoint": null,
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "results": [
+    {
+      "name": "v1_metadata_rejection",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m scripts.probe_illinois_additional_pins capture (v1 collector)",
+      "exit_code": 1,
+      "cause": "The official metadata omitted rowIdentifierColumnId; v1 required an explicit null. No row query or valid aggregate occurred.",
+      "artifact": "runs/u0-illinois-additional-pins-v1-20261003T044111Z/failure_report.md"
+    },
+    {
+      "name": "v2_focused_tests_and_branch_coverage",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m coverage run --branch --source=scripts.probe_illinois_additional_pins -m unittest tests.test_probe_illinois_additional_pins -q",
+      "exit_code": 0,
+      "observed_tests": 19,
+      "branch_aware_coverage_percent": 87,
+      "statements": 330,
+      "branches": 116,
+      "artifact": "runs/u0-illinois-additional-pins-v2-20261003T050600Z/coverage.json"
+    },
+    {
+      "name": "full_unittest",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "duration_seconds": 180.007,
+      "observed_tests": 1086,
+      "skipped": 1,
+      "skip_cause": "Optional Ames source integration required AMES_ARFF_PATH",
+      "artifact": "runs/u0-illinois-additional-pins-v2-20261003T050600Z/full_tests.log",
+      "artifact_sha256": "2bb8c85addc418020f32f79405b18c6cd6fbf28d22bf1442ca1332b289a18f09"
+    },
+    {
+      "name": "ames_source_integration_followup",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m unittest tests.test_ames_smoke -q with AMES_ARFF_PATH set to verified data/raw/openml/house_prices-42165.arff",
+      "exit_code": 0,
+      "observed_tests": 19,
+      "skipped": 0
+    },
+    {
+      "name": "ruff_check_and_format",
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check/format --check scripts/probe_illinois_additional_pins.py tests/test_probe_illinois_additional_pins.py",
+      "exit_code": 0
+    },
+    {
+      "name": "pip_check",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip check",
+      "exit_code": 0
+    },
+    {
+      "name": "pip_audit",
+      "command": ".\\.venv\\Scripts\\python.exe -m pip_audit -l --progress-spinner off",
+      "exit_code": 0,
+      "known_vulnerabilities_found": 0,
+      "local_editable_package_audited": false
+    },
+    {
+      "name": "v2_one_shot_capture",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m scripts.probe_illinois_additional_pins capture",
+      "exit_code": 0,
+      "duration_seconds_from_private_event_times": 27.299444,
+      "request_events": 18,
+      "private_completion_manifest_sha256": "eeac5e9127455df99b86ffeb16e6cd75cb2c6158e7d855c0c860dbddfe20502a"
+    },
+    {
+      "name": "offline_capture_replay",
+      "command": ".\\.venv\\Scripts\\python.exe -B -m scripts.probe_illinois_additional_pins verify --run-dir data/raw/illinois_ptax203/ptax-additional-v2-130b5169ff81ccbc --output runs/u0-illinois-additional-pins-v2-20261003T050600Z/aggregate.json",
+      "exit_code": 0,
+      "duration_seconds": 9.463,
+      "artifact": "runs/u0-illinois-additional-pins-v2-20261003T050600Z/aggregate.json"
+    },
+    {
+      "name": "offline_exact_byte_replay_against_public_aggregate",
+      "command": "& 'runs/u0-illinois-additional-pins-v2-20261003T050600Z/verify_artifacts.ps1'",
+      "exit_code": 0,
+      "duration_seconds": 9.026,
+      "output": "additional_pins_private_and_public_replay_pass"
+    }
+  ]
+}

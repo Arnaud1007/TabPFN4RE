@@ -1,0 +1,14 @@
+{
+  "additional_metadata_sha256": "25a80a2c9274813cfda7d84ad717562765743fae7a9e33aced92edd7daa829cd",
+  "additional_response_set_sha256": "5b9d230f76f66d33b024009ee1c81aec18d5318b0cd5c748752ddf4300fba013",
+  "certified_sale_labels": 0,
+  "cook_capture_sha256": "130b5169ff81ccbc0a729cba98400f2fb377ff9a25999316aaac1960e38a3cf7",
+  "g_us_gate": "PENDING",
+  "historical_asof_eligible": false,
+  "protocol": "illinois-ptax203-additional-pins-v2",
+  "ptax_response_set_sha256": "69d86b7fb9c221dee662d49ebc01b94ef26f5e2862a0c9d26afb887f997cd05a",
+  "selected_cook_rows": 100,
+  "selected_declarations": 80,
+  "status": "complete",
+  "u0_gate": "PENDING"
+}

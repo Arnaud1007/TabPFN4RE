@@ -1,0 +1,45 @@
+source_id: illinois_idor_ptax203_additional_pins_ay2h_5hx3
+status: candidate_bounded_private_declaration_linkage_not_certified
+publisher: Illinois Department of Revenue
+dataset_name: PTAX-203 Additional PINs
+dataset_id: ay2h-5hx3
+official_page: https://data.illinois.gov/Government-and-Public-Employees/PTAX-203-Additional-PINs/ay2h-5hx3
+metadata_url: https://illinois-edp.data.socrata.com/api/views/ay2h-5hx3.json
+api_url: https://illinois-edp.data.socrata.com/resource/ay2h-5hx3.json
+metadata_observed_on: 2026-10-03
+geography: Illinois
+record_date_range: not_established_no_record_date_field
+refresh_schedule: not_established
+known_publication_lag: not_established
+correction_policy: not_established
+missingness: not_measured_before_bounded_capture
+metadata_sha256_at_inventory: 25a80a2c9274813cfda7d84ad717562765743fae7a9e33aced92edd7daa829cd
+metadata_rows_updated_at: 1790506807
+metadata_view_last_modified: 1789611867
+metadata_publication_stage: published
+metadata_provenance: official
+metadata_licence_id: PUBLIC_DOMAIN
+row_grain: additional_pin_observation
+documented_row_identifier: none
+metadata_row_identifier_property: absent_in_verified_response
+identifier_stability: declaration_id_is_foreign_key_only_no_row_identifier
+declaration_link_key: declaration_id
+fields: [declaration_id, pin, lot_size_or_acreage, lot_size_units, split_parcel]
+sample_scope: exact_ids_from_frozen_80_ptax203_declarations
+permitted_use_decision: bounded_private_source_audit_only_adr_0059
+historical_asof_eligible: false
+price_label_eligible: false
+price_definition: no_price_field
+certified_sale_labels: 0
+raw_redistribution: not_planned
+failed_audit_plan: runs/u0-illinois-additional-pins-v1-20261003T044111Z/plan.md
+audit_plan: runs/u0-illinois-additional-pins-v2-20261003T050600Z/plan.md
+notes: >-
+  The official page describes additional properties included in declarations
+  transferring two or more properties. A declaration ID is a foreign key, not
+  a unique row key; duplicate additional-PIN observations must be preserved.
+  Zero returned rows do not prove a single parcel. PINs can include part-parcel
+  or ROW-only cases under IDOR instructions. This source cannot allocate
+  declaration-level consideration, prove close dates or row-first availability.
+  The v1 metadata check failed before any row query because the metadata omits
+  rowIdentifierColumnId; ADR 0060 registers the corrected v2 protocol.

@@ -1,0 +1,10 @@
+pip-audit.exe : No known vulnerabilities found
+At line:2 char:1
++ & .\.venv\Scripts\pip-audit.exe --local --progress-spinner off *> run ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No known vulnerabilities found:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Name              Skip Reason
+----------------- --------------------------------------------------------------------------------
+tabpfn4realestate Dependency not found on PyPI and could not be audited: tabpfn4realestate (0.0.1)

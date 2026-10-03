@@ -1,0 +1,18 @@
+{
+  "run_id": "u1-synthetic-holdout-ledger-20261003T111210Z",
+  "kind": "synthetic_software_test",
+  "code_commit": "595256a51f1de4fb5de72943f60b6900fc41454d",
+  "dirty_tree_during_full_tests": true,
+  "environment_lock": "locks/synthetic-engineering-environment.json",
+  "environment_lock_sha256": "5b1004ea15190cfa53b84f0ca6fba1401d117dd8c93fc4c67d693590f54d86cc",
+  "fixture_file": "tests/test_holdout_ledger.py",
+  "fixture_sha256": "7531aee740c367fc6642f26e1709655056b47bf6be515a8b2df4fffd4db55fbe",
+  "plan_sha256": "2ff28403b08f7d53ff15f1fac71444afdfaa2966215c908a14526db073969904",
+  "full_tests_log_sha256": "2957073c21e662a8ede4345d12fc9ca6fa7d1e79a06128f5ee362c6a89727e11",
+  "data_snapshot_hash": null,
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "configuration_hash": "2ff28403b08f7d53ff15f1fac71444afdfaa2966215c908a14526db073969904",
+  "checkpoint_identity": null,
+  "not_applicable_reason": "No real source data, model checkpoint, or frozen certification split is used by this software test. Synthetic fixture hashes are not substitutes."
+}

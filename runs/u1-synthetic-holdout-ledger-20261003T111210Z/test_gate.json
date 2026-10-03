@@ -1,0 +1,16 @@
+{
+  "run_id": "u1-synthetic-holdout-ledger-20261003T111210Z",
+  "scope": "synthetic US23 T12 engineering fixture only",
+  "status": "verified_synthetic",
+  "code_commit": "595256a51f1de4fb5de72943f60b6900fc41454d",
+  "focused_tests": {"exit_code": 0, "count": 11, "log": "focused_tests.log"},
+  "full_tests": {"exit_code": 0, "count": 1126, "skipped": 1, "duration_seconds": 242.909, "log": "full_tests.log"},
+  "focused_branch_coverage_percent": 84,
+  "coverage_log": "coverage.log",
+  "ruff_check_exit_code": 0,
+  "ruff_format_exit_code": 0,
+  "pip_audit_exit_code": 0,
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

@@ -12,8 +12,11 @@ XGBoost scores; the old holdout is retrospective. See [migration_report.md](migr
 and the [legacy replay report](runs/u0-legacy-replay-20260928T145000Z/report.md).
 
 U1 T01-T08 and a 200-row Ames OFF smoke flow are engineering checks, not a
-real-market release. The most recent full suite passed 1,115 tests at the
+real-market release. An earlier full suite passed 1,115 tests at the
 [Cook staging checkpoint](runs/u0-cook-source-staging-v1-20261003T055304Z/report.md).
+The [synthetic T12 holdout ledger](runs/u1-synthetic-holdout-ledger-20261003T111210Z/report.md)
+now has a later 1,126-test passing suite and a crash/replay fixture. It has not
+opened any real-market labels and is not a certification runner.
 No real-market model training, final calibration or certification test has begun.
 ON mode and international implementation remain locked by the specification.
 

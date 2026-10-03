@@ -55,7 +55,7 @@ class ObservationHistoryTest(unittest.TestCase):
         writer.writerow(HEADER)
         writer.writerows(rows)
         payload = output.getvalue().encode("utf-8")
-        name = f"nyc-usep-8jbt-{stamp}.csv"
+        name = f"nyc-usep-8jbt-{stamp.replace(':', '').replace('-', '')}.csv"
         (self.raw / name).write_bytes(payload)
         manifest = {
             "source_id": "nyc_dof_rolling_usep_8jbt",

@@ -30,6 +30,11 @@ records the September and October source captures as two distinct private,
 replayable inventory events. Their row-representation multisets are equal;
 this does not establish first public availability. Its exact test result is
 in the linked report.
+The [OpenML Ames source integration rerun](runs/u0-ames-source-integration-v1-20261003T132308Z/report.md)
+passed 1,172 full-suite tests with zero skips after explicitly setting
+`AMES_ARFF_PATH` to the already available, hash-verified ARFF. This corrects
+the earlier interpretation of the one skipped test: the missing legacy file
+is `ames.csv`, not the OpenML ARFF. The fixture remains engineering-only.
 No real-market model training, final calibration or certification test has begun.
 ON mode and international implementation remain locked by the specification.
 
@@ -106,6 +111,7 @@ git status --short
 & 'runs/u0-illinois-additional-pin-offline-v3-20261003T053506Z/verify_artifacts.ps1'
 & 'runs/u0-nyc-rolling-resnapshot-v1-20261003T101029Z/verify_artifacts.ps1'
 & 'runs/u0-nyc-observation-history-v1-20261003T125727Z/verify_artifacts.ps1'
+& 'runs/u0-ames-source-integration-v1-20261003T132308Z/verify_artifacts.ps1'
 Get-Content data/acquisition_backlog.md
 Get-Content data/requests/cook_county_sales_inquiry_draft.md
 ```

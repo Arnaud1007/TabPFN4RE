@@ -5,6 +5,11 @@ Protocol: `nyc-observation-v1`
 Requirements: US05, US08, US22, US24  
 Status: **verified source inventory only; U0 and G-US PENDING**
 
+**Correction, 2026-10-03:** The OpenML ARFF was already present; the one skip
+below resulted from an unset `AMES_ARFF_PATH`. The unavailable historical
+file is the separate legacy `ames.csv`. See the
+[versioned source-integration rerun](../u0-ames-source-integration-v1-20261003T132308Z/report.md).
+
 ## Question, inputs and provenance
 
 The [frozen local plan](plan.md) limits this run to the 28 September and
@@ -55,10 +60,11 @@ publication; test output and the final count are otherwise retained.
 | `python -m unittest discover -s tests -q` | Exit 0; 1,172 tests ran in 203.683 s, one skipped; [log](full_tests.log) |
 | `& 'runs/u0-nyc-observation-history-v1-20261003T125727Z/verify_artifacts.ps1'` | Exit 0; pinned hashes, ignored private paths, two entries and saved public summaries verified in about 4.4 s; [log](verify_artifacts.log) |
 
-The sole full-suite skip is `RealAmesSourceTests`, gated by missing
-`AMES_ARFF_PATH`. Its original source file remains an explicit U0 dependency;
-the skip is not counted as a passed mandatory source-integration check. The
-new ledger's 21 tests had no skips. `git diff --check` was clean.
+The sole full-suite skip was `RealAmesSourceTests`, because `AMES_ARFF_PATH`
+was unset for that process. The OpenML ARFF was present; the separate legacy
+`ames.csv` remains missing. That skipped source check is not counted as passed
+in this historical run. The new ledger's 21 tests had no skips.
+`git diff --check` was clean.
 
 ## Decision, failures and limits
 

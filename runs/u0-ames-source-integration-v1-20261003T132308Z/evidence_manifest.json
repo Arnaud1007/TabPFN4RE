@@ -1,0 +1,31 @@
+{
+  "run_id": "u0-ames-source-integration-v1-20261003T132308Z",
+  "protocol": "ames_source_integration_v1",
+  "status": "verified_engineering_source_integration",
+  "code_commit": "bf0e3bf8b004eb00f98fbdf6461609eb0fa07374",
+  "tracked_tree_at_start": "clean; only this run directory was untracked",
+  "environment_lock_path": "locks/ames-smoke-environment.json",
+  "environment_lock_sha256": "b421be90d38fe202acef02c43d0cf9faffb4f5ecc32763a3a7123cd0adaf7b65",
+  "configuration_hash": "f9ec4c8ea7398d4fe1e0f2dfcac580a95bb6d83021a161f1c7c0d5e4b2c7e003",
+  "source_id": "openml_42165_v1",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "source_md5": "d5ca59f8d02b1b1c127034392c0f995f",
+  "source_bytes": 479052,
+  "focused_tests": 1,
+  "full_tests": 1172,
+  "full_skipped": 0,
+  "artifact_sha256": {
+    "focused_gate.json": "b3e3047a600810aaead0371f77cd6775384181e64eef7ab16151de8517e2a213",
+    "focused_stderr.log": "e1af29d89f3372554156ea1df46e628f203a5151fd019eab4a83640416c078ca",
+    "full_gate.json": "bdff826d5fd803183bc4e080a5a11adea1b7375cc56f63c75930f4715f311b3a",
+    "full_stderr.log": "30625e4e1296e7d9452258ea3e5bcf047e391d662ae86b09fc2d3afb3e316946",
+    "full_stdout.log": "1391ff9bf59971e311f809b4e3ed806fdeabf75413d05be2792b460662847cc8"
+  },
+  "split_hash": null,
+  "feature_policy_hash": null,
+  "model_configuration_hash": null,
+  "checkpoint_identity": null,
+  "certified_sale_labels": 0,
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING"
+}

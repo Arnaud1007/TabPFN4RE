@@ -21,6 +21,8 @@ permitted_use: engineering_fixture_only_pending_rights_review
 redistribution: not_established
 availability_dates: absent
 certification_eligible: false
+source_integration_report: runs/u0-ames-source-integration-v1-20261003T132308Z/report.md
+source_integration_status: verified_engineering_fixture_1172_full_tests_zero_skips
 notes: >-
   The downloaded file matched OpenML's MD5. All 1460 rows have unique Id values
   and positive SalePrice values. This historical fixture cannot satisfy G-US.

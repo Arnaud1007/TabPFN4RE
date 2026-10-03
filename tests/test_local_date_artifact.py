@@ -173,6 +173,7 @@ class SyntheticCaptureFitTests(unittest.TestCase):
             {"snapshot_id": ""},
             {"property_published_on": "2022-01-01"},
             {"property_observed_at_utc": "2020-01-03T12:00:00Z"},
+            {"property_observed_at_utc": "2020-01-03T05:00:00Z"},
             {"published_on": "2020-01-01"},
             {"price_usd": "0"},
             {"close_zone": "UTC"},

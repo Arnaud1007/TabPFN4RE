@@ -2,6 +2,30 @@
 
 Updated: 2026-10-04. Branch: `audit/u0`.
 
+## Prediction-first priority (ADR 0088)
+
+The owner requested a prediction result soon after three days of source
+qualification. The existing Ames median run already has 40 historical
+predictions (`runs/u0-smoke-20260928T082634Z-ef55636ed896/metrics.json`:
+23.9331% MdAPE, 17.5% within 10%). The next task is the timeboxed, guarded
+development-only XGBoost comparison in
+`decisions/0088-prediction-first-prototype-plan.md`, followed by a local
+example-prediction CLI. This engineering path does not require a new US source
+and does not advance the U0 or G-US gate.
+
+Immediate runnable evidence check from the project root:
+
+```powershell
+Get-Content runs/u0-smoke-20260928T082634Z-ef55636ed896/metrics.json
+Get-Content runs/u0-legacy-replay-20260928T145000Z/v9/manifest.json
+```
+
+Then write a failing test for `ames_dev_prototype_v1` that proves reserved
+rows cannot enter a fit and raw `Id` cannot become a feature. Implement the
+five-fold comparison with the isolated local XGBoost environment and the fixed
+budget in ADR 0088. Preserve rejected and failed runs. Resume the source
+actions below only after the prototype scorecard and example output exist.
+
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
@@ -10,7 +34,7 @@ measured a 4.95-fold reduction in median wall time for its 204-row fit,
 replay and score test after caching pinned time zones. This is engineering
 speed evidence, not a real-market or TabPFN training result. The associated
 full project suite passed 1,287 tests with zero skips. Continue U0
-source qualification before any real-data model training.
+source qualification before modern US transaction model training.
 The [version 2 candidate map](data/us_market_candidates.json) now derives
 New York's 25 and Florida's 22 proposed nonmetro counties from pinned official
 2023 Census county lists minus every metropolitan county in the pinned July

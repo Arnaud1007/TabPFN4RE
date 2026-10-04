@@ -1,0 +1,51 @@
+{
+  "run_id": "indiana-2024-2025-v1",
+  "training_code_commit": "a7b7d58513ca78ac80c8cdb2f443f2a22463f7b9",
+  "research_only": true,
+  "g_us_gate": "PENDING",
+  "checks": [
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest tests.test_indiana_historical_benchmark -q",
+      "environment": "PYTHONPATH=src; historical Ames ML lock",
+      "exit_code": 0,
+      "tests": 7
+    },
+    {
+      "command": "$testModules = @(Get-ChildItem -LiteralPath tests -Filter 'test_*.py' | Where-Object Name -ne 'test_indiana_historical_benchmark.py' | ForEach-Object { 'tests.' + $_.BaseName }); & '.venv/Scripts/python.exe' -m coverage run --source=tabpfn4realestate -m unittest @testModules -q",
+      "environment": "PYTHONPATH=src; AMES_ARFF_PATH=pinned local source; project date policy",
+      "exit_code": 0,
+      "tests": 1320,
+      "duration_seconds": 217.609,
+      "package_coverage_percent": 92,
+      "private_log_sha256": "c34bc072f227d16c92cd164b6aefcb58e24b827323b73834bf35becfbd1997c2"
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/ruff.exe check scripts/indiana_historical_benchmark.py scripts/run_indiana_historical_benchmark.py tests/test_indiana_historical_benchmark.py; data/raw/legacy-replay/.venv/Scripts/ruff.exe format --check scripts/indiana_historical_benchmark.py scripts/run_indiana_historical_benchmark.py tests/test_indiana_historical_benchmark.py",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/pip-audit.exe -r locks/ames-prototype-requirements.txt",
+      "exit_code": 0,
+      "result": "No known vulnerabilities found"
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m scripts.run_indiana_historical_benchmark --source-2024 data/raw/indiana_sdf/SDF_2024.zip --source-2025 data/raw/indiana_sdf/SDF_2025.zip --output data/raw/indiana_sdf/benchmarks/indiana-2024-2025-v1",
+      "exit_code": 0,
+      "duration_seconds": 24.459312800026964,
+      "private_console_sha256": "594d4f17d0752ea28f98ffde302eefafe4a2e1283a7044b901d3881418f17da1"
+    },
+    {
+      "command": "verify four private artifact SHA-256 hashes and replay both scorecards from predictions.csv",
+      "exit_code": 0,
+      "result": "4 hashes and 2 scorecards matched"
+    }
+  ],
+  "failed_attempts": [
+    {
+      "command": "historical ML environment: full project unittest discover",
+      "exit_code": 1,
+      "reason": "Installed tzdata 2026.3 differs from project frozen date policy 2026.4",
+      "resolution": "reran the 1320 existing project tests in the project environment"
+    }
+  ]
+}

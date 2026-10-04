@@ -38,4 +38,10 @@ research_cohort: one-family class 510-515, one disclosure and one parcel per eco
 manual_source_audit: pending; at least 200 stratified records required before certification
 protocol: indiana_sdf_2024_2025_retrospective_research_v1
 decision: decisions/0090-indiana-prediction-first-research-benchmark.md
+research_run: runs/indiana-sdf-20261004-v1/report.md
+research_eligible_rows: {year_2024: 65490, year_2025: 71054}
+research_quality_alert: >-
+  Included positive consideration ranges from $0.01 to $244,000,110,000 in
+  2024 and $1 to $1,050,000,000 in 2025. These extremes remain in the
+  retrospective score; factual validity requires a stratified manual audit.
 prohibited_claims: [certified_90_day_origin, current_us_accuracy, commercial_release, g_us]

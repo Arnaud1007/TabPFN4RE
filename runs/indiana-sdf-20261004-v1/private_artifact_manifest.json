@@ -1,0 +1,10 @@
+{
+  "code_commit": "a7b7d58513ca78ac80c8cdb2f443f2a22463f7b9",
+  "files": {
+    "feature_names.json": "62eeb6ec9b5672bcafa5a73c0add95a0dcd84997871f4d75e632b9be3bd313e4",
+    "model.json": "76788f192303ae14352537d326ddea695347098b67ab6cf1c37cb24c9d7f6dd0",
+    "predictions.csv": "48b6df66fa334210c48c7853e88b53994d6f0c919bc70a316008feec185f7d1c",
+    "summary.json": "d8d5a29ea8a02e3b04de6bcceb5fa86529c8f379237e60a7215c1858ab61b689"
+  },
+  "protocol": "indiana_sdf_2024_2025_retrospective_research_v1"
+}

@@ -9,31 +9,28 @@ without retraining. Its saved January-February 2015 development validation
 score is 8.90% MdAPE on 2,228 sales. This is the current usable research
 predictor, not a current-home or G-US release.
 
-**Active single work block:** finish the fixed
-`indiana_sdf_2024_2025_retrospective_research_v1` comparison in
-[ADR 0090](decisions/0090-indiana-prediction-first-research-benchmark.md).
-The pinned official archives have passed checksum/schema parsing and produced
-65,490 eligible 2024 rows and 71,054 eligible 2025 rows. Run one county/ZIP
-median and one fixed XGBoost model; publish saved-prediction metrics, runtime,
-source anomaly counts and limits. Cap this first run at 20 minutes of compute;
-if it cannot finish cleanly, record the exact failure before changing scope.
-Do not tune against these 2025 labels or resume broad source shopping before
-this score is published. The large observed price/acreage extremes require a
-manual audit before any representative-accuracy claim.
+**Done:** The [fixed Indiana 2024-to-2025 comparison](runs/indiana-sdf-20261004-v1/report.md)
+scored 71,054 later sales in 24.46 seconds end to end. Its three-input tree
+model had 30.79% MdAPE; the county/ZIP median did better at 28.68%. Neither
+is a useful current-home valuation or a G-US result. The 2025 cohort is now
+consumed development evidence. Do not tune against it and call it untouched.
+The large recorded price and acreage extremes remain unaudited.
 
-Resume from a clean committed tree on this workstation:
+**Next prediction-critical task:** audit at least 200 stratified Indiana
+transactions, including the extreme amounts and ambiguous identities, then
+qualify one historically dated source of living area, age and condition for a
+matched-cohort improvement test. The current predictor only has county, ZIP
+and acreage. Keep the existing King historical request interface available
+while this source work proceeds. A future test for an improved Indiana model
+requires a new untouched period and verified information timing.
+
+To replay the fixed historical comparison from a clean committed tree, use a
+new private output directory:
 
 ```powershell
 $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
-& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.run_indiana_historical_benchmark --source-2024 data/raw/indiana_sdf/SDF_2024.zip --source-2025 data/raw/indiana_sdf/SDF_2025.zip --output data/raw/indiana_sdf/benchmarks/indiana-2024-2025-v1
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.run_indiana_historical_benchmark --source-2024 data/raw/indiana_sdf/SDF_2024.zip --source-2025 data/raw/indiana_sdf/SDF_2025.zip --output data/raw/indiana_sdf/benchmarks/my-indiana-replay
 ```
-
-After the score is published, add a local request command for this fixed
-historical Indiana research model if it is operationally useful. Then resume
-the distinct task of obtaining as-of source vintages and future outcome
-evidence for the 90-day US gate. If Indiana identity or target scope fails
-audit, retain the result as exploratory and use the King predictor while the
-source rule is repaired.
 
 ## Immediate prediction delivery plan
 

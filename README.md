@@ -1,6 +1,6 @@
 # TabPFN4RealEstate
 
-Evidence-first research workspace for residential sale-price prediction. U0, the legacy-project and data audit, remains open. A fast Ames development-only prototype produces historical predictions while US source qualification continues. A separate King County historical research comparison has also run. Neither result is a US release or future-sale accuracy claim.
+Evidence-first research workspace for residential sale-price prediction. U0, the legacy-project and data audit, remains open. Ames and King County historical prototypes produce local research predictions. A newer Indiana 2024-to-2025 comparison now shows that county, ZIP and acreage alone do not give useful accuracy. None of these results is a US release or future-sale accuracy claim.
 
 In Visual Studio 2022, choose **File > Open > Folder** and select this directory.
 
@@ -64,6 +64,7 @@ The [Ames prototype report](runs/ames-dev-prototype-20261004-v1/report.md) recor
   ```
 
 - [King historical validation report](runs/king-historical-20261004-v1/report.md) records a fixed two-model comparison on 2,228 sale-date validation rows: XGBoost 8.90% MdAPE and 55.25% within 10%, versus ZIP-code median 21.20% and 25.18%. Later rows were not scored. The source lacks verified pre-sale feature availability, so this is research-only development evidence.
+- [Indiana 2024-to-2025 research report](runs/indiana-sdf-20261004-v1/report.md) records 71,054 later sales scored in 24.46 seconds: the county/ZIP median achieved 28.68% MdAPE, while a fixed XGBoost model using the same county, ZIP and acreage information reached 30.79%. The simpler reference remains stronger on typical error; neither is a current-home valuation.
 - [migration_report.md](migration_report.md) records recovered and missing legacy inputs, the replay outcome, and the hardware audit.
 - [U0 legacy replay report](runs/u0-legacy-replay-20260928T145000Z/report.md) records the original split, repeatability, archived-score mismatch and verification evidence.
 - [requirements.yaml](requirements.yaml) tracks requirement IDs and evidence status.

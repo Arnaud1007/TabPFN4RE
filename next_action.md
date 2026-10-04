@@ -17,15 +17,20 @@ Updated: 2026-10-04. Branch: `audit/u0`.
    [run report](runs/king-historical-20261004-v1/report.md). This is a
    validation-selected development result, with no verified pre-sale
    information dates and no G-US credit.
-4. **Next certified-market step:** Resolve one official sale source's target,
+4. **Done:** The local [King research prediction command](runs/king-serving-20261004-v1/report.md)
+   reuses the saved model with a 15-field JSON request and no retraining. Its
+   synthetic example returns $542,149.79 for the 2015 historical reference
+   period. It is not a present-day valuation.
+5. **Next certified-market step:** Resolve one official sale source's target,
    first-availability and reuse-rights questions, then build its audited
    chronological cohort. Keep the King March–May cohort unscored by the
    research runner. Do not describe Ames or King scores as US release accuracy.
 
 The [October 4 HCPA listing capture](runs/u0-hcpa-listing-20261004T194412Z/report.md)
 adds an observed publication checkpoint: the All Sales filename remained dated
-September 18 while the parcel filename advanced to October 2. Continue dated
-captures, but do not infer individual sale availability from a listing date.
+September 18 while the parcel filename advanced to October 2. Further HCPA
+listing capture is lower priority than prediction validation. A listing date
+does not establish individual sale availability.
 
 Form launch command from the project root on this workstation:
 

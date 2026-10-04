@@ -56,6 +56,13 @@ The [Ames prototype report](runs/ames-dev-prototype-20261004-v1/report.md) recor
 
 ## Current evidence
 
+- [King historical prediction command](runs/king-serving-20261004-v1/report.md) reuses the saved model without retraining. Edit [the 15-field synthetic request](examples/king-research-request.json) and run the command below on this workstation. The example returns **$542,149.79** in historical 2015 USD terms; it is not a current-market estimate or a 90-day valuation. The private model is not committed to Git.
+
+  ```powershell
+  $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json
+  ```
+
 - [King historical validation report](runs/king-historical-20261004-v1/report.md) records a fixed two-model comparison on 2,228 sale-date validation rows: XGBoost 8.90% MdAPE and 55.25% within 10%, versus ZIP-code median 21.20% and 25.18%. Later rows were not scored. The source lacks verified pre-sale feature availability, so this is research-only development evidence.
 - [migration_report.md](migration_report.md) records recovered and missing legacy inputs, the replay outcome, and the hardware audit.
 - [U0 legacy replay report](runs/u0-legacy-replay-20260928T145000Z/report.md) records the original split, repeatability, archived-score mismatch and verification evidence.

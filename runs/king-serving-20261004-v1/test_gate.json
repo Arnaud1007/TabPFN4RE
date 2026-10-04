@@ -1,0 +1,37 @@
+{
+  "run_id": "king-serving-20261004-v1",
+  "serving_code_commit": "247c5ce2de27adab3b2f45a40d64376b43399340",
+  "python_version": "3.11.6",
+  "checks": [
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m unittest tests.test_king_research_predict -q",
+      "exit_code": 0,
+      "tests": 4
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest prototype_tests.test_king_research_prediction_flow -q",
+      "environment": "PYTHONPATH=src",
+      "exit_code": 0,
+      "tests": 1,
+      "duration_seconds": 8.229
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+      "environment": "AMES_ARFF_PATH=data/raw/openml/house_prices-42165.arff",
+      "exit_code": 0,
+      "tests": 1320,
+      "duration_seconds": 227.611,
+      "package_coverage_percent": 92
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff check scripts/king_research_predict.py tests/test_king_research_predict.py prototype_tests/test_king_research_prediction_flow.py",
+      "exit_code": 0
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python.exe -m ruff format --check scripts/king_research_predict.py tests/test_king_research_predict.py prototype_tests/test_king_research_prediction_flow.py",
+      "exit_code": 0
+    }
+  ],
+  "research_only": true,
+  "g_us_gate": "PENDING"
+}

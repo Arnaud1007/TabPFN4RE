@@ -22,6 +22,11 @@ Updated: 2026-10-04. Branch: `audit/u0`.
    chronological cohort. Keep the King March–May cohort unscored by the
    research runner. Do not describe Ames or King scores as US release accuracy.
 
+The [October 4 HCPA listing capture](runs/u0-hcpa-listing-20261004T194412Z/report.md)
+adds an observed publication checkpoint: the All Sales filename remained dated
+September 18 while the parcel filename advanced to October 2. Continue dated
+captures, but do not infer individual sale availability from a listing date.
+
 Form launch command from the project root on this workstation:
 
 ```powershell

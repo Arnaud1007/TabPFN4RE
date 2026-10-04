@@ -5,6 +5,12 @@ dataset_name: All Sales public download
 publisher_page: https://downloads.hcpafl.org/Default.aspx
 retrieved_on: 2026-09-28
 listed_archive: allsales_09_18_2026.zip
+latest_listing_observation: runs/u0-hcpa-listing-20261004T194412Z/observation.json
+latest_listing_observation_note: >-
+  A direct HTML capture on 2026-10-04 still listed the September 18 All Sales
+  filename while the parcel filename had advanced to October 2. The All Sales
+  ZIP was not re-downloaded; neither filename nor displayed update time proves
+  first publication of individual sales.
 listed_archive_sha256: 847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7
 local_raw_copy: data/raw/hcpa/allsales_09_18_2026.zip
 local_raw_copy_status: unchanged_sha256_verified_ignored_by_git

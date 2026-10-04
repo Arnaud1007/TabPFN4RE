@@ -1,0 +1,25 @@
+{
+  "run_id": "u0-hcpa-listing-20261004T194412Z",
+  "status": "observed_not_qualified",
+  "source_url": "https://downloads.hcpafl.org/Default.aspx",
+  "local_capture_mtime_utc": "2026-10-04T19:44:12Z",
+  "raw_html_private_path": "data/raw/hcpa/downloads_page_20261004.html",
+  "raw_html_bytes": 24064,
+  "raw_html_sha256": "b3bc55a864178a8aca5f20e0ebaf2d3767922fa310266e8d0e6a25a497eb39e1",
+  "code_commit_before_observation_record": "db07c51d5a6b75e6d75ac91c3d9f46b3b63022a5",
+  "observed_listings": {
+    "allsales": {
+      "filename": "allsales_09_18_2026.zip",
+      "displayed_size": "68 MB",
+      "displayed_last_updated": "9/18/2026 7:14AM",
+      "same_filename_as_2026_09_28_source_card": true
+    },
+    "parcels": {
+      "filename": "parcels_10_02_2026.zip",
+      "displayed_size": "148 MB",
+      "displayed_last_updated": "10/2/2026 11:41AM"
+    }
+  },
+  "interpretation": "The All Sales listing had not changed by filename since the prior documented September 28 observation; the parcel listing had advanced. This does not establish unchanged file bytes, first publication, label maturity, or as-of availability of attributes.",
+  "g_us_gate": "PENDING"
+}

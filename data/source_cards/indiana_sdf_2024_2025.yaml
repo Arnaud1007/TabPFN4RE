@@ -52,8 +52,13 @@ snapshot_assessment_diagnostic_warning: >-
   certify a 90-day OFF or current-home predictor.
 excluded_predictor_examples: [E1_Sales_Price, C8_Market_Days, P2_5_Total_AV, P2_14_Date_Received, P2_16_Valid_Trending, SDF_ID, Unique_Sales_ID]
 research_cohort: one-family class 510-515, one disclosure and one parcel per economic sale
-manual_source_audit: pending; at least 200 stratified records required before certification
+manual_source_audit: >-
+  Twenty deliberately low-price 2025 records inspected; none has a final
+  arm's-length determination or independent cross-check. The remaining 180
+  selected records and the broader US07 source audit are pending.
 targeted_low_price_audit_plan: decisions/0093-indiana-low-price-source-audit-sample.md
+targeted_low_price_audit_progress: runs/indiana-assessment-diagnostic-v1/audit_review_first20.json
+assessment_90_day_off_decision: blocked for this snapshot; see decisions/0094-indiana-assessment-asof-no-go.md
 trending_flag_policy: >-
   P2_16_Valid_Trending is a post-sale assessor validation field. It may be
   used to stratify source-quality review, but not as a pre-sale predictor or

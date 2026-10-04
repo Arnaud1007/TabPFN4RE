@@ -1,6 +1,6 @@
 # TabPFN4RealEstate
 
-Evidence-first research workspace for residential sale-price prediction. U0, the legacy-project and data audit, remains open. Ames and King County historical prototypes produce local research predictions. An Indiana 2024-to-2025 development diagnostic reached 15.19% median error after adding assessed values from later sale-disclosure snapshots; their pre-sale timing is unverified. None of these results is a US release or future-sale accuracy claim.
+Evidence-first research workspace for residential sale-price prediction. U0, the legacy-project and data audit, remains open. Ames and King County historical prototypes produce local research predictions. An Indiana 2024-to-2025 development diagnostic reached 15.19% median error after adding assessed values from later sale-disclosure snapshots; their pre-sale timing is unverified, and a targeted source review found nominal/nonmarket label concerns. None of these results is a US release or future-sale accuracy claim.
 
 In Visual Studio 2022, choose **File > Open > Folder** and select this directory.
 
@@ -67,6 +67,7 @@ The [Ames prototype report](runs/ames-dev-prototype-20261004-v1/report.md) recor
 - [Indiana 2024-to-2025 research report](runs/indiana-sdf-20261004-v1/report.md) records 71,054 later sales scored in 24.46 seconds: the county/ZIP median achieved 28.68% MdAPE, while a fixed XGBoost model using the same county, ZIP and acreage information reached 30.79%. The simpler reference remains stronger on typical error; neither is a current-home valuation.
 - [Indiana assessment-snapshot diagnostic](runs/indiana-assessment-diagnostic-v1/report.md) compares the exact same 71,054 development sales with two fixed tree models. Adding assessed land/improvement values and neighborhood code reduced MdAPE from 30.79% to 15.19% in a 36.32-second full run. The fields' availability 90 days before sale is unknown, so this is not a deployable predictor.
 - [Indiana post-hoc slice report](runs/indiana-assessment-diagnostic-v1/slice_report.md) shows the gain across 56 sufficiently sized counties but 51.62% median error for sales in the lowest realised-price band. This is development error analysis, not a current-home or 90-day valuation result.
+- [Indiana targeted source review](runs/indiana-assessment-diagnostic-v1/audit_source_report.md) selected 200 transactions and inspected the first 20 extreme low-price records. Ten have source notes indicating nonmarket consideration or invalidity; none of the 20 has a final arm's-length determination. [ADR 0094](decisions/0094-indiana-assessment-asof-no-go.md) blocks the assessed-value challenger from 90-day or current serving until historical availability and label quality are established.
 - [migration_report.md](migration_report.md) records recovered and missing legacy inputs, the replay outcome, and the hardware audit.
 - [U0 legacy replay report](runs/u0-legacy-replay-20260928T145000Z/report.md) records the original split, repeatability, archived-score mismatch and verification evidence.
 - [requirements.yaml](requirements.yaml) tracks requirement IDs and evidence status.

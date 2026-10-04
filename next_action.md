@@ -16,9 +16,9 @@ is neither a final-test score nor evidence of current-market accuracy.
 | When | Deliverable | Done when |
 | --- | --- | --- |
 | Now, done | Replay the saved King model on the synthetic 15-field request | Numeric output and historical scope are visible in one command |
-| Next focused two-hour block | Publish the deterministic 200-row Indiana audit *queue*, review the first 20 high-risk records, and check for a demonstrably pre-origin assessment vintage | A written go/no-go for using Indiana assessment fields in a 90-day model; record how many rows were actually reviewed |
-| Following four-hour block, only if the source passes | Fit one fixed OFF baseline, using only matured labels and pre-origin fields, then save chronological predictions and a scorecard | Reproducible run files with error, bias, tails, coverage and source timing; no architecture search |
-| If the source fails | Record the Indiana blocker and qualify one better-dated source | No use of later assessment snapshots in a current or 90-day estimate |
+| Done: Indiana source decision | Published the 200-row audit queue, inspected 20 extreme low-price records, and checked assessment timing | [No-go decision](decisions/0094-indiana-assessment-asof-no-go.md): 20 inspected, none confirmed arm's-length; no pre-origin assessment vintage established |
+| Next focused source block | Test one dated candidate, starting with Hillsborough's 2025 parcel archive and later sales, for original publication timing, sale scope and permitted use | A written go/no-go with exact source evidence; no model fit on unqualified fields |
+| If a source passes | Fit one fixed OFF baseline on matured labels and pre-origin fields, then save chronological predictions and a scorecard | Reproducible errors, bias, tails, coverage and source timing; no architecture search |
 | Later | Complete the source audit, calibrate intervals and reserve future outcomes | Only a passed gate supports a market release claim |
 
 The immediate prediction is already working. Model fitting is fast: the
@@ -29,11 +29,12 @@ is not a completed manual audit. Pause additional model families, new markets,
 post-hoc slices and nonessential documentation while these prediction
 deliverables are open. Push each accepted checkpoint to `origin/audit/u0`.
 
-**Next runnable task:** Finish the in-progress deterministic audit queue, then
-review 20 high-risk Indiana records and check the assessment vintage. The
-[slice report](runs/indiana-assessment-diagnostic-v1/slice_report.md) found
-51.62% MdAPE on 12,737 low-price sales. The queue and review are diagnostic;
-they do not by themselves qualify Indiana as a 90-day prediction source.
+**Next runnable task:** Qualify the existing Hillsborough 2025 parcel archive
+as a potentially dated pre-origin property snapshot for later sales. Check
+original publication timing, property/sale identity, price semantics and
+permitted use in a bounded source decision before training. The Indiana
+[audit progress](runs/indiana-assessment-diagnostic-v1/audit_review_first20.json)
+is diagnostic and does not qualify its assessment snapshot as a 90-day input.
 
 ## Prediction-first reset after three days
 

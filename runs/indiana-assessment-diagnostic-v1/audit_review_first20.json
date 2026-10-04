@@ -1,0 +1,17 @@
+{
+  "confirmed_arm_length": 0,
+  "eligibility_resolved": 0,
+  "extreme_price_without_conclusive_note": 10,
+  "frozen_2025_score_changed": false,
+  "g_us_gate": "PENDING",
+  "independent_record_crosschecks": 0,
+  "notes_indicating_nonmarket_or_invalid": 10,
+  "pending_rows": 180,
+  "private_review_sha256": "f340b809b2ea1fbba4a8d7a64557326ecc4559c21db8daa52b6c525cd37a1b44",
+  "protocol": "indiana_2025_low_price_first20_private_review_v1",
+  "reviewed_rows": 20,
+  "reviewed_selection": "10 lowest-price low_Y and 10 lowest-price low_N; deliberately edge-enriched",
+  "sample_sha256": "d52f3fdd7c2e2152ba971bc275b551b584effb195764ea464a8e767cb296b7c3",
+  "source_sha256": "f574f75604c953a1c0e498550ea05a20ebf705e8dfaca9aa1090d7a358ee4e12",
+  "status": "targeted_review_incomplete"
+}

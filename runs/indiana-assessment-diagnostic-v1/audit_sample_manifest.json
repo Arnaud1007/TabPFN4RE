@@ -1,0 +1,51 @@
+{
+  "cells": {
+    "high_N": {
+      "eligible": 10496,
+      "hashed_middle": 30,
+      "highest": 10,
+      "lowest": 10,
+      "selected": 50
+    },
+    "high_Y": {
+      "eligible": 47821,
+      "hashed_middle": 30,
+      "highest": 10,
+      "lowest": 10,
+      "selected": 50
+    },
+    "low_N": {
+      "eligible": 7354,
+      "hashed_middle": 30,
+      "highest": 10,
+      "lowest": 10,
+      "selected": 50
+    },
+    "low_Y": {
+      "eligible": 5383,
+      "hashed_middle": 30,
+      "highest": 10,
+      "lowest": 10,
+      "selected": 50
+    }
+  },
+  "certified_90_day_origin": false,
+  "code_commit": "d59c3f4f68c991e650b993519a0201ee740b6d39",
+  "configuration_sha256": "b3a3b127bae6f40848dac147af044d8646fc2404e53a53facb56558dbd0694a9",
+  "g_us_gate": "PENDING",
+  "manual_review_status": "not_started",
+  "pending_rows": 200,
+  "prediction_sha256": "756a1bff432f2d6e715142b69d28932f2ddb5c5eb3db70f649f0c0991561a084",
+  "price_boundary_usd": "117000",
+  "private_sample_sha256": "d52f3fdd7c2e2152ba971bc275b551b584effb195764ea464a8e767cb296b7c3",
+  "protocol": "indiana_2025_low_price_trending_source_audit_v1",
+  "ranking_formula": "SHA256(UTF8('42:{hashed_row_id}')); ascending digest, row_id tie-break",
+  "reviewed_rows": 0,
+  "sample_rows": 200,
+  "source_sha256": "f574f75604c953a1c0e498550ea05a20ebf705e8dfaca9aa1090d7a358ee4e12",
+  "split_membership_sha256": {
+    "train": "1c6ab9e720a5b6ef0e1e7032ad326e45a8bf5ee77eb5c57d072a1a5483665dae",
+    "validation": "2f2b37e186eb5eb97d1609041b17fc8ec7f6a56813667b7e59f2974a505d97b9"
+  },
+  "status": "selected_for_manual_source_review"
+}

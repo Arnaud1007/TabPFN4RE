@@ -1,0 +1,63 @@
+{
+  "run_id": "indiana-2025-low-price-audit-first20-v1",
+  "sampler_code_commit": "d59c3f4f68c991e650b993519a0201ee740b6d39",
+  "g_us_gate": "PENDING",
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m unittest tests.test_sample_indiana_audit -v",
+      "environment": "PYTHONPATH=src",
+      "tests": 9,
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/sample_indiana_audit.py tests/test_sample_indiana_audit.py",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts/sample_indiana_audit.py tests/test_sample_indiana_audit.py",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip_audit -r locks/ames-prototype-requirements.txt",
+      "result": "No known vulnerabilities found",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+      "environment": "AMES_ARFF_PATH=data/raw/openml/house_prices-42165.arff; PYTHONPATH=src",
+      "tests": 1345,
+      "exit_code": 1,
+      "failure": "Two Indiana encoding tests could not import sklearn from this minimal test environment"
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest tests.test_indiana_historical_benchmark -q",
+      "environment": "PYTHONPATH=src",
+      "tests": 9,
+      "exit_code": 0
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+      "environment": "AMES_ARFF_PATH=data/raw/openml/house_prices-42165.arff; PYTHONPATH=.venv/Lib/site-packages;src; ML packages from pinned legacy interpreter, timezone/XML/coverage packages from project .venv",
+      "tests": 1345,
+      "duration_seconds": 231.247,
+      "package_coverage_percent": 92,
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m scripts.sample_indiana_audit --source-2025 data/raw/indiana_sdf/SDF_2025.zip",
+      "environment": "PYTHONPATH=src; clean sampler code commit",
+      "sample_rows": 200,
+      "exit_code": 0
+    },
+    {
+      "command": "verify private SHA-256, 200 unique IDs, 50 per cell, restricted ACL, Git ignore and public-field allowlist",
+      "result": "passed; reviewed_rows in selection manifest remains 0 at sample creation",
+      "exit_code": 0
+    },
+    {
+      "command": "verify first-20 private ledger SHA-256, source match, 20 distinct sample members and public-field allowlist",
+      "result": "passed; eligibility_resolved=0, external_crosschecks=0",
+      "exit_code": 0
+    }
+  ]
+}

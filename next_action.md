@@ -2,38 +2,38 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
-## Prediction-first plan, 5 October 2026
+## Prediction results reset, 5 October 2026
 
 **Immediate result, verified today:** The saved King County model returned
 `$542,149.79` for the synthetic [15-field request](examples/king-research-request.json)
-in 3.09 seconds without retraining. Its response is marked
+in 2.95 seconds in the latest replay, without retraining. Its response is marked
 `historical_research_only`; it represents a 2015 research setting, not a
 current home valuation. Run the command in the King prediction section below.
 The existing Ames 12-field form is available for a simpler interactive demo.
+The King development validation score was 8.90% MdAPE on 2,228 sales; this
+is neither a final-test score nor evidence of current-market accuracy.
 
 | When | Deliverable | Done when |
 | --- | --- | --- |
-| 5 October | Put the existing King command and Ames form first in the handoff | A user can run a synthetic prediction locally; output names its historical scope |
-| Done 5 October | Score county, price-band and assessment-availability slices from the saved Indiana predictions | [Aggregate slice report](runs/indiana-assessment-diagnostic-v1/slice_report.md); no new model search or 2025 test claim |
-| Next 1-2 work days (source investigation timebox) | Check assessment vintages and manually audit 200 Indiana transactions, then train one fixed 90-day OFF baseline only if inputs are pre-origin and labels pass | A reproducible chronological scorecard, or an explicit source blocker |
-| After that baseline | Calibrate intervals and reserve a genuinely new future cohort | No current-market or G-US claim until the required evidence exists |
+| Now, done | Replay the saved King model on the synthetic 15-field request | Numeric output and historical scope are visible in one command |
+| Next focused two-hour block | Publish the deterministic 200-row Indiana audit *queue*, review the first 20 high-risk records, and check for a demonstrably pre-origin assessment vintage | A written go/no-go for using Indiana assessment fields in a 90-day model; record how many rows were actually reviewed |
+| Following four-hour block, only if the source passes | Fit one fixed OFF baseline, using only matured labels and pre-origin fields, then save chronological predictions and a scorecard | Reproducible run files with error, bias, tails, coverage and source timing; no architecture search |
+| If the source fails | Record the Indiana blocker and qualify one better-dated source | No use of later assessment snapshots in a current or 90-day estimate |
+| Later | Complete the source audit, calibrate intervals and reserve future outcomes | Only a passed gate supports a market release claim |
 
 The immediate prediction is already working. Model fitting is fast: the
-Indiana two-model comparison took 36.32 seconds end to end. The bottleneck is
+Indiana two-model comparison took 36.32 seconds end to end. The delay is
 proving which fields were available before a sale, validating transaction
-labels and obtaining an untouched future evaluation cohort. Pause additional
-model families, international work and broad source exploration while these
-prediction deliverables are open. Push each accepted checkpoint to
-`origin/audit/u0`.
+labels and obtaining an untouched future evaluation cohort. The 200-row queue
+is not a completed manual audit. Pause additional model families, new markets,
+post-hoc slices and nonessential documentation while these prediction
+deliverables are open. Push each accepted checkpoint to `origin/audit/u0`.
 
-**Next runnable task:** Build the 200-record stratified Indiana transaction
-audit, weighted toward the lowest realised-price band and price/parcel
-ambiguities. The new slice report found 51.62% MdAPE on 12,737 sales at or
-below the $117,000 training cutoff, despite model improvement in all 56
-counties with at least 200 rows. Check source definitions and assessment
-vintage before any new 90-day OFF training. If those facts cannot be
-established, record the blocker and seek a different dated source rather
-than promoting the snapshot diagnostic.
+**Next runnable task:** Finish the in-progress deterministic audit queue, then
+review 20 high-risk Indiana records and check the assessment vintage. The
+[slice report](runs/indiana-assessment-diagnostic-v1/slice_report.md) found
+51.62% MdAPE on 12,737 low-price sales. The queue and review are diagnostic;
+they do not by themselves qualify Indiana as a 90-day prediction source.
 
 ## Prediction-first reset after three days
 

@@ -1,0 +1,58 @@
+{
+  "candidate_selected_on_validation": "xgboost",
+  "certified_90_day_origin": false,
+  "eligible_rows": 21601,
+  "evidence_class": "historical_sale_date_research_only",
+  "g_us_gate": "PENDING",
+  "protocol": "king_historical_sale_date_v1",
+  "quarantine_counts": {
+    "future_year_built": 12
+  },
+  "source_rows": 21613,
+  "test_rows_frozen_not_scored": 4752,
+  "test_status": "not_scored",
+  "train_rows": 14621,
+  "validation": {
+    "xgboost": {
+      "abstained_count": 0,
+      "currency": "USD",
+      "eligible_count": 2228,
+      "failed_count": 0,
+      "mae": 66128.196182114,
+      "mape": 0.13190002264665834,
+      "mdape": 0.08903701955213904,
+      "median_signed_percentage_error": -0.024598065119464715,
+      "p90_ape": 0.29275695952747977,
+      "p95_ape": 0.38887390640319924,
+      "r2": 0.8847220532138195,
+      "rmse": 116835.99372069658,
+      "rmsle": 0.18586142294660635,
+      "success_count": 2228,
+      "success_coverage": 1.0,
+      "within_10": 0.5525134649910234,
+      "within_20": 0.796229802513465,
+      "within_5": 0.29129263913824055
+    },
+    "zipcode_median": {
+      "abstained_count": 0,
+      "currency": "USD",
+      "eligible_count": 2228,
+      "failed_count": 0,
+      "mae": 149437.51368940755,
+      "mape": 0.2758425256057616,
+      "mdape": 0.2119908386187456,
+      "median_signed_percentage_error": -0.0001388888888888889,
+      "p90_ape": 0.5594285714285714,
+      "p95_ape": 0.7145110125718741,
+      "r2": 0.3791491772240097,
+      "rmse": 271142.23455689027,
+      "rmsle": 0.3690678316295431,
+      "success_count": 2228,
+      "success_coverage": 1.0,
+      "within_10": 0.2517953321364452,
+      "within_20": 0.4793536804308797,
+      "within_5": 0.13240574506283662
+    }
+  },
+  "validation_rows": 2228
+}

@@ -10,9 +10,17 @@ Updated: 2026-10-04. Branch: `audit/u0`.
    invalid-input checks and the 1,302-test project suite. Its runnable launch
    command is below and its [evidence](runs/ames-manual-form-20261004-v1/report.md)
    is recorded. This gives a usable historical prediction workflow immediately.
-3. **Next real-market step:** Resolve one official sale source's target,
+3. **Done:** A fixed King County historical research comparison trained and
+   scored in 6.46 seconds end to end. On 2,228 January–February 2015
+   validation sales, XGBoost reached 8.90% MdAPE and 55.25% within 10%; the
+   ZIP-code median reached 21.20% and 25.18%. See the
+   [run report](runs/king-historical-20261004-v1/report.md). This is a
+   validation-selected development result, with no verified pre-sale
+   information dates and no G-US credit.
+4. **Next certified-market step:** Resolve one official sale source's target,
    first-availability and reuse-rights questions, then build its audited
-   chronological cohort. Do not describe Ames scores as US release accuracy.
+   chronological cohort. Keep the King March–May cohort unscored by the
+   research runner. Do not describe Ames or King scores as US release accuracy.
 
 Form launch command from the project root on this workstation:
 
@@ -61,6 +69,11 @@ the release-critical path.
 ## Active state
 
 **U0 is pending; G-US is pending; zero modern US sale labels are certified.**
+The [King historical research run](runs/king-historical-20261004-v1/report.md)
+compares two models on an old sale-date validation period. It does not resolve
+as-of feature availability, original rights, or the US release gate. Its
+March–May 2015 prices were parsed to verify the full source and split but were
+not scored; they are not process-isolated certification labels.
 The [synthetic calendar fit speed run](runs/u1-local-date-fit-speed-v1-20261003T220221Z/report.md)
 measured a 4.95-fold reduction in median wall time for its 204-row fit,
 replay and score test after caching pinned time zones. This is engineering
@@ -155,7 +168,8 @@ replayed the pinned 200 parcel observations, wrote private fixed-code findings
 and count partitions, and passed 1,185 full-suite tests with zero skips.
 Its public aggregate contains no new small-cell counts. Every observation
 remains audit-only, with zero certified sale labels.
-No real-market model training, final calibration or certification test has begun.
+No certified real-market model training, final calibration or certification
+test has begun. The King research-only comparison is separate.
 ON mode and international implementation remain locked by the specification.
 
 ## Next dependency-ready work

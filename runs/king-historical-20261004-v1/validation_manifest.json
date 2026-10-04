@@ -1,0 +1,22 @@
+{
+  "checkpoint_identity": "cead625a3b87d73f46fdf740bfb366b9ff3b17d52434011a63e0ca91849f0033",
+  "code_commit": "3df798b6689a2aa2f6732cb93b065ad5493eda41",
+  "configuration_sha256": "78bbd7892ce00d55e8692e3ab4bbb6a4e20f2b19a4f7a1f5a656d1469c8d992c",
+  "created_at_utc": "2026-10-04T19:33:48.020108+00:00",
+  "dependency_lock_sha256": "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f",
+  "feature_policy_sha256": "5488f83d209bc81b513dbd4353df9d5bfc55fdbc51c298a554f4409efd448fbc",
+  "outputs": {
+    "candidate.json": "121217dda6eb6f6bb2cb3c6a8fff13808cb46a37a7303d10843009c7bbc4949d",
+    "feature_names.json": "5488f83d209bc81b513dbd4353df9d5bfc55fdbc51c298a554f4409efd448fbc",
+    "scorecards.json": "9bad11e986c4f8055143fdcb6bc51379dd59fe7974d96ab5bb8f5e79cb2d6152",
+    "validation_predictions.csv": "d2c7f0a403141d11a67c72cb921e88e1408cfbd7581b12d4d955624c99803f72",
+    "xgboost_model.json": "cead625a3b87d73f46fdf740bfb366b9ff3b17d52434011a63e0ca91849f0033",
+    "zipcode_median.json": "a21340e0cb6e9cbbf7658dcb3c49ee6c982ec8bdfdd7efdd0f8e4b383203ca51"
+  },
+  "run_id": "king-validation-20261004-v1",
+  "scope": "historical_research_only",
+  "selected_candidate": "xgboost",
+  "source_sha256": "25817379c3f06c584ca61eb2413a8368af72fc5548848a0ceb9bb4a885e90401",
+  "split_manifest_sha256": "55cfef3afd7e51c3f85b0ddc8af0c272f62a615c178bc509d04ba327aa009a75",
+  "status": "validation_complete_test_unscored"
+}

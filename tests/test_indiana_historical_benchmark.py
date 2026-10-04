@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import math
 import tempfile
 import unittest
 from datetime import date
@@ -13,9 +14,11 @@ from pathlib import Path
 from zipfile import ZipFile
 
 from scripts.indiana_historical_benchmark import (
+    ASSESSMENT_FEATURES,
     DISCLOSURE_FIELDS,
     MODEL_FEATURES,
     PARCEL_FIELDS,
+    encode_assessment_features,
     encode_features,
     read_archive,
     split_sales,
@@ -251,6 +254,105 @@ class IndianaHistoricalBenchmarkTests(unittest.TestCase):
             self.assertEqual(summaries["xgboost"]["eligible_count"], 1)
             self.assertEqual(summaries["xgboost"]["mdape"], 0.0)
             self.assertAlmostEqual(summaries["zip_county_median"]["mdape"], 1 / 3)
+
+    def test_assessment_fields_keep_exact_integer_units_and_missingness(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "fixture.zip"
+            digest = _archive(
+                path,
+                [_disclosure()],
+                [
+                    _parcel(
+                        P2_2_AV_Land="125000",
+                        P2_3_AV_Improvement="225000",
+                        P2_7_Neighborhood_Code="N-17",
+                    )
+                ],
+            )
+            sales, funnel = read_archive(path, digest, year=2024)
+            self.assertEqual(funnel["eligible"], 1)
+            self.assertEqual(sales[0].assessed_land, 125000)
+            self.assertEqual(sales[0].assessed_improvement, 225000)
+            self.assertEqual(sales[0].neighborhood_code, "N-17")
+
+            digest = _archive(
+                path,
+                [_disclosure()],
+                [
+                    _parcel(
+                        P2_2_AV_Land="125.00",
+                        P2_3_AV_Improvement="-1",
+                        P2_7_Neighborhood_Code="",
+                    )
+                ],
+            )
+            sales, funnel = read_archive(path, digest, year=2024)
+            self.assertEqual(funnel["eligible"], 1)
+            self.assertIsNone(sales[0].assessed_land)
+            self.assertIsNone(sales[0].assessed_improvement)
+            self.assertIsNone(sales[0].neighborhood_code)
+
+    def test_assessment_encoder_is_train_only_and_excludes_target(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "fixture.zip"
+            digest = _archive(
+                path,
+                [_disclosure()],
+                [
+                    _parcel(
+                        P2_2_AV_Land="125000",
+                        P2_3_AV_Improvement="225000",
+                        P2_7_Neighborhood_Code="N-17",
+                    )
+                ],
+            )
+            training, _ = read_archive(path, digest, year=2024)
+            digest = _archive(
+                path,
+                [
+                    _disclosure(
+                        SDF_ID="form-2",
+                        Unique_Sales_ID="sale-2",
+                        P2_13_Date_Sale="2025-01-15",
+                    )
+                ],
+                [
+                    _parcel(
+                        SDF_ID="form-2",
+                        P2_2_AV_Land="0",
+                        P2_3_AV_Improvement="0",
+                        P2_7_Neighborhood_Code="N-99",
+                    )
+                ],
+            )
+            validation, _ = read_archive(path, digest, year=2025)
+            names, train_matrix, validation_matrix = encode_assessment_features(
+                training, validation
+            )
+            self.assertEqual(train_matrix.shape[0], 1)
+            self.assertEqual(validation_matrix.shape[0], 1)
+            self.assertIn("neighborhood_code=49:N-17", names)
+            self.assertNotIn("neighborhood_code=49:N-99", names)
+            self.assertAlmostEqual(
+                train_matrix[0, names.index("P2_2_AV_Land")],
+                math.log1p(125000),
+            )
+            self.assertEqual(validation_matrix[0, names.index("land_av_missing")], 0)
+            self.assertEqual(
+                ASSESSMENT_FEATURES,
+                (
+                    "County_ID",
+                    "A5_ZipCode",
+                    "P2_9_Acreage",
+                    "P2_2_AV_Land",
+                    "P2_3_AV_Improvement",
+                    "P2_7_Neighborhood_Code",
+                ),
+            )
+            self.assertFalse(
+                {"E1_Sales_Price", "P2_5_Total_AV", "Unique_Sales_ID"}
+                & set(ASSESSMENT_FEATURES)
+            )
 
 
 if __name__ == "__main__":

@@ -57,8 +57,17 @@ PARCEL_FIELDS = (
     "A5_ZipCode",
     "P2_6_Prop_Class_Code",
     "P2_9_Acreage",
+    "P2_2_AV_Land",
+    "P2_3_AV_Improvement",
+    "P2_7_Neighborhood_Code",
 )
 MODEL_FEATURES = ("County_ID", "A5_ZipCode", "P2_9_Acreage")
+ASSESSMENT_FEATURES = (
+    *MODEL_FEATURES,
+    "P2_2_AV_Land",
+    "P2_3_AV_Improvement",
+    "P2_7_Neighborhood_Code",
+)
 ONE_FAMILY_CODES = frozenset(str(code) for code in range(510, 516))
 MAX_MEMBER_BYTES = 1_000_000_000
 
@@ -71,6 +80,9 @@ class Sale:
     county_id: str
     zipcode: str
     acreage: float | None
+    assessed_land: int | None = None
+    assessed_improvement: int | None = None
+    neighborhood_code: str | None = None
 
 
 @dataclass(frozen=True)
@@ -116,6 +128,12 @@ def _fixed_decimal(value: str | None, scale: int) -> Decimal | None:
         return Decimal(text) / Decimal(scale)
     except InvalidOperation:
         return None
+
+
+def _assessment_amount(value: str | None) -> int | None:
+    """Read the source's 12.0 whole-dollar assessed value, including zero."""
+    text = (value or "").strip()
+    return int(text) if re.fullmatch(r"\d{1,12}", text) else None
 
 
 def _parse_candidate(
@@ -252,6 +270,9 @@ def read_archive(
                 county_id=candidate.county_id,
                 zipcode=parcel["A5_ZipCode"].strip()[:5],
                 acreage=acreage,
+                assessed_land=_assessment_amount(parcel["P2_2_AV_Land"]),
+                assessed_improvement=_assessment_amount(parcel["P2_3_AV_Improvement"]),
+                neighborhood_code=parcel["P2_7_Neighborhood_Code"].strip() or None,
             )
         )
     funnel["eligible"] = len(eligible)
@@ -292,6 +313,38 @@ def encode_features(training: Sequence[Sale], validation: Sequence[Sale]):
             "A5_ZipCode": sale.zipcode,
             "P2_9_Acreage": math.log1p(sale.acreage or 0.0),
             "acreage_missing": float(sale.acreage is None),
+        }
+
+    encoder = DictVectorizer(sparse=True)
+    train_matrix = encoder.fit_transform(features(sale) for sale in training)
+    validation_matrix = encoder.transform(features(sale) for sale in validation)
+    return tuple(encoder.get_feature_names_out()), train_matrix, validation_matrix
+
+
+def encode_assessment_features(training: Sequence[Sale], validation: Sequence[Sale]):
+    """Encode a separate retrospective disclosure-snapshot diagnostic."""
+    from sklearn.feature_extraction import DictVectorizer
+
+    if not training:
+        raise ValueError("Assessment encoder requires training sales")
+
+    def features(sale: Sale) -> dict[str, float | str]:
+        land = sale.assessed_land
+        improvement = sale.assessed_improvement
+        return {
+            "County_ID": sale.county_id,
+            "A5_ZipCode": sale.zipcode,
+            "P2_9_Acreage": math.log1p(sale.acreage or 0.0),
+            "acreage_missing": float(sale.acreage is None),
+            "P2_2_AV_Land": math.log1p(land or 0),
+            "land_av_missing": float(land is None),
+            "P2_3_AV_Improvement": math.log1p(improvement or 0),
+            "improvement_av_missing": float(improvement is None),
+            "neighborhood_code": (
+                f"{sale.county_id}:{sale.neighborhood_code}"
+                if sale.neighborhood_code is not None
+                else "__MISSING__"
+            ),
         }
 
     encoder = DictVectorizer(sparse=True)

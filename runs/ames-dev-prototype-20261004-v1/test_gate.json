@@ -1,0 +1,97 @@
+{
+  "checks": [
+    {
+      "command": [
+        ".venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_ames_dev_prototype.py",
+        "-q"
+      ],
+      "duration_seconds": 0.235,
+      "exit_code": 0,
+      "name": "unit",
+      "output_file": "unit.log",
+      "output_sha256": "851d0200143352f376025ab49e6d631723e3b4c3920baff96a33a85e3066e000",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        "data\\raw\\legacy-replay\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "prototype_tests",
+        "-q"
+      ],
+      "duration_seconds": 34.015,
+      "exit_code": 0,
+      "name": "integration",
+      "output_file": "integration.log",
+      "output_sha256": "258d541492f14c3c57d15cda2dd28283c2db8c5d04ef5d515b8ffb1dfe7a61d5",
+      "pythonpath": "src"
+    },
+    {
+      "command": [
+        ".venv\\Scripts\\ruff.exe",
+        "check",
+        "scripts/ames_dev_prototype.py",
+        "tests/test_ames_dev_prototype.py",
+        "prototype_tests/test_ames_dev_prototype_flow.py"
+      ],
+      "duration_seconds": 0.125,
+      "exit_code": 0,
+      "name": "ruff_check",
+      "output_file": "ruff_check.log",
+      "output_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        ".venv\\Scripts\\ruff.exe",
+        "format",
+        "--check",
+        "scripts/ames_dev_prototype.py",
+        "tests/test_ames_dev_prototype.py",
+        "prototype_tests/test_ames_dev_prototype_flow.py"
+      ],
+      "duration_seconds": 0.094,
+      "exit_code": 0,
+      "name": "ruff_format",
+      "output_file": "ruff_format.log",
+      "output_sha256": "81e0708af79a682467b0ecbd3453a0a33cfcbbe2812201b4d4f405f78ded2976",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        ".venv\\Scripts\\pip-audit.exe",
+        "-r",
+        "locks/ames-prototype-requirements.txt",
+        "--progress-spinner",
+        "off"
+      ],
+      "duration_seconds": 39.409,
+      "exit_code": 0,
+      "name": "prototype_pip_audit",
+      "output_file": "prototype_pip_audit.log",
+      "output_sha256": "4e4757ff226a44b5c448b1c4624619419c22d5272463dc19510b4754871a72f9",
+      "pythonpath": null
+    }
+  ],
+  "code_commit": "cd2f4221d0581a7a16c13d9d088d7130d5a79d31",
+  "created_at_utc": "2026-10-04T15:41:50.850318+00:00",
+  "environment_packages_sha256": "7da9a89fb6aedcaa202c8cbcf3b7d0e7e28a749ec30408d156a6c3243567587d",
+  "full_suite": {
+    "command": ".venv/Scripts/python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q",
+    "coverage_percent": 92,
+    "exit_code": 0,
+    "local_output_file": "data/raw/ames-prototype/full_suite_20261004.log",
+    "output_sha256": "7102129f35ff3bd72325f5ae442b0586825c6d95c441ed7f91dd7260e566bcfb",
+    "test_count": 1294
+  }
+}

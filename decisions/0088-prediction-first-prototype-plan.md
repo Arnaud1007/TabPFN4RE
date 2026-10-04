@@ -2,7 +2,9 @@
 
 Date: 2026-10-04
 Owner: Arnaud
-Status: adopted execution order; prototype work planned
+Status: prototype checkpoint implemented and verified; U0/G-US remain pending
+
+Outcome: [Ames development-only prediction checkpoint](../runs/ames-dev-prototype-20261004-v1/report.md).
 
 ## Problem and evidence
 

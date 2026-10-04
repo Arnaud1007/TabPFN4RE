@@ -2,29 +2,28 @@
 
 Updated: 2026-10-04. Branch: `audit/u0`.
 
-## Prediction-first priority (ADR 0088)
+## Prediction checkpoint completed (ADR 0088)
 
-The owner requested a prediction result soon after three days of source
-qualification. The existing Ames median run already has 40 historical
-predictions (`runs/u0-smoke-20260928T082634Z-ef55636ed896/metrics.json`:
-23.9331% MdAPE, 17.5% within 10%). The next task is the timeboxed, guarded
-development-only XGBoost comparison in
-`decisions/0088-prediction-first-prototype-plan.md`, followed by a local
-example-prediction CLI. This engineering path does not require a new US source
-and does not advance the U0 or G-US gate.
+The [Ames prototype checkpoint](runs/ames-dev-prototype-20261004-v1/report.md)
+is implemented and verified on the clean commit `cd2f4221`: 1,168 paired
+development-fold predictions, XGBoost 5.64% MdAPE and 71.32% within 10%,
+median baseline 24.83% and 21.32%. A full-feature local CLI example and
+trusted bundle SHA are recorded there. The 292-row legacy holdout was not
+opened. This is historical engineering evidence, not U0 acceptance or a
+future-sale US result.
 
-Immediate runnable evidence check from the project root:
+Immediate runnable prediction command from the project root:
 
 ```powershell
-Get-Content runs/u0-smoke-20260928T082634Z-ef55636ed896/metrics.json
-Get-Content runs/u0-legacy-replay-20260928T145000Z/v9/manifest.json
+$env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_dev_prototype predict --bundle data/raw/ames-prototype/dev-only-20261004-v3 --request examples/ames-prototype-request.json --bundle-sha256 c4da912facd6025145b31725ad5e25918e3eb8fa95463e6a8205513f3208f121
 ```
 
-Then write a failing test for `ames_dev_prototype_v1` that proves reserved
-rows cannot enter a fit and raw `Id` cannot become a feature. Implement the
-five-fold comparison with the isolated local XGBoost environment and the fixed
-budget in ADR 0088. Preserve rejected and failed runs. Resume the source
-actions below only after the prototype scorecard and example output exist.
+Next dependency-ready work: resume the U0 source qualifications below so a
+modern US transaction cohort can be trained and tested with as-of features.
+If a simpler manual-input prototype is pursued meanwhile, first score that
+same smaller input set on the frozen Ames development folds; the 75-field
+score cannot be reused for it. Do not reopen the legacy holdout.
 
 ## Active state
 

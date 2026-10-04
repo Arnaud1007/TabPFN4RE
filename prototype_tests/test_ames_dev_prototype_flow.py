@@ -36,6 +36,18 @@ REQUEST = json.loads(
 
 
 class AmesPrototypeFlowTests(unittest.TestCase):
+    def test_example_is_physically_consistent(self) -> None:
+        self.assertEqual(
+            REQUEST["GrLivArea"],
+            REQUEST["1stFlrSF"] + REQUEST["2ndFlrSF"] + REQUEST["LowQualFinSF"],
+        )
+        self.assertEqual(
+            REQUEST["TotalBsmtSF"],
+            REQUEST["BsmtFinSF1"] + REQUEST["BsmtFinSF2"] + REQUEST["BsmtUnfSF"],
+        )
+        self.assertFalse(REQUEST["PoolArea"] == 0 and REQUEST["PoolQC"] is not None)
+        self.assertFalse(REQUEST["BsmtFinType1"] == "Unf" and REQUEST["BsmtFinSF1"] > 0)
+
     @classmethod
     def setUpClass(cls) -> None:
         private_root = ROOT / "data/raw/ames-prototype"
@@ -104,7 +116,10 @@ class AmesPrototypeFlowTests(unittest.TestCase):
         features = data.features.loc[:, list(names)]
         pipeline, _, _ = _components(features, bundle["model"])
         pipeline.fit(features, data.labels)
-        in_memory = float(pipeline.predict(features.iloc[[0]])[0])
+        self.assertFalse(features.eq(pd.Series(REQUEST)).all(axis=1).any())
+        in_memory = float(
+            pipeline.predict(pd.DataFrame([REQUEST]).loc[:, list(names)])[0]
+        )
         self.assertAlmostEqual(in_memory, direct["amount"], delta=0.001)
         for position in range(1, 6):
             raw_row = features.iloc[position]
@@ -150,7 +165,7 @@ class AmesPrototypeFlowTests(unittest.TestCase):
             predict(self.output, REQUEST, "0" * 64)
         unseen_request = {**REQUEST, "Neighborhood": "UnknownPlace"}
         unseen_result = predict(self.output, unseen_request, bundle_hash)
-        unseen_frame = features.iloc[[0]].copy()
+        unseen_frame = pd.DataFrame([REQUEST]).loc[:, list(names)]
         unseen_frame["Neighborhood"] = "UnknownPlace"
         expected_unseen = float(pipeline.predict(unseen_frame)[0])
         self.assertAlmostEqual(expected_unseen, unseen_result["amount"], delta=0.001)

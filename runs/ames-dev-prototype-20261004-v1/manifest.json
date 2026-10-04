@@ -1,0 +1,36 @@
+{
+  "champion": "xgboost",
+  "checkpoint_identity": "cfdfe4a85c8a41cb6e91aecdbac15a56cf50889e6093b1a090f14cd2db59216e",
+  "code_commit": "cd2f4221d0581a7a16c13d9d088d7130d5a79d31",
+  "configuration_sha256": "38e43ccae7c9e32467b4436cb41652251418be606eb230c1e20a9989b6529f40",
+  "created_at_utc": "2026-10-04T15:30:12.875161+00:00",
+  "dependency_lock_sha256": "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f",
+  "development_rows": 1168,
+  "dirty_tree": false,
+  "environment_packages_sha256": "7da9a89fb6aedcaa202c8cbcf3b7d0e7e28a749ec30408d156a6c3243567587d",
+  "evidence_class": "historical_ames_development_only",
+  "feature_policy_sha256": "96ad14683ffbefe9a2f6bbe9bc2befda7aa8eacf02e320e2345abf0cdc0a5fd4",
+  "fit_and_validation_predict_seconds": {
+    "median": 0.2978360000415705,
+    "xgboost": 1.9292706999112852
+  },
+  "holdout_sha256": "cafd7740c28130d1e7db58166a00f77257b8eea6e0f33863c529bcb8c77e9306",
+  "outputs": {
+    "bundle.json": "c4da912facd6025145b31725ad5e25918e3eb8fa95463e6a8205513f3208f121",
+    "config.json": "38e43ccae7c9e32467b4436cb41652251418be606eb230c1e20a9989b6529f40",
+    "environment_packages.json": "7da9a89fb6aedcaa202c8cbcf3b7d0e7e28a749ec30408d156a6c3243567587d",
+    "feature_policy.json": "96ad14683ffbefe9a2f6bbe9bc2befda7aa8eacf02e320e2345abf0cdc0a5fd4",
+    "model.json": "cfdfe4a85c8a41cb6e91aecdbac15a56cf50889e6093b1a090f14cd2db59216e",
+    "predictions.csv": "d99fdb2b1c49391d632666e183202e7965c8d64e7d2d993c43285b64c02fab2b",
+    "preprocessing.json": "386c2429c10b24facc477871da0d30499ce8bd71a56ce7f224241db309b654ff",
+    "scorecards.json": "22031b4521c3fb140feee55c33e3a62758fff3262d98b4b13642f7fc6e5ab962",
+    "split.json": "3f5e0f96e2c5beea3da436a780acda8c9e244c3260b08645a4c84490f6e3db6c"
+  },
+  "reserved_rows_unparsed": 292,
+  "run_id": "dev-only-20261004-v3",
+  "script_sha256": "fcf6d10745f7ac0cdd3e08983b3a473b2d503daad8afedc9b4b72625b23c5c3a",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "split_sha256": "3f5e0f96e2c5beea3da436a780acda8c9e244c3260b08645a4c84490f6e3db6c",
+  "status": "complete",
+  "total_seconds": 4.728920399968047
+}

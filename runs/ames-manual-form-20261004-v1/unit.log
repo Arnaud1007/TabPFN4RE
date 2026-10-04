@@ -1,0 +1,10 @@
+﻿.\.venv\Scripts\python.exe : ----------------------------------------------------------------------
+At line:2 char:1
++ .\.venv\Scripts\python.exe -m unittest tests.test_ames_manual12_form  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 6 tests in 0.001s
+
+OK

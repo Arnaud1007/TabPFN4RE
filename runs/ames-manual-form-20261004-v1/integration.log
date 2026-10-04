@@ -1,0 +1,10 @@
+﻿python.exe : ----------------------------------------------------------------------
+At line:2 char:59
++ ... src').Path; & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m un ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (---------------...---------------:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Ran 1 test in 7.243s
+
+OK

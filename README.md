@@ -10,6 +10,22 @@ Use Python 3.11 and the pins in [ames-prototype-requirements.txt](locks/ames-pro
 
 ### Twelve-field quick prediction
 
+For a local entry form on this workstation, run from the project root:
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_manual12_form --bundle data/raw/ames-prototype/manual12-20261004-v1 --bundle-sha256 1505ab1806202b9ca9626bbe5c92c4ef4f7393ef90680994ba8113b0f392a4f4
+```
+
+Choose **Load synthetic demo** for an example or enter the 12 fields and choose
+**Predict**. Living area, overall quality and Ames neighborhood code are
+required. The result is a historical Ames point estimate; it has no calibrated
+interval and is not a current US valuation. The form and CLI use the same
+prediction service. The private model bundle stays outside Git; a fresh clone
+must train its own bundle as described below.
+
+For a JSON request or automation, use the CLI:
+
 Edit the [12-field example request](examples/ames-manual12-request.json), then run this command from the project root on this workstation:
 
 ```powershell

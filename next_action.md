@@ -2,6 +2,24 @@
 
 Updated: 2026-10-04. Branch: `audit/u0`.
 
+## Immediate prediction delivery plan
+
+1. **Done:** Train and score the 12-field historical Ames model. The saved
+   development scorecard and synthetic example are linked below.
+2. **Current checkpoint:** Verify and push the local 12-field entry form,
+   including form-versus-CLI parity, invalid-input handling and a runnable
+   launch command. This gives a usable prediction workflow immediately.
+3. **Next real-market step:** Resolve one official sale source's target,
+   first-availability and reuse-rights questions, then build its audited
+   chronological cohort. Do not describe Ames scores as US release accuracy.
+
+Form launch command from the project root on this workstation:
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_manual12_form --bundle data/raw/ames-prototype/manual12-20261004-v1 --bundle-sha256 1505ab1806202b9ca9626bbe5c92c4ef4f7393ef90680994ba8113b0f392a4f4
+```
+
 ## Prediction checkpoints completed (ADR 0088 and ADR 0089)
 
 The [12-field Ames checkpoint](runs/ames-manual12-20261004-v1/report.md)
@@ -26,18 +44,15 @@ $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
 & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_dev_prototype predict --bundle data/raw/ames-prototype/manual12-20261004-v1 --request examples/ames-manual12-request.json --bundle-sha256 1505ab1806202b9ca9626bbe5c92c4ef4f7393ef90680994ba8113b0f392a4f4
 ```
 
-Next runnable local task: build a 12-field local entry form that calls the
-verified prediction service and preserves the historical-prototype warning.
-Start by replaying its current integration contract from the project root:
+After the form checkpoint, replay the prototype contract from the project root:
 
 ```powershell
 $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
 & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m unittest discover -s prototype_tests -q
 ```
 
-Then add a failing form-versus-CLI parity test, implement the form, and keep
-the private bundle outside Git. Resume the U0 source qualifications below in
-parallel where authoritative access is available; Cook and NYC retrieval
+Keep the private bundle outside Git. Resume the U0 source qualifications below
+where authoritative access is available; Cook and NYC retrieval
 commands remain unavailable pending the specific source/rights evidence
 listed there. Do not reopen the legacy holdout. Real US evaluation remains
 the release-critical path.

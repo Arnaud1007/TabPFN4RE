@@ -4,6 +4,32 @@ Updated: 2026-10-04. Branch: `audit/u0`.
 
 ## Prediction-first reset after three days
 
+**New October 4 result:** The fixed [Indiana assessment-snapshot diagnostic](runs/indiana-assessment-diagnostic-v1/report.md)
+trained two models on the same 65,490 sales and scored the same 71,054 later
+sales in 36.32 seconds. Adding assessed values and neighborhood lowered MdAPE
+from 30.79% to 15.19% and raised within-10% accuracy from 15.44% to 36.57%.
+This is development evidence only: the fields were observed in later downloaded
+sale-disclosure snapshots, with unknown pre-sale availability and possible
+post-sale revisions. The result is not a current-home prediction service.
+
+**Next runnable source task:** Establish an assessment vintage actually
+published before the selected prediction origin, then check whether parcel
+linkage and historical coverage reproduce the signal. The public Marion
+Gateway PARCEL ZIP matched 18,650 of 19,664 unique nonempty 2024 sale parcel
+IDs but contains no `IMPROVE`/`DWELLING` building fields; stop using it as a
+planned living-area source. Independently complete the 200-record Indiana
+sale/transfer audit. If dated assessment or building attributes are not
+available, keep this diagnostic unpromoted and change source. Do not rescore
+2025 as if it were an untouched certification test.
+
+To replay the fixed diagnostic from a clean committed tree with pinned private
+archives, choose a **new** ignored output directory:
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.indiana_assessment_diagnostic --source-2024 data/raw/indiana_sdf/SDF_2024.zip --source-2025 data/raw/indiana_sdf/SDF_2025.zip --output data/raw/indiana_sdf/benchmarks/my-new-assessment-run
+```
+
 The historical King County request command below already returns an estimate
 without retraining. Its saved January-February 2015 development validation
 score is 8.90% MdAPE on 2,228 sales. This is the current usable research
@@ -16,13 +42,12 @@ is a useful current-home valuation or a G-US result. The 2025 cohort is now
 consumed development evidence. Do not tune against it and call it untouched.
 The large recorded price and acreage extremes remain unaudited.
 
-**Next prediction-critical task:** audit at least 200 stratified Indiana
-transactions, including the extreme amounts and ambiguous identities, then
-qualify one historically dated source of living area, age and condition for a
-matched-cohort improvement test. The current predictor only has county, ZIP
-and acreage. Keep the existing King historical request interface available
-while this source work proceeds. A future test for an improved Indiana model
-requires a new untouched period and verified information timing.
+**Remaining quality task:** audit at least 200 stratified Indiana
+transactions, including extreme amounts and ambiguous identities, and qualify
+historically dated building-size, age and condition fields if available. Keep
+the existing King historical request interface available while this source
+work proceeds. A future test for an improved Indiana model requires a new
+untouched period and verified information timing.
 
 To replay the fixed historical comparison from a clean committed tree, use a
 new private output directory:

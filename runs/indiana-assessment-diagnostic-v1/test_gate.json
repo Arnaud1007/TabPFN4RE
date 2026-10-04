@@ -1,0 +1,51 @@
+{
+  "run_id": "indiana-assessment-diagnostic-v1",
+  "code_commit": "0bcb55da77e5c8ffbedfaa05a1acd8399e825efe",
+  "protocol": "indiana_sdf_snapshot_assessment_retrospective_diagnostic_v1",
+  "research_only": true,
+  "g_us_gate": "PENDING",
+  "checks": [
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest tests.test_indiana_historical_benchmark tests.test_indiana_assessment_diagnostic -q",
+      "environment": "PYTHONPATH=src; historical ML environment",
+      "exit_code": 0,
+      "tests": 13
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage run --source=tabpfn4realestate -m unittest <all tests modules excluding the two Indiana ML modules> -q",
+      "environment": "PYTHONPATH=src; AMES_ARFF_PATH=pinned local source; project environment",
+      "exit_code": 0,
+      "tests": 1320,
+      "skipped": 0,
+      "duration_seconds": 243.494,
+      "package_coverage_percent": 92,
+      "private_log_sha256": "2c38eccf562323c2e5502b29a9ea915d5837e5d3e822c9c34552c8eb98931929"
+    },
+    {
+      "command": ".venv/Scripts/ruff.exe check and format --check on the four changed Python files",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/pip-audit.exe -r locks/ames-prototype-requirements.txt",
+      "exit_code": 0,
+      "result": "No known vulnerabilities found"
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m scripts.indiana_assessment_diagnostic --source-2024 data/raw/indiana_sdf/SDF_2024.zip --source-2025 data/raw/indiana_sdf/SDF_2025.zip --output data/raw/indiana_sdf/benchmarks/indiana-assessment-diagnostic-v1",
+      "exit_code": 0,
+      "duration_seconds": 36.31751829996938,
+      "private_console_sha256": "5c60211e9edd3d7e3e8feca4dac0e64916c9466d63489e058a69b23c1a30e1e2"
+    },
+    {
+      "command": "verify six private artifact SHA-256 hashes and replay three scorecards from saved predictions.csv",
+      "exit_code": 0,
+      "result": "Six hashes, three scorecards and both original split memberships matched"
+    }
+  ],
+  "reviews": {
+    "code": "approved",
+    "python": "approved after strict replay fix",
+    "security": "no critical or high findings",
+    "mle": "approved with timing and slice warnings; production claim blocked"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "code_commit": "0bcb55da77e5c8ffbedfaa05a1acd8399e825efe",
+  "files": {
+    "assessment_feature_names.json": "6324aff2cc20fa583cb7d110be5b167764b9297e8beea53055fa17606907c5fa",
+    "assessment_model.json": "70bf33058629c1a4857002efc9917c0730976592168a4cc8cff4cac6c3fe4d1f",
+    "base_feature_names.json": "62eeb6ec9b5672bcafa5a73c0add95a0dcd84997871f4d75e632b9be3bd313e4",
+    "base_model.json": "76788f192303ae14352537d326ddea695347098b67ab6cf1c37cb24c9d7f6dd0",
+    "predictions.csv": "756a1bff432f2d6e715142b69d28932f2ddb5c5eb3db70f649f0c0991561a084",
+    "summary.json": "0e96b7d57b767e6bc823e6b69db769945b7f30a65c35631581d96a9e69fc463c"
+  },
+  "protocol": "indiana_sdf_snapshot_assessment_retrospective_diagnostic_v1"
+}

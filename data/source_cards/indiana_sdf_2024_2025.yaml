@@ -33,6 +33,14 @@ rights_decision: >-
   have not been established.
 redistribution_decision: raw rows, names, addresses, row predictions and model bundle remain Git-ignored
 predictor_allowlist: [County_ID, A5_ZipCode, P2_9_Acreage]
+snapshot_assessment_diagnostic_allowlist: [County_ID, A5_ZipCode, P2_9_Acreage, P2_2_AV_Land, P2_3_AV_Improvement, P2_7_Neighborhood_Code]
+snapshot_assessment_diagnostic_status: retrospective_development_only_not_pre_sale_eligible
+snapshot_assessment_diagnostic_run: runs/indiana-assessment-diagnostic-v1/report.md
+snapshot_assessment_diagnostic_warning: >-
+  Assessed values are observed in retrieved sale-disclosure snapshots. Their
+  original vintage, first availability before sale and possible post-sale
+  revision have not been established. The improved development score cannot
+  certify a 90-day OFF or current-home predictor.
 excluded_predictor_examples: [E1_Sales_Price, C8_Market_Days, P2_5_Total_AV, P2_14_Date_Received, P2_16_Valid_Trending, SDF_ID, Unique_Sales_ID]
 research_cohort: one-family class 510-515, one disclosure and one parcel per economic sale
 manual_source_audit: pending; at least 200 stratified records required before certification

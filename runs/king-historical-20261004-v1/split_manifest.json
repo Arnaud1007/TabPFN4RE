@@ -1,0 +1,40 @@
+{
+  "boundaries": {
+    "test_from": "2015-03-01",
+    "train_before": "2015-01-01",
+    "validation_before": "2015-03-01"
+  },
+  "cohort_notes": {
+    "certified_90_day_origin": false,
+    "eligible_rows": 21601,
+    "quarantine_counts": {
+      "future_year_built": 12
+    },
+    "total_rows": 21613,
+    "unique_property_ids": 21424,
+    "unverified_historical_feature_availability": true
+  },
+  "protocol": "king_historical_sale_date_v1",
+  "source_id": "openml_42092_v2",
+  "source_sha256": "25817379c3f06c584ca61eb2413a8368af72fc5548848a0ceb9bb4a885e90401",
+  "splits": {
+    "test": {
+      "count": 4752,
+      "earliest_sale_date": "2015-03-01",
+      "latest_sale_date": "2015-05-27",
+      "membership_sha256": "8d59aa760c17e708a39d2e8b144e2f55925901f65ce81077835d84fc1d8c66fb"
+    },
+    "train": {
+      "count": 14621,
+      "earliest_sale_date": "2014-05-02",
+      "latest_sale_date": "2014-12-31",
+      "membership_sha256": "f66350646df0d59db5076606404804e4b6146192d6ea6107c6a5af130eae9c4b"
+    },
+    "validation": {
+      "count": 2228,
+      "earliest_sale_date": "2015-01-02",
+      "latest_sale_date": "2015-02-28",
+      "membership_sha256": "ad0eb5ad18195910d090a71251636810bd43c753556dbfbd6aea3b87c0eda10a"
+    }
+  }
+}

@@ -12,12 +12,16 @@ from scripts.king_historical_benchmark import (
     COLUMNS,
     FEATURES,
     encode_features,
+    read_pinned_source,
     read_source,
+    select_eligible_sales,
     split_sales,
 )
 
 
-def synthetic_sale(sale_date: str, *, parcel: str = "parcel-1", zipcode: str = "98001") -> str:
+def synthetic_sale(
+    sale_date: str, *, parcel: str = "parcel-1", zipcode: str = "98001"
+) -> str:
     values = {
         "id": parcel,
         "date": f"{sale_date}T000000",
@@ -46,7 +50,10 @@ def synthetic_sale(sale_date: str, *, parcel: str = "parcel-1", zipcode: str = "
 
 def write_fixture(path: Path, rows: tuple[str, ...]) -> str:
     attributes = "\n".join(f"@ATTRIBUTE {name} STRING" for name in COLUMNS)
-    path.write_text(f"@RELATION house_sales\n{attributes}\n@DATA\n" + "\n".join(rows) + "\n", encoding="utf-8")
+    path.write_text(
+        f"@RELATION house_sales\n{attributes}\n@DATA\n" + "\n".join(rows) + "\n",
+        encoding="utf-8",
+    )
     return sha256(path.read_bytes()).hexdigest()
 
 
@@ -62,36 +69,94 @@ class KingHistoricalBenchmarkTests(unittest.TestCase):
                 read_source(source, "0" * 64, expected_rows=1)
             with self.assertRaisesRegex(ValueError, "row count"):
                 read_source(source, digest, expected_rows=2)
-            bad = write_fixture(source, (synthetic_sale("20141231").replace("300000", "0", 1),))
+            bad = write_fixture(
+                source, (synthetic_sale("20141231").replace("300000", "0", 1),)
+            )
             with self.assertRaisesRegex(ValueError, "price"):
                 read_source(source, bad, expected_rows=1)
+            with self.assertRaisesRegex(ValueError, "checksum"):
+                read_pinned_source(source)
 
-    def test_model_features_exclude_identifiers_outcome_and_unknown_vintages(self) -> None:
+    def test_source_rows_are_immutable_and_arff_comments_are_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "synthetic.arff"
+            digest = write_fixture(
+                source, ("  % source comment", synthetic_sale("20141231"))
+            )
+            sale = read_source(source, digest, expected_rows=1)[0]
+            with self.assertRaises(TypeError):
+                sale.attributes["sqft_living"] = 9999
+
+    def test_physical_inconsistency_is_quarantined_before_splitting(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "synthetic.arff"
+            ordinary = synthetic_sale("20141231", parcel="ok")
+            future_year = synthetic_sale("20141231", parcel="future").replace(
+                ",1980,", ",2020,", 1
+            )
+            negative_area = synthetic_sale("20141231", parcel="area").replace(
+                ",1500,6000,", ",-1,6000,", 1
+            )
+            digest = write_fixture(source, (ordinary, future_year, negative_area))
+            sales = read_source(source, digest, expected_rows=3)
+            eligible, reasons = select_eligible_sales(sales)
+            self.assertEqual(len(eligible), 1)
+            self.assertEqual(
+                reasons, {"future_year_built": 1, "nonpositive_living_area": 1}
+            )
+
+    def test_model_features_exclude_identifiers_outcome_and_unknown_vintages(
+        self,
+    ) -> None:
         self.assertFalse(
-            {"id", "date", "price", "yr_renovated", "sqft_living15", "sqft_lot15"} & set(FEATURES)
+            {"id", "date", "price", "yr_renovated", "sqft_living15", "sqft_lot15"}
+            & set(FEATURES)
         )
 
     def test_chronological_split_is_disjoint_at_boundaries(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "synthetic.arff"
             dates = ("20141231", "20150101", "20150228", "20150301")
-            digest = write_fixture(source, tuple(synthetic_sale(value, parcel=f"p-{i}") for i, value in enumerate(dates)))
+            digest = write_fixture(
+                source,
+                tuple(
+                    synthetic_sale(value, parcel=f"p-{i}")
+                    for i, value in enumerate(dates)
+                ),
+            )
             sales = read_source(source, digest, expected_rows=4)
             splits = split_sales(sales)
-            self.assertEqual([len(splits[name]) for name in ("train", "validation", "test")], [1, 2, 1])
-            self.assertEqual({sale.row_id for role in splits.values() for sale in role}, {sale.row_id for sale in sales})
+            self.assertEqual(
+                [len(splits[name]) for name in ("train", "validation", "test")],
+                [1, 2, 1],
+            )
+            self.assertEqual(
+                {sale.row_id for role in splits.values() for sale in role},
+                {sale.row_id for sale in sales},
+            )
             reversed_splits = split_sales(tuple(reversed(sales)))
             self.assertEqual(
                 {name: [sale.row_id for sale in rows] for name, rows in splits.items()},
-                {name: [sale.row_id for sale in rows] for name, rows in reversed_splits.items()},
+                {
+                    name: [sale.row_id for sale in rows]
+                    for name, rows in reversed_splits.items()
+                },
             )
 
     def test_encoding_uses_only_training_zipcodes(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "synthetic.arff"
-            digest = write_fixture(source, (synthetic_sale("20141231"), synthetic_sale("20150301", parcel="p-2", zipcode="99999")))
+            digest = write_fixture(
+                source,
+                (
+                    synthetic_sale("20141231"),
+                    synthetic_sale("20150301", parcel="p-2", zipcode="99999"),
+                ),
+            )
             train, test = read_source(source, digest, expected_rows=2)
-            feature_names, train_matrix, test_matrix = encode_features((train,), (test,))
+            feature_names, train_matrix, test_matrix = encode_features(
+                (train,), (test,)
+            )
             self.assertIn("zipcode=98001", feature_names)
             self.assertNotIn("zipcode=99999", feature_names)
             self.assertEqual(train_matrix[0][-1], 1.0)

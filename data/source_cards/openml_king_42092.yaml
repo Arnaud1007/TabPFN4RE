@@ -1,0 +1,35 @@
+source_id: openml_king_42092_v2
+status: historical_research_fixture_only_not_us_source_certified
+publisher: OpenML community upload; original source listed as Kaggle harlfoxem
+metadata_url: https://www.openml.org/api/v1/json/data/42092
+data_url: https://openml.org/data/v1/download/21578898/house_sales.arff
+retrieved_on: 2026-10-04
+dataset_name: house_sales
+dataset_version: 2
+metadata_declared_rows: 21613
+observed_rows: 21613
+benchmark_eligible_rows: 21601
+benchmark_quarantined_rows: {future_year_built: 12}
+date_range: [2014-05-02, 2015-05-27]
+geography: King County, Washington, as asserted by uploader
+raw_sha256: 25817379c3f06c584ca61eb2413a8368af72fc5548848a0ceb9bb4a885e90401
+raw_md5: 0208b93d87877d917afdc43987e7b4b4
+metadata_md5_matched: true
+private_raw_path: data/raw/openml-king-42092/house_sales.arff
+target_candidate: price in USD; uploader calls it house sale price
+date_candidate: date; sale-date representation, no contract/close/recording mapping
+row_grain: uploader-provided sale row; repeat property IDs exist
+source_observed_unique_property_ids: 21436
+feature_vintage: absent; sale-time historical availability unverified
+publication_availability: absent for individual rows
+licence_metadata: CC0 Public Domain, declared by OpenML uploader
+rights_decision: private research only; uploader declaration does not establish original county-derived-data rights or commercial AVM permission
+redistribution_decision: raw rows and trained checkpoint remain Git-ignored
+permitted_experiment: one date-ordered historical research benchmark using a frozen split
+prohibited_claims: [certified_90_day_origin, current_us_accuracy, king_county_service, g_us]
+known_limitations:
+  - Property class and arm's-length flags are absent; existing single-family cohort cannot be proven.
+  - No first-availability dates or historical property-attribute vintages are supplied.
+  - One year of sale dates cannot meet the 24-month development-history default.
+  - Year-built values after the corresponding sale year occur in 12 rows; the benchmark quarantines them before the date split.
+split_manifest: runs/king-historical-20261004-v1/split_manifest.json

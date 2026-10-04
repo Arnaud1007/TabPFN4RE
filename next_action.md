@@ -1,6 +1,30 @@
 # Next action
 
-Updated: 2026-10-04. Branch: `audit/u0`.
+Updated: 2026-10-05. Branch: `audit/u0`.
+
+## Prediction-first plan, 5 October 2026
+
+**Immediate result, verified today:** The saved King County model returned
+`$542,149.79` for the synthetic [15-field request](examples/king-research-request.json)
+in 3.09 seconds without retraining. Its response is marked
+`historical_research_only`; it represents a 2015 research setting, not a
+current home valuation. Run the command in the King prediction section below.
+The existing Ames 12-field form is available for a simpler interactive demo.
+
+| When | Deliverable | Done when |
+| --- | --- | --- |
+| 5 October | Put the existing King command and Ames form first in the handoff | A user can run a synthetic prediction locally; output names its historical scope |
+| Next work session, capped at 2 hours | Score county, price-band and assessment-availability slices from the saved Indiana predictions | One aggregate report, no new model search or 2025 test claim |
+| Next 1-2 work days (source investigation timebox) | Check assessment vintages and manually audit 200 Indiana transactions, then train one fixed 90-day OFF baseline only if inputs are pre-origin and labels pass | A reproducible chronological scorecard, or an explicit source blocker |
+| After that baseline | Calibrate intervals and reserve a genuinely new future cohort | No current-market or G-US claim until the required evidence exists |
+
+The immediate prediction is already working. Model fitting is fast: the
+Indiana two-model comparison took 36.32 seconds end to end. The bottleneck is
+proving which fields were available before a sale, validating transaction
+labels and obtaining an untouched future evaluation cohort. Pause additional
+model families, international work and broad source exploration while these
+prediction deliverables are open. Push each accepted checkpoint to
+`origin/audit/u0`.
 
 ## Prediction-first reset after three days
 

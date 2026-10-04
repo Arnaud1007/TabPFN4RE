@@ -1,0 +1,41 @@
+source_id: indiana_stats_sdf_2024_2025
+status: retrospective_research_only_not_certified
+publisher: Indiana Business Research Center STATS Indiana
+dataset_name: Indiana Sales Disclosure Form Data
+publisher_page: https://www.stats.indiana.edu/topic/sdf.asp
+source_notes: https://www.stats.indiana.edu/about/sdf.asp
+class_code_manual: https://www.in.gov/dlgf/files/Property-Tax-Management-System-Code-List-Manual-250610.pdf
+retrieved_on: 2026-10-04
+archives:
+  - year: 2024
+    url: https://www.stats.indiana.edu/sdfdata/SDF_2024.zip
+    sha256: a208f5b7230c0e5a0a5b74217a8b37e7d175e12cce59f122ffe2369a548bf6bd
+    private_path: data/raw/indiana_sdf/SDF_2024.zip
+  - year: 2025
+    url: https://www.stats.indiana.edu/sdfdata/SDF_2025.zip
+    sha256: f574f75604c953a1c0e498550ea05a20ebf705e8dfaca9aa1090d7a358ee4e12
+    private_path: data/raw/indiana_sdf/SDF_2025.zip
+archive_format: UTF-16 tab-delimited quoted text inside ZIP; embedded parsing-metadata workbook
+geography: Indiana counties; publisher notes current-year county coverage can be partial
+row_grain: >-
+  SALEDISC may repeat SDF_ID rows; multiple SDF_ID forms may share one
+  Unique_Sales_ID economic transaction. SALEPARCEL may contain multiple
+  parcels per form. One price cannot be copied to every parcel as a label.
+target_candidate: E1_Sales_Price, gross disclosed consideration in USD
+target_storage: integer source value with implied two decimal places; divide by 100
+acreage_storage: P2_9_Acreage is integer source value with implied four decimal places; divide by 10000
+sale_date_candidate: P2_13_Date_Sale
+first_availability: not established for individual records
+attribute_vintage: not established before a 90-day pre-sale origin
+rights_decision: >-
+  Publisher describes these files as available for research. Local private
+  research is the current use; commercial AVM and redistribution permissions
+  have not been established.
+redistribution_decision: raw rows, names, addresses, row predictions and model bundle remain Git-ignored
+predictor_allowlist: [County_ID, A5_ZipCode, P2_9_Acreage]
+excluded_predictor_examples: [E1_Sales_Price, C8_Market_Days, P2_5_Total_AV, P2_14_Date_Received, P2_16_Valid_Trending, SDF_ID, Unique_Sales_ID]
+research_cohort: one-family class 510-515, one disclosure and one parcel per economic sale
+manual_source_audit: pending; at least 200 stratified records required before certification
+protocol: indiana_sdf_2024_2025_retrospective_research_v1
+decision: decisions/0090-indiana-prediction-first-research-benchmark.md
+prohibited_claims: [certified_90_day_origin, current_us_accuracy, commercial_release, g_us]

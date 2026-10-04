@@ -66,6 +66,11 @@ class KingBenchmarkRunnerTests(unittest.TestCase):
         manifest = {
             "protocol": "king_historical_sale_date_v1",
             "source_sha256": "pinned",
+            "boundaries": {
+                "train_before": "2015-01-01",
+                "validation_before": "2015-03-01",
+                "test_from": "2015-03-01",
+            },
             "cohort_notes": {"eligible_rows": 3, "quarantine_counts": {}},
             "splits": {
                 name: {
@@ -77,10 +82,27 @@ class KingBenchmarkRunnerTests(unittest.TestCase):
                 for name, rows in splits.items()
             },
         }
-        verify_split_manifest(splits, manifest, expected_source_sha256="pinned", quarantine_counts={})
-        altered = {**manifest, "splits": {**manifest["splits"], "test": {**manifest["splits"]["test"], "count": 2}}}
+        verify_split_manifest(
+            splits, manifest, expected_source_sha256="pinned", quarantine_counts={}
+        )
+        altered = {
+            **manifest,
+            "splits": {
+                **manifest["splits"],
+                "test": {**manifest["splits"]["test"], "count": 2},
+            },
+        }
         with self.assertRaisesRegex(ValueError, "split manifest"):
-            verify_split_manifest(splits, altered, expected_source_sha256="pinned", quarantine_counts={})
+            verify_split_manifest(
+                splits, altered, expected_source_sha256="pinned", quarantine_counts={}
+            )
+        with self.assertRaisesRegex(ValueError, "split manifest"):
+            verify_split_manifest(
+                splits,
+                {key: value for key, value in manifest.items() if key != "boundaries"},
+                expected_source_sha256="pinned",
+                quarantine_counts={},
+            )
 
 
 if __name__ == "__main__":

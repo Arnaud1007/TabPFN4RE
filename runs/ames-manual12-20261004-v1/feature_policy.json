@@ -1,0 +1,42 @@
+{
+  "categorical": [
+    "Neighborhood",
+    "KitchenQual"
+  ],
+  "excluded": [
+    "Id",
+    "MoSold",
+    "SaleCondition",
+    "SalePrice",
+    "SaleType",
+    "YrSold"
+  ],
+  "included": [
+    "GrLivArea",
+    "OverallQual",
+    "Neighborhood",
+    "YearBuilt",
+    "TotalBsmtSF",
+    "GarageCars",
+    "FullBath",
+    "BedroomAbvGr",
+    "LotArea",
+    "OverallCond",
+    "KitchenQual",
+    "Fireplaces"
+  ],
+  "numeric": [
+    "GrLivArea",
+    "OverallQual",
+    "YearBuilt",
+    "TotalBsmtSF",
+    "GarageCars",
+    "FullBath",
+    "BedroomAbvGr",
+    "LotArea",
+    "OverallCond",
+    "Fireplaces"
+  ],
+  "profile": "manual12",
+  "protocol": "ames_manual12_prototype_v1"
+}

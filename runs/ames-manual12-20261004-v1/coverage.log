@@ -1,0 +1,33 @@
+Name                                                     Stmts   Miss  Cover
+----------------------------------------------------------------------------
+src\tabpfn4realestate\ames.py                              114      8    93%
+src\tabpfn4realestate\ames_smoke.py                        149     18    88%
+src\tabpfn4realestate\data\cook_parcel_sales.py            129      7    95%
+src\tabpfn4realestate\data\cook_quality.py                  99      5    95%
+src\tabpfn4realestate\data\lifecycle.py                    240     18    92%
+src\tabpfn4realestate\data\local_date_facts.py             101      1    99%
+src\tabpfn4realestate\data\local_date_sale.py               73      6    92%
+src\tabpfn4realestate\data\nyc_observation_history.py      201     33    84%
+src\tabpfn4realestate\data\schema.py                       187     13    93%
+src\tabpfn4realestate\evaluation\calendar_schedule.py      116      7    94%
+src\tabpfn4realestate\evaluation\chronological_plan.py     140     12    91%
+src\tabpfn4realestate\evaluation\conformal.py              312     25    92%
+src\tabpfn4realestate\evaluation\holdout_ledger.py         152     18    88%
+src\tabpfn4realestate\evaluation\local_dates.py            108     11    90%
+src\tabpfn4realestate\evaluation\metrics.py                107     10    91%
+src\tabpfn4realestate\evaluation\paired_bootstrap.py       221      7    97%
+src\tabpfn4realestate\evaluation\spatial_splits.py         140      4    97%
+src\tabpfn4realestate\evaluation\splits.py                 100      5    95%
+src\tabpfn4realestate\features\asof.py                     291     19    93%
+src\tabpfn4realestate\features\asof_prior.py                40      4    90%
+src\tabpfn4realestate\features\asof_timing.py               93      4    96%
+src\tabpfn4realestate\features\comparables.py              165     11    93%
+src\tabpfn4realestate\models\bundle.py                     108      9    92%
+src\tabpfn4realestate\models\guards.py                      85     13    85%
+src\tabpfn4realestate\models\local_date_artifact.py        122     19    84%
+src\tabpfn4realestate\models\local_date_median.py          163     23    86%
+src\tabpfn4realestate\models\off_baseline.py               123      9    93%
+----------------------------------------------------------------------------
+TOTAL                                                     3904    319    92%
+
+6 files skipped due to complete coverage.

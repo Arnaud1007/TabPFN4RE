@@ -1,0 +1,150 @@
+{
+  "checks": [
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_ames_dev_prototype.py",
+        "-q"
+      ],
+      "duration_seconds": 0.234,
+      "exit_code": 0,
+      "name": "unit",
+      "output_file": "unit.log",
+      "output_sha256": "25ebb035debf7391ce743f113c1a74974419e53c13a5e7515984a3f1e92da392",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        "data/raw/legacy-replay/.venv/Scripts/python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "prototype_tests",
+        "-q"
+      ],
+      "duration_seconds": 14.797,
+      "exit_code": 0,
+      "name": "integration",
+      "output_file": "integration.log",
+      "output_sha256": "5de134cecf30dd41f3bae144c764981121c0244ac269213a1896791b4c9d2710",
+      "pythonpath": "src"
+    },
+    {
+      "command": [
+        ".venv/Scripts/ruff.exe",
+        "check",
+        "scripts/ames_dev_prototype.py",
+        "tests/test_ames_dev_prototype.py",
+        "prototype_tests/test_ames_dev_prototype_flow.py"
+      ],
+      "duration_seconds": 0.063,
+      "exit_code": 0,
+      "name": "ruff_check",
+      "output_file": "ruff_check.log",
+      "output_sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        ".venv/Scripts/ruff.exe",
+        "format",
+        "--check",
+        "scripts/ames_dev_prototype.py",
+        "tests/test_ames_dev_prototype.py",
+        "prototype_tests/test_ames_dev_prototype_flow.py"
+      ],
+      "duration_seconds": 0.047,
+      "exit_code": 0,
+      "name": "ruff_format",
+      "output_file": "ruff_format.log",
+      "output_sha256": "81e0708af79a682467b0ecbd3453a0a33cfcbbe2812201b4d4f405f78ded2976",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pip_audit",
+        "-r",
+        "locks/ames-prototype-requirements.txt",
+        "--progress-spinner",
+        "off"
+      ],
+      "duration_seconds": 40.203,
+      "exit_code": 0,
+      "name": "prototype_pip_audit",
+      "output_file": "prototype_pip_audit.log",
+      "output_sha256": "4e4757ff226a44b5c448b1c4624619419c22d5272463dc19510b4754871a72f9",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "coverage",
+        "report",
+        "--skip-covered"
+      ],
+      "duration_seconds": 0.531,
+      "exit_code": 0,
+      "name": "coverage",
+      "output_file": "coverage.log",
+      "output_sha256": "59bab7d29effa008ceced0ff821254d027c04858681947565d403d193653550c",
+      "pythonpath": null
+    },
+    {
+      "command": [
+        "data/raw/legacy-replay/.venv/Scripts/python.exe",
+        "-m",
+        "scripts.ames_dev_prototype",
+        "predict",
+        "--bundle",
+        "data/raw/ames-prototype/dev-only-20261004-v3",
+        "--request",
+        "examples/ames-prototype-request.json",
+        "--bundle-sha256",
+        "c4da912facd6025145b31725ad5e25918e3eb8fa95463e6a8205513f3208f121"
+      ],
+      "duration_seconds": 2.312,
+      "exit_code": 0,
+      "name": "legacy_bundle_compatibility",
+      "output_file": "legacy_bundle_compatibility.log",
+      "output_sha256": "66396251ed4f5f5db53487cd6d4110d377925893518fe4d9e137c14e99be537c",
+      "pythonpath": "src"
+    }
+  ],
+  "code_commit": "104d571e576893f6d9005c76ee4fd6b24bcb6d79",
+  "created_at_utc": "2026-10-04T18:29:04.350102+00:00",
+  "full_suite": {
+    "command": [
+      ".venv/Scripts/python.exe",
+      "-m",
+      "coverage",
+      "run",
+      "--source=tabpfn4realestate",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-q"
+    ],
+    "coverage_percent": 92,
+    "duration_seconds": 271.25,
+    "environment": {
+      "AMES_ARFF_PATH": "data/raw/openml/house_prices-42165.arff"
+    },
+    "exit_code": 0,
+    "local_output_file": "data/raw/ames-prototype/manual12-checks-20261004/full_suite_no_skip.log",
+    "output_sha256": "a245d4d7d88d0f1c137ba9a4db4f51d6cc9e9f1286529c253a2b20456f173731",
+    "skipped_count": 0,
+    "test_count": 1296
+  }
+}

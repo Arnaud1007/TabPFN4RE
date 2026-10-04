@@ -2,7 +2,14 @@
 
 Updated: 2026-10-04. Branch: `audit/u0`.
 
-## Prediction checkpoint completed (ADR 0088)
+## Prediction checkpoints completed (ADR 0088 and ADR 0089)
+
+The [12-field Ames checkpoint](runs/ames-manual12-20261004-v1/report.md)
+provides a quicker manual input path on clean commit `104d571`: 6.81% MdAPE,
+66.78% within 10%, and a 2.923-second development run. Its score is paired
+with the full-feature model on the exact same 1,168 rows and folds. The
+12-field model trades 1.17 percentage points of median error for a much
+smaller request. U0 and G-US remain pending.
 
 The [Ames prototype checkpoint](runs/ames-dev-prototype-20261004-v1/report.md)
 is implemented and verified on the clean commit `cd2f4221`: 1,168 paired
@@ -12,18 +19,28 @@ trusted bundle SHA are recorded there. The 292-row legacy holdout was not
 opened. This is historical engineering evidence, not U0 acceptance or a
 future-sale US result.
 
-Immediate runnable prediction command from the project root:
+Immediate runnable 12-field prediction command from the project root:
 
 ```powershell
 $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
-& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_dev_prototype predict --bundle data/raw/ames-prototype/dev-only-20261004-v3 --request examples/ames-prototype-request.json --bundle-sha256 c4da912facd6025145b31725ad5e25918e3eb8fa95463e6a8205513f3208f121
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_dev_prototype predict --bundle data/raw/ames-prototype/manual12-20261004-v1 --request examples/ames-manual12-request.json --bundle-sha256 1505ab1806202b9ca9626bbe5c92c4ef4f7393ef90680994ba8113b0f392a4f4
 ```
 
-Next dependency-ready work: resume the U0 source qualifications below so a
-modern US transaction cohort can be trained and tested with as-of features.
-If a simpler manual-input prototype is pursued meanwhile, first score that
-same smaller input set on the frozen Ames development folds; the 75-field
-score cannot be reused for it. Do not reopen the legacy holdout.
+Next runnable local task: build a 12-field local entry form that calls the
+verified prediction service and preserves the historical-prototype warning.
+Start by replaying its current integration contract from the project root:
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m unittest discover -s prototype_tests -q
+```
+
+Then add a failing form-versus-CLI parity test, implement the form, and keep
+the private bundle outside Git. Resume the U0 source qualifications below in
+parallel where authoritative access is available; Cook and NYC retrieval
+commands remain unavailable pending the specific source/rights evidence
+listed there. Do not reopen the legacy holdout. Real US evaluation remains
+the release-critical path.
 
 ## Active state
 

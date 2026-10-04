@@ -1,0 +1,42 @@
+{
+  "categorical": [
+    "Neighborhood",
+    "KitchenQual"
+  ],
+  "dependency_lock_sha256": "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f",
+  "environment_packages_sha256": "7da9a89fb6aedcaa202c8cbcf3b7d0e7e28a749ec30408d156a6c3243567587d",
+  "feature_policy_sha256": "4048224d5f60d0a1750eb7a174df79313ff00da6e388ff20f38ddd01a17cc7cf",
+  "features": [
+    "GrLivArea",
+    "OverallQual",
+    "Neighborhood",
+    "YearBuilt",
+    "TotalBsmtSF",
+    "GarageCars",
+    "FullBath",
+    "BedroomAbvGr",
+    "LotArea",
+    "OverallCond",
+    "KitchenQual",
+    "Fireplaces"
+  ],
+  "holdout_sha256": "cafd7740c28130d1e7db58166a00f77257b8eea6e0f33863c529bcb8c77e9306",
+  "model": "xgboost",
+  "model_sha256": "655979a1c62e0d7f6a0b83c3f91348732c0b116da4727081975bc0483bf1739d",
+  "numeric": [
+    "GrLivArea",
+    "OverallQual",
+    "YearBuilt",
+    "TotalBsmtSF",
+    "GarageCars",
+    "FullBath",
+    "BedroomAbvGr",
+    "LotArea",
+    "OverallCond",
+    "Fireplaces"
+  ],
+  "preprocessing_sha256": "b2c0d82168c1f14dc40a8c1bb2e5ffa5fe7575df6b60ea14ce19b3d49403c5a0",
+  "profile": "manual12",
+  "protocol": "ames_manual12_prototype_v1",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279"
+}

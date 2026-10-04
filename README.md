@@ -8,6 +8,19 @@ In Visual Studio 2022, choose **File > Open > Folder** and select this directory
 
 Use Python 3.11 and the pins in [ames-prototype-requirements.txt](locks/ames-prototype-requirements.txt). On this workstation the isolated interpreter is `data/raw/legacy-replay/.venv/Scripts/python.exe`. A fresh clone can create an environment with `py -3.11 -m venv data/raw/ames-prototype/.venv` after creating the ignored `data/raw/ames-prototype` directory, then install with `& 'data/raw/ames-prototype/.venv/Scripts/python.exe' -m pip install -r locks/ames-prototype-requirements.txt`. Set `PYTHONPATH` to the repository's `src` directory because the isolated interpreter does not install this package.
 
+### Twelve-field quick prediction
+
+Edit the [12-field example request](examples/ames-manual12-request.json), then run this command from the project root on this workstation:
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.ames_dev_prototype predict --bundle data/raw/ames-prototype/manual12-20261004-v1 --request examples/ames-manual12-request.json --bundle-sha256 1505ab1806202b9ca9626bbe5c92c4ef4f7393ef90680994ba8113b0f392a4f4
+```
+
+The [12-field report](runs/ames-manual12-20261004-v1/report.md) records 6.81% MdAPE and 66.78% within 10% on 1,168 historical development sales. The example output is $147,843.96875 for a synthetic house. These are Ames engineering results, not a current US market validation. `OverallQual` and `OverallCond` use Ames 1-10 ratings; `Neighborhood` uses Ames codes. The private bundle is not in Git. A fresh clone must train it first using the source and holdout membership below, adding `--profile manual12` and a new output path, then use its bundle digest.
+
+### Full-feature comparison
+
 From the project root in PowerShell, after obtaining the checksum-pinned OpenML 42165 ARFF named in [migration_report.md](migration_report.md):
 
 ```powershell

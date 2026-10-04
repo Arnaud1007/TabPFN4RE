@@ -1,0 +1,17 @@
+{
+  "bedrooms": 3,
+  "bathrooms": 2,
+  "sqft_living": 1800,
+  "sqft_lot": 6000,
+  "floors": 2,
+  "waterfront": 0,
+  "view": 0,
+  "condition": 3,
+  "grade": 7,
+  "sqft_above": 1800,
+  "sqft_basement": 0,
+  "yr_built": 1985,
+  "lat": 47.68,
+  "long": -122.34,
+  "zipcode": "98103"
+}

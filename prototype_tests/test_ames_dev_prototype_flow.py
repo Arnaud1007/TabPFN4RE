@@ -18,6 +18,8 @@ import pandas as pd
 from scripts.ames_dev_prototype import (
     _components,
     allowed_feature_names,
+    MANUAL12_FEATURES,
+    MANUAL12_PROTOCOL,
     predict,
     run_experiment,
 )
@@ -32,6 +34,9 @@ SOURCE = ROOT / "data/raw/openml/house_prices-42165.arff"
 HOLDOUT = ROOT / "data/legacy/holdout_ids.csv"
 REQUEST = json.loads(
     (ROOT / "examples/ames-prototype-request.json").read_text(encoding="utf-8")
+)
+MANUAL_REQUEST = json.loads(
+    (ROOT / "examples/ames-manual12-request.json").read_text(encoding="utf-8")
 )
 
 
@@ -55,6 +60,8 @@ class AmesPrototypeFlowTests(unittest.TestCase):
         cls.temporary = tempfile.TemporaryDirectory(dir=private_root)
         cls.output = Path(cls.temporary.name) / "prototype"
         run_experiment(SOURCE, HOLDOUT, cls.output)
+        cls.manual_output = Path(cls.temporary.name) / "manual12"
+        run_experiment(SOURCE, HOLDOUT, cls.manual_output, profile="manual12")
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -104,6 +111,83 @@ class AmesPrototypeFlowTests(unittest.TestCase):
             self.assertFalse(set(indices) & reserved)
             self.assertEqual(scorecards[model]["eligible_count"], 1168)
             self.assertEqual(scorecards[model]["success_count"], 1168)
+
+    def test_manual12_uses_same_folds_and_no_reserved_rows(self) -> None:
+        old = json.loads(
+            (ROOT / "runs/ames-dev-prototype-20261004-v1/manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        manual = json.loads(
+            (self.manual_output / "manifest.json").read_text(encoding="utf-8")
+        )
+        policy = json.loads(
+            (self.manual_output / "feature_policy.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(manual["split_sha256"], old["split_sha256"])
+        self.assertEqual(manual["profile"], "manual12")
+        self.assertEqual(tuple(policy["included"]), MANUAL12_FEATURES)
+        reserved = set(
+            load_frozen_holdout(
+                HOLDOUT,
+                expected_sha256=HOLDOUT_SHA256,
+                expected_count=292,
+                source_count=1460,
+            )
+        )
+        with (self.manual_output / "predictions.csv").open(encoding="utf-8") as stream:
+            records = list(csv.DictReader(stream))
+        for model in ("median", "xgboost"):
+            indices = [
+                int(row["source_row_index"]) for row in records if row["model"] == model
+            ]
+            self.assertEqual(len(indices), 1168)
+            self.assertEqual(len(indices), len(set(indices)))
+            self.assertFalse(set(indices) & reserved)
+
+    def test_manual12_cli_and_bundle_match_training_pipeline(self) -> None:
+        bundle_path = self.manual_output / "bundle.json"
+        bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+        digest = hashlib.sha256(bundle_path.read_bytes()).hexdigest()
+        direct = predict(self.manual_output, MANUAL_REQUEST, digest)
+        self.assertEqual(direct["protocol"], MANUAL12_PROTOCOL)
+        self.assertEqual(tuple(MANUAL_REQUEST), MANUAL12_FEATURES)
+        data = _load_development(SOURCE, HOLDOUT)
+        features = data.features.loc[:, list(MANUAL12_FEATURES)]
+        pipeline, _, _ = _components(features, bundle["model"])
+        pipeline.fit(features, data.labels)
+        expected = float(pipeline.predict(pd.DataFrame([MANUAL_REQUEST]))[0])
+        self.assertAlmostEqual(direct["amount"], expected, delta=0.001)
+        full_digest = hashlib.sha256(
+            (self.output / "bundle.json").read_bytes()
+        ).hexdigest()
+        with self.assertRaisesRegex(ValueError, "exactly"):
+            predict(self.output, MANUAL_REQUEST, full_digest)
+        with self.assertRaisesRegex(ValueError, "exactly"):
+            predict(self.manual_output, REQUEST, digest)
+        with self.assertRaisesRegex(ValueError, "changed"):
+            predict(self.manual_output, MANUAL_REQUEST, "0" * 64)
+        environment = {**os.environ, "PYTHONPATH": str(ROOT / "src")}
+        process = subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "scripts.ames_dev_prototype",
+                "predict",
+                "--bundle",
+                str(self.manual_output),
+                "--request",
+                str(ROOT / "examples/ames-manual12-request.json"),
+                "--bundle-sha256",
+                digest,
+            ],
+            cwd=ROOT,
+            env=environment,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertEqual(json.loads(process.stdout), direct)
 
     def test_cli_matches_direct_prediction_and_rejects_wrong_digest(self) -> None:
         bundle = json.loads((self.output / "bundle.json").read_text(encoding="utf-8"))

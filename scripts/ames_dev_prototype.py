@@ -25,6 +25,21 @@ from typing import Mapping, Sequence
 from scripts import replay_legacy_ames_dev as legacy
 
 PROTOCOL = "ames_dev_prototype_v1"
+MANUAL12_PROTOCOL = "ames_manual12_prototype_v1"
+MANUAL12_FEATURES = (
+    "GrLivArea",
+    "OverallQual",
+    "Neighborhood",
+    "YearBuilt",
+    "TotalBsmtSF",
+    "GarageCars",
+    "FullBath",
+    "BedroomAbvGr",
+    "LotArea",
+    "OverallCond",
+    "KitchenQual",
+    "Fireplaces",
+)
 EXCLUDED = frozenset(
     {"Id", "SalePrice", "MoSold", "YrSold", "SaleType", "SaleCondition"}
 )
@@ -58,6 +73,54 @@ def allowed_feature_names(columns: Sequence[str]) -> tuple[str, ...]:
     if not selected or not REQUIRED_REQUEST.issubset(selected):
         raise ValueError("Ames prototype is missing required property features")
     return selected
+
+
+def select_feature_names(columns: Sequence[str], profile: str) -> tuple[str, ...]:
+    """Apply the full leakage guard before a frozen manual-input selection."""
+    eligible = allowed_feature_names(columns)
+    if profile == "full":
+        return eligible
+    if profile != "manual12":
+        raise ValueError(f"Unknown Ames feature profile: {profile}")
+    missing = set(MANUAL12_FEATURES) - set(eligible)
+    if missing:
+        raise ValueError(
+            f"Manual12 source is missing required fields: {sorted(missing)}"
+        )
+    return MANUAL12_FEATURES
+
+
+def _validate_manual12_physical(values: Mapping[str, object]) -> None:
+    """Reject impossible quantities in the manually entered Ames contract."""
+    for name in (
+        "LotArea",
+        "TotalBsmtSF",
+        "GarageCars",
+        "FullBath",
+        "BedroomAbvGr",
+        "Fireplaces",
+    ):
+        value = values[name]
+        if value is not None and float(value) < (1 if name == "LotArea" else 0):
+            raise ValueError(f"{name} is outside the supported physical range")
+    for name in (
+        "OverallQual",
+        "OverallCond",
+        "YearBuilt",
+        "GarageCars",
+        "FullBath",
+        "BedroomAbvGr",
+        "Fireplaces",
+    ):
+        value = values[name]
+        if value is not None and not float(value).is_integer():
+            raise ValueError(f"{name} must be an integer")
+    condition = values["OverallCond"]
+    if condition is not None and not 1 <= float(condition) <= 10:
+        raise ValueError("OverallCond must be between 1 and 10")
+    year = values["YearBuilt"]
+    if year is not None and not 1600 <= float(year) <= datetime.now(UTC).year:
+        raise ValueError("YearBuilt must be an actual construction year")
 
 
 def validate_request(
@@ -96,6 +159,8 @@ def validate_request(
         raise ValueError("GrLivArea must be positive")
     if not 1 <= float(normalized["OverallQual"]) <= 10:
         raise ValueError("OverallQual must be between 1 and 10")
+    if tuple(feature_names) == MANUAL12_FEATURES:
+        _validate_manual12_physical(normalized)
     return normalized
 
 
@@ -190,7 +255,9 @@ def _components(features, model_name: str):
     return Pipeline([("preprocess", prep), ("model", model)]), numeric, categorical
 
 
-def _preprocessing_snapshot(pipeline, numeric, categorical) -> dict[str, object]:
+def _preprocessing_snapshot(
+    pipeline, numeric, categorical, protocol: str = PROTOCOL
+) -> dict[str, object]:
     transform = pipeline.named_steps["preprocess"]
     numeric_imputer = transform.named_transformers_["num"]
     category_pipeline = transform.named_transformers_["cat"]
@@ -213,7 +280,7 @@ def _preprocessing_snapshot(pipeline, numeric, categorical) -> dict[str, object]
     ):
         raise ValueError("Categorical imputation schema is invalid")
     return {
-        "protocol": PROTOCOL,
+        "protocol": protocol,
         "numeric": list(numeric),
         "categorical": list(categorical),
         "numeric_fill": numeric_fill,
@@ -348,7 +415,9 @@ def _fold_predictions(data, features):
     return records, split, durations
 
 
-def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
+def run_experiment(
+    source: Path, holdout: Path, output: Path, *, profile: str = "full"
+) -> Path:
     """Fit two fixed candidates, save paired OOF predictions and a local bundle."""
     private_root = (
         Path(__file__).resolve().parents[1] / "data" / "raw" / "ames-prototype"
@@ -365,7 +434,8 @@ def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
     dependency_lock_sha256 = _validate_dependency_lock(project_root)
     packages = legacy.installed_packages()
     data = legacy._load_development(source, holdout)
-    names = allowed_feature_names(tuple(data.features.columns))
+    names = select_feature_names(tuple(data.features.columns), profile)
+    protocol = PROTOCOL if profile == "full" else MANUAL12_PROTOCOL
     features = data.features.loc[:, list(names)]
     if output.exists():
         raise ValueError("Experiment output already exists")
@@ -399,7 +469,8 @@ def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
         _write_json(
             staging / "feature_policy.json",
             {
-                "protocol": PROTOCOL,
+                "protocol": protocol,
+                "profile": profile,
                 "included": names,
                 "excluded": sorted(EXCLUDED),
                 "numeric": numeric,
@@ -407,7 +478,8 @@ def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
             },
         )
         config = {
-            "protocol": PROTOCOL,
+            "protocol": protocol,
+            "profile": profile,
             "seed": 42,
             "folds": 5,
             "models": {
@@ -426,7 +498,7 @@ def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
         }
         _write_json(staging / "config.json", config)
         _write_json(staging / "environment_packages.json", packages)
-        snapshot = _preprocessing_snapshot(pipeline, numeric, categorical)
+        snapshot = _preprocessing_snapshot(pipeline, numeric, categorical, protocol)
         _write_json(staging / "preprocessing.json", snapshot)
         if champion == "xgboost":
             pipeline.named_steps["model"].save_model(staging / "model.json")
@@ -434,7 +506,8 @@ def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
             constant = float(pipeline.named_steps["model"].constant_[0][0])
             _write_json(staging / "model.json", {"median_price": constant})
         bundle = {
-            "protocol": PROTOCOL,
+            "protocol": protocol,
+            "profile": profile,
             "model": champion,
             "features": names,
             "numeric": numeric,
@@ -459,6 +532,7 @@ def run_experiment(source: Path, holdout: Path, output: Path) -> Path:
                 "run_id": output.name,
                 "status": "complete",
                 "evidence_class": "historical_ames_development_only",
+                "profile": profile,
                 "created_at_utc": datetime.now(UTC).isoformat(),
                 **code_identity,
                 "script_sha256": script_sha256,
@@ -518,7 +592,11 @@ def predict(
     ):
         raise ValueError("Bundle changed or exceeds its size limit")
     bundle = json.loads(bundle_bytes.decode("utf-8"))
-    if not isinstance(bundle, dict) or bundle.get("protocol") != PROTOCOL:
+    if not isinstance(bundle, dict):
+        raise ValueError("Model bundle is incompatible")
+    profile = bundle.get("profile", "full")
+    protocol = PROTOCOL if profile == "full" else MANUAL12_PROTOCOL
+    if profile not in ("full", "manual12") or bundle.get("protocol") != protocol:
         raise ValueError("Model bundle is incompatible")
     policy = _read_json_bounded(
         bundle_dir / "feature_policy.json", _MAX_PREPROCESS_BYTES
@@ -542,12 +620,14 @@ def predict(
     categorical = tuple(bundle["categorical"])
     if (
         allowed_feature_names(names) != names
+        or (profile == "manual12" and names != MANUAL12_FEATURES)
         or set(numeric) & set(categorical)
         or set(numeric) | set(categorical) != set(names)
         or policy.get("included") != list(names)
+        or policy.get("profile", "full") != profile
         or policy.get("numeric") != list(numeric)
         or policy.get("categorical") != list(categorical)
-        or snapshot.get("protocol") != PROTOCOL
+        or snapshot.get("protocol") != protocol
         or snapshot.get("numeric") != list(numeric)
         or snapshot.get("categorical") != list(categorical)
     ):
@@ -577,7 +657,7 @@ def predict(
         "amount": estimate,
         "currency": "USD",
         "model": bundle["model"],
-        "protocol": PROTOCOL,
+        "protocol": protocol,
         "status": "historical_prototype",
         "support_status": "unseen_category"
         if unseen_categories
@@ -607,13 +687,19 @@ def main() -> int:
     run.add_argument("--source", type=Path, required=True)
     run.add_argument("--holdout", type=Path, required=True)
     run.add_argument("--output", type=Path, required=True)
+    run.add_argument("--profile", choices=("full", "manual12"), default="full")
     serve = commands.add_parser("predict")
     serve.add_argument("--bundle", type=Path, required=True)
     serve.add_argument("--request", type=Path, required=True)
     serve.add_argument("--bundle-sha256", required=True)
     arguments = parser.parse_args()
     if arguments.command == "train-evaluate":
-        output = run_experiment(arguments.source, arguments.holdout, arguments.output)
+        output = run_experiment(
+            arguments.source,
+            arguments.holdout,
+            arguments.output,
+            profile=arguments.profile,
+        )
         print(output)
     else:
         print(

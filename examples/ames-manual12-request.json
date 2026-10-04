@@ -1,0 +1,14 @@
+{
+  "GrLivArea": 1095.0,
+  "OverallQual": 6.0,
+  "Neighborhood": "NAmes",
+  "YearBuilt": 1972.0,
+  "TotalBsmtSF": 998.0,
+  "GarageCars": 2.0,
+  "FullBath": 2.0,
+  "BedroomAbvGr": 3.0,
+  "LotArea": 9600.0,
+  "OverallCond": 5.0,
+  "KitchenQual": "TA",
+  "Fireplaces": 1.0
+}

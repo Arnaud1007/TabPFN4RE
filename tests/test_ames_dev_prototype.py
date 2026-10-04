@@ -10,11 +10,60 @@ from unittest.mock import patch
 from scripts.ames_dev_prototype import (
     _validate_dependency_lock,
     allowed_feature_names,
+    MANUAL12_FEATURES,
+    select_feature_names,
     validate_request,
 )
 
 
 class AmesDevPrototypeTests(unittest.TestCase):
+    def test_manual_profile_rejects_impossible_property_values(self) -> None:
+        request = {
+            "GrLivArea": 1095,
+            "OverallQual": 6,
+            "Neighborhood": "NAmes",
+            "YearBuilt": 1972,
+            "TotalBsmtSF": 998,
+            "GarageCars": 2,
+            "FullBath": 2,
+            "BedroomAbvGr": 3,
+            "LotArea": 9600,
+            "OverallCond": 5,
+            "KitchenQual": "TA",
+            "Fireplaces": 1,
+        }
+        numeric = frozenset(MANUAL12_FEATURES) - {"Neighborhood", "KitchenQual"}
+        invalid = {
+            "LotArea": 0,
+            "TotalBsmtSF": -1,
+            "GarageCars": -3,
+            "FullBath": 1.5,
+            "BedroomAbvGr": -1,
+            "Fireplaces": -1,
+            "YearBuilt": 2500,
+            "OverallCond": 99,
+        }
+        for name, value in invalid.items():
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, name):
+                validate_request({**request, name: value}, MANUAL12_FEATURES, numeric)
+        sparse = validate_request(
+            {**request, "GarageCars": None}, MANUAL12_FEATURES, numeric
+        )
+        self.assertIsNone(sparse["GarageCars"])
+
+    def test_manual_profile_is_fixed_and_guarded(self) -> None:
+        columns = ("Id", *MANUAL12_FEATURES, "SalePrice", "MoSold", "OptionalField")
+        self.assertEqual(select_feature_names(columns, "manual12"), MANUAL12_FEATURES)
+        self.assertIn("OptionalField", select_feature_names(columns, "full"))
+        with self.assertRaisesRegex(ValueError, "missing"):
+            select_feature_names(
+                tuple(name for name in columns if name != "Fireplaces"), "manual12"
+            )
+        with self.assertRaisesRegex(ValueError, "target-derived"):
+            select_feature_names((*columns, "SalePrice_copy"), "manual12")
+        with self.assertRaisesRegex(ValueError, "profile"):
+            select_feature_names(columns, "other")
+
     def test_feature_policy_excludes_identity_target_and_sale_outcomes(self) -> None:
         columns = (
             "Id",

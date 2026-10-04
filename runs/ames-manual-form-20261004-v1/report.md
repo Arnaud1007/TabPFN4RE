@@ -2,6 +2,7 @@
 
 Date: 2026-10-04. Status: **implemented and verified**.
 Scope: historical Ames development prototype. U0 and G-US remain **PENDING**.
+The executable check ledger is [test_gate.json](test_gate.json).
 
 ## Delivered
 

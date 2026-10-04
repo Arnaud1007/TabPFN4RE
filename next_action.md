@@ -6,9 +6,10 @@ Updated: 2026-10-04. Branch: `audit/u0`.
 
 1. **Done:** Train and score the 12-field historical Ames model. The saved
    development scorecard and synthetic example are linked below.
-2. **Current checkpoint:** Verify and push the local 12-field entry form,
-   including form-versus-CLI parity, invalid-input handling and a runnable
-   launch command. This gives a usable prediction workflow immediately.
+2. **Done:** The local 12-field entry form passed form-versus-CLI parity,
+   invalid-input checks and the 1,302-test project suite. Its runnable launch
+   command is below and its [evidence](runs/ames-manual-form-20261004-v1/report.md)
+   is recorded. This gives a usable historical prediction workflow immediately.
 3. **Next real-market step:** Resolve one official sale source's target,
    first-availability and reuse-rights questions, then build its audited
    chronological cohort. Do not describe Ames scores as US release accuracy.

@@ -1,0 +1,23 @@
+{
+  "run_id": "ames-manual-form-20261004-v1",
+  "created_at_utc": "2026-10-04T19:01:54Z",
+  "code_commit": "9c97b903c69b28436c479746076f61d71e3ce07f",
+  "status": "verified_historical_prototype_form",
+  "model_run_id": "manual12-20261004-v1",
+  "checkpoint_identity": "655979a1c62e0d7f6a0b83c3f91348732c0b116da4727081975bc0483bf1739d",
+  "bundle_sha256": "1505ab1806202b9ca9626bbe5c92c4ef4f7393ef90680994ba8113b0f392a4f4",
+  "source_sha256": "10db9fe72ed693212a222e39981133ec1b3ee5090d7f2caf2461190a4ad51279",
+  "split_sha256": "3f5e0f96e2c5beea3da436a780acda8c9e244c3260b08645a4c84490f6e3db6c",
+  "feature_policy_sha256": "4048224d5f60d0a1750eb7a174df79313ff00da6e388ff20f38ddd01a17cc7cf",
+  "configuration_sha256": "955cd8c825d38eea04d0e50de3b3f9080abfce60506a7fb60e786a40c724a38f",
+  "environment_lock_sha256": "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f",
+  "checks": [
+    {"name": "unit", "command": ".venv/Scripts/python.exe -m unittest tests.test_ames_manual12_form -q", "exit_code": 0, "test_count": 6, "output_file": "unit.log", "output_sha256": "a07a969011af157feeeaf5f04839cbe2cbbabda849573e277258c5eb4b012982"},
+    {"name": "native_form_cli_parity", "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest prototype_tests.test_ames_manual12_form_flow -q", "pythonpath": "src", "exit_code": 0, "test_count": 1, "output_file": "integration.log", "output_sha256": "6042a09d54aac787cf813eaa2ff891dac2b5fdc1cceaf649f996f31ff1f7d7b1"},
+    {"name": "ruff_check", "command": ".venv/Scripts/ruff.exe check scripts/ames_manual12_form.py tests/test_ames_manual12_form.py prototype_tests/test_ames_manual12_form_flow.py", "exit_code": 0, "output_file": "ruff_check.log", "output_sha256": "e0af5e08a7ef46da5421b01a4ef0562a8b8873ea00d36522b4c928b565eef4dd"},
+    {"name": "ruff_format", "command": ".venv/Scripts/ruff.exe format --check scripts/ames_manual12_form.py tests/test_ames_manual12_form.py prototype_tests/test_ames_manual12_form_flow.py", "exit_code": 0, "output_file": "ruff_format.log", "output_sha256": "1540617e3c7bdbb67074e9c1eccc6a894fe5e364680c6d98522c9e8e31543547"},
+    {"name": "full_project_suite", "command": ".venv/Scripts/python.exe -m coverage run --source=tabpfn4realestate -m unittest discover -s tests -q", "environment": {"AMES_ARFF_PATH": "data/raw/openml/house_prices-42165.arff"}, "exit_code": 0, "test_count": 1302, "skipped_count": 0, "coverage_percent": 92, "duration_seconds": 272.771, "local_output_file": "data/raw/ames-prototype/manual12-form-full-suite.log", "output_sha256": "754cfdf48d5515a482a8bd4caad2d93f809bb223f4399af2523732d828f7f972"},
+    {"name": "prototype_pip_audit", "command": ".venv/Scripts/python.exe -m pip_audit -r locks/ames-prototype-requirements.txt --progress-spinner off", "exit_code": 0, "result": "No known vulnerabilities found"}
+  ],
+  "g_us_gate": "PENDING"
+}

@@ -4,6 +4,7 @@ publisher: Indiana Business Research Center STATS Indiana
 dataset_name: Indiana Sales Disclosure Form Data
 publisher_page: https://www.stats.indiana.edu/topic/sdf.asp
 source_notes: https://www.stats.indiana.edu/about/sdf.asp
+form_instructions: https://www.in.gov/dlgf/files/Sales-Disclosure-Form-Instructions.pdf
 class_code_manual: https://www.in.gov/dlgf/files/Property-Tax-Management-System-Code-List-Manual-250610.pdf
 retrieved_on: 2026-10-04
 archives:
@@ -27,6 +28,14 @@ acreage_storage: P2_9_Acreage is integer source value with implied four decimal 
 sale_date_candidate: P2_13_Date_Sale
 first_availability: not established for individual records
 attribute_vintage: not established before a 90-day pre-sale origin
+assessment_vintage_observation: >-
+  DLGF form instructions call P2_2 and P2_3 the assessor's most recent
+  assessed values when completing the sale form. They do not identify a
+  value snapshot published before the 90-day prediction origin. A local
+  Marion 2023-assessment PARCEL extract, SHA-256
+  b4e32805a21c38fab0bd9b6825946ec1e8d87ce412dbce5ffc27d44fbabd0eae,
+  declares file creation on 2025-04-19, so this copy cannot prove its exact
+  values were available in 2023 or before an individual 2024 sale.
 rights_decision: >-
   Publisher describes these files as available for research. Local private
   research is the current use; commercial AVM and redistribution permissions
@@ -44,6 +53,12 @@ snapshot_assessment_diagnostic_warning: >-
 excluded_predictor_examples: [E1_Sales_Price, C8_Market_Days, P2_5_Total_AV, P2_14_Date_Received, P2_16_Valid_Trending, SDF_ID, Unique_Sales_ID]
 research_cohort: one-family class 510-515, one disclosure and one parcel per economic sale
 manual_source_audit: pending; at least 200 stratified records required before certification
+targeted_low_price_audit_plan: decisions/0093-indiana-low-price-source-audit-sample.md
+trending_flag_policy: >-
+  P2_16_Valid_Trending is a post-sale assessor validation field. It may be
+  used to stratify source-quality review, but not as a pre-sale predictor or
+  a post-hoc test-set filter. The fixed 2025 development score includes both
+  Y and N sales.
 protocol: indiana_sdf_2024_2025_retrospective_research_v1
 decision: decisions/0090-indiana-prediction-first-research-benchmark.md
 research_run: runs/indiana-sdf-20261004-v1/report.md

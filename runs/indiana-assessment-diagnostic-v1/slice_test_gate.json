@@ -1,0 +1,33 @@
+{
+  "protocol": "indiana_sdf_snapshot_assessment_posthoc_slices_v1",
+  "code_commit": "ac0870367a391ec6b36f1b56d1e300a649a488b3",
+  "g_us_gate": "PENDING",
+  "checks": [
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest tests.test_indiana_assessment_slices -q",
+      "exit_code": 0,
+      "tests": 3
+    },
+    {
+      "command": ".venv/Scripts/ruff.exe check and format --check scripts/indiana_assessment_slices.py tests/test_indiana_assessment_slices.py",
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/pip-audit.exe -r locks/ames-prototype-requirements.txt",
+      "exit_code": 0,
+      "result": "No known vulnerabilities found"
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m scripts.indiana_assessment_slices --source-2024 data/raw/indiana_sdf/SDF_2024.zip --source-2025 data/raw/indiana_sdf/SDF_2025.zip --output runs/indiana-assessment-diagnostic-v1/slices.json",
+      "exit_code": 0,
+      "output_sha256": "0ff509d5576ada70f586e4b937f522c9072b8dd6a58762d50411a0a5d39d4de4"
+    }
+  ],
+  "full_project_suite": "Not rerun; last passed 1,320 tests at 92% package coverage for the prior assessment diagnostic checkpoint",
+  "reviews": {
+    "code": "conditional approval with exclusive publication fix applied",
+    "python": "approved with type and publication suggestions addressed",
+    "security": "approved after small-group suppression and path protection",
+    "mle": "approved for retrospective diagnosis; certification blocked"
+  }
+}

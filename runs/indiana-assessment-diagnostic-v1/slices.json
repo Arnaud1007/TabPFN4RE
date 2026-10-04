@@ -1,0 +1,1767 @@
+{
+  "assessment_states": {
+    "any_zero": {
+      "count": 590,
+      "paired_assessment_better_count": 466,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 590,
+          "mdape": 0.21231964734769437,
+          "median_signed_percentage_error": -0.14953635500746265,
+          "p90_ape": 0.5691659215153824,
+          "within_10": 0.2627118644067797
+        },
+        "base_xgboost": {
+          "eligible_count": 590,
+          "mdape": 0.31362689707373537,
+          "median_signed_percentage_error": -0.2904570674542683,
+          "p90_ape": 0.5914427842468081,
+          "within_10": 0.05423728813559322
+        },
+        "zip_county_median": {
+          "eligible_count": 590,
+          "mdape": 0.21229681680038368,
+          "median_signed_percentage_error": -0.13375817606472343,
+          "p90_ape": 0.5547078728813205,
+          "within_10": 0.2288135593220339
+        }
+      }
+    },
+    "both_positive": {
+      "count": 70464,
+      "paired_assessment_better_count": 50182,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 70464,
+          "mdape": 0.15149751307600637,
+          "median_signed_percentage_error": -0.02002719911905687,
+          "p90_ape": 0.6272198405172413,
+          "within_10": 0.3665275885558583
+        },
+        "base_xgboost": {
+          "eligible_count": 70464,
+          "mdape": 0.30786952543667634,
+          "median_signed_percentage_error": -0.1543741847826087,
+          "p90_ape": 0.91822484668667,
+          "within_10": 0.1551998183469573
+        },
+        "zip_county_median": {
+          "eligible_count": 70464,
+          "mdape": 0.28784088627315213,
+          "median_signed_percentage_error": -0.03641304347826087,
+          "p90_ape": 1.151072492552135,
+          "within_10": 0.19375851498637603
+        }
+      }
+    },
+    "missing": {
+      "count": 0,
+      "paired_assessment_better_count": null,
+      "scorecards": null
+    }
+  },
+  "certified_90_day_origin": false,
+  "code_commit": "ac0870367a391ec6b36f1b56d1e300a649a488b3",
+  "counties": {
+    "01": {
+      "count": 303,
+      "paired_assessment_better_count": 174,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 303,
+          "mdape": 0.23187185354691076,
+          "median_signed_percentage_error": -0.13421367521367522,
+          "p90_ape": 0.6075912772435897,
+          "within_10": 0.19801980198019803
+        },
+        "base_xgboost": {
+          "eligible_count": 303,
+          "mdape": 0.25597013221153847,
+          "median_signed_percentage_error": -0.051126622596153845,
+          "p90_ape": 1.2732557410990712,
+          "within_10": 0.20132013201320131
+        },
+        "zip_county_median": {
+          "eligible_count": 303,
+          "mdape": 0.3197278911564626,
+          "median_signed_percentage_error": -0.13385826771653545,
+          "p90_ape": 1.092121212121212,
+          "within_10": 0.15181518151815182
+        }
+      }
+    },
+    "02": {
+      "count": 4684,
+      "paired_assessment_better_count": 3401,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 4684,
+          "mdape": 0.10684791383605073,
+          "median_signed_percentage_error": 0.028746078296703295,
+          "p90_ape": 0.49009662498183665,
+          "within_10": 0.4812126387702818
+        },
+        "base_xgboost": {
+          "eligible_count": 4684,
+          "mdape": 0.26181996131124835,
+          "median_signed_percentage_error": -0.14097224264705882,
+          "p90_ape": 0.6336929515550239,
+          "within_10": 0.1887275832621691
+        },
+        "zip_county_median": {
+          "eligible_count": 4684,
+          "mdape": 0.22973667675786827,
+          "median_signed_percentage_error": -0.04,
+          "p90_ape": 0.6677687827693041,
+          "within_10": 0.2495730145175064
+        }
+      }
+    },
+    "03": {
+      "count": 1060,
+      "paired_assessment_better_count": 809,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1060,
+          "mdape": 0.13953898852657004,
+          "median_signed_percentage_error": -0.07587869507295589,
+          "p90_ape": 0.5039931514326826,
+          "within_10": 0.3622641509433962
+        },
+        "base_xgboost": {
+          "eligible_count": 1060,
+          "mdape": 0.3421047924945809,
+          "median_signed_percentage_error": -0.24062745592948717,
+          "p90_ape": 0.7706881403434684,
+          "within_10": 0.13584905660377358
+        },
+        "zip_county_median": {
+          "eligible_count": 1060,
+          "mdape": 0.298107440930998,
+          "median_signed_percentage_error": -0.011692012823649721,
+          "p90_ape": 1.0,
+          "within_10": 0.19528301886792454
+        }
+      }
+    },
+    "06": {
+      "count": 1272,
+      "paired_assessment_better_count": 1047,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1272,
+          "mdape": 0.09680156133364941,
+          "median_signed_percentage_error": -0.04326888302944767,
+          "p90_ape": 0.324233940589946,
+          "within_10": 0.5125786163522013
+        },
+        "base_xgboost": {
+          "eligible_count": 1272,
+          "mdape": 0.2884337222614323,
+          "median_signed_percentage_error": -0.2401959090909091,
+          "p90_ape": 0.5823768955920872,
+          "within_10": 0.13050314465408805
+        },
+        "zip_county_median": {
+          "eligible_count": 1272,
+          "mdape": 0.22246339683833258,
+          "median_signed_percentage_error": -0.069260778351366,
+          "p90_ape": 0.6822714932126697,
+          "within_10": 0.24764150943396226
+        }
+      }
+    },
+    "09": {
+      "count": 458,
+      "paired_assessment_better_count": 299,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 458,
+          "mdape": 0.2322708975668079,
+          "median_signed_percentage_error": -0.02373484375,
+          "p90_ape": 1.1630832978316326,
+          "within_10": 0.2336244541484716
+        },
+        "base_xgboost": {
+          "eligible_count": 458,
+          "mdape": 0.3147829035479323,
+          "median_signed_percentage_error": -0.02054449679943101,
+          "p90_ape": 2.1260363541666667,
+          "within_10": 0.17248908296943233
+        },
+        "zip_county_median": {
+          "eligible_count": 458,
+          "mdape": 0.3989795918367347,
+          "median_signed_percentage_error": -0.0036231884057971015,
+          "p90_ape": 2.6344950213371265,
+          "within_10": 0.15938864628820962
+        }
+      }
+    },
+    "10": {
+      "count": 1810,
+      "paired_assessment_better_count": 1314,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1810,
+          "mdape": 0.11202456414473684,
+          "median_signed_percentage_error": 0.026159381147003197,
+          "p90_ape": 0.5908569901810135,
+          "within_10": 0.4585635359116022
+        },
+        "base_xgboost": {
+          "eligible_count": 1810,
+          "mdape": 0.28472970976812195,
+          "median_signed_percentage_error": -0.1776322443181818,
+          "p90_ape": 0.6895667091346154,
+          "within_10": 0.156353591160221
+        },
+        "zip_county_median": {
+          "eligible_count": 1810,
+          "mdape": 0.2583870967741935,
+          "median_signed_percentage_error": -0.047619047619047616,
+          "p90_ape": 0.8664880338944234,
+          "within_10": 0.22375690607734808
+        }
+      }
+    },
+    "12": {
+      "count": 234,
+      "paired_assessment_better_count": 159,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 234,
+          "mdape": 0.21530861032196968,
+          "median_signed_percentage_error": 0.039591191620879124,
+          "p90_ape": 1.1686580807291667,
+          "within_10": 0.23076923076923078
+        },
+        "base_xgboost": {
+          "eligible_count": 234,
+          "mdape": 0.36192589676889375,
+          "median_signed_percentage_error": -0.010601238503344481,
+          "p90_ape": 1.6930530421401515,
+          "within_10": 0.10256410256410256
+        },
+        "zip_county_median": {
+          "eligible_count": 234,
+          "mdape": 0.373231031543052,
+          "median_signed_percentage_error": 0.06876456876456877,
+          "p90_ape": 2.1204590436059503,
+          "within_10": 0.17094017094017094
+        }
+      }
+    },
+    "14": {
+      "count": 241,
+      "paired_assessment_better_count": 164,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 241,
+          "mdape": 0.22158971354166668,
+          "median_signed_percentage_error": -0.08386354166666667,
+          "p90_ape": 0.8680769856770834,
+          "within_10": 0.25311203319502074
+        },
+        "base_xgboost": {
+          "eligible_count": 241,
+          "mdape": 0.3828508482142857,
+          "median_signed_percentage_error": 0.001284609375,
+          "p90_ape": 2.4181854838709675,
+          "within_10": 0.14522821576763487
+        },
+        "zip_county_median": {
+          "eligible_count": 241,
+          "mdape": 0.4351851851851852,
+          "median_signed_percentage_error": 0.0,
+          "p90_ape": 2.875,
+          "within_10": 0.11618257261410789
+        }
+      }
+    },
+    "16": {
+      "count": 231,
+      "paired_assessment_better_count": 156,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 231,
+          "mdape": 0.16902543402777778,
+          "median_signed_percentage_error": -0.05851224874371859,
+          "p90_ape": 0.820433203125,
+          "within_10": 0.33766233766233766
+        },
+        "base_xgboost": {
+          "eligible_count": 231,
+          "mdape": 0.30911512276785713,
+          "median_signed_percentage_error": -0.1296713689271255,
+          "p90_ape": 1.6867745225694444,
+          "within_10": 0.18181818181818182
+        },
+        "zip_county_median": {
+          "eligible_count": 231,
+          "mdape": 0.3106896551724138,
+          "median_signed_percentage_error": -0.048095238095238094,
+          "p90_ape": 2.337228714524207,
+          "within_10": 0.17316017316017315
+        }
+      }
+    },
+    "18": {
+      "count": 1461,
+      "paired_assessment_better_count": 989,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1461,
+          "mdape": 0.21811421875,
+          "median_signed_percentage_error": -0.017654004491017963,
+          "p90_ape": 0.988919921875,
+          "within_10": 0.2600958247775496
+        },
+        "base_xgboost": {
+          "eligible_count": 1461,
+          "mdape": 0.35938020833333334,
+          "median_signed_percentage_error": -0.11790901692708333,
+          "p90_ape": 1.856305,
+          "within_10": 0.1375770020533881
+        },
+        "zip_county_median": {
+          "eligible_count": 1461,
+          "mdape": 0.3853846153846154,
+          "median_signed_percentage_error": -0.037208,
+          "p90_ape": 2.02105449398443,
+          "within_10": 0.13141683778234087
+        }
+      }
+    },
+    "19": {
+      "count": 241,
+      "paired_assessment_better_count": 177,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 241,
+          "mdape": 0.1401183823529412,
+          "median_signed_percentage_error": -0.06310326360887097,
+          "p90_ape": 0.38260653144771123,
+          "within_10": 0.3900414937759336
+        },
+        "base_xgboost": {
+          "eligible_count": 241,
+          "mdape": 0.2584643950500172,
+          "median_signed_percentage_error": -0.16647363782051283,
+          "p90_ape": 0.6128780357142857,
+          "within_10": 0.16597510373443983
+        },
+        "zip_county_median": {
+          "eligible_count": 241,
+          "mdape": 0.2781818181818182,
+          "median_signed_percentage_error": -0.17291666666666666,
+          "p90_ape": 0.6902654867256637,
+          "within_10": 0.17012448132780084
+        }
+      }
+    },
+    "20": {
+      "count": 1742,
+      "paired_assessment_better_count": 1286,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1742,
+          "mdape": 0.12332426197357556,
+          "median_signed_percentage_error": -0.006693816148592006,
+          "p90_ape": 0.5876334652076038,
+          "within_10": 0.4230769230769231
+        },
+        "base_xgboost": {
+          "eligible_count": 1742,
+          "mdape": 0.3030123170882936,
+          "median_signed_percentage_error": -0.17257372685185185,
+          "p90_ape": 0.7844175411567599,
+          "within_10": 0.15269804822043628
+        },
+        "zip_county_median": {
+          "eligible_count": 1742,
+          "mdape": 0.312,
+          "median_signed_percentage_error": -0.04081632653061224,
+          "p90_ape": 1.1641006289308176,
+          "within_10": 0.1618828932261768
+        }
+      }
+    },
+    "22": {
+      "count": 1210,
+      "paired_assessment_better_count": 862,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1210,
+          "mdape": 0.20021851960784315,
+          "median_signed_percentage_error": -0.10140523447712418,
+          "p90_ape": 0.5991932150271873,
+          "within_10": 0.28677685950413223
+        },
+        "base_xgboost": {
+          "eligible_count": 1210,
+          "mdape": 0.394007418765972,
+          "median_signed_percentage_error": -0.32524392007063885,
+          "p90_ape": 0.6994851837392781,
+          "within_10": 0.09338842975206611
+        },
+        "zip_county_median": {
+          "eligible_count": 1210,
+          "mdape": 0.2734461285650624,
+          "median_signed_percentage_error": -0.041025641025641026,
+          "p90_ape": 1.038722472392638,
+          "within_10": 0.20743801652892563
+        }
+      }
+    },
+    "25": {
+      "count": 201,
+      "paired_assessment_better_count": 163,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 201,
+          "mdape": 0.16420676136363635,
+          "median_signed_percentage_error": 0.018563927283653848,
+          "p90_ape": 0.7179098011363636,
+          "within_10": 0.3482587064676617
+        },
+        "base_xgboost": {
+          "eligible_count": 201,
+          "mdape": 0.3607715,
+          "median_signed_percentage_error": 0.17390140086206896,
+          "p90_ape": 3.5738547207446807,
+          "within_10": 0.11940298507462686
+        },
+        "zip_county_median": {
+          "eligible_count": 201,
+          "mdape": 0.42406779661016947,
+          "median_signed_percentage_error": 0.030303030303030304,
+          "p90_ape": 3.25,
+          "within_10": 0.12935323383084577
+        }
+      }
+    },
+    "26": {
+      "count": 415,
+      "paired_assessment_better_count": 276,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 415,
+          "mdape": 0.2684106971153846,
+          "median_signed_percentage_error": -0.16639848542944785,
+          "p90_ape": 0.8272938671875,
+          "within_10": 0.18795180722891566
+        },
+        "base_xgboost": {
+          "eligible_count": 415,
+          "mdape": 0.40791911764705885,
+          "median_signed_percentage_error": -0.25275301955521473,
+          "p90_ape": 1.3542037620192309,
+          "within_10": 0.11325301204819277
+        },
+        "zip_county_median": {
+          "eligible_count": 415,
+          "mdape": 0.32061423918101445,
+          "median_signed_percentage_error": -0.0875,
+          "p90_ape": 2.3857142857142857,
+          "within_10": 0.15903614457831325
+        }
+      }
+    },
+    "27": {
+      "count": 835,
+      "paired_assessment_better_count": 612,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 835,
+          "mdape": 0.2039861258328286,
+          "median_signed_percentage_error": -0.044034375,
+          "p90_ape": 0.7918955887694189,
+          "within_10": 0.29101796407185626
+        },
+        "base_xgboost": {
+          "eligible_count": 835,
+          "mdape": 0.37007694128787877,
+          "median_signed_percentage_error": -0.14296809593023255,
+          "p90_ape": 1.6885314583333333,
+          "within_10": 0.12335329341317365
+        },
+        "zip_county_median": {
+          "eligible_count": 835,
+          "mdape": 0.4087301587301587,
+          "median_signed_percentage_error": -0.08241758241758242,
+          "p90_ape": 2.0467332123411976,
+          "within_10": 0.14251497005988023
+        }
+      }
+    },
+    "28": {
+      "count": 339,
+      "paired_assessment_better_count": 198,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 339,
+          "mdape": 0.3616875,
+          "median_signed_percentage_error": -0.2164455965909091,
+          "p90_ape": 1.1990467578125,
+          "within_10": 0.0943952802359882
+        },
+        "base_xgboost": {
+          "eligible_count": 339,
+          "mdape": 0.40503228654791157,
+          "median_signed_percentage_error": -0.13938684210526317,
+          "p90_ape": 2.2056073862590764,
+          "within_10": 0.09144542772861357
+        },
+        "zip_county_median": {
+          "eligible_count": 339,
+          "mdape": 0.43636363636363634,
+          "median_signed_percentage_error": -0.08783783783783784,
+          "p90_ape": 2.3074907292954263,
+          "within_10": 0.12389380530973451
+        }
+      }
+    },
+    "29": {
+      "count": 2566,
+      "paired_assessment_better_count": 2001,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 2566,
+          "mdape": 0.07883254290057928,
+          "median_signed_percentage_error": -0.026601869815233787,
+          "p90_ape": 0.2515645813908314,
+          "within_10": 0.5978176149649259
+        },
+        "base_xgboost": {
+          "eligible_count": 2566,
+          "mdape": 0.22657956532505863,
+          "median_signed_percentage_error": -0.1182195675416034,
+          "p90_ape": 0.5666997189410014,
+          "within_10": 0.2513639906469213
+        },
+        "zip_county_median": {
+          "eligible_count": 2566,
+          "mdape": 0.26223224973224973,
+          "median_signed_percentage_error": 0.11267605633802817,
+          "p90_ape": 0.7572842677702184,
+          "within_10": 0.19524551831644582
+        }
+      }
+    },
+    "30": {
+      "count": 1945,
+      "paired_assessment_better_count": 1584,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1945,
+          "mdape": 0.06526264880952382,
+          "median_signed_percentage_error": -0.009737224842767296,
+          "p90_ape": 0.24863201007000812,
+          "within_10": 0.6704370179948587
+        },
+        "base_xgboost": {
+          "eligible_count": 1945,
+          "mdape": 0.2282182429941003,
+          "median_signed_percentage_error": -0.17837596178733617,
+          "p90_ape": 0.5065446867854226,
+          "within_10": 0.1928020565552699
+        },
+        "zip_county_median": {
+          "eligible_count": 1945,
+          "mdape": 0.16831683168316833,
+          "median_signed_percentage_error": -0.016247139588100687,
+          "p90_ape": 0.5960177772366138,
+          "within_10": 0.3161953727506427
+        }
+      }
+    },
+    "31": {
+      "count": 297,
+      "paired_assessment_better_count": 202,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 297,
+          "mdape": 0.1539969279661017,
+          "median_signed_percentage_error": 0.03488172554347826,
+          "p90_ape": 0.9644521875,
+          "within_10": 0.3434343434343434
+        },
+        "base_xgboost": {
+          "eligible_count": 297,
+          "mdape": 0.35225875,
+          "median_signed_percentage_error": -0.0703271484375,
+          "p90_ape": 2.0930476395089284,
+          "within_10": 0.1717171717171717
+        },
+        "zip_county_median": {
+          "eligible_count": 297,
+          "mdape": 0.3231197771587744,
+          "median_signed_percentage_error": -0.041666666666666664,
+          "p90_ape": 2.066666666666667,
+          "within_10": 0.19528619528619529
+        }
+      }
+    },
+    "32": {
+      "count": 1679,
+      "paired_assessment_better_count": 1439,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1679,
+          "mdape": 0.09286375,
+          "median_signed_percentage_error": 0.0007675,
+          "p90_ape": 0.30723067753344857,
+          "within_10": 0.5288862418106015
+        },
+        "base_xgboost": {
+          "eligible_count": 1679,
+          "mdape": 0.37799268292682925,
+          "median_signed_percentage_error": -0.3456663408706678,
+          "p90_ape": 0.5750887582671957,
+          "within_10": 0.08695652173913043
+        },
+        "zip_county_median": {
+          "eligible_count": 1679,
+          "mdape": 0.21886363636363637,
+          "median_signed_percentage_error": -0.10727272727272727,
+          "p90_ape": 0.5905779380089705,
+          "within_10": 0.2328767123287671
+        }
+      }
+    },
+    "33": {
+      "count": 447,
+      "paired_assessment_better_count": 268,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 447,
+          "mdape": 0.35382860429447854,
+          "median_signed_percentage_error": -0.11991538461538462,
+          "p90_ape": 1.3820389673913043,
+          "within_10": 0.15436241610738255
+        },
+        "base_xgboost": {
+          "eligible_count": 447,
+          "mdape": 0.44389805871212124,
+          "median_signed_percentage_error": -0.13107347849854228,
+          "p90_ape": 2.5708541021634614,
+          "within_10": 0.087248322147651
+        },
+        "zip_county_median": {
+          "eligible_count": 447,
+          "mdape": 0.45454545454545453,
+          "median_signed_percentage_error": 0.01694915254237288,
+          "p90_ape": 4.249367961388186,
+          "within_10": 0.12080536912751678
+        }
+      }
+    },
+    "34": {
+      "count": 1292,
+      "paired_assessment_better_count": 905,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1292,
+          "mdape": 0.1466499369080259,
+          "median_signed_percentage_error": -0.027236449286600496,
+          "p90_ape": 0.6474442057291667,
+          "within_10": 0.35990712074303405
+        },
+        "base_xgboost": {
+          "eligible_count": 1292,
+          "mdape": 0.28674268192503233,
+          "median_signed_percentage_error": -0.04005271662601434,
+          "p90_ape": 1.1314912596153845,
+          "within_10": 0.17260061919504643
+        },
+        "zip_county_median": {
+          "eligible_count": 1292,
+          "mdape": 0.3507615031625946,
+          "median_signed_percentage_error": -0.031864406779661014,
+          "p90_ape": 1.4285714285714286,
+          "within_10": 0.16640866873065016
+        }
+      }
+    },
+    "35": {
+      "count": 437,
+      "paired_assessment_better_count": 313,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 437,
+          "mdape": 0.17148604166666667,
+          "median_signed_percentage_error": 0.016061763396518193,
+          "p90_ape": 0.8595605543870193,
+          "within_10": 0.3318077803203661
+        },
+        "base_xgboost": {
+          "eligible_count": 437,
+          "mdape": 0.3089155947210157,
+          "median_signed_percentage_error": -0.023015833333333333,
+          "p90_ape": 1.8190273133680555,
+          "within_10": 0.17620137299771166
+        },
+        "zip_county_median": {
+          "eligible_count": 437,
+          "mdape": 0.349357059832705,
+          "median_signed_percentage_error": -0.049079754601226995,
+          "p90_ape": 1.8832167832167832,
+          "within_10": 0.14874141876430205
+        }
+      }
+    },
+    "36": {
+      "count": 424,
+      "paired_assessment_better_count": 308,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 424,
+          "mdape": 0.15082826439705294,
+          "median_signed_percentage_error": -0.07946113914616008,
+          "p90_ape": 0.5531341815476191,
+          "within_10": 0.35141509433962265
+        },
+        "base_xgboost": {
+          "eligible_count": 424,
+          "mdape": 0.28224314845902204,
+          "median_signed_percentage_error": -0.08636979767789041,
+          "p90_ape": 1.0299459420072115,
+          "within_10": 0.1792452830188679
+        },
+        "zip_county_median": {
+          "eligible_count": 424,
+          "mdape": 0.23914982391670495,
+          "median_signed_percentage_error": 0.01968387513275995,
+          "p90_ape": 1.6654166666666668,
+          "within_10": 0.2169811320754717
+        }
+      }
+    },
+    "39": {
+      "count": 370,
+      "paired_assessment_better_count": 249,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 370,
+          "mdape": 0.23901058866962008,
+          "median_signed_percentage_error": -0.14177067798913043,
+          "p90_ape": 0.7517094646396828,
+          "within_10": 0.1918918918918919
+        },
+        "base_xgboost": {
+          "eligible_count": 370,
+          "mdape": 0.35877102610930733,
+          "median_signed_percentage_error": -0.1945154662474975,
+          "p90_ape": 1.1291231201855743,
+          "within_10": 0.11351351351351352
+        },
+        "zip_county_median": {
+          "eligible_count": 370,
+          "mdape": 0.3148148148148148,
+          "median_signed_percentage_error": -0.09090360282043852,
+          "p90_ape": 1.2403676470588236,
+          "within_10": 0.1891891891891892
+        }
+      }
+    },
+    "40": {
+      "count": 217,
+      "paired_assessment_better_count": 135,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 217,
+          "mdape": 0.21977705592105262,
+          "median_signed_percentage_error": -0.14317538461538462,
+          "p90_ape": 0.9445652140740952,
+          "within_10": 0.19815668202764977
+        },
+        "base_xgboost": {
+          "eligible_count": 217,
+          "mdape": 0.31498093011811024,
+          "median_signed_percentage_error": -0.06176513157894737,
+          "p90_ape": 1.7756152678571429,
+          "within_10": 0.1889400921658986
+        },
+        "zip_county_median": {
+          "eligible_count": 217,
+          "mdape": 0.3382070026933436,
+          "median_signed_percentage_error": -0.09330521876647338,
+          "p90_ape": 1.9269963684847635,
+          "within_10": 0.1935483870967742
+        }
+      }
+    },
+    "41": {
+      "count": 1523,
+      "paired_assessment_better_count": 1130,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1523,
+          "mdape": 0.11544924903100776,
+          "median_signed_percentage_error": 0.05600432692307692,
+          "p90_ape": 0.4661747746212121,
+          "within_10": 0.4458305975049245
+        },
+        "base_xgboost": {
+          "eligible_count": 1523,
+          "mdape": 0.25295065104166664,
+          "median_signed_percentage_error": -0.14515081168831168,
+          "p90_ape": 0.6635044327445652,
+          "within_10": 0.17728168089297439
+        },
+        "zip_county_median": {
+          "eligible_count": 1523,
+          "mdape": 0.23804347826086958,
+          "median_signed_percentage_error": -0.018518518518518517,
+          "p90_ape": 0.8061504775673191,
+          "within_10": 0.2232435981615233
+        }
+      }
+    },
+    "42": {
+      "count": 390,
+      "paired_assessment_better_count": 273,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 390,
+          "mdape": 0.2827831923171937,
+          "median_signed_percentage_error": -0.08281582244008714,
+          "p90_ape": 1.782518728298611,
+          "within_10": 0.1717948717948718
+        },
+        "base_xgboost": {
+          "eligible_count": 390,
+          "mdape": 0.38989767418101146,
+          "median_signed_percentage_error": -0.06084581755050505,
+          "p90_ape": 3.661551751644737,
+          "within_10": 0.09487179487179487
+        },
+        "zip_county_median": {
+          "eligible_count": 390,
+          "mdape": 0.47182895757172927,
+          "median_signed_percentage_error": 0.00363773032814741,
+          "p90_ape": 4.435450114920353,
+          "within_10": 0.1358974358974359
+        }
+      }
+    },
+    "43": {
+      "count": 302,
+      "paired_assessment_better_count": 222,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 302,
+          "mdape": 0.1245196252880652,
+          "median_signed_percentage_error": 0.013041005972733019,
+          "p90_ape": 0.7032643257472826,
+          "within_10": 0.4337748344370861
+        },
+        "base_xgboost": {
+          "eligible_count": 302,
+          "mdape": 0.34410583351480833,
+          "median_signed_percentage_error": -0.19200245452425374,
+          "p90_ape": 0.9628068217224286,
+          "within_10": 0.1456953642384106
+        },
+        "zip_county_median": {
+          "eligible_count": 302,
+          "mdape": 0.3557731538147695,
+          "median_signed_percentage_error": -0.015476190476190477,
+          "p90_ape": 1.624931129476584,
+          "within_10": 0.1357615894039735
+        }
+      }
+    },
+    "44": {
+      "count": 266,
+      "paired_assessment_better_count": 193,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 266,
+          "mdape": 0.2120433065541031,
+          "median_signed_percentage_error": -0.08125529191995948,
+          "p90_ape": 0.5904016579861111,
+          "within_10": 0.2744360902255639
+        },
+        "base_xgboost": {
+          "eligible_count": 266,
+          "mdape": 0.4005340305397727,
+          "median_signed_percentage_error": -0.24993859857850806,
+          "p90_ape": 0.8294575834274215,
+          "within_10": 0.12030075187969924
+        },
+        "zip_county_median": {
+          "eligible_count": 266,
+          "mdape": 0.3570833333333333,
+          "median_signed_percentage_error": -0.018803418803418803,
+          "p90_ape": 1.3403019323671497,
+          "within_10": 0.11654135338345864
+        }
+      }
+    },
+    "45": {
+      "count": 6671,
+      "paired_assessment_better_count": 4800,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 6671,
+          "mdape": 0.16090538194444445,
+          "median_signed_percentage_error": -0.02903344827586207,
+          "p90_ape": 0.7278369715073529,
+          "within_10": 0.34897316744116325
+        },
+        "base_xgboost": {
+          "eligible_count": 6671,
+          "mdape": 0.33742633357306917,
+          "median_signed_percentage_error": -0.195654609375,
+          "p90_ape": 0.9281994806421152,
+          "within_10": 0.12321990706041074
+        },
+        "zip_county_median": {
+          "eligible_count": 6671,
+          "mdape": 0.2749425287356322,
+          "median_signed_percentage_error": -0.04106060606060606,
+          "p90_ape": 1.0588235294117647,
+          "within_10": 0.19592265027731975
+        }
+      }
+    },
+    "46": {
+      "count": 1054,
+      "paired_assessment_better_count": 761,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1054,
+          "mdape": 0.1793354100038468,
+          "median_signed_percentage_error": -0.07723386485826002,
+          "p90_ape": 0.5230746279761905,
+          "within_10": 0.27419354838709675
+        },
+        "base_xgboost": {
+          "eligible_count": 1054,
+          "mdape": 0.33275240064775913,
+          "median_signed_percentage_error": -0.18681666525998886,
+          "p90_ape": 1.0641038884943181,
+          "within_10": 0.14516129032258066
+        },
+        "zip_county_median": {
+          "eligible_count": 1054,
+          "mdape": 0.3452932098765432,
+          "median_signed_percentage_error": -0.03255392112876322,
+          "p90_ape": 1.7238461538461538,
+          "within_10": 0.15370018975332067
+        }
+      }
+    },
+    "47": {
+      "count": 561,
+      "paired_assessment_better_count": 385,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 561,
+          "mdape": 0.21179318947641265,
+          "median_signed_percentage_error": -0.11075985576923077,
+          "p90_ape": 0.962763125,
+          "within_10": 0.2281639928698752
+        },
+        "base_xgboost": {
+          "eligible_count": 561,
+          "mdape": 0.340765756302521,
+          "median_signed_percentage_error": -0.1374943820224719,
+          "p90_ape": 2.545803385416667,
+          "within_10": 0.1497326203208556
+        },
+        "zip_county_median": {
+          "eligible_count": 561,
+          "mdape": 0.35333333333333333,
+          "median_signed_percentage_error": -0.09090909090909091,
+          "p90_ape": 2.3947895791583167,
+          "within_10": 0.1408199643493761
+        }
+      }
+    },
+    "48": {
+      "count": 1027,
+      "paired_assessment_better_count": 627,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1027,
+          "mdape": 0.32091941964285714,
+          "median_signed_percentage_error": -0.10090234375,
+          "p90_ape": 1.0730078301773451,
+          "within_10": 0.189873417721519
+        },
+        "base_xgboost": {
+          "eligible_count": 1027,
+          "mdape": 0.42697626830543933,
+          "median_signed_percentage_error": -0.14366401734104045,
+          "p90_ape": 1.505288562031108,
+          "within_10": 0.11587147030185005
+        },
+        "zip_county_median": {
+          "eligible_count": 1027,
+          "mdape": 0.395,
+          "median_signed_percentage_error": -0.08333333333333333,
+          "p90_ape": 1.764008097165992,
+          "within_10": 0.1587147030185005
+        }
+      }
+    },
+    "49": {
+      "count": 12366,
+      "paired_assessment_better_count": 8495,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 12366,
+          "mdape": 0.15072066730762382,
+          "median_signed_percentage_error": -0.005145291666666667,
+          "p90_ape": 0.535101097343553,
+          "within_10": 0.368753032508491
+        },
+        "base_xgboost": {
+          "eligible_count": 12366,
+          "mdape": 0.2757356494204164,
+          "median_signed_percentage_error": -0.14881782723325063,
+          "p90_ape": 0.7473017992424242,
+          "within_10": 0.17305515122109008
+        },
+        "zip_county_median": {
+          "eligible_count": 12366,
+          "mdape": 0.2387994780339278,
+          "median_signed_percentage_error": -0.021739130434782608,
+          "p90_ape": 0.8421052631578947,
+          "within_10": 0.23685912987223032
+        }
+      }
+    },
+    "50": {
+      "count": 441,
+      "paired_assessment_better_count": 344,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 441,
+          "mdape": 0.13086567848410757,
+          "median_signed_percentage_error": -0.051128888248847926,
+          "p90_ape": 0.4393463235294118,
+          "within_10": 0.3900226757369615
+        },
+        "base_xgboost": {
+          "eligible_count": 441,
+          "mdape": 0.3124793198529412,
+          "median_signed_percentage_error": -0.18377073863636365,
+          "p90_ape": 0.7640853515625,
+          "within_10": 0.14285714285714285
+        },
+        "zip_county_median": {
+          "eligible_count": 441,
+          "mdape": 0.3433410315627406,
+          "median_signed_percentage_error": -0.09431818181818181,
+          "p90_ape": 0.8732743362831858,
+          "within_10": 0.14285714285714285
+        }
+      }
+    },
+    "53": {
+      "count": 1137,
+      "paired_assessment_better_count": 880,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1137,
+          "mdape": 0.09349251700680272,
+          "median_signed_percentage_error": 0.002068359375,
+          "p90_ape": 0.3949986679471528,
+          "within_10": 0.5224274406332454
+        },
+        "base_xgboost": {
+          "eligible_count": 1137,
+          "mdape": 0.2833498660714286,
+          "median_signed_percentage_error": -0.14931266937669377,
+          "p90_ape": 0.6905054070492826,
+          "within_10": 0.17678100263852242
+        },
+        "zip_county_median": {
+          "eligible_count": 1137,
+          "mdape": 0.2608695652173913,
+          "median_signed_percentage_error": 0.026143790849673203,
+          "p90_ape": 0.8309731064050929,
+          "within_10": 0.2260334212840809
+        }
+      }
+    },
+    "54": {
+      "count": 565,
+      "paired_assessment_better_count": 368,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 565,
+          "mdape": 0.188608203125,
+          "median_signed_percentage_error": -0.023392083333333334,
+          "p90_ape": 0.8335453622626703,
+          "within_10": 0.2920353982300885
+        },
+        "base_xgboost": {
+          "eligible_count": 565,
+          "mdape": 0.2705041294642857,
+          "median_signed_percentage_error": -0.0122169921875,
+          "p90_ape": 1.3952901458333333,
+          "within_10": 0.17345132743362832
+        },
+        "zip_county_median": {
+          "eligible_count": 565,
+          "mdape": 0.32320237212750186,
+          "median_signed_percentage_error": -0.03461330448891293,
+          "p90_ape": 1.38,
+          "within_10": 0.15398230088495576
+        }
+      }
+    },
+    "55": {
+      "count": 1090,
+      "paired_assessment_better_count": 774,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1090,
+          "mdape": 0.13184187978927203,
+          "median_signed_percentage_error": -0.03151717959603214,
+          "p90_ape": 0.597075984899894,
+          "within_10": 0.40458715596330275
+        },
+        "base_xgboost": {
+          "eligible_count": 1090,
+          "mdape": 0.30117719594594594,
+          "median_signed_percentage_error": -0.20076070832974693,
+          "p90_ape": 0.6899008566962082,
+          "within_10": 0.1724770642201835
+        },
+        "zip_county_median": {
+          "eligible_count": 1090,
+          "mdape": 0.26374907968519923,
+          "median_signed_percentage_error": -0.016670132390656407,
+          "p90_ape": 0.9659287858572382,
+          "within_10": 0.23119266055045873
+        }
+      }
+    },
+    "57": {
+      "count": 509,
+      "paired_assessment_better_count": 372,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 509,
+          "mdape": 0.13960514112903225,
+          "median_signed_percentage_error": -0.004098333333333333,
+          "p90_ape": 0.6367606850961538,
+          "within_10": 0.3968565815324165
+        },
+        "base_xgboost": {
+          "eligible_count": 509,
+          "mdape": 0.30274140625,
+          "median_signed_percentage_error": -0.09383209635416667,
+          "p90_ape": 1.1787668541666667,
+          "within_10": 0.19842829076620824
+        },
+        "zip_county_median": {
+          "eligible_count": 509,
+          "mdape": 0.32290836653386457,
+          "median_signed_percentage_error": -0.07692307692307693,
+          "p90_ape": 1.191807486631016,
+          "within_10": 0.18467583497053044
+        }
+      }
+    },
+    "64": {
+      "count": 611,
+      "paired_assessment_better_count": 448,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 611,
+          "mdape": 0.10223983673278443,
+          "median_signed_percentage_error": -0.0030179347826086956,
+          "p90_ape": 0.38676945153061226,
+          "within_10": 0.4795417348608838
+        },
+        "base_xgboost": {
+          "eligible_count": 611,
+          "mdape": 0.28768895898136576,
+          "median_signed_percentage_error": -0.15885054866412213,
+          "p90_ape": 0.6589823690878378,
+          "within_10": 0.2176759410801964
+        },
+        "zip_county_median": {
+          "eligible_count": 611,
+          "mdape": 0.26666666666666666,
+          "median_signed_percentage_error": -0.06557377049180328,
+          "p90_ape": 0.7353846153846154,
+          "within_10": 0.20621931260229132
+        }
+      }
+    },
+    "65": {
+      "count": 263,
+      "paired_assessment_better_count": 186,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 263,
+          "mdape": 0.19932667410714286,
+          "median_signed_percentage_error": -0.11433850446428571,
+          "p90_ape": 0.8654601962820256,
+          "within_10": 0.24714828897338403
+        },
+        "base_xgboost": {
+          "eligible_count": 263,
+          "mdape": 0.3180624053030303,
+          "median_signed_percentage_error": -0.08717124469214438,
+          "p90_ape": 1.7376420555555556,
+          "within_10": 0.1520912547528517
+        },
+        "zip_county_median": {
+          "eligible_count": 263,
+          "mdape": 0.3700787401574803,
+          "median_signed_percentage_error": -0.13966101694915253,
+          "p90_ape": 1.607936507936508,
+          "within_10": 0.14068441064638784
+        }
+      }
+    },
+    "67": {
+      "count": 376,
+      "paired_assessment_better_count": 276,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 376,
+          "mdape": 0.17243093529040404,
+          "median_signed_percentage_error": -0.09030657330345711,
+          "p90_ape": 0.48753051303597383,
+          "within_10": 0.30851063829787234
+        },
+        "base_xgboost": {
+          "eligible_count": 376,
+          "mdape": 0.3017852064334623,
+          "median_signed_percentage_error": -0.16353731971153845,
+          "p90_ape": 0.8277943392586032,
+          "within_10": 0.13031914893617022
+        },
+        "zip_county_median": {
+          "eligible_count": 376,
+          "mdape": 0.29918074756784435,
+          "median_signed_percentage_error": -0.06382978723404255,
+          "p90_ape": 0.8920265780730897,
+          "within_10": 0.19680851063829788
+        }
+      }
+    },
+    "68": {
+      "count": 327,
+      "paired_assessment_better_count": 208,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 327,
+          "mdape": 0.3981966380866426,
+          "median_signed_percentage_error": -0.11424113475177305,
+          "p90_ape": 2.1861188372093023,
+          "within_10": 0.10397553516819572
+        },
+        "base_xgboost": {
+          "eligible_count": 327,
+          "mdape": 0.46643484268707486,
+          "median_signed_percentage_error": -0.08634229244402986,
+          "p90_ape": 4.204303403627622,
+          "within_10": 0.09785932721712538
+        },
+        "zip_county_median": {
+          "eligible_count": 327,
+          "mdape": 0.4938297872340425,
+          "median_signed_percentage_error": 0.06896551724137931,
+          "p90_ape": 6.623374689826303,
+          "within_10": 0.09480122324159021
+        }
+      }
+    },
+    "71": {
+      "count": 3662,
+      "paired_assessment_better_count": 2417,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 3662,
+          "mdape": 0.19106941991243961,
+          "median_signed_percentage_error": 0.013439481929708223,
+          "p90_ape": 0.8295880543933054,
+          "within_10": 0.3022938285090115
+        },
+        "base_xgboost": {
+          "eligible_count": 3662,
+          "mdape": 0.33875779799403183,
+          "median_signed_percentage_error": -0.171583338912851,
+          "p90_ape": 0.9207590028409091,
+          "within_10": 0.1362643364281813
+        },
+        "zip_county_median": {
+          "eligible_count": 3662,
+          "mdape": 0.3381818181818182,
+          "median_signed_percentage_error": -0.05810810810810811,
+          "p90_ape": 1.2488334105653383,
+          "within_10": 0.1553795740032769
+        }
+      }
+    },
+    "73": {
+      "count": 420,
+      "paired_assessment_better_count": 266,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 420,
+          "mdape": 0.2478570696434453,
+          "median_signed_percentage_error": -0.16164015816953317,
+          "p90_ape": 0.606210399265553,
+          "within_10": 0.16904761904761906
+        },
+        "base_xgboost": {
+          "eligible_count": 420,
+          "mdape": 0.33023804697878595,
+          "median_signed_percentage_error": -0.1977989752451175,
+          "p90_ape": 0.8276680429964539,
+          "within_10": 0.1261904761904762
+        },
+        "zip_county_median": {
+          "eligible_count": 420,
+          "mdape": 0.3161600232095808,
+          "median_signed_percentage_error": -0.07692307692307693,
+          "p90_ape": 1.2773557016983783,
+          "within_10": 0.1976190476190476
+        }
+      }
+    },
+    "76": {
+      "count": 278,
+      "paired_assessment_better_count": 197,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 278,
+          "mdape": 0.17203044436052367,
+          "median_signed_percentage_error": -0.05699972908266129,
+          "p90_ape": 0.5918928001893939,
+          "within_10": 0.31654676258992803
+        },
+        "base_xgboost": {
+          "eligible_count": 278,
+          "mdape": 0.3405233445697648,
+          "median_signed_percentage_error": -0.24091746834150327,
+          "p90_ape": 0.8070571025023496,
+          "within_10": 0.14388489208633093
+        },
+        "zip_county_median": {
+          "eligible_count": 278,
+          "mdape": 0.355192650839256,
+          "median_signed_percentage_error": -0.05009271184073735,
+          "p90_ape": 0.8982371794871795,
+          "within_10": 0.1618705035971223
+        }
+      }
+    },
+    "82": {
+      "count": 2727,
+      "paired_assessment_better_count": 1929,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 2727,
+          "mdape": 0.17706373856707316,
+          "median_signed_percentage_error": -0.0341269215210356,
+          "p90_ape": 0.7346531026785714,
+          "within_10": 0.32233223322332233
+        },
+        "base_xgboost": {
+          "eligible_count": 2727,
+          "mdape": 0.32276588479809976,
+          "median_signed_percentage_error": -0.14748776969392874,
+          "p90_ape": 1.4042765676229507,
+          "within_10": 0.1353135313531353
+        },
+        "zip_county_median": {
+          "eligible_count": 2727,
+          "mdape": 0.34782608695652173,
+          "median_signed_percentage_error": -0.037721324095458045,
+          "p90_ape": 1.7352780277763071,
+          "within_10": 0.14044737807114044
+        }
+      }
+    },
+    "84": {
+      "count": 1189,
+      "paired_assessment_better_count": 808,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 1189,
+          "mdape": 0.24029397321428572,
+          "median_signed_percentage_error": -0.10708060141509435,
+          "p90_ape": 0.8838366145833333,
+          "within_10": 0.20269133725820015
+        },
+        "base_xgboost": {
+          "eligible_count": 1189,
+          "mdape": 0.37343935220364743,
+          "median_signed_percentage_error": -0.002622829861111111,
+          "p90_ape": 2.0948936458333334,
+          "within_10": 0.13877207737594618
+        },
+        "zip_county_median": {
+          "eligible_count": 1189,
+          "mdape": 0.4583333333333333,
+          "median_signed_percentage_error": -0.24729411764705883,
+          "p90_ape": 1.3244865718799368,
+          "within_10": 0.10513036164844407
+        }
+      }
+    },
+    "85": {
+      "count": 384,
+      "paired_assessment_better_count": 266,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 384,
+          "mdape": 0.1820726513742979,
+          "median_signed_percentage_error": -0.04409424194907638,
+          "p90_ape": 0.8318648686753631,
+          "within_10": 0.2760416666666667
+        },
+        "base_xgboost": {
+          "eligible_count": 384,
+          "mdape": 0.29838358272058824,
+          "median_signed_percentage_error": -0.049335377155172416,
+          "p90_ape": 1.8400705159543325,
+          "within_10": 0.16927083333333334
+        },
+        "zip_county_median": {
+          "eligible_count": 384,
+          "mdape": 0.33336190476190475,
+          "median_signed_percentage_error": -0.0992646102421567,
+          "p90_ape": 1.545509090909091,
+          "within_10": 0.15625
+        }
+      }
+    },
+    "87": {
+      "count": 391,
+      "paired_assessment_better_count": 297,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 391,
+          "mdape": 0.15230280373831775,
+          "median_signed_percentage_error": -0.058326247353096876,
+          "p90_ape": 0.733828875,
+          "within_10": 0.34782608695652173
+        },
+        "base_xgboost": {
+          "eligible_count": 391,
+          "mdape": 0.32962401960784316,
+          "median_signed_percentage_error": -0.13543808178191488,
+          "p90_ape": 1.3403141850490197,
+          "within_10": 0.1483375959079284
+        },
+        "zip_county_median": {
+          "eligible_count": 391,
+          "mdape": 0.28505381161644566,
+          "median_signed_percentage_error": 0.0,
+          "p90_ape": 1.998888888888889,
+          "within_10": 0.17391304347826086
+        }
+      }
+    },
+    "89": {
+      "count": 837,
+      "paired_assessment_better_count": 561,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 837,
+          "mdape": 0.20970511853448276,
+          "median_signed_percentage_error": -0.04548724197247706,
+          "p90_ape": 1.0085314863445378,
+          "within_10": 0.24850657108721624
+        },
+        "base_xgboost": {
+          "eligible_count": 837,
+          "mdape": 0.34304882413087934,
+          "median_signed_percentage_error": -0.10641252990430622,
+          "p90_ape": 1.8077565444179715,
+          "within_10": 0.15890083632019117
+        },
+        "zip_county_median": {
+          "eligible_count": 837,
+          "mdape": 0.4282991900905193,
+          "median_signed_percentage_error": -0.08333333333333333,
+          "p90_ape": 2.4285714285714284,
+          "within_10": 0.12544802867383512
+        }
+      }
+    },
+    "90": {
+      "count": 352,
+      "paired_assessment_better_count": 268,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 352,
+          "mdape": 0.11482209821428571,
+          "median_signed_percentage_error": 0.019248920223577236,
+          "p90_ape": 0.6624831602443609,
+          "within_10": 0.45454545454545453
+        },
+        "base_xgboost": {
+          "eligible_count": 352,
+          "mdape": 0.2778560120517673,
+          "median_signed_percentage_error": -0.09166821551579302,
+          "p90_ape": 1.35770213427398,
+          "within_10": 0.1590909090909091
+        },
+        "zip_county_median": {
+          "eligible_count": 352,
+          "mdape": 0.3352631578947368,
+          "median_signed_percentage_error": -0.02727272727272727,
+          "p90_ape": 1.486577725822141,
+          "within_10": 0.14488636363636365
+        }
+      }
+    },
+    "91": {
+      "count": 221,
+      "paired_assessment_better_count": 156,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 221,
+          "mdape": 0.2205638456937799,
+          "median_signed_percentage_error": -0.04748587328767123,
+          "p90_ape": 0.9156536959134616,
+          "within_10": 0.19457013574660634
+        },
+        "base_xgboost": {
+          "eligible_count": 221,
+          "mdape": 0.4047761057692308,
+          "median_signed_percentage_error": -0.07455192819148936,
+          "p90_ape": 1.4180970703125,
+          "within_10": 0.11312217194570136
+        },
+        "zip_county_median": {
+          "eligible_count": 221,
+          "mdape": 0.425,
+          "median_signed_percentage_error": 0.045454545454545456,
+          "p90_ape": 1.73125,
+          "within_10": 0.11764705882352941
+        }
+      }
+    },
+    "92": {
+      "count": 394,
+      "paired_assessment_better_count": 288,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 394,
+          "mdape": 0.1357210329861111,
+          "median_signed_percentage_error": -0.03767397839773164,
+          "p90_ape": 0.5389246023271228,
+          "within_10": 0.4086294416243655
+        },
+        "base_xgboost": {
+          "eligible_count": 394,
+          "mdape": 0.2943624491954785,
+          "median_signed_percentage_error": -0.15838228319655395,
+          "p90_ape": 0.6763953160909156,
+          "within_10": 0.1700507614213198
+        },
+        "zip_county_median": {
+          "eligible_count": 394,
+          "mdape": 0.3142857142857143,
+          "median_signed_percentage_error": -0.04786008230452675,
+          "p90_ape": 0.9694131902371473,
+          "within_10": 0.24111675126903553
+        }
+      }
+    }
+  },
+  "counties_below_floor": {
+    "count": 35,
+    "sales": 4309
+  },
+  "county_minimum_count": 200,
+  "g_us_gate": "PENDING",
+  "overall": {
+    "count": 71054,
+    "paired_assessment_better_count": 50648,
+    "scorecards": {
+      "assessment_xgboost": {
+        "eligible_count": 71054,
+        "mdape": 0.15190279674369747,
+        "median_signed_percentage_error": -0.02097068318057351,
+        "p90_ape": 0.6262506573867536,
+        "within_10": 0.36566555014496016
+      },
+      "base_xgboost": {
+        "eligible_count": 71054,
+        "mdape": 0.3079114983422512,
+        "median_signed_percentage_error": -0.156542130291762,
+        "p90_ape": 0.9148933840460526,
+        "within_10": 0.1543614715568441
+      },
+      "zip_county_median": {
+        "eligible_count": 71054,
+        "mdape": 0.2867647058823529,
+        "median_signed_percentage_error": -0.03743751725786534,
+        "p90_ape": 1.1466666666666667,
+        "within_10": 0.19404959608185324
+      }
+    }
+  },
+  "prediction_sha256": "756a1bff432f2d6e715142b69d28932f2ddb5c5eb3db70f649f0c0991561a084",
+  "price_quintiles": [
+    {
+      "count": 12737,
+      "paired_assessment_better_count": 9120,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 12737,
+          "mdape": 0.5161762952302632,
+          "median_signed_percentage_error": 0.46959947916666667,
+          "p90_ape": 2.576374004120879,
+          "within_10": 0.1129779382900212
+        },
+        "base_xgboost": {
+          "eligible_count": 12737,
+          "mdape": 0.9874635695187166,
+          "median_signed_percentage_error": 0.9874635695187166,
+          "p90_ape": 4.8160477083333335,
+          "within_10": 0.07018921253042318
+        },
+        "zip_county_median": {
+          "eligible_count": 12737,
+          "mdape": 1.2138888888888888,
+          "median_signed_percentage_error": 1.2138888888888888,
+          "p90_ape": 5.6,
+          "within_10": 0.04883410536233022
+        }
+      }
+    },
+    {
+      "count": 13256,
+      "paired_assessment_better_count": 7273,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 13256,
+          "mdape": 0.2119083248441994,
+          "median_signed_percentage_error": -0.06645352651183173,
+          "p90_ape": 0.555343865816886,
+          "within_10": 0.2502263126131563
+        },
+        "base_xgboost": {
+          "eligible_count": 13256,
+          "mdape": 0.2517261607142857,
+          "median_signed_percentage_error": 0.027946158854166667,
+          "p90_ape": 0.6055786770980461,
+          "within_10": 0.20126735063367532
+        },
+        "zip_county_median": {
+          "eligible_count": 13256,
+          "mdape": 0.23870967741935484,
+          "median_signed_percentage_error": 0.12496619794483504,
+          "p90_ape": 0.7204327012240356,
+          "within_10": 0.23921243210621607
+        }
+      }
+    },
+    {
+      "count": 13647,
+      "paired_assessment_better_count": 7948,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 13647,
+          "mdape": 0.13437473958333335,
+          "median_signed_percentage_error": -0.04654911684782609,
+          "p90_ape": 0.3905066595869595,
+          "within_10": 0.39737671283065873
+        },
+        "base_xgboost": {
+          "eligible_count": 13647,
+          "mdape": 0.17374822443181817,
+          "median_signed_percentage_error": -0.11526820652173914,
+          "p90_ape": 0.4483829617890809,
+          "within_10": 0.2964021396643951
+        },
+        "zip_county_median": {
+          "eligible_count": 13647,
+          "mdape": 0.19270833333333334,
+          "median_signed_percentage_error": -0.0460679385760819,
+          "p90_ape": 0.47604666250779787,
+          "within_10": 0.2805744852348501
+        }
+      }
+    },
+    {
+      "count": 14577,
+      "paired_assessment_better_count": 11148,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 14577,
+          "mdape": 0.09633759328358209,
+          "median_signed_percentage_error": -0.027909874027417562,
+          "p90_ape": 0.30191436538461536,
+          "within_10": 0.5136859436097962
+        },
+        "base_xgboost": {
+          "eligible_count": 14577,
+          "mdape": 0.24467525836614173,
+          "median_signed_percentage_error": -0.23657115384615385,
+          "p90_ape": 0.46113461087164753,
+          "within_10": 0.16052685737806133
+        },
+        "zip_county_median": {
+          "eligible_count": 14577,
+          "mdape": 0.2033898305084746,
+          "median_signed_percentage_error": -0.13333333333333333,
+          "p90_ape": 0.4952525162554556,
+          "within_10": 0.26253687315634217
+        }
+      }
+    },
+    {
+      "count": 16837,
+      "paired_assessment_better_count": 15159,
+      "scorecards": {
+        "assessment_xgboost": {
+          "eligible_count": 16837,
+          "mdape": 0.1014896103896104,
+          "median_signed_percentage_error": -0.054918103448275864,
+          "p90_ape": 0.3155820180735667,
+          "within_10": 0.4938528241373166
+        },
+        "base_xgboost": {
+          "eligible_count": 16837,
+          "mdape": 0.3988712916666667,
+          "median_signed_percentage_error": -0.39696896114864866,
+          "p90_ape": 0.624175047010866,
+          "within_10": 0.06064025657777514
+        },
+        "zip_county_median": {
+          "eligible_count": 16837,
+          "mdape": 0.336,
+          "median_signed_percentage_error": -0.32033854834572967,
+          "p90_ape": 0.6455291179425356,
+          "within_10": 0.13892023519629387
+        }
+      }
+    }
+  ],
+  "protocol": "indiana_sdf_snapshot_assessment_posthoc_slices_v1",
+  "quintile_boundary_rule": "nearest_rank_training_prices; ties in lower band",
+  "source_sha256": {
+    "2024": "a208f5b7230c0e5a0a5b74217a8b37e7d175e12cce59f122ffe2369a548bf6bd",
+    "2025": "f574f75604c953a1c0e498550ea05a20ebf705e8dfaca9aa1090d7a358ee4e12"
+  },
+  "split_membership_sha256": {
+    "train": "1c6ab9e720a5b6ef0e1e7032ad326e45a8bf5ee77eb5c57d072a1a5483665dae",
+    "validation": "2f2b37e186eb5eb97d1609041b17fc8ec7f6a56813667b7e59f2974a505d97b9"
+  },
+  "status": "posthoc_development_diagnostic_only",
+  "training_price_quintile_cuts_usd": [
+    117000.0,
+    185000.0,
+    250000.0,
+    343000.0
+  ]
+}

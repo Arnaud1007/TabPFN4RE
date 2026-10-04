@@ -14,7 +14,7 @@ The existing Ames 12-field form is available for a simpler interactive demo.
 | When | Deliverable | Done when |
 | --- | --- | --- |
 | 5 October | Put the existing King command and Ames form first in the handoff | A user can run a synthetic prediction locally; output names its historical scope |
-| Next work session, capped at 2 hours | Score county, price-band and assessment-availability slices from the saved Indiana predictions | One aggregate report, no new model search or 2025 test claim |
+| Done 5 October | Score county, price-band and assessment-availability slices from the saved Indiana predictions | [Aggregate slice report](runs/indiana-assessment-diagnostic-v1/slice_report.md); no new model search or 2025 test claim |
 | Next 1-2 work days (source investigation timebox) | Check assessment vintages and manually audit 200 Indiana transactions, then train one fixed 90-day OFF baseline only if inputs are pre-origin and labels pass | A reproducible chronological scorecard, or an explicit source blocker |
 | After that baseline | Calibrate intervals and reserve a genuinely new future cohort | No current-market or G-US claim until the required evidence exists |
 
@@ -25,6 +25,15 @@ labels and obtaining an untouched future evaluation cohort. Pause additional
 model families, international work and broad source exploration while these
 prediction deliverables are open. Push each accepted checkpoint to
 `origin/audit/u0`.
+
+**Next runnable task:** Build the 200-record stratified Indiana transaction
+audit, weighted toward the lowest realised-price band and price/parcel
+ambiguities. The new slice report found 51.62% MdAPE on 12,737 sales at or
+below the $117,000 training cutoff, despite model improvement in all 56
+counties with at least 200 rows. Check source definitions and assessment
+vintage before any new 90-day OFF training. If those facts cannot be
+established, record the blocker and seek a different dated source rather
+than promoting the snapshot diagnostic.
 
 ## Prediction-first reset after three days
 

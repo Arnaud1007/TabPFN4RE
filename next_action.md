@@ -17,7 +17,10 @@ is neither a final-test score nor evidence of current-market accuracy.
 prediction result. For a different historical King property, copy the
 15-field example JSON, replace its property facts, and run the same pinned
 command; no new training is needed. The existing validation scorecard is the
-only measured accuracy claim for this model. Timebox the next 90-day OFF
+only measured accuracy claim until the one-use [later-period research
+check](decisions/0096-king-later-period-research-check.md) is run. That check
+keeps the model fixed and cannot establish a 90-day or current-market claim.
+Timebox the next 90-day OFF
 source qualification to two working hours. If its pre-origin data,
 single-home sale labels or permitted use cannot be established, record a
 no-go and capture new sources prospectively. Train just one fixed baseline
@@ -129,10 +132,11 @@ $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
    reuses the saved model with a 15-field JSON request and no retraining. Its
    synthetic example returns $542,149.79 for the 2015 historical reference
    period. It is not a present-day valuation.
-5. **Next certified-market step:** Resolve one official sale source's target,
-   first-availability and reuse-rights questions, then build its audited
-   chronological cohort. Keep the King March–May cohort unscored by the
-   research runner. Do not describe Ames or King scores as US release accuracy.
+5. **Next research result:** Score the frozen King March–May cohort once under
+   ADR 0096, reporting it as retrospective research. Then resolve one official
+   sale source's target, first-availability and reuse-rights questions and
+   build its audited chronological cohort. Do not describe Ames or King scores
+   as US release accuracy.
 
 The [October 4 HCPA listing capture](runs/u0-hcpa-listing-20261004T194412Z/report.md)
 adds an observed publication checkpoint: the All Sales filename remained dated

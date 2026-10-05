@@ -25,7 +25,7 @@ publication_availability: absent for individual rows
 licence_metadata: CC0 Public Domain, declared by OpenML uploader
 rights_decision: private research only; uploader declaration does not establish original county-derived-data rights or commercial AVM permission
 redistribution_decision: raw rows and trained checkpoint remain Git-ignored
-permitted_experiment: one date-ordered historical research benchmark using a frozen split
+permitted_experiment: date-ordered historical research benchmark and one frozen later-period diagnostic under ADR 0096; private only
 prohibited_claims: [certified_90_day_origin, current_us_accuracy, king_county_service, g_us]
 known_limitations:
   - Property class and arm's-length flags are absent; existing single-family cohort cannot be proven.

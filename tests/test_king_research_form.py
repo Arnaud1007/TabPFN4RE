@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+from contextlib import redirect_stdout
+import io
 import json
+import math
 from pathlib import Path
 import sys
+import tempfile
 import threading
 import time
 import tkinter as tk
+from types import ModuleType
 import unittest
 from unittest.mock import patch
 
@@ -122,6 +127,133 @@ class KingResearchFormTests(unittest.TestCase):
             manifest_sha256,
         )
         self.assertIn("$200,000", form.format_prediction(response))
+
+    def test_startup_reuses_one_verified_model_for_two_tk_submissions(self) -> None:
+        root, ui_instances = self._empty_tk_root()
+        loaded_models = []
+        predicted_models = []
+        observed: dict[str, object] = {}
+        bundle = serving.VerifiedBundle(
+            FEATURE_NAMES, b"mock model bytes", "a" * 64, "b" * 64
+        )
+        fake_xgboost = ModuleType("xgboost")
+
+        class CountingRegressor:
+            def load_model(self, content):
+                self.assert_bytes = bytes(content)
+                loaded_models.append(self)
+
+            def predict(self, _matrix):
+                predicted_models.append(self)
+                return [math.log(200_000 + 50_000 * (len(predicted_models) - 1))]
+
+        fake_xgboost.XGBRegressor = CountingRegressor
+
+        real_form_class = form.KingResearchForm
+
+        def capture_form(*args, **kwargs):
+            ui = real_form_class(*args, **kwargs)
+            ui_instances.append(ui)
+            return ui
+
+        def run_form_flow():
+            observed["bundle_reads_at_open"] = load_bundle.call_count
+            observed["model_loads_at_open"] = len(loaded_models)
+            ui = ui_instances[0]
+            for name, value in self.raw.items():
+                ui.entries[name].delete(0, "end")
+                ui.entries[name].insert(0, value)
+            for expected in ("$200,000", "$250,000"):
+                ui.submit()
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline and not ui.result_var.get():
+                    root.update()
+                    time.sleep(0.01)
+                display = ui.result_var.get()
+                self.assertIn(expected, display)
+                self.assertIn("2015", display)
+                self.assertIn("no calibrated interval", display.lower())
+
+        argv = [
+            "king_research_form",
+            "--bundle",
+            "unused-bundle",
+            "--manifest-sha256",
+            "a" * 64,
+        ]
+        with (
+            patch.object(sys, "argv", argv),
+            patch.object(serving, "load_bundle", return_value=bundle) as load_bundle,
+            patch.dict(sys.modules, {"xgboost": fake_xgboost}),
+            patch.object(form.tk, "Tk", return_value=root),
+            patch.object(form, "KingResearchForm", side_effect=capture_form),
+            patch.object(root, "mainloop", side_effect=run_form_flow),
+            patch("tkinter.messagebox.showinfo"),
+            patch("tkinter.messagebox.showerror"),
+        ):
+            self.assertEqual(form.main(), 0)
+
+        with self.subTest("one verified bundle at startup"):
+            self.assertEqual(observed["bundle_reads_at_open"], 1)
+            self.assertEqual(load_bundle.call_count, 1)
+        with self.subTest("one loaded XGBoost model at startup"):
+            self.assertEqual(observed["model_loads_at_open"], 1)
+            self.assertEqual(len(loaded_models), 1)
+            self.assertEqual(loaded_models[0].assert_bytes, bundle.model_bytes)
+        with self.subTest("same model served both form requests"):
+            self.assertEqual(len(predicted_models), 2)
+            self.assertIs(predicted_models[0], predicted_models[1])
+
+    def test_cli_still_produces_historical_response_with_verified_model(self) -> None:
+        bundle = serving.VerifiedBundle(
+            FEATURE_NAMES, b"mock model bytes", "a" * 64, "b" * 64
+        )
+        fake_xgboost = ModuleType("xgboost")
+
+        class FakeRegressor:
+            def load_model(self, content):
+                self.assert_bytes = bytes(content)
+
+            def predict(self, _matrix):
+                return [math.log(200_000)]
+
+        fake_xgboost.XGBRegressor = FakeRegressor
+        with tempfile.TemporaryDirectory() as directory:
+            request_path = Path(directory) / "request.json"
+            request_path.write_text(json.dumps(EXAMPLE), encoding="utf-8")
+            argv = [
+                "king_research_predict",
+                "--bundle",
+                "unused-bundle",
+                "--manifest-sha256",
+                "a" * 64,
+                "--request",
+                str(request_path),
+            ]
+            output = io.StringIO()
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(serving, "load_bundle", return_value=bundle) as load_bundle,
+                patch.dict(sys.modules, {"xgboost": fake_xgboost}),
+                redirect_stdout(output),
+            ):
+                self.assertEqual(serving.main(), 0)
+
+        load_bundle.assert_called_once_with(Path("unused-bundle"), "a" * 64)
+        response = json.loads(output.getvalue())
+        self.assertAlmostEqual(response["amount"], 200_000, places=5)
+        self.assertEqual(response["status"], "historical_research_only")
+        self.assertEqual(response["reference_period"], RESPONSE["reference_period"])
+        self.assertFalse(response["certified_90_day_origin"])
+
+    def _empty_tk_root(self) -> tuple[tk.Tk, list[form.KingResearchForm]]:
+        try:
+            root = tk.Tk()
+        except tk.TclError as error:
+            self.skipTest(f"A local Tk display is unavailable: {error}")
+        self.addCleanup(root.destroy)
+        root.withdraw()
+        return root, []
 
     def test_tk_demo_populates_all_fifteen_fields(self) -> None:
         _root, ui = self.make_hidden_form()

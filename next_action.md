@@ -5,14 +5,15 @@ Updated: 2026-10-05. Branch: `audit/u0`.
 ## Immediate prediction checkpoint, 5 October 2026
 
 The [local receipt checkpoint](runs/king-prospective-receipt-20261005-v1/report.md)
-now proves that committed code can create an access-restricted, create-only
-receipt without printing property inputs. The synthetic workflow recorded the
-exact request, response, model and commit hashes. Its workstation clock is not
-externally trusted, the local owner can still alter or delete the file, and it
-has no future outcome. It is workflow evidence only. Before treating a real
-capture as prospective certification evidence, add an authorised external
-commitment that reveals no property inputs, enroll real properties before
-outcomes are known and wait for qualifying sales to mature.
+proves that committed code can create an access-restricted, create-only receipt
+without printing property inputs. Receipt format v2 now adds a private 256-bit
+nonce, retains exact raw request bytes, uses a random private ID and supports a
+[privacy-safe public commitment](runs/king-prospective-commitments-v1/report.md).
+The public artifact omits property inputs, price, request and response hashes,
+enrollment hash, private ID and prediction time. This synthetic workflow has no
+future outcome and its workstation clock is not independently trusted. Next,
+enroll real properties before outcomes are known, publish their nonce-hardened
+commitments promptly and wait for qualifying sales to mature.
 
 The [King County local form](runs/king-form-20261005-v1/report.md) now gives a
 historical research estimate from the saved model without training. Its

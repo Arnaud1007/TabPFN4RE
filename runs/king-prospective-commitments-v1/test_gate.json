@@ -1,0 +1,29 @@
+{
+  "run_id": "king-prospective-commitments-v1",
+  "status": "verified_workflow_only",
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m unittest tests.test_capture_king_prediction tests.test_prepare_king_receipt_commitment -q",
+      "repetitions": 3,
+      "tests_per_repetition": 12,
+      "exit_codes": [0, 0, 0]
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m coverage run --branch -m unittest tests.test_capture_king_prediction tests.test_prepare_king_receipt_commitment -q && .venv/Scripts/python.exe -m coverage report --include=scripts/capture_king_prediction.py,scripts/prepare_king_receipt_commitment.py --fail-under=80",
+      "tests": 12,
+      "combined_statements": 311,
+      "combined_coverage_percent": 80,
+      "exit_code": 0
+    },
+    {
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest tests.test_capture_king_prediction tests.test_prepare_king_receipt_commitment tests.test_king_research_predict tests.test_king_research_form tests.test_king_research_launcher tests.test_fhfa_hpi_adjustment -q",
+      "tests": 50,
+      "exit_code": 0
+    }
+  ],
+  "privacy_canary_forbidden_matches": 0,
+  "private_receipt_committed": false,
+  "property_inputs_published": false,
+  "certification_eligible": false,
+  "g_us_gate": "PENDING"
+}

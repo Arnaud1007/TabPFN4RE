@@ -1,0 +1,19 @@
+{
+  "applicability_verified": false,
+  "certified_90_day_origin": false,
+  "code_commit": "eec5b2c52476aa4fcc78d058ec97edf361842a60",
+  "g_us_gate": "PENDING",
+  "historical_asof_eligible": false,
+  "input_hashes": {
+    "fhfa_hpi": "d664a8e2e92f64aa17201b3bdd84d0ab4d1a4d00e9c6c15d5b34fb400c10d842",
+    "predictions": "25e64ecca3c83e017124428bc3b37baf0c44d17094b37fa43f0ae667f4151923"
+  },
+  "outputs": {
+    "scorecards.json": "1d979f7ca4cf98d9a4b2d345499872af7c444e254caec011d68de5d73eea7bfd"
+  },
+  "promotion_eligible": false,
+  "protocol": "king_fhfa_adjustment_replay_v1",
+  "run_id": "king-hpi-adjustment-20261005-v1",
+  "status": "complete_exploratory_sensitivity_only",
+  "uses_revised_hindsight": true
+}

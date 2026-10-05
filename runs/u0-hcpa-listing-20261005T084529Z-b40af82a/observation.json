@@ -1,0 +1,27 @@
+{
+  "capture_completed_at_utc": "2026-10-05T08:45:29Z",
+  "capture_started_at_utc": "2026-10-05T08:45:29Z",
+  "certified_sale_labels": 0,
+  "code_commit": "caec284c90152f046e68191fb0336b5ace73381d",
+  "dirty_tree_at_capture": false,
+  "first_public_availability_verified": false,
+  "g_us_gate": "PENDING",
+  "observed_listings": {
+    "allsales": {
+      "displayed_last_updated": "9/18/2026 7:14AM",
+      "displayed_size": "68 MB",
+      "filename": "allsales_09_18_2026.zip"
+    },
+    "parcels": {
+      "displayed_last_updated": "10/2/2026 11:41AM",
+      "displayed_size": "148 MB",
+      "filename": "parcels_10_02_2026.zip"
+    }
+  },
+  "raw_html_bytes": 22669,
+  "raw_html_private_path": "data\\raw\\hcpa\\listing-captures\\u0-hcpa-listing-20261005T084529Z-b40af82a.html",
+  "raw_html_sha256": "f23589af5270070079032a72e4ff0e72de4f0dd7d264a2adb8735bafb86d24ca",
+  "run_id": "u0-hcpa-listing-20261005T084529Z-b40af82a",
+  "source_url": "https://downloads.hcpafl.org/Default.aspx",
+  "status": "observed_not_qualified"
+}

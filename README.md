@@ -92,6 +92,22 @@ verify its own bundle.
   & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
   ```
 
+- To preserve a private local prediction receipt before a future outcome is
+  known, run the same request through the capture command. Replace the opaque
+  enrollment reference for each property. The receipt retains the exact
+  validated request under `data/raw/`, which is excluded from Git and access
+  restricted. Terminal output omits those property inputs.
+
+  ```powershell
+  $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
+  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.capture_king_prediction --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --enrollment-reference demo-20261005 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
+  ```
+
+  This is a create-only local research capture with an untrusted workstation
+  clock. The local owner can still modify or delete it. It needs an external
+  timestamp or commitment and a matured qualifying sale before it can support
+  prospective certification; G-US remains pending.
+
 - [King historical validation report](runs/king-historical-20261004-v1/report.md) records a fixed two-model comparison on 2,228 sale-date validation rows: XGBoost 8.90% MdAPE and 55.25% within 10%, versus ZIP-code median 21.20% and 25.18%. A separate [later-period research check](runs/king-later-2015-v1/report.md) scored the frozen model on 4,752 March-May 2015 sales: 10.52% MdAPE and 47.94% within 10%, versus 20.00% and 25.38% for the ZIP median. The source lacks verified pre-sale feature availability, so neither result is a current or 90-day valuation claim.
 - [Indiana 2024-to-2025 research report](runs/indiana-sdf-20261004-v1/report.md) records 71,054 later sales scored in 24.46 seconds: the county/ZIP median achieved 28.68% MdAPE, while a fixed XGBoost model using the same county, ZIP and acreage information reached 30.79%. The simpler reference remains stronger on typical error; neither is a current-home valuation.
 - [Indiana assessment-snapshot diagnostic](runs/indiana-assessment-diagnostic-v1/report.md) compares the exact same 71,054 development sales with two fixed tree models. Adding assessed land/improvement values and neighborhood code reduced MdAPE from 30.79% to 15.19% in a 36.32-second full run. The fields' availability 90 days before sale is unknown, so this is not a deployable predictor.

@@ -4,6 +4,27 @@ Evidence-first research workspace for residential sale-price prediction. U0, the
 
 In Visual Studio 2022, choose **File > Open > Folder** and select this directory.
 
+## Fastest working prediction: King County
+
+On the prepared workstation, double-click `Launch-KingResearchForm.cmd`. Wait
+for **Historical model ready**, choose **Load synthetic example**, then choose
+**Predict**.
+The saved model returns a point estimate without retraining. To preserve a real
+pre-outcome prediction for later evaluation, enter an opaque enrollment
+reference that contains no address or parcel information and choose
+**Predict + record**. That one action creates the prediction, a private local
+receipt and a privacy-safe commitment.
+
+If commitment publication is interrupted, the private receipt is retained.
+The form restores pending receipts after restart and enables **Retry
+commitment**, which publishes the existing receipt without running the model a
+second time. Keep private receipts under the ignored `data/raw/` area.
+
+The model was trained and evaluated on historical King County sales through
+2015. Its output is a historical research estimate, with no calibrated
+interval, current-market validity or certified 90-day accuracy. **G-US is
+PENDING.**
+
 ## Fast Ames prediction prototype
 
 Use Python 3.11 and the pins in [ames-prototype-requirements.txt](locks/ames-prototype-requirements.txt). On this workstation the isolated interpreter is `data/raw/legacy-replay/.venv/Scripts/python.exe`. A fresh clone can create an environment with `py -3.11 -m venv data/raw/ames-prototype/.venv` after creating the ignored `data/raw/ames-prototype` directory, then install with `& 'data/raw/ames-prototype/.venv/Scripts/python.exe' -m pip install -r locks/ames-prototype-requirements.txt`. Set `PYTHONPATH` to the repository's `src` directory because the isolated interpreter does not install this package.
@@ -70,10 +91,11 @@ $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 
 & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
 ```
 
-Choose **Load synthetic example**, load an edited copy of
+For the quickest demonstration, choose **Load synthetic example** and then
+**Predict**. You can instead load an edited copy of
 [`examples/king-research-request.json`](examples/king-research-request.json)
 with **Load request JSON...**, or enter the 15 physical and location fields,
-then select **Predict**. Loaded files pass the same validation as typed values;
+then choose **Predict**. Loaded files pass the same validation as typed values;
 an invalid file leaves the existing form values unchanged. The synthetic
 example displays **$542,150** rounded from the saved machine output. The form
 keeps the window responsive during model
@@ -85,6 +107,17 @@ This is a 2015 research estimate, with no calibrated interval or current-market
 validity. The private bundle stays outside Git; a fresh clone must build and
 verify its own bundle.
 
+For a real observation made before its outcome is known, enter an opaque
+enrollment reference that does not contain an address, parcel number or owner
+name, then choose **Predict + record**. The form reuses its loaded model and, in
+one action, saves an access-restricted private receipt under `data/raw/` and a
+privacy-safe commitment under `runs/`. If commitment publication fails after
+the receipt is saved, the form blocks another capture and offers **Retry
+commitment**. Pending receipts are restored after restart; retrying creates the
+commitment from the saved receipt and does not make a second prediction. See
+the [prospective enrollment report](runs/king-prospective-enrollment-20261005-v1/report.md)
+for the verified behavior and privacy boundary.
+
 - [King historical prediction command](runs/king-serving-20261004-v1/report.md) reuses the saved model without retraining. Edit [the 15-field synthetic request](examples/king-research-request.json) and run the command below on this workstation. The example returns **$542,149.79** in historical 2015 USD terms; it is not a current-market estimate or a 90-day valuation. The private model is not committed to Git.
 
   ```powershell
@@ -92,27 +125,31 @@ verify its own bundle.
   & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
   ```
 
-- To preserve a private local prediction receipt before a future outcome is
-  known, run the same request through the capture command. Replace the opaque
-  enrollment reference for each property. The receipt retains the exact
-  validated request under `data/raw/`, which is excluded from Git and access
-  restricted. Terminal output omits those property inputs.
+- The form's **Predict + record** action is the preferred prospective capture
+  path. For automation or recovery without the form, the lower-level CLI can
+  create a private receipt. Replace the opaque enrollment reference for each
+  property; do not put an address, parcel number or owner name in it. The
+  receipt retains the exact validated request under `data/raw/`, which is
+  excluded from Git and access restricted. Terminal output omits those
+  property inputs.
 
   ```powershell
   $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
   & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.capture_king_prediction --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --enrollment-reference demo-20261005 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
   ```
 
-  This is a create-only local research capture with an untrusted workstation
-  clock. The local owner can still modify or delete it. It needs an external
-  timestamp or commitment and a matured qualifying sale before it can support
-  prospective certification; G-US remains pending.
+  This lower-level command creates only the private receipt. It uses an
+  untrusted workstation clock, and the local owner can still modify or delete
+  it. Use the form for the normal one-action receipt-and-commitment workflow.
+  A matured qualifying sale is still required before any captured prediction
+  can contribute to prospective evaluation; G-US remains pending.
 
   Receipt format v2 includes a private random nonce and retains the exact raw
-  JSON only inside the ignored, access-restricted receipt. To prepare a public
-  commitment without publishing the property inputs, price, request hashes,
-  response hash, receipt ID or local prediction time, create an output
-  directory under `runs/` and run:
+  JSON only inside the ignored, access-restricted receipt. If an older receipt
+  was created with the lower-level CLI, prepare its public commitment without
+  publishing the property inputs, price, request hashes, response hash,
+  receipt ID or local prediction time by creating an output directory under
+  `runs/` and running:
 
   ```powershell
   New-Item -ItemType Directory -Force runs/king-prospective-commitments-v1 | Out-Null

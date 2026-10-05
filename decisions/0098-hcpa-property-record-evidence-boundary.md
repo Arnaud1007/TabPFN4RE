@@ -1,6 +1,6 @@
 # ADR 0098: HCPA property-record evidence boundary
 
-Date: 2026-10-05  
+Date: 2026-10-05
 Status: accepted for source audit only
 
 ## Decision

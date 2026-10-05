@@ -1,7 +1,7 @@
 # HCPA official property-record evidence checkpoint
 
-Date: 2026-10-05  
-Milestone: U0 source audit  
+Date: 2026-10-05
+Milestone: U0 source audit
 Gate: HCPA certified training remains blocked; G-US remains **PENDING**
 
 ## Result
@@ -47,4 +47,3 @@ tracked in this checkpoint.
 Continue the stratified 200-record audit using official pages for bounded
 identity checks. Keep unresolved deed and source-wide semantics unknown while
 the custodian inquiry remains undelivered.
-

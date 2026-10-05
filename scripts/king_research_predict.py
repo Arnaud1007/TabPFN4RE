@@ -130,7 +130,7 @@ def validate_request(
     """Validate a complete historical King feature vector without a sale price."""
     if not isinstance(request, dict) or set(request) != {*NUMERIC_FEATURES, "zipcode"}:
         raise ValueError("King request must have exactly the 15 property fields")
-    values: dict[str, float | str] = {}
+    numeric: dict[str, float] = {}
     for name in NUMERIC_FEATURES:
         raw = request[name]
         if type(raw) not in (int, float):
@@ -141,40 +141,41 @@ def validate_request(
             raise ValueError(f"King request {name} must be a finite number") from error
         if not math.isfinite(number):
             raise ValueError(f"King request {name} must be a finite number")
-        values[name] = number
+        numeric[name] = number
     zipcode = request["zipcode"]
     if (
         not isinstance(zipcode, str)
         or not re.fullmatch(r"\d{5}", zipcode)
         or f"zipcode={zipcode}" not in feature_names
     ):
-        raise ValueError("King request ZIP code is outside the training vocabulary")
-    values["zipcode"] = zipcode
-    if any(
-        not values[name].is_integer()
-        for name in ("bedrooms", "view", "condition", "grade", "yr_built")
-    ):
-        raise ValueError("King request count and rating fields must be whole numbers")
-    if (
-        values["sqft_living"] <= 0
-        or values["sqft_lot"] <= 0
-        or values["sqft_above"] < 0
-        or values["sqft_basement"] < 0
-        or not 0 <= values["bedrooms"] <= 20
-        or not 0 <= values["bathrooms"] <= 20
-        or not 0 < values["floors"] <= 8
-        or values["waterfront"] not in (0, 1)
-        or not 0 <= values["view"] <= 4
-        or not 1 <= values["condition"] <= 5
-        or not 1 <= values["grade"] <= 13
-        or not 1800 <= values["yr_built"] <= 2015
-        or not 47 <= values["lat"] <= 48
-        or not -123 <= values["long"] <= -121
-    ):
-        raise ValueError(
-            "King request contains unsupported physical or location values"
-        )
-    return values
+        raise ValueError("King request zipcode must be a supported training ZIP code")
+    for name in ("bedrooms", "view", "condition", "grade", "yr_built"):
+        if not numeric[name].is_integer():
+            raise ValueError(f"King request {name} must be a whole number")
+    _validate_numeric_ranges(numeric)
+    return {**numeric, "zipcode": zipcode}
+
+
+def _validate_numeric_ranges(values: Mapping[str, float]) -> None:
+    constraints = (
+        ("sqft_living", values["sqft_living"] > 0, "greater than 0"),
+        ("sqft_lot", values["sqft_lot"] > 0, "greater than 0"),
+        ("sqft_above", values["sqft_above"] >= 0, "0 or greater"),
+        ("sqft_basement", values["sqft_basement"] >= 0, "0 or greater"),
+        ("bedrooms", 0 <= values["bedrooms"] <= 20, "between 0 and 20"),
+        ("bathrooms", 0 <= values["bathrooms"] <= 20, "between 0 and 20"),
+        ("floors", 0 < values["floors"] <= 8, "greater than 0 and at most 8"),
+        ("waterfront", values["waterfront"] in (0, 1), "0 or 1"),
+        ("view", 0 <= values["view"] <= 4, "between 0 and 4"),
+        ("condition", 1 <= values["condition"] <= 5, "between 1 and 5"),
+        ("grade", 1 <= values["grade"] <= 13, "between 1 and 13"),
+        ("yr_built", 1800 <= values["yr_built"] <= 2015, "between 1800 and 2015"),
+        ("lat", 47 <= values["lat"] <= 48, "between 47 and 48"),
+        ("long", -123 <= values["long"] <= -121, "between -123 and -121"),
+    )
+    for name, accepted, guidance in constraints:
+        if not accepted:
+            raise ValueError(f"King request {name} must be {guidance}")
 
 
 def encode_request(

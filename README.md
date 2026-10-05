@@ -56,6 +56,23 @@ The [Ames prototype report](runs/ames-dev-prototype-20261004-v1/report.md) recor
 
 ## Current evidence
 
+### King County historical prediction form
+
+The local [15-field King County form](runs/king-form-20261005-v1/report.md) uses
+the saved historical model. From the project root on this workstation:
+
+```powershell
+$env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9
+```
+
+Choose **Load synthetic example**, then **Predict**, or enter the 15 physical
+and location fields. The synthetic example displays **$542,150** rounded from
+the saved machine output. The form keeps the window responsive during model
+loading and clears an old estimate when inputs change. This is a 2015 research
+estimate, with no calibrated interval or current-market validity. The private
+bundle stays outside Git; a fresh clone must build and verify its own bundle.
+
 - [King historical prediction command](runs/king-serving-20261004-v1/report.md) reuses the saved model without retraining. Edit [the 15-field synthetic request](examples/king-research-request.json) and run the command below on this workstation. The example returns **$542,149.79** in historical 2015 USD terms; it is not a current-market estimate or a 90-day valuation. The private model is not committed to Git.
 
   ```powershell

@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import math
 from pathlib import Path
+import sys
 import tempfile
+import types
 import unittest
 from unittest.mock import patch
+from contextlib import redirect_stderr, redirect_stdout
 
 from scripts.king_historical_benchmark import NUMERIC_FEATURES, SOURCE_SHA256
 from scripts import king_research_predict as serving
@@ -50,6 +54,63 @@ class OverflowModel:
 
 
 class KingResearchPredictTests(unittest.TestCase):
+    def test_predict_uses_verified_bundle_and_emits_historical_scope(self) -> None:
+        fake_xgboost = types.ModuleType("xgboost")
+
+        class FakeRegressor:
+            def load_model(self, model_bytes):
+                self.model_bytes = model_bytes
+
+            def predict(self, matrix):
+                self.matrix = matrix
+                return [math.log(200_000)]
+
+        fake_xgboost.XGBRegressor = FakeRegressor
+        verified = serving.VerifiedBundle(FEATURE_NAMES, b"model", "a" * 64, "b" * 64)
+        with (
+            patch.dict(sys.modules, {"xgboost": fake_xgboost}),
+            patch.object(serving, "load_bundle", return_value=verified) as load,
+        ):
+            result = serving.predict(Path("private-bundle"), REQUEST, "a" * 64)
+        load.assert_called_once_with(Path("private-bundle"), "a" * 64)
+        self.assertAlmostEqual(result["amount"], 200_000, places=6)
+        self.assertEqual(result["status"], "historical_research_only")
+        self.assertFalse(result["certified_90_day_origin"])
+        self.assertEqual(result["g_us_gate"], "PENDING")
+
+    def test_cli_reads_request_and_reports_prediction_or_error(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            request_file = Path(directory) / "request.json"
+            request_file.write_text(json.dumps(REQUEST), encoding="utf-8")
+            argv = [
+                "king_research_predict",
+                "--bundle",
+                "private-bundle",
+                "--manifest-sha256",
+                "a" * 64,
+                "--request",
+                str(request_file),
+            ]
+            response = {"amount": 200_000.0, "status": "historical_research_only"}
+            output = io.StringIO()
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(serving, "predict", return_value=response) as predict,
+                redirect_stdout(output),
+            ):
+                self.assertEqual(serving.main(), 0)
+            self.assertEqual(json.loads(output.getvalue()), response)
+            predict.assert_called_once_with(Path("private-bundle"), REQUEST, "a" * 64)
+
+            error_output = io.StringIO()
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(serving, "predict", side_effect=ValueError("bad bundle")),
+                redirect_stderr(error_output),
+            ):
+                self.assertEqual(serving.main(), 2)
+            self.assertIn("bad bundle", error_output.getvalue())
+
     def test_valid_request_uses_frozen_feature_order_and_log_price(self) -> None:
         values = serving.validate_request(REQUEST, FEATURE_NAMES)
         vector = serving.encode_request(values, FEATURE_NAMES)

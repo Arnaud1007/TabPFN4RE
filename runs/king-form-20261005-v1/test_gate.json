@@ -1,0 +1,54 @@
+{
+  "gate": "king-historical-research-form-v1",
+  "status": "PASS_WITH_LIMITATIONS",
+  "date": "2026-10-05",
+  "requirements": ["US21", "US23", "US24"],
+  "commands": [
+    {
+      "name": "focused_tests_and_coverage",
+      "command": "$env:PYTHONPATH=(Resolve-Path -LiteralPath 'src').Path; .venv/Scripts/python.exe -m coverage run --branch --source=scripts.king_research_form,scripts.king_research_predict -m unittest discover -s tests -p 'test_king_research*.py' -q; .venv/Scripts/python.exe -m coverage report -m scripts/king_research_form.py scripts/king_research_predict.py",
+      "exit_code": 0,
+      "observed": "20 tests passed; 85% combined branch coverage"
+    },
+    {
+      "name": "lint_and_format",
+      "command": ".venv/Scripts/python.exe -m ruff check <changed Python files>; .venv/Scripts/python.exe -m ruff format --check <changed Python files>",
+      "exit_code": 0,
+      "observed": "All checks passed; all files formatted"
+    },
+    {
+      "name": "live_saved_bundle",
+      "command": "$env:PYTHONPATH='<repo>;<repo>/src'; data/raw/legacy-replay/.venv/Scripts/python.exe -O runs/king-form-20261005-v1/verify_live.py",
+      "exit_code": 0,
+      "observed": "Expected rounded estimate and historical warnings; nonblocking submit; completion 8.547 seconds"
+    },
+    {
+      "name": "broad_lightweight_suite",
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+      "exit_code": 1,
+      "observed": "1373 tests ran in 519.779 seconds; two Indiana encoder errors caused only by missing sklearn"
+    },
+    {
+      "name": "dependency_mismatch_recheck",
+      "command": "data/raw/legacy-replay/.venv/Scripts/python.exe -m unittest <two Indiana encoder tests> -v",
+      "exit_code": 0,
+      "observed": "Both tests passed in 4.256 seconds with pinned sklearn 1.9.1"
+    }
+  ],
+  "coverage": {
+    "scripts.king_research_form": 83,
+    "scripts.king_research_predict": 88,
+    "combined": 85
+  },
+  "live_result": "live_result.json",
+  "private_bundle_committed": false,
+  "current_valuation_claim": false,
+  "certified_90_day_origin": false,
+  "calibrated_intervals": false,
+  "g_us_gate": "PENDING",
+  "limitations": [
+    "Cold completion time varied from 8.547 to 51.469 seconds; p95 is not established",
+    "Screen-reader label association remains to be verified on the target Windows assistive technology",
+    "Private saved bundle is required locally"
+  ]
+}

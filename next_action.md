@@ -2,6 +2,25 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
+## Immediate prediction checkpoint, 5 October 2026
+
+The [King County local form](runs/king-form-20261005-v1/report.md) now gives a
+historical research estimate from the saved model without training. Its
+synthetic example displays `$542,150`. The live verification recorded an
+8.547-second first prediction on this workstation and an immediate,
+nonblocking submit; another run took 51.469 seconds, so the final application's
+p95 latency target is not established. The form and CLI share the same guarded
+prediction service. Editing an input clears the prior estimate. The private
+model bundle is still needed locally.
+
+**Exact form command:** `$env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"; & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9`.
+
+**Next model-critical action:** qualify a source with provable pre-origin inputs,
+one-home arm's-length sale labels and permitted use, then run one fixed OFF
+baseline. Do not promote the King historical predictor to current or 90-day
+service; G-US remains pending. Continue HCPA source review and exact-byte
+prospective captures while that source gate is unresolved.
+
 ## HCPA source-review checkpoint, 5 October 2026
 
 The [frozen-sample review](runs/u0-hcpa-review-progress-20261005-v1/report.md)

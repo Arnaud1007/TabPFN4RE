@@ -1,0 +1,1 @@
+{"completion_seconds": 8.547, "edited_input_clears_result": true, "historical_scope": true, "invalid_input_rejected_without_stale_result": true, "model_output_matches_saved_example_when_rounded": true, "nonblocking_submit_under_half_second": true, "status": "PASS", "submit_seconds": 0.0}

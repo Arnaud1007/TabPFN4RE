@@ -1,0 +1,11 @@
+{
+  "certification_eligible": false,
+  "commitment_id": "844a9affc0e74649e28b2241",
+  "g_us_gate": "PENDING",
+  "pending_after": 0,
+  "pending_before": 1,
+  "private_receipt_committed": false,
+  "property_inputs_published": false,
+  "public_artifact_sha256": "c56883798988276c9270e7515c6040da12b74db03ef35d1852245cd21e9f98ac",
+  "status": "pass"
+}

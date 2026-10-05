@@ -11,6 +11,10 @@ commitment is restored after restart and retried without making another
 prediction. The saved-model integration returned `$542,149.79`; this remains a
 2015 historical research estimate and G-US remains pending.
 
+The [commitment recovery checkpoint](runs/king-commitment-recovery-20261005-v1/report.md)
+processed the one pending synthetic v2 receipt without another prediction.
+The verified startup scan now reports zero pending current-format receipts.
+
 The [local receipt checkpoint](runs/king-prospective-receipt-20261005-v1/report.md)
 proves that committed code can create an access-restricted, create-only receipt
 without printing property inputs. Receipt format v2 now adds a private 256-bit

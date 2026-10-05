@@ -1,6 +1,6 @@
-# 0099 — King recency rolling development comparison
+# 0099 â€” King recency rolling development comparison
 
-Date: 2026-10-05  
+Date: 2026-10-05
 Status: accepted experiment protocol
 
 ## Decision
@@ -11,7 +11,7 @@ Compare the ZIP median, the existing fixed log-price XGBoost configuration, and
 the same XGBoost configuration fitted with exponential sample weights having a
 180-day half-life.
 
-The March–May 2015 later cohort remains outside this experiment. No parameter
+The Marchâ€“May 2015 later cohort remains outside this experiment. No parameter
 search is authorized. The recency challenger is promoted only if it improves
 MdAPE in at least three of four windows, reduces pooled MdAPE by at least 2%
 relative, and degrades neither within-10 accuracy nor P90 APE by more than 0.5

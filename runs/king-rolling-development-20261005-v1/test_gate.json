@@ -1,0 +1,13 @@
+{
+  "branch_coverage_percent": 85,
+  "g_us_gate": "PENDING",
+  "improved_windows": 1,
+  "manifest_sha256": "a32cdbb1a4708b5f097a2d2949e228497636c5c7c358e2cb4128b269e91bbd12",
+  "march_may_rows_scored": 0,
+  "scorecards_sha256": "c754f1262a0b67b33b2fcae58b37237cd08db6dea2ffb04f8fc3258cbfe84c4b",
+  "selected_candidate": "xgboost",
+  "status": "pass",
+  "successful_estimates": 5108,
+  "tests_passed": 14,
+  "validation_rows": 5108
+}

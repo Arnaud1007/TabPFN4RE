@@ -2,6 +2,16 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
+## Fast prediction research result, 5 October 2026
+
+The [King rolling recency checkpoint](runs/king-rolling-development-20261005-v1/report.md)
+scored 5,108 November-February historical sales in four chronological windows.
+The fixed XGBoost model achieved 8.56% pooled MdAPE and 56.25% within 10%. The
+single predeclared 180-day recency challenger reached 8.63% MdAPE, improved only
+1 of 4 windows and was rejected. Keep the fixed model; do not spend more time
+on recency weighting without a new error mechanism. The result remains
+retrospective research because source timing and rights are unresolved.
+
 ## Private HCPA review checkpoint, 5 October 2026
 
 The [second property-record review checkpoint](runs/u0-hcpa-property-record-candidate-20261005-v2/report.md)
@@ -226,7 +236,7 @@ $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
    command is below and its [evidence](runs/ames-manual-form-20261004-v1/report.md)
    is recorded. This gives a usable historical prediction workflow immediately.
 3. **Done:** A fixed King County historical research comparison trained and
-   scored in 6.46 seconds end to end. On 2,228 January–February 2015
+   scored in 6.46 seconds end to end. On 2,228 Januaryâ€“February 2015
    validation sales, XGBoost reached 8.90% MdAPE and 55.25% within 10%; the
    ZIP-code median reached 21.20% and 25.18%. See the
    [run report](runs/king-historical-20261004-v1/report.md). This is a

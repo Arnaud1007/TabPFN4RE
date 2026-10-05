@@ -13,11 +13,24 @@ The existing Ames 12-field form is available for a simpler interactive demo.
 The King development validation score was 8.90% MdAPE on 2,228 sales; this
 is neither a final-test score nor evidence of current-market accuracy.
 
+**Short delivery plan:** Keep the saved King predictor as the immediate
+prediction result. For a different historical King property, copy the
+15-field example JSON, replace its property facts, and run the same pinned
+command; no new training is needed. The existing validation scorecard is the
+only measured accuracy claim for this model. Timebox the next 90-day OFF
+source qualification to two working hours. If its pre-origin data,
+single-home sale labels or permitted use cannot be established, record a
+no-go and capture new sources prospectively. Train just one fixed baseline
+within the following working day if a candidate clears those checks. Do not
+delay the runnable historical predictor for further model searches or imply a
+date for G-US certification.
+
 | When | Deliverable | Done when |
 | --- | --- | --- |
 | Now, done | Replay the saved King model on the synthetic 15-field request | Numeric output and historical scope are visible in one command |
 | Done: Indiana source decision | Published the 200-row audit queue, inspected 20 extreme low-price records, and checked assessment timing | [No-go decision](decisions/0094-indiana-assessment-asof-no-go.md): 20 inspected, none confirmed arm's-length; no pre-origin assessment vintage established |
-| Next focused source block | Test one dated candidate, starting with Hillsborough's 2025 parcel archive and later sales, for original publication timing, sale scope and permitted use | A written go/no-go with exact source evidence; no model fit on unqualified fields |
+| Done: Hillsborough source decision | Checked independent 2025/2026 archived listings and the exact local ZIP hash | [ADR 0095](decisions/0095-hcpa-archive-listing-asof-boundary.md): listed by April 2026, exact local bytes only verified in September; HCPA 90-day historical model remains blocked |
+| Next source action | Obtain a dated exact parcel release or begin prospective captures, and resolve All Sales close-date, transaction scope and use terms | One source with defensible origin-time inputs and sale labels before the next fixed model fit |
 | If a source passes | Fit one fixed OFF baseline on matured labels and pre-origin fields, then save chronological predictions and a scorecard | Reproducible errors, bias, tails, coverage and source timing; no architecture search |
 | Later | Complete the source audit, calibrate intervals and reserve future outcomes | Only a passed gate supports a market release claim |
 
@@ -29,12 +42,18 @@ is not a completed manual audit. Pause additional model families, new markets,
 post-hoc slices and nonessential documentation while these prediction
 deliverables are open. Push each accepted checkpoint to `origin/audit/u0`.
 
-**Next runnable task:** Qualify the existing Hillsborough 2025 parcel archive
-as a potentially dated pre-origin property snapshot for later sales. Check
-original publication timing, property/sale identity, price semantics and
-permitted use in a bounded source decision before training. The Indiana
-[audit progress](runs/indiana-assessment-diagnostic-v1/audit_review_first20.json)
-is diagnostic and does not qualify its assessment snapshot as a 90-day input.
+**Next runnable task:** Run `scripts.capture_hcpa_download_listing` to record
+listing changes. Download and hash the exact file from any newly published
+Hillsborough ZIP separately under ignored raw storage; the listing capture
+script does not save ZIP bytes. Seek a contemporaneous checksum or publisher
+release history for the 2025 parcel archive. The [archived listing
+check](runs/u0-hcpa-wayback-20261005-v1/report.md) shows the filename in an
+April 2026 capture, but does not date our September ZIP bytes. Resolve All
+Sales date, price scope and reuse questions before a 90-day baseline.
+
+Resume listing observation from the project root with
+`& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.capture_hcpa_download_listing`.
+This command records page HTML only; it does not retrieve parcel or sale ZIPs.
 
 ## Prediction-first reset after three days
 

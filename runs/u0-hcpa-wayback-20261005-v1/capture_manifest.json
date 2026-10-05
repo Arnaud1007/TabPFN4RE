@@ -1,0 +1,37 @@
+{
+  "run_id": "u0-hcpa-wayback-20261005-v1",
+  "protocol": "hcpa-2025-parcel-archive-listing-v1",
+  "status": "archive_name_observed_exact_bytes_not_dated",
+  "retrieved_on": "2026-10-05",
+  "cdx": {
+    "url": "https://web.archive.org/cdx/search/cdx?url=downloads.hcpafl.org%2Fdefault.aspx%3Fsubfolder%3D_shapefile_archives&output=json&from=2025&to=2026&filter=statuscode%3A200",
+    "private_path": "data/raw/hcpa/wayback_hcpa_shapefile_archives_cdx_2025_2026.json",
+    "sha256": "63a759d44c44fa85f5d97603e55e1a2c37b91f785b5356baa4ea7edc68a02507",
+    "matching_capture_rows": 6
+  },
+  "captures": [
+    {
+      "timestamp_utc": "2025-08-08T15:00:17Z",
+      "url": "https://web.archive.org/web/20250808150017id_/http://downloads.hcpafl.org/Default.aspx?subfolder=_shapefile_archives",
+      "private_path": "data/raw/hcpa/wayback_hcpa_shapefile_archives_20250808.html",
+      "sha256": "d78f4affc4c844cb4773fb746cd5d03bd2a12a3d7a5da173244e88b7cdba8b3f",
+      "bytes": 24635,
+      "lists_2025_zip": false
+    },
+    {
+      "timestamp_utc": "2026-04-15T10:58:51Z",
+      "url": "https://web.archive.org/web/20260415105851id_/http://downloads.hcpafl.org/Default.aspx?subfolder=_shapefile_archives",
+      "private_path": "data/raw/hcpa/wayback_hcpa_shapefile_archives_20260415.html",
+      "sha256": "26048d8006dc2cbd750a9817c65c6f54900735afdd99ffe655d63f329cab03ec",
+      "bytes": 25240,
+      "lists_2025_zip": true,
+      "displayed_zip_size": "97 MB",
+      "displayed_updated": "11/7/2025 6:12AM"
+    }
+  ],
+  "local_zip_sha256": "2c575a9d7f47a0a3d20527f3c2c5bfa88cb9fbdb9f27dfe3fce59d3edec8260c",
+  "local_zip_exact_bytes_first_verified_on": "2026-09-28",
+  "earlier_binary_identity_proven": false,
+  "certified_90_day_origin": false,
+  "g_us_gate": "PENDING"
+}

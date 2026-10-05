@@ -47,9 +47,13 @@ frozen_gap_diagnostic: >-
   as-of inference follows. See
   runs/u0-hcpa-pin-gaps-20260928T222200Z/report.md.
 first_available_at: >-
-  The file is verified from the official current listing on 2026-09-28.
-  The ZIP/member dates and listing update field do not independently prove
-  original public availability at any earlier valuation origin.
+  The exact local ZIP bytes are verified from the official current listing
+  on 2026-09-28. An independent archived downloads page from 2026-04-15
+  lists the same filename, size and displayed update date, while the
+  2025-08-08 archived page does not. Those pages have no ZIP checksum; they
+  do not prove that the exact local bytes were public before 2026-09-28.
+archive_listing_capture: runs/u0-hcpa-wayback-20261005-v1/capture_manifest.json
+earlier_binary_identity_proven: false
 historical_asof_eligible: false
 rights_basis: >-
   Public download availability and the All Rights Reserved footer do not
@@ -57,7 +61,9 @@ rights_basis: >-
 permitted_use_decision: source_inventory_only_pending_specific_reuse_review
 redistribution: not_established
 next_checks: >-
-  Verify original publication/vintage records and field definitions, seek
+  Obtain contemporaneous ZIP bytes/checksum or publisher release/correction
+  records to establish exact historical feature vintages. Verify field
+  definitions, seek
   source confirmation of the empirical PIN format mapping, manually inspect
   the six blank-PIN leads and ten no-lead gaps, audit dwelling/sale identity,
   and resolve reuse rights.

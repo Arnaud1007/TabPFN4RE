@@ -99,6 +99,28 @@ class KingResearchFormTests(unittest.TestCase):
         self.assertRegex(display.lower(), r"not (?:a )?current")
         self.assertRegex(display.lower(), r"not (?:a )?90.day")
 
+    def test_formats_experimental_fhfa_illustration_and_warning(self) -> None:
+        response = {
+            **RESPONSE,
+            "experimental_hpi_adjustment": {
+                "amount": 434_813.40,
+                "status": "research_only",
+                "warning": (
+                    "Research only: this applies average market appreciation and is "
+                    "not a current valuation, not a 90-day estimate, and not "
+                    "property-specific."
+                ),
+            },
+        }
+
+        display = form.format_prediction(response).lower()
+
+        self.assertIn("fhfa metro-indexed illustration: $434,813 usd", display)
+        self.assertIn("average market appreciation", display)
+        self.assertIn("not a current valuation", display)
+        self.assertIn("not a 90-day estimate", display)
+        self.assertIn("not property-specific", display)
+
     def test_rejects_incompatible_service_responses(self) -> None:
         incompatible = (
             {**RESPONSE, "status": "commercial"},

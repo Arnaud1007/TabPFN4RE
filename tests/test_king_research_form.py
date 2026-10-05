@@ -15,10 +15,11 @@ import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
 from types import ModuleType
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from scripts import king_research_form as form
 from scripts import king_research_predict as serving
+from scripts import king_prospective_enrollment as enrollment
 from scripts.king_historical_benchmark import NUMERIC_FEATURES
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -261,6 +262,7 @@ class KingResearchFormTests(unittest.TestCase):
             patch.dict(sys.modules, {"xgboost": fake_xgboost}),
             patch.object(form.tk, "Tk", return_value=root),
             patch.object(form, "KingResearchForm", side_effect=capture_form),
+            patch.object(enrollment, "find_pending_receipts", return_value=()),
             patch.object(root, "mainloop", side_effect=run_form_flow),
             patch("tkinter.messagebox.showinfo"),
             patch("tkinter.messagebox.showerror"),
@@ -384,6 +386,174 @@ class KingResearchFormTests(unittest.TestCase):
             self.assertIn("checksum mismatch", ui.status_var.get())
             self.assertFalse(ui.result_var.get())
             error_dialog.assert_called_once()
+
+    def test_tk_enrollment_reuses_loaded_predictor_and_completes_off_thread(
+        self,
+    ) -> None:
+        root, _unused = self._empty_tk_root()
+        loaded_predictor = Mock(return_value=RESPONSE)
+        completed = enrollment.EnrollmentResult(
+            receipt_path=Path("private-receipt.json"),
+            commitment_path=Path("public-commitment.json"),
+            prediction=RESPONSE,
+            commitment={"commitment_id": "a1b2c3d4e5f60718293a4b5c"},
+        )
+        enroller = Mock(return_value=completed)
+        ui = form.KingResearchForm(
+            root,
+            Path("unused-bundle"),
+            "a" * 64,
+            FEATURE_NAMES,
+            predictor=loaded_predictor,
+            enroller=enroller,
+        )
+        for name, value in self.raw.items():
+            ui.entries[name].insert(0, value)
+        ui.enrollment_reference_var.set("prospect-0001")
+
+        with (
+            patch("tkinter.messagebox.showinfo") as info,
+            patch("tkinter.messagebox.showerror") as error,
+        ):
+            ui.capture_prospective()
+            self.assertTrue(ui.capture_button.instate(["disabled"]))
+            ui.capture_prospective()
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline and ui.capture_button.instate(
+                ["disabled"]
+            ):
+                root.update()
+                time.sleep(0.01)
+
+        enroller.assert_called_once()
+        self.assertIs(enroller.call_args.kwargs["predictor"], loaded_predictor)
+        loaded_predictor.assert_not_called()
+        self.assertIn("$200,000", ui.result_var.get())
+        self.assertIn("commitment created", ui.status_var.get().lower())
+        self.assertNotIn("prospect-0001", ui.status_var.get())
+        self.assertNotIn("98103", ui.status_var.get())
+        self.assertFalse(ui.capture_button.instate(["disabled"]))
+        info.assert_called_once()
+        error.assert_not_called()
+
+    def test_tk_pending_commitment_retries_without_new_prediction(self) -> None:
+        root, _unused = self._empty_tk_root()
+        receipt_path = Path("private/never-display-this-receipt.json")
+        enroller = Mock(
+            side_effect=enrollment.EnrollmentCommitmentPending(receipt_path)
+        )
+        digest = "a" * 64
+        public_directory = tempfile.TemporaryDirectory()
+        self.addCleanup(public_directory.cleanup)
+        commitment_path = (
+            Path(public_directory.name) / f"king-research-commitment-{digest}.json"
+        )
+        commitment_path.write_text("{}", encoding="utf-8")
+        committed = enrollment.EnrollmentResult(
+            receipt_path=receipt_path,
+            commitment_path=commitment_path,
+            prediction=None,
+            commitment={
+                "commitment_id": digest[:24],
+                "receipt_sha256": digest,
+            },
+        )
+        committer = Mock(return_value=committed)
+        loaded_predictor = Mock(return_value=RESPONSE)
+        ui = form.KingResearchForm(
+            root,
+            Path("unused-bundle"),
+            "a" * 64,
+            FEATURE_NAMES,
+            predictor=loaded_predictor,
+            enroller=enroller,
+            committer=committer,
+        )
+        for name, value in self.raw.items():
+            ui.entries[name].insert(0, value)
+        ui.enrollment_reference_var.set("prospect-0001")
+
+        with (
+            patch("tkinter.messagebox.showinfo"),
+            patch("tkinter.messagebox.showerror") as error,
+            patch.object(enrollment, "verify_commitment_result", return_value=True),
+        ):
+            ui.capture_prospective()
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline and ui.retry_button.instate(["disabled"]):
+                root.update()
+                time.sleep(0.01)
+            self.assertFalse(ui.retry_button.instate(["disabled"]))
+            self.assertTrue(ui.capture_button.instate(["disabled"]))
+            status = ui.status_var.get()
+            self.assertIn("commitment pending", status.lower())
+            self.assertNotIn(str(receipt_path), status)
+            self.assertNotIn("prospect-0001", status)
+            ui.retry_commitment()
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline and ui.retry_button.instate(["disabled"]):
+                root.update()
+                time.sleep(0.01)
+
+        enroller.assert_called_once()
+        committer.assert_called_once_with(receipt_path, enrollment.PUBLIC_OUTPUT_DIR)
+        loaded_predictor.assert_not_called()
+        self.assertIn("commitment created", ui.status_var.get().lower())
+        self.assertTrue(ui.retry_button.instate(["disabled"]))
+        error.assert_called_once()
+
+    def test_tk_restores_pending_commitment_and_blocks_new_capture(self) -> None:
+        root, _unused = self._empty_tk_root()
+        pending = Path("private/pending-receipt.json")
+        enroller = Mock()
+        ui = form.KingResearchForm(
+            root,
+            Path("unused-bundle"),
+            "a" * 64,
+            FEATURE_NAMES,
+            predictor=Mock(return_value=RESPONSE),
+            enroller=enroller,
+            pending_receipts=(pending,),
+        )
+        for name, value in self.raw.items():
+            ui.entries[name].insert(0, value)
+        ui.enrollment_reference_var.set("prospect-0002")
+
+        self.assertTrue(ui.capture_button.instate(["disabled"]))
+        self.assertFalse(ui.retry_button.instate(["disabled"]))
+        ui.capture_prospective()
+        enroller.assert_not_called()
+
+    def test_tk_capture_error_keeps_ui_generic_but_records_safe_traceback(self) -> None:
+        root, _unused = self._empty_tk_root()
+        sensitive = "secret/receipt-path.json ZIP=98103 prospect-0001"
+        ui = form.KingResearchForm(
+            root,
+            Path("unused-bundle"),
+            "a" * 64,
+            FEATURE_NAMES,
+            predictor=Mock(return_value=RESPONSE),
+            enroller=Mock(side_effect=RuntimeError(sensitive)),
+        )
+        for name, value in self.raw.items():
+            ui.entries[name].insert(0, value)
+        ui.enrollment_reference_var.set("prospect-0001")
+
+        with (
+            patch("tkinter.messagebox.showerror"),
+            patch.object(form.traceback, "print_tb") as print_tb,
+        ):
+            ui.capture_prospective()
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline and ui.capture_button.instate(
+                ["disabled"]
+            ):
+                root.update()
+                time.sleep(0.01)
+
+        print_tb.assert_called_once()
+        self.assertNotIn(sensitive, ui.status_var.get())
+        self.assertNotIn("98103", ui.status_var.get())
 
     def test_main_shows_bad_bundle_as_a_controlled_ui_error(self) -> None:
         with patch.object(

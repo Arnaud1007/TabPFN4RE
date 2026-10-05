@@ -4,6 +4,13 @@ Updated: 2026-10-05. Branch: `audit/u0`.
 
 ## Immediate prediction checkpoint, 5 October 2026
 
+The [one-action enrollment checkpoint](runs/king-prospective-enrollment-20261005-v1/report.md)
+adds **Predict + record** to the King form. One click reuses the loaded model,
+writes the private receipt and publishes the privacy-safe commitment. A failed
+commitment is restored after restart and retried without making another
+prediction. The saved-model integration returned `$542,149.79`; this remains a
+2015 historical research estimate and G-US remains pending.
+
 The [local receipt checkpoint](runs/king-prospective-receipt-20261005-v1/report.md)
 proves that committed code can create an access-restricted, create-only receipt
 without printing property inputs. Receipt format v2 now adds a private 256-bit

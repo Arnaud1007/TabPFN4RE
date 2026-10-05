@@ -1,0 +1,9 @@
+﻿{
+    "branch_coverage_percent":  81,
+    "command":  ".venv/Scripts/python.exe -m unittest tests.test_capture_king_prediction tests.test_prepare_king_receipt_commitment tests.test_king_prospective_enrollment tests.test_king_research_form",
+    "g_us_gate":  "PENDING",
+    "saved_model_estimate":  542149.7940648721,
+    "saved_model_integration":  "pass",
+    "status":  "pass",
+    "tests_passed":  44
+}

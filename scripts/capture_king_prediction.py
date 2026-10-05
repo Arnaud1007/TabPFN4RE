@@ -114,7 +114,11 @@ def _read_request(path: Path) -> tuple[bytes, dict[str, object]]:
             raw = stream.read(MAX_REQUEST_BYTES + 1)
     except OSError as error:
         raise ValueError("Request file could not be read") from error
-    if len(raw) > MAX_REQUEST_BYTES:
+    return _parse_request_bytes(raw)
+
+
+def _parse_request_bytes(raw: bytes) -> tuple[bytes, dict[str, object]]:
+    if not isinstance(raw, bytes) or not 0 < len(raw) <= MAX_REQUEST_BYTES:
         raise ValueError("Request file exceeds the size limit")
     try:
         request = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_object)
@@ -248,15 +252,28 @@ def _code_state() -> tuple[str, bool]:
     return commit, bool(status)
 
 
-def _publish_receipt(receipt_id: str, receipt: dict[str, object]) -> None:
+def _publish_receipt(
+    receipt_id: str,
+    receipt: dict[str, object],
+    private_root: Path | None = None,
+) -> None:
     """Hard-link a complete hidden file to a new final name without replacement."""
-    destination = PRIVATE_ROOT / f"{receipt_id}.json"
-    if destination.parent != PRIVATE_ROOT or destination.exists():
+    directory = PRIVATE_ROOT if private_root is None else Path(private_root)
+    if (
+        not directory.is_dir()
+        or directory.is_symlink()
+        or directory.resolve(strict=True) != directory.absolute()
+    ):
+        raise ValueError("Private prediction directory must be real")
+    if private_root is not None:
+        verify_acl(directory)
+    destination = directory / f"{receipt_id}.json"
+    if destination.parent != directory or destination.exists():
         raise FileExistsError("Prediction receipt already exists")
     temporary: Path | None = None
     try:
         with tempfile.NamedTemporaryFile(
-            dir=PRIVATE_ROOT, prefix=f".{receipt_id}-", delete=False
+            dir=directory, prefix=f".{receipt_id}-", delete=False
         ) as output:
             temporary = Path(output.name)
             output.write(canonical_bytes(receipt))
@@ -272,13 +289,15 @@ def capture_prediction(
     *,
     bundle: Path,
     manifest_sha256: str,
-    request_path: Path,
+    request_path: Path | None = None,
+    request_bytes: bytes | None = None,
     enrollment_reference: str,
     fhfa_source: Path | None,
     clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     predictor: Callable[..., dict[str, object]] = serving.predict,
     code_state: Callable[[], tuple[str, bool]] = _code_state,
     privacy_nonce_factory: Callable[[], str] = lambda: secrets.token_hex(32),
+    private_root: Path | None = None,
 ) -> dict[str, object]:
     """Predict first, then exclusively publish one private receipt."""
     if REFERENCE_PATTERN.fullmatch(enrollment_reference) is None:
@@ -287,7 +306,12 @@ def capture_prediction(
         raise ValueError("Expected manifest SHA-256 is invalid")
     predicted_at = _timestamp(clock())
     before_state = code_state()
-    raw_request, request = _read_request(request_path)
+    if (request_path is None) == (request_bytes is None):
+        raise ValueError("Provide exactly one request source")
+    if request_bytes is None:
+        raw_request, request = _read_request(Path(request_path))
+    else:
+        raw_request, request = _parse_request_bytes(request_bytes)
     response = _validate_response(
         predictor(bundle, request, manifest_sha256, fhfa_source), manifest_sha256
     )
@@ -340,11 +364,24 @@ def capture_prediction(
         "g_us_gate": "PENDING",
         "outcome_status": "pending",
     }
-    _publish_receipt(receipt_id, receipt)
+    _publish_receipt(receipt_id, receipt, private_root)
     return receipt
 
 
-def prepare_private_root() -> None:
+def prepare_private_root(private_root: Path | None = None) -> None:
+    if private_root is not None:
+        directory = Path(private_root)
+        if directory.is_symlink():
+            raise ValueError("Private prediction directory redirects")
+        if directory.exists():
+            real_directory(directory, directory.parent)
+        else:
+            real_directory(directory.parent, directory.parent.parent)
+            directory.mkdir(mode=0o700)
+            real_directory(directory, directory.parent)
+        secure_directory(directory)
+        verify_acl(directory)
+        return
     for directory in (
         ROOT / "data/raw",
         ROOT / "data/raw/king",

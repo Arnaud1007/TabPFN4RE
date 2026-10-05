@@ -25,6 +25,8 @@ except ImportError:  # Report the missing desktop dependency at startup.
     ttk = None
 
 from scripts.king_historical_benchmark import NUMERIC_FEATURES
+from scripts import capture_king_prediction as capture
+from scripts import king_prospective_enrollment as enrollment
 from scripts import king_research_predict as serving
 
 
@@ -174,6 +176,14 @@ class KingResearchForm:
         predictor: Callable[[Mapping[str, object]], dict[str, object]] | None = None,
         loading: bool = False,
         fhfa_source: Path | None = None,
+        enroller: Callable[..., enrollment.EnrollmentResult] = (
+            enrollment.enroll_prediction
+        ),
+        committer: Callable[..., enrollment.EnrollmentResult] = (
+            enrollment.commit_saved_receipt
+        ),
+        public_output_dir: Path = enrollment.PUBLIC_OUTPUT_DIR,
+        pending_receipts: tuple[Path, ...] = (),
     ) -> None:
         if tk is None or ttk is None:
             raise RuntimeError("Tkinter is unavailable in this Python installation")
@@ -182,6 +192,13 @@ class KingResearchForm:
         self.manifest_sha256 = manifest_sha256
         self.feature_names = feature_names
         self._predict = predictor
+        self._enroll = enroller
+        self._commit_saved_receipt = committer
+        self.public_output_dir = public_output_dir
+        self._pending_receipts = list(pending_receipts)
+        self._pending_receipt_path: Path | None = (
+            self._pending_receipts[0] if self._pending_receipts else None
+        )
         self.fhfa_source = fhfa_source
         self.entries: dict[str, ttk.Entry] = {}
         self.entry_vars: dict[str, tk.StringVar] = {}
@@ -189,6 +206,8 @@ class KingResearchForm:
         self._pending = loading
         self.startup_exit_code = 0
         self.result_var = tk.StringVar(master=root, value="")
+        self.enrollment_reference_var = tk.StringVar(master=root, value="")
+        self.enrollment_reference_var.trace_add("write", self._invalidate_result)
         self.status_var = tk.StringVar(
             master=root,
             value=(
@@ -198,7 +217,7 @@ class KingResearchForm:
             ),
         )
         root.title("King County historical research estimate")
-        root.minsize(800, 570)
+        root.minsize(800, 620)
         self._build_widgets()
         self._set_pending(loading)
         if not loading:
@@ -251,15 +270,37 @@ class KingResearchForm:
         self.predict_button = ttk.Button(panel, text="Predict", command=self.submit)
         self.predict_button.grid(row=row, column=3, sticky="e", pady=(14, 10))
         self.predict_button.bind("<Return>", self._submit_on_enter)
+        ttk.Label(
+            panel,
+            text="Opaque enrollment reference (letters/numbers/._-; no address)",
+        ).grid(row=row + 1, column=0, sticky="w", pady=(2, 10))
+        self.enrollment_reference_entry = ttk.Entry(
+            panel, width=22, textvariable=self.enrollment_reference_var
+        )
+        self.enrollment_reference_entry.grid(
+            row=row + 1, column=1, sticky="ew", padx=(0, 18), pady=(2, 10)
+        )
+        self.capture_button = ttk.Button(
+            panel,
+            text="Predict + record",
+            command=self.capture_prospective,
+        )
+        self.capture_button.grid(row=row + 1, column=2, sticky="e", pady=(2, 10))
+        self.retry_button = ttk.Button(
+            panel,
+            text="Retry commitment",
+            command=self.retry_commitment,
+        )
+        self.retry_button.grid(row=row + 1, column=3, sticky="e", pady=(2, 10))
         ttk.Label(panel, textvariable=self.result_var, wraplength=760).grid(
-            row=row + 1, column=0, columnspan=4, sticky="w", pady=(4, 10)
+            row=row + 2, column=0, columnspan=4, sticky="w", pady=(4, 10)
         )
         ttk.Label(panel, textvariable=self.status_var, wraplength=760).grid(
-            row=row + 2, column=0, columnspan=4, sticky="w"
+            row=row + 3, column=0, columnspan=4, sticky="w"
         )
 
     def load_demo(self) -> None:
-        if self._pending:
+        if self._pending or self._pending_receipt_path is not None:
             return
         self.result_var.set("")
         try:
@@ -320,6 +361,49 @@ class KingResearchForm:
             target=self._predict_worker, args=(request,), daemon=True
         ).start()
 
+    def capture_prospective(self) -> None:
+        """Predict once and record a recoverable private/public evidence pair."""
+        if self._pending or self._pending_receipt_path is not None:
+            return
+        self.result_var.set("")
+        try:
+            raw = {name: self.entries[name].get() for name in FORM_FIELDS}
+            request = parse_form_values(raw, self.feature_names)
+            reference = self.enrollment_reference_var.get().strip()
+            if capture.REFERENCE_PATTERN.fullmatch(reference) is None:
+                raise ValueError(
+                    "Enrollment reference must be 1-64 letters, numbers, dots, "
+                    "underscores or hyphens"
+                )
+            predictor = self._predict
+            if predictor is None:
+                raise ValueError("Historical model is not ready")
+        except (ValueError, OSError, TypeError, KeyError, IndexError) as error:
+            self._show_error(error)
+            return
+        self._set_pending(True)
+        self.status_var.set("Predicting and recording private research evidence...")
+        self.root.after(25, self._poll_prediction)
+        threading.Thread(
+            target=self._capture_worker,
+            args=(dict(request), reference, predictor),
+            daemon=True,
+        ).start()
+
+    def retry_commitment(self) -> None:
+        """Publish a failed commitment from its saved receipt without prediction."""
+        if self._pending or self._pending_receipt_path is None:
+            return
+        receipt_path = self._pending_receipt_path
+        self._set_pending(True)
+        self.status_var.set("Retrying the privacy-safe public commitment...")
+        self.root.after(25, self._poll_prediction)
+        threading.Thread(
+            target=self._retry_commitment_worker,
+            args=(receipt_path,),
+            daemon=True,
+        ).start()
+
     def start_loading(self) -> None:
         """Load and verify the checkpoint without blocking the Tk event loop."""
         self.root.after(25, self._poll_startup)
@@ -330,10 +414,13 @@ class KingResearchForm:
             predictor = serving.load_predictor(
                 self.bundle_dir, self.manifest_sha256, self.fhfa_source
             )
+            pending_receipts = enrollment.find_pending_receipts(
+                public_output_dir=self.public_output_dir
+            )
         except Exception as error:
             self._responses.put(("startup_error", error))
         else:
-            self._responses.put(("ready", predictor))
+            self._responses.put(("ready", (predictor, pending_receipts)))
 
     def _poll_startup(self) -> None:
         try:
@@ -344,27 +431,51 @@ class KingResearchForm:
         if outcome == "startup_error":
             self._show_startup_error(payload)
             return
-        if outcome != "ready" or not isinstance(payload, serving.LoadedPredictor):
+        if (
+            outcome != "ready"
+            or not isinstance(payload, tuple)
+            or len(payload) != 2
+            or not isinstance(payload[0], serving.LoadedPredictor)
+            or not isinstance(payload[1], tuple)
+            or not all(isinstance(path, Path) for path in payload[1])
+        ):
             self._show_startup_error(RuntimeError("Loaded model response is invalid"))
             return
-        self.feature_names = payload.feature_names
-        self._predict = payload.predict
-        self._set_pending(False)
-        self.status_var.set(
-            "Historical model ready. Enter a property or load the example."
+        predictor, pending_receipts = payload
+        self.feature_names = predictor.feature_names
+        self._predict = predictor.predict
+        self._pending_receipts = list(pending_receipts)
+        self._pending_receipt_path = (
+            self._pending_receipts[0] if self._pending_receipts else None
         )
+        self._set_pending(False)
+        if self._pending_receipt_path is None:
+            self.status_var.set(
+                "Historical model ready. Enter a property or load the example."
+            )
+        else:
+            self.status_var.set(
+                "Private receipt restored; public commitment pending. "
+                "Select Retry commitment."
+            )
         self.entries["bedrooms"].focus_set()
 
     def _set_pending(self, pending: bool) -> None:
         self._pending = pending
-        state = "disabled" if pending else "!disabled"
+        capture_blocked = pending or self._pending_receipt_path is not None
         for widget in (
             self.predict_button,
             self.demo_button,
             self.load_button,
+            self.enrollment_reference_entry,
             *self.entries.values(),
         ):
-            widget.state([state])
+            widget.state(["disabled" if pending else "!disabled"])
+        self.capture_button.state(["disabled" if capture_blocked else "!disabled"])
+        if pending or self._pending_receipt_path is None:
+            self.retry_button.state(["disabled"])
+        else:
+            self.retry_button.state(["!disabled"])
 
     def _submit_on_enter(self, _event: object) -> str:
         self.submit()
@@ -391,6 +502,41 @@ class KingResearchForm:
         else:
             self._responses.put(("result", response))
 
+    def _capture_worker(
+        self,
+        request: Mapping[str, object],
+        reference: str,
+        predictor: Callable[[Mapping[str, object]], dict[str, object]],
+    ) -> None:
+        try:
+            result = self._enroll(
+                bundle=self.bundle_dir,
+                manifest_sha256=self.manifest_sha256,
+                request=dict(request),
+                enrollment_reference=reference,
+                fhfa_source=self.fhfa_source,
+                public_output_dir=self.public_output_dir,
+                predictor=predictor,
+            )
+        except enrollment.EnrollmentCommitmentPending as error:
+            self._responses.put(("commitment_pending", error.receipt_path))
+        except Exception as error:
+            print(f"{type(error).__name__}: capture operation failed", file=sys.stderr)
+            traceback.print_tb(error.__traceback__, file=sys.stderr)
+            self._responses.put(("capture_error", None))
+        else:
+            self._responses.put(("enrolled", result))
+
+    def _retry_commitment_worker(self, receipt_path: Path) -> None:
+        try:
+            result = self._commit_saved_receipt(receipt_path, self.public_output_dir)
+        except Exception as error:
+            print(f"{type(error).__name__}: commitment retry failed", file=sys.stderr)
+            traceback.print_tb(error.__traceback__, file=sys.stderr)
+            self._responses.put(("retry_error", receipt_path))
+        else:
+            self._responses.put(("commitment_retried", result))
+
     def _poll_prediction(self) -> None:
         try:
             outcome, payload = self._responses.get_nowait()
@@ -398,9 +544,91 @@ class KingResearchForm:
             if self._pending:
                 self.root.after(25, self._poll_prediction)
             return
+        if outcome in ("commitment_pending", "retry_error") and isinstance(
+            payload, Path
+        ):
+            if payload not in self._pending_receipts:
+                self._pending_receipts.append(payload)
+            self._pending_receipt_path = payload
         self._set_pending(False)
         if outcome == "error":
             self._show_error(payload)
+            return
+        if outcome == "capture_error":
+            self.status_var.set(
+                "Prediction capture failed before completion. No success was recorded."
+            )
+            messagebox.showerror(
+                "King County capture unavailable",
+                self.status_var.get(),
+                parent=self.root,
+            )
+            return
+        if outcome == "commitment_pending":
+            self.status_var.set(
+                "Private receipt saved; public commitment pending. Do not predict "
+                "again. Select Retry commitment."
+            )
+            messagebox.showerror(
+                "King County commitment pending",
+                self.status_var.get(),
+                parent=self.root,
+            )
+            return
+        if outcome == "retry_error":
+            self.status_var.set(
+                "Private receipt remains saved; public commitment is still pending."
+            )
+            messagebox.showerror(
+                "King County commitment pending",
+                self.status_var.get(),
+                parent=self.root,
+            )
+            return
+        if outcome == "commitment_retried":
+            if not self._valid_commitment_result(payload, self._pending_receipt_path):
+                self._show_error(RuntimeError("Commitment response is invalid"))
+                return
+            if self._pending_receipt_path in self._pending_receipts:
+                self._pending_receipts.remove(self._pending_receipt_path)
+            self._pending_receipt_path = (
+                self._pending_receipts[0] if self._pending_receipts else None
+            )
+            self._set_pending(False)
+            self.status_var.set("Privacy-safe public commitment created.")
+            messagebox.showinfo(
+                "King County commitment created",
+                self.status_var.get(),
+                parent=self.root,
+            )
+            return
+        if outcome == "enrolled":
+            if (
+                not isinstance(payload, enrollment.EnrollmentResult)
+                or payload.prediction is None
+            ):
+                self._show_error(RuntimeError("Enrollment response is invalid"))
+                return
+            try:
+                display = format_prediction(payload.prediction)
+                commitment_id = payload.commitment.get("commitment_id")
+                if (
+                    not isinstance(commitment_id, str)
+                    or re.fullmatch(r"[0-9a-f]{24}", commitment_id) is None
+                ):
+                    raise ValueError("Commitment identity is invalid")
+            except (ValueError, TypeError, KeyError, IndexError) as error:
+                self._show_error(error)
+                return
+            self.result_var.set(display)
+            self.status_var.set(
+                f"Private receipt saved; public commitment created ({commitment_id})."
+            )
+            messagebox.showinfo(
+                "King County prediction recorded",
+                f"{display}\n\n{self.status_var.get()}",
+                parent=self.root,
+            )
             return
         try:
             display = format_prediction(payload)
@@ -410,6 +638,10 @@ class KingResearchForm:
         self.result_var.set(display)
         self.status_var.set("Historical research prediction complete.")
         messagebox.showinfo("King County research estimate", display, parent=self.root)
+
+    @staticmethod
+    def _valid_commitment_result(result: object, expected_receipt: Path | None) -> bool:
+        return enrollment.verify_commitment_result(result, expected_receipt)
 
     def _show_error(self, error: object) -> None:
         if isinstance(error, (ValueError, OSError, TypeError, KeyError, IndexError)):

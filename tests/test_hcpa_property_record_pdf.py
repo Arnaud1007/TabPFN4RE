@@ -173,6 +173,38 @@ class HcpaPropertyRecordPdfTests(unittest.TestCase):
             ("safe",),
         )
 
+    def test_skips_non_page_flate_stream_with_unbalanced_binary_bytes(self) -> None:
+        binary = flate_pdf(b"font-or-binary (")
+        text = flate_pdf(b"BT (safe) Tj ET")
+        combined = binary.removesuffix(b"%%EOF\n") + text.removeprefix(b"%PDF-1.4\n")
+
+        self.assertEqual(
+            extract(
+                combined,
+                max_pdf_bytes=len(combined),
+                max_decoded_bytes=1024,
+            ),
+            ("safe",),
+        )
+
+    def test_discards_all_fields_from_stream_with_malformed_suffix(self) -> None:
+        malformed = flate_pdf(
+            b"BT (Document Number) Tj (FORGED) Tj ET ("
+        )
+        text = flate_pdf(b"BT (safe) Tj ET")
+        combined = malformed.removesuffix(b"%%EOF\n") + text.removeprefix(
+            b"%PDF-1.4\n"
+        )
+
+        self.assertEqual(
+            extract(
+                combined,
+                max_pdf_bytes=len(combined),
+                max_decoded_bytes=1024,
+            ),
+            ("safe",),
+        )
+
     def test_rejects_invalid_limits_encryption_and_missing_text(self) -> None:
         valid = flate_pdf(b"BT (safe) Tj ET")
         encrypted = valid.replace(b"1 0 obj", b"/Encrypt 1 0 obj")

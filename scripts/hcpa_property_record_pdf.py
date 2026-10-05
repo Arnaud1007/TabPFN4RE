@@ -31,6 +31,10 @@ _MAX_FIELDS = 10_000
 _MAX_STRUCTURE_MARKERS = 1_024
 
 
+class _MalformedTextStream(ValueError):
+    """Signal that every candidate field from one decoded stream is invalid."""
+
+
 def pin_to_strap(value: object) -> str:
     """Convert one strictly formatted HCPA A/T/U PIN to its 22-byte strap."""
     if not isinstance(value, str) or not value or value[0] not in _ALLOWED_PIN_PREFIXES:
@@ -125,7 +129,13 @@ def _find_operator(content: bytes, token: bytes, start: int) -> int:
     while index < len(content):
         byte = content[index]
         if byte == 0x28:
-            _, index = _literal_at(content, index)
+            try:
+                _, index = _literal_at(content, index)
+            except ValueError:
+                # Flate streams may contain fonts or other binary programs.
+                # An unmatched literal means this stream has no safely
+                # extractable page-text operator after this point.
+                raise _MalformedTextStream from None
             continue
         if byte == 0x25:
             line_end = content.find(b"\n", index + 1)
@@ -163,7 +173,10 @@ def _ordered_tj_literals(content: bytes, max_fields: int) -> list[str]:
             if block[index] != 0x28:
                 index += 1
                 continue
-            value, literal_end = _literal_at(block, index)
+            try:
+                value, literal_end = _literal_at(block, index)
+            except ValueError:
+                raise _MalformedTextStream from None
             operator = literal_end
             while operator < len(block) and block[operator] in b"\x00\t\n\x0c\r ":
                 operator += 1
@@ -238,7 +251,13 @@ def extract_ordered_fields(
             raise ValueError("Decoded PDF streams exceed the configured limit")
         decoded = _decode_flate(pdf_bytes[start:end], remaining)
         decoded_total += len(decoded)
-        fields.extend(_ordered_tj_literals(decoded, _MAX_FIELDS - len(fields)))
+        try:
+            stream_fields = _ordered_tj_literals(
+                decoded, _MAX_FIELDS - len(fields)
+            )
+        except _MalformedTextStream:
+            continue
+        fields.extend(stream_fields)
         decoded_stream_count += 1
     if decoded_stream_count == 0 or not fields:
         raise ValueError("PDF contains no supported text fields")

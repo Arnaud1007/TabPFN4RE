@@ -23,7 +23,9 @@ class KingResearchLauncherTests(unittest.TestCase):
         ):
             with self.subTest(required=required):
                 self.assertIn(required, text)
-                self.assertRegex(text, rf"if\s+not\s+exist[^\r\n]*{re.escape(required)}")
+                self.assertRegex(
+                    text, rf"if\s+not\s+exist[^\r\n]*{re.escape(required)}"
+                )
 
         self.assertIn("-m scripts.king_research_form", text)
         self.assertIn("--manifest-sha256", text)

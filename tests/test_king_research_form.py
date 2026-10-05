@@ -3,24 +3,23 @@
 from __future__ import annotations
 
 import builtins
-from contextlib import redirect_stdout
 import io
 import json
 import math
-from pathlib import Path
 import sys
 import tempfile
 import threading
 import time
 import tkinter as tk
-from types import ModuleType
 import unittest
+from contextlib import redirect_stdout
+from pathlib import Path
+from types import ModuleType
 from unittest.mock import patch
 
-from scripts.king_historical_benchmark import NUMERIC_FEATURES
-from scripts import king_research_predict as serving
 from scripts import king_research_form as form
-
+from scripts import king_research_predict as serving
+from scripts.king_historical_benchmark import NUMERIC_FEATURES
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = json.loads(

@@ -61,6 +61,10 @@ The [Ames prototype report](runs/ames-dev-prototype-20261004-v1/report.md) recor
 The local [15-field King County form](runs/king-form-20261005-v1/report.md) uses
 the saved historical model. From the project root on this workstation:
 
+Double-click `Launch-KingResearchForm.cmd` for the pinned local setup, or run
+the equivalent command below. The launcher verifies that the private Python
+environment, model bundle and FHFA snapshot exist before opening the form.
+
 ```powershell
 $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
 & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt

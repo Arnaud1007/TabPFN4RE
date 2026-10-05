@@ -269,6 +269,101 @@ class HcpaPropertyRecordCandidateTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, serialized)
 
+    def test_selection_check_proves_unique_match_without_private_identity(self) -> None:
+        other = sample_row(
+            record_ordinal=8,
+            PIN="U-98-76-54-ZYX-WVU987-TSRQP.O",
+            DOC_NUM="OTHER-DOC",
+        )
+        sample = jsonl(sample_row(), other)
+        empty_ledger = b""
+        result = candidate_audit.selection_check(
+            pdf_bytes=self.pdf,
+            pdf_sha256=self.pdf_sha,
+            sample_bytes=sample,
+            sample_sha256=sha256(sample).hexdigest(),
+            selected_ordinal=7,
+            prior_ledger_bytes=empty_ledger,
+            prior_ledger_sha256=sha256(empty_ledger).hexdigest(),
+        )
+
+        self.assertEqual(
+            result,
+            {
+                "protocol": "hcpa-property-record-selection-check-v1",
+                "sample_sha256": sha256(sample).hexdigest(),
+                "sampled_records": 2,
+                "full_matches": 1,
+                "nonmatching_records": 1,
+                "prior_ledger_sha256": sha256(empty_ledger).hexdigest(),
+                "prior_reviewed_records": 0,
+                "selected_was_unreviewed": True,
+            },
+        )
+        serialized = json.dumps(result, sort_keys=True)
+        for forbidden in (PIN, STRAP, DOCUMENT, self.pdf_sha, "record_ordinal"):
+            self.assertNotIn(forbidden, serialized)
+
+        with self.assertRaisesRegex(ValueError, "exactly one"):
+            candidate_audit.selection_check(
+                pdf_bytes=self.pdf,
+                pdf_sha256=self.pdf_sha,
+                sample_bytes=jsonl(sample_row(), sample_row(record_ordinal=8)),
+                sample_sha256=sha256(
+                    jsonl(sample_row(), sample_row(record_ordinal=8))
+                ).hexdigest(),
+                selected_ordinal=7,
+                prior_ledger_bytes=empty_ledger,
+                prior_ledger_sha256=sha256(empty_ledger).hexdigest(),
+            )
+        prior_entry = {
+            "entry_id": "prior_review",
+            "sample_sha256": self.sample_sha,
+            "record_ordinal": 7,
+            "revision": 1,
+            "supersedes_entry_id": None,
+            "review_status": "partial",
+            "reviewer_code": "reviewer",
+            "reviewed_at": OBSERVED_AT,
+            "attested": False,
+            "evidence": [
+                {
+                    "evidence_id": "source",
+                    "kind": "source_record",
+                    "reference": f"sha256:{self.sample_sha}",
+                    "observed_at": OBSERVED_AT,
+                }
+            ],
+            "rubric": {
+                "document_identity": {
+                    "value": "unknown",
+                    "evidence_ids": ["source"],
+                    "limitation": "Identity not established",
+                }
+            },
+        }
+        prior_ledger = jsonl(prior_entry)
+        with self.assertRaisesRegex(ValueError, "already reviewed"):
+            candidate_audit.selection_check(
+                pdf_bytes=self.pdf,
+                pdf_sha256=self.pdf_sha,
+                sample_bytes=self.sample,
+                sample_sha256=self.sample_sha,
+                selected_ordinal=7,
+                prior_ledger_bytes=prior_ledger,
+                prior_ledger_sha256=sha256(prior_ledger).hexdigest(),
+            )
+        with self.assertRaisesRegex(ValueError, "ledger hash"):
+            candidate_audit.selection_check(
+                pdf_bytes=self.pdf,
+                pdf_sha256=self.pdf_sha,
+                sample_bytes=self.sample,
+                sample_sha256=self.sample_sha,
+                selected_ordinal=7,
+                prior_ledger_bytes=prior_ledger,
+                prior_ledger_sha256="a" * 64,
+            )
+
     def test_cli_builds_pinned_create_only_outputs_and_reports_generic_failure(
         self,
     ) -> None:

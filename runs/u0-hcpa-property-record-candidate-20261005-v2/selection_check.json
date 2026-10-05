@@ -1,0 +1,10 @@
+{
+  "full_matches": 1,
+  "nonmatching_records": 199,
+  "prior_ledger_sha256": "b37ab8a906a60f7ef103be3b6a228360e729c80811b43e4cef50a5fa36846ac1",
+  "prior_reviewed_records": 2,
+  "protocol": "hcpa-property-record-selection-check-v1",
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "sampled_records": 200,
+  "selected_was_unreviewed": true
+}

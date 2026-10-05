@@ -19,11 +19,13 @@ from scripts.hcpa_property_record_pdf import (
     extract_ordered_fields,
 )
 from scripts.private_review_io import verify_acl
+from scripts import review_hcpa_sample as review_ledger
 
 
 PRIVATE_ROOT = Path(__file__).resolve().parents[1] / "data" / "raw" / "hcpa"
 PROTOCOL = "hcpa-property-record-candidate-v1"
 AGGREGATE_PROTOCOL = "hcpa-property-record-candidate-aggregate-v1"
+SELECTION_PROTOCOL = "hcpa-property-record-selection-check-v1"
 MAX_PRIVATE_BYTES = 10_000_000
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 STATE_FIELDS = (
@@ -111,6 +113,95 @@ def _sample_row(
     if type(row["record_ordinal"]) is not int or row["record_ordinal"] <= 0:
         raise ValueError("Frozen sample target has an invalid ordinal")
     return row
+
+
+def _sample_rows(sample_bytes: bytes, sample_sha256: str) -> list[dict[str, Any]]:
+    if (
+        not _valid_hash(sample_sha256)
+        or sha256(sample_bytes).hexdigest() != sample_sha256
+    ):
+        raise ValueError("Frozen sample hash mismatch")
+    if not sample_bytes or not sample_bytes.endswith(b"\n"):
+        raise ValueError("Frozen sample must be newline-terminated JSONL")
+    try:
+        rows = [
+            json.loads(line, object_pairs_hook=_strict_object)
+            for line in sample_bytes.decode("utf-8").splitlines()
+        ]
+    except (UnicodeError, json.JSONDecodeError, RecursionError) as error:
+        raise ValueError("Frozen sample is malformed JSONL") from error
+    if not rows or any(
+        not isinstance(row, dict)
+        or not REQUIRED_ROW_FIELDS.issubset(row)
+        or type(row["record_ordinal"]) is not int
+        or row["record_ordinal"] <= 0
+        or any(
+            not isinstance(row[field], str)
+            for field in ("PIN", "DOC_NUM", "DOR_CODE", "QU")
+        )
+        for row in rows
+    ):
+        raise ValueError("Frozen sample rows are invalid")
+    ordinals = [row["record_ordinal"] for row in rows]
+    if len(ordinals) != len(set(ordinals)):
+        raise ValueError("Frozen sample contains repeated ordinals")
+    return rows
+
+
+def selection_check(
+    *,
+    pdf_bytes: bytes,
+    pdf_sha256: str,
+    sample_bytes: bytes,
+    sample_sha256: str,
+    selected_ordinal: int,
+    prior_ledger_bytes: bytes,
+    prior_ledger_sha256: str,
+) -> dict[str, object]:
+    """Prove unique full-sample selection without publishing property identity."""
+    if not _valid_hash(pdf_sha256) or sha256(pdf_bytes).hexdigest() != pdf_sha256:
+        raise ValueError("Property-record PDF hash mismatch")
+    if (
+        not _valid_hash(prior_ledger_sha256)
+        or sha256(prior_ledger_bytes).hexdigest() != prior_ledger_sha256
+    ):
+        raise ValueError("Prior ledger hash must be lowercase SHA-256")
+    if type(selected_ordinal) is not int or selected_ordinal <= 0:
+        raise ValueError("Selected ordinal must be a positive integer")
+    rows = _sample_rows(sample_bytes, sample_sha256)
+    sample_ordinals = {row["record_ordinal"] for row in rows}
+    prior_entries = review_ledger._json_lines(prior_ledger_bytes, "prior review ledger")
+    prior_latest = review_ledger._validate_history(
+        prior_entries, sample_sha256, sample_ordinals
+    )
+    prior_reviewed_ordinals = set(prior_latest)
+    if selected_ordinal in prior_reviewed_ordinals:
+        raise ValueError("Selected record was already reviewed")
+    fields = extract_ordered_fields(
+        pdf_bytes,
+        expected_sha256=pdf_sha256,
+        max_pdf_bytes=MAX_PRIVATE_BYTES,
+        max_decoded_bytes=MAX_PRIVATE_BYTES,
+    )
+    matches = [
+        row
+        for row in rows
+        if all(
+            compare_sample_row(row, fields)[field] == "match" for field in STATE_FIELDS
+        )
+    ]
+    if len(matches) != 1 or matches[0]["record_ordinal"] != selected_ordinal:
+        raise ValueError("Property record must have exactly one selected full match")
+    return {
+        "protocol": SELECTION_PROTOCOL,
+        "sample_sha256": sample_sha256,
+        "sampled_records": len(rows),
+        "full_matches": 1,
+        "nonmatching_records": len(rows) - 1,
+        "prior_ledger_sha256": prior_ledger_sha256,
+        "prior_reviewed_records": len(prior_reviewed_ordinals),
+        "selected_was_unreviewed": True,
+    }
 
 
 def build_candidate(

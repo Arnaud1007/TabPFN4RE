@@ -86,6 +86,7 @@ EVIDENCE_KINDS = {
     "rights_document",
     "official_documentation",
     "hcpa_property_record",
+    "hcpa_property_record_pdf",
     "unavailable_attempt",
 }
 SPECIAL_EVIDENCE = {
@@ -93,11 +94,13 @@ SPECIAL_EVIDENCE = {
         "clerk_index",
         "clerk_instrument",
         "hcpa_property_record",
+        "hcpa_property_record_pdf",
     },
     "parcel_unit_identity": {
         "clerk_index",
         "clerk_instrument",
         "hcpa_property_record",
+        "hcpa_property_record_pdf",
     },
     "date_vs_deed_execution": {"clerk_instrument"},
     "date_vs_recording": {"clerk_index", "clerk_instrument"},
@@ -107,10 +110,29 @@ SPECIAL_EVIDENCE = {
         "clerk_index",
         "clerk_instrument",
         "hcpa_property_record",
+        "hcpa_property_record_pdf",
     },
-    "qualification_code": {"official_documentation", "hcpa_property_record"},
+    "qualification_code": {
+        "official_documentation",
+        "hcpa_property_record",
+        "hcpa_property_record_pdf",
+    },
     "reason_code": {"official_documentation"},
     "multi_parcel_consideration": {"clerk_instrument"},
+    "missing_fields": {
+        "source_record",
+        "clerk_index",
+        "clerk_instrument",
+        "closing_record",
+    },
+    "duplicate_status": {"source_record", "clerk_index", "clerk_instrument"},
+    "evidence_quality": {
+        "source_record",
+        "clerk_index",
+        "clerk_instrument",
+        "closing_record",
+        "official_documentation",
+    },
     "reuse_rights": {"rights_document"},
 }
 ENTRY_KEYS = {
@@ -210,14 +232,20 @@ def _utc_timestamp(value: object) -> bool:
 
 
 def _validate_evidence(evidence: object, sample_sha256: str) -> dict[str, str]:
-    if not isinstance(evidence, dict) or set(evidence) != {
+    base_fields = {
         "evidence_id",
         "kind",
         "reference",
         "observed_at",
-    }:
+    }
+    if not isinstance(evidence, dict) or not base_fields.issubset(evidence):
         raise ValueError("Invalid evidence fields")
     identifier, kind = evidence["evidence_id"], evidence["kind"]
+    expected_fields = base_fields | (
+        {"artifact_sha256"} if kind == "hcpa_property_record_pdf" else set()
+    )
+    if set(evidence) != expected_fields:
+        raise ValueError("Invalid evidence fields")
     if not isinstance(identifier, str) or not CODE.fullmatch(identifier):
         raise ValueError("Invalid evidence identifier")
     if (
@@ -227,8 +255,18 @@ def _validate_evidence(evidence: object, sample_sha256: str) -> dict[str, str]:
     ):
         raise ValueError("Invalid evidence type or observation time")
     reference = evidence["reference"]
-    if not isinstance(reference, str) or len(reference) > 2048:
+    if (
+        not isinstance(reference, str)
+        or len(reference) > 2048
+        or reference != reference.strip()
+        or any(ord(char) < 32 or ord(char) == 127 for char in reference)
+    ):
         raise ValueError("Invalid evidence reference")
+    if kind == "hcpa_property_record_pdf" and (
+        not isinstance(evidence["artifact_sha256"], str)
+        or not HEX64.fullmatch(evidence["artifact_sha256"])
+    ):
+        raise ValueError("Invalid HCPA property-record PDF evidence")
     if kind == "source_record":
         if not reference.startswith("sha256:") or not HEX64.fullmatch(reference[7:]):
             raise ValueError("Invalid evidence source checksum")
@@ -262,6 +300,14 @@ def _validate_evidence(evidence: object, sample_sha256: str) -> dict[str, str]:
             is None
         ):
             raise ValueError("Invalid HCPA property-record evidence")
+        if kind == "hcpa_property_record_pdf" and (
+            url.netloc != "gis.hcpafl.org"
+            or port is not None
+            or url.path != "/CommonServices/property/parcelpdf/"
+            or url.fragment
+            or re.fullmatch(r"pin=[0-9]{6}[A-Z0-9]{3}[0-9]{12}[A-Z]", url.query) is None
+        ):
+            raise ValueError("Invalid HCPA property-record PDF evidence")
     return evidence
 
 

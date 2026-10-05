@@ -1,0 +1,29 @@
+{
+  "candidate_count": 1,
+  "candidate_protocol": "hcpa-property-record-candidate-v1",
+  "protocol": "hcpa-property-record-candidate-aggregate-v1",
+  "sample_bytes": 137866,
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "state_counts": {
+    "document_identity": {
+      "match": 1,
+      "mismatch": 0,
+      "unknown": 0
+    },
+    "parcel_unit_identity": {
+      "match": 1,
+      "mismatch": 0,
+      "unknown": 0
+    },
+    "property_class": {
+      "match": 1,
+      "mismatch": 0,
+      "unknown": 0
+    },
+    "qualification_code": {
+      "match": 1,
+      "mismatch": 0,
+      "unknown": 0
+    }
+  }
+}

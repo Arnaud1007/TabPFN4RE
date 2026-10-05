@@ -1,0 +1,18 @@
+{
+  "branch_coverage_percent": 87,
+  "candidate_count": 1,
+  "complete_records": 3,
+  "full_sample_matches": 1,
+  "full_sample_nonmatches": 199,
+  "g_us_gate": "PENDING",
+  "ledger_sha256": "3ad050b2abc2b85a177f91af8ced1e5fba8461c2876df00e9197ee5cb1c11389",
+  "model_eligible": false,
+  "partial_records": 0,
+  "review_entries": 4,
+  "selected_was_unreviewed": true,
+  "source_training_status": "blocked",
+  "status": "pass",
+  "superseded_entries": 1,
+  "tests_passed": 67,
+  "unreviewed_records": 197
+}

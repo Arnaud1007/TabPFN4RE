@@ -1,0 +1,50 @@
+{
+  "certified_90_day_origin": false,
+  "evidence_class": "historical_sale_date_research_only",
+  "g_us_gate": "PENDING",
+  "later_period": {
+    "xgboost": {
+      "abstained_count": 0,
+      "currency": "USD",
+      "eligible_count": 4752,
+      "failed_count": 0,
+      "mae": 76253.76960523201,
+      "mape": 0.13184206492039277,
+      "mdape": 0.10521310229371922,
+      "median_signed_percentage_error": -0.0698650748119015,
+      "p90_ape": 0.2697618905762192,
+      "p95_ape": 0.34368284800356524,
+      "r2": 0.8736723033929521,
+      "rmse": 131728.3794582305,
+      "rmsle": 0.18550607944323785,
+      "success_count": 4752,
+      "success_coverage": 1.0,
+      "within_10": 0.4793771043771044,
+      "within_20": 0.7986111111111112,
+      "within_5": 0.25441919191919193
+    },
+    "zipcode_median": {
+      "abstained_count": 0,
+      "currency": "USD",
+      "eligible_count": 4752,
+      "failed_count": 0,
+      "mae": 158117.6945496633,
+      "mape": 0.2563698804199169,
+      "mdape": 0.2,
+      "median_signed_percentage_error": -0.05172413793103448,
+      "p90_ape": 0.5338040007255802,
+      "p95_ape": 0.6576597272074659,
+      "r2": 0.34214023463924886,
+      "rmse": 300605.36218542757,
+      "rmsle": 0.36651241002997176,
+      "success_count": 4752,
+      "success_coverage": 1.0,
+      "within_10": 0.2537878787878788,
+      "within_20": 0.5010521885521886,
+      "within_5": 0.1367845117845118
+    }
+  },
+  "protocol": "king_later_2015_research_v1",
+  "selected_on_prior_validation": "xgboost",
+  "test_rows": 4752
+}

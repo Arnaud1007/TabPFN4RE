@@ -1,0 +1,28 @@
+{
+  "bundle_manifest_sha256": "32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9",
+  "certified_90_day_origin": false,
+  "code_commit": "a9d9d714fd0db1e619361e6935af43361aec6e86",
+  "completed_at_utc": "2026-10-05T08:30:13.618813+00:00",
+  "configuration_sha256": "78bbd7892ce00d55e8692e3ab4bbb6a4e20f2b19a4f7a1f5a656d1469c8d992c",
+  "dependency_lock_sha256": "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f",
+  "feature_policy_sha256": "5488f83d209bc81b513dbd4353df9d5bfc55fdbc51c298a554f4409efd448fbc",
+  "g_us_gate": "PENDING",
+  "model_sha256": "cead625a3b87d73f46fdf740bfb366b9ff3b17d52434011a63e0ca91849f0033",
+  "opened_at_utc": "2026-10-05T08:30:05.067278+00:00",
+  "outputs": {
+    "later_predictions.csv": "25e64ecca3c83e017124428bc3b37baf0c44d17094b37fa43f0ae667f4151923",
+    "scorecards.json": "595d9aaaa3696d0c35e018f33201aa7d41a7f65c5a28461692854cd18de23bd1"
+  },
+  "protocol": "king_later_2015_research_v1",
+  "python_version": "3.11.6",
+  "run_id": "king-later-2015-v1",
+  "runtime_packages": {
+    "numpy": "2.4.6",
+    "xgboost": "3.2.0"
+  },
+  "scope": "historical_research_only",
+  "source_sha256": "25817379c3f06c584ca61eb2413a8368af72fc5548848a0ceb9bb4a885e90401",
+  "split_sha256": "55cfef3afd7e51c3f85b0ddc8af0c272f62a615c178bc509d04ba327aa009a75",
+  "status": "complete_research_only",
+  "test_rows": 4752
+}

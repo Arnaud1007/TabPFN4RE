@@ -1,0 +1,52 @@
+{
+  "run_id": "king-later-2015-v1",
+  "scope": "historical_research_only",
+  "status": "PASS_for_research_diagnostic",
+  "u0_gate": "PENDING",
+  "g_us_gate": "PENDING",
+  "checks": [
+    {
+      "name": "focused_tests",
+      "command": "python -m unittest tests.test_king_later_research -q",
+      "environment": "project .venv and isolated model .venv, each with PYTHONPATH=src",
+      "exit_code": 0,
+      "observed": "7 tests passed in each environment"
+    },
+    {
+      "name": "full_suite",
+      "command": "project .venv Python; append isolated model site-packages with site.addsitedir; coverage.Coverage(source=['tabpfn4realestate']); unittest.defaultTestLoader.discover('tests')",
+      "environment": "project tzdata 2026.4 first; isolated sklearn 1.9.1 and numpy 2.4.6 appended",
+      "exit_code": 0,
+      "observed": "1,352 tests passed in 454.855 seconds; 92% package statement coverage"
+    },
+    {
+      "name": "static_checks",
+      "command": ".venv/Scripts/ruff.exe check and format --check on new runner and tests; git diff --cached --check",
+      "exit_code": 0,
+      "observed": "All checks passed"
+    },
+    {
+      "name": "dependency_audit",
+      "command": ".venv/Scripts/python.exe -m pip_audit -r locks/ames-prototype-requirements.txt",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found"
+    },
+    {
+      "name": "one_use_run",
+      "command": "isolated model Python -m scripts.run_king_historical_later with PYTHONPATH=src",
+      "exit_code": 0,
+      "observed": "4,752 later rows scored once in 10.58 seconds; private opening record and outputs persisted"
+    },
+    {
+      "name": "independent_output_verification",
+      "command": "stdlib CSV/Decimal script against private predictions, ledger, manifest and scorecards",
+      "exit_code": 0,
+      "observed": "Output hashes, 4,752 unique dated rows, both model denominators, MdAPE, within-10%, P90 APE and signed bias matched"
+    }
+  ],
+  "environment_attempts_before_pass": [
+    "Project .venv alone: 1,351 tests ran; two Indiana tests errored because sklearn was not installed there.",
+    "Prepending the entire isolated site-packages: 1,336 tests ran; 51 errors because its tzdata shadowed the pinned project tzdata.",
+    "Appending the isolated site-packages after project packages resolved both issues; full suite passed."
+  ]
+}

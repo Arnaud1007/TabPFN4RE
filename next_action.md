@@ -6,31 +6,32 @@ Updated: 2026-10-05. Branch: `audit/u0`.
 
 **Immediate result, verified today:** The saved King County model returned
 `$542,149.79` for the synthetic [15-field request](examples/king-research-request.json)
-in 2.95 seconds in the latest replay, without retraining. Its response is marked
+in a verified replay, without retraining. Its response is marked
 `historical_research_only`; it represents a 2015 research setting, not a
 current home valuation. Run the command in the King prediction section below.
 The existing Ames 12-field form is available for a simpler interactive demo.
 The King development validation score was 8.90% MdAPE on 2,228 sales; this
-is neither a final-test score nor evidence of current-market accuracy.
+is not evidence of current-market accuracy. The frozen later-period
+[research check](runs/king-later-2015-v1/report.md) scored 4,752 March-May
+2015 sales at 10.52% MdAPE and 47.94% within 10%. Neither cohort certifies
+the 90-day or US release task.
 
 **Short delivery plan:** Keep the saved King predictor as the immediate
 prediction result. For a different historical King property, copy the
 15-field example JSON, replace its property facts, and run the same pinned
-command; no new training is needed. The existing validation scorecard is the
-only measured accuracy claim until the one-use [later-period research
-check](decisions/0096-king-later-period-research-check.md) is run. That check
-keeps the model fixed and cannot establish a 90-day or current-market claim.
-Timebox the next 90-day OFF
-source qualification to two working hours. If its pre-origin data,
-single-home sale labels or permitted use cannot be established, record a
-no-go and capture new sources prospectively. Train just one fixed baseline
-within the following working day if a candidate clears those checks. Do not
-delay the runnable historical predictor for further model searches or imply a
-date for G-US certification.
+command; no new training is needed. The development and later-period
+scorecards are the measured accuracy evidence for this historical model.
+Timebox the next 90-day OFF source qualification to two working hours. If its
+pre-origin data, single-home sale labels or permitted use cannot be
+established, record a no-go and capture new sources prospectively. Train just
+one fixed baseline within the following working day if a candidate clears
+those checks. Do not delay the runnable historical predictor for further
+model searches or imply a date for G-US certification.
 
 | When | Deliverable | Done when |
 | --- | --- | --- |
 | Now, done | Replay the saved King model on the synthetic 15-field request | Numeric output and historical scope are visible in one command |
+| Done: King later-period research | Applied the frozen model to every March-May 2015 row without refitting | [4,752-row scorecard](runs/king-later-2015-v1/report.md): 10.52% XGBoost MdAPE, 47.94% within 10%; research only |
 | Done: Indiana source decision | Published the 200-row audit queue, inspected 20 extreme low-price records, and checked assessment timing | [No-go decision](decisions/0094-indiana-assessment-asof-no-go.md): 20 inspected, none confirmed arm's-length; no pre-origin assessment vintage established |
 | Done: Hillsborough source decision | Checked independent 2025/2026 archived listings and the exact local ZIP hash | [ADR 0095](decisions/0095-hcpa-archive-listing-asof-boundary.md): listed by April 2026, exact local bytes only verified in September; HCPA 90-day historical model remains blocked |
 | Next source action | Obtain a dated exact parcel release or begin prospective captures, and resolve All Sales close-date, transaction scope and use terms | One source with defensible origin-time inputs and sale labels before the next fixed model fit |
@@ -132,11 +133,11 @@ $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
    reuses the saved model with a 15-field JSON request and no retraining. Its
    synthetic example returns $542,149.79 for the 2015 historical reference
    period. It is not a present-day valuation.
-5. **Next research result:** Score the frozen King March–May cohort once under
-   ADR 0096, reporting it as retrospective research. Then resolve one official
-   sale source's target, first-availability and reuse-rights questions and
-   build its audited chronological cohort. Do not describe Ames or King scores
-   as US release accuracy.
+5. **Done:** The [frozen King March-May research check](runs/king-later-2015-v1/report.md)
+   scored all 4,752 later sales once. XGBoost reached 10.52% MdAPE and 47.94%
+   within 10%; the ZIP median reached 20.00% and 25.38%. Resolve an official
+   source's target, first-availability and reuse-rights questions before the
+   next 90-day model fit. Do not describe these scores as US release accuracy.
 
 The [October 4 HCPA listing capture](runs/u0-hcpa-listing-20261004T194412Z/report.md)
 adds an observed publication checkpoint: the All Sales filename remained dated
@@ -194,8 +195,9 @@ the release-critical path.
 The [King historical research run](runs/king-historical-20261004-v1/report.md)
 compares two models on an old sale-date validation period. It does not resolve
 as-of feature availability, original rights, or the US release gate. Its
-March–May 2015 prices were parsed to verify the full source and split but were
-not scored; they are not process-isolated certification labels.
+March-May 2015 prices were parsed in the original validation run and then
+scored once in the [later-period research check](runs/king-later-2015-v1/report.md).
+They are consumed research labels, not process-isolated certification labels.
 The [synthetic calendar fit speed run](runs/u1-local-date-fit-speed-v1-20261003T220221Z/report.md)
 measured a 4.95-fold reduction in median wall time for its 204-row fit,
 replay and score test after caching pinned time zones. This is engineering

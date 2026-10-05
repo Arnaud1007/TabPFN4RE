@@ -5,9 +5,11 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 from pathlib import Path
 import queue
 import re
+import stat
 import sys
 import threading
 import traceback
@@ -15,9 +17,10 @@ from typing import Callable, Mapping
 
 try:
     import tkinter as tk
-    from tkinter import messagebox, ttk
+    from tkinter import filedialog, messagebox, ttk
 except ImportError:  # Report the missing desktop dependency at startup.
     tk = None
+    filedialog = None
     messagebox = None
     ttk = None
 
@@ -49,6 +52,7 @@ SCOPE_WARNING = (
     "No calibrated interval is available."
 )
 REFERENCE_PERIOD = "King County sales, January-February 2015"
+MAX_REQUEST_BYTES = 8_000
 
 
 def parse_form_values(
@@ -73,6 +77,38 @@ def parse_form_values(
         except ValueError as error:
             raise ValueError(f"{name} must be a number") from error
     return serving.validate_request(request, feature_names)
+
+
+def load_request_file(
+    path: Path, feature_names: tuple[str, ...]
+) -> dict[str, float | str]:
+    """Read and validate one bounded JSON request before changing the form."""
+    try:
+        selected = Path(path)
+        if selected.is_symlink():
+            raise ValueError("Request file must not redirect")
+        with selected.open("rb") as stream:
+            metadata = os.fstat(stream.fileno())
+            if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+                raise ValueError("Request must be one regular file")
+            raw = stream.read(MAX_REQUEST_BYTES + 1)
+        if len(raw) > MAX_REQUEST_BYTES:
+            raise ValueError("Request file exceeds the size limit")
+        request = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_json_object)
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("Request file must contain valid UTF-8 JSON") from error
+    except OSError as error:
+        raise ValueError("Request file could not be read") from error
+    return serving.validate_request(request, feature_names)
+
+
+def _unique_json_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    result: dict[str, object] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"Duplicate request field: {key}")
+        result[key] = value
+    return result
 
 
 def predict_from_form(
@@ -207,13 +243,13 @@ class KingResearchForm:
         self.demo_button = ttk.Button(
             panel, text="Load synthetic example", command=self.load_demo
         )
-        self.demo_button.grid(
-            row=row, column=0, columnspan=2, sticky="w", pady=(14, 10)
+        self.demo_button.grid(row=row, column=0, sticky="w", pady=(14, 10))
+        self.load_button = ttk.Button(
+            panel, text="Load request JSON...", command=self.load_request_dialog
         )
+        self.load_button.grid(row=row, column=1, columnspan=2, pady=(14, 10))
         self.predict_button = ttk.Button(panel, text="Predict", command=self.submit)
-        self.predict_button.grid(
-            row=row, column=2, columnspan=2, sticky="e", pady=(14, 10)
-        )
+        self.predict_button.grid(row=row, column=3, sticky="e", pady=(14, 10))
         self.predict_button.bind("<Return>", self._submit_on_enter)
         ttk.Label(panel, textvariable=self.result_var, wraplength=760).grid(
             row=row + 1, column=0, columnspan=4, sticky="w", pady=(4, 10)
@@ -237,6 +273,34 @@ class KingResearchForm:
             entry.delete(0, "end")
             entry.insert(0, str(example[name]))
         self.status_var.set("Synthetic example loaded. Edit fields before prediction.")
+        self.entries["bedrooms"].focus_set()
+
+    def load_request_dialog(self) -> None:
+        if self._pending or filedialog is None:
+            return
+        selected = filedialog.askopenfilename(
+            parent=self.root,
+            title="Load King County property request",
+            filetypes=(("JSON request", "*.json"), ("All files", "*.*")),
+        )
+        if selected:
+            self.load_request(Path(selected))
+
+    def load_request(self, path: Path) -> None:
+        """Atomically populate entries from a validated request file."""
+        if self._pending:
+            return
+        try:
+            request = load_request_file(path, self.feature_names)
+        except (OSError, ValueError, TypeError, KeyError, IndexError) as error:
+            self._show_error(error)
+            return
+        display_values = {name: str(request[name]) for name in FORM_FIELDS}
+        self.result_var.set("")
+        for name, value in display_values.items():
+            self.entries[name].delete(0, "end")
+            self.entries[name].insert(0, value)
+        self.status_var.set("Request loaded. Review the fields, then select Predict.")
         self.entries["bedrooms"].focus_set()
 
     def submit(self) -> None:
@@ -294,7 +358,12 @@ class KingResearchForm:
     def _set_pending(self, pending: bool) -> None:
         self._pending = pending
         state = "disabled" if pending else "!disabled"
-        for widget in (self.predict_button, self.demo_button, *self.entries.values()):
+        for widget in (
+            self.predict_button,
+            self.demo_button,
+            self.load_button,
+            *self.entries.values(),
+        ):
             widget.state([state])
 
     def _submit_on_enter(self, _event: object) -> str:

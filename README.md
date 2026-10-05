@@ -70,9 +70,13 @@ $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 
 & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
 ```
 
-Choose **Load synthetic example**, then **Predict**, or enter the 15 physical
-and location fields. The synthetic example displays **$542,150** rounded from
-the saved machine output. The form keeps the window responsive during model
+Choose **Load synthetic example**, load an edited copy of
+[`examples/king-research-request.json`](examples/king-research-request.json)
+with **Load request JSON...**, or enter the 15 physical and location fields,
+then select **Predict**. Loaded files pass the same validation as typed values;
+an invalid file leaves the existing form values unchanged. The synthetic
+example displays **$542,150** rounded from the saved machine output. The form
+keeps the window responsive during model
 inference, loads the verified checkpoint only once per application session,
 and clears an old estimate when inputs change. The verified live run constructed
 the form in 0.078 seconds, made the model ready after 14.953 seconds,

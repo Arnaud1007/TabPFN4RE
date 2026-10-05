@@ -67,6 +67,29 @@ class KingResearchFormTests(unittest.TestCase):
         )
         self.assertEqual(parsed, serving.validate_request(EXAMPLE, FEATURE_NAMES))
 
+    def test_load_request_file_accepts_only_a_bounded_valid_request(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "request.json"
+            path.write_text(json.dumps(EXAMPLE), encoding="utf-8")
+            loaded = form.load_request_file(path, FEATURE_NAMES)
+            self.assertEqual(loaded, serving.validate_request(EXAMPLE, FEATURE_NAMES))
+
+            invalid = (
+                b"{not json",
+                json.dumps(EXAMPLE).encode("utf-16"),
+                json.dumps(EXAMPLE)
+                .replace('"bedrooms": 3', '"bedrooms": 3, "bedrooms": 4')
+                .encode(),
+                json.dumps({**EXAMPLE, "asking_price": 350000}).encode(),
+                json.dumps({**EXAMPLE, "zipcode": "99999"}).encode(),
+                b" " * (form.MAX_REQUEST_BYTES + 1),
+            )
+            for index, content in enumerate(invalid):
+                with self.subTest(index=index):
+                    path.write_bytes(content)
+                    with self.assertRaises((ValueError, OSError, TypeError)):
+                        form.load_request_file(path, FEATURE_NAMES)
+
     def test_rejects_missing_extra_invalid_and_unsupported_fields(self) -> None:
         invalid = (
             {**self.raw, "asking_price": "350000"},
@@ -195,7 +218,12 @@ class KingResearchFormTests(unittest.TestCase):
             observed["loading_status"] = ui.status_var.get().lower()
             observed["controls_disabled"] = all(
                 widget.instate(["disabled"])
-                for widget in (ui.predict_button, ui.demo_button, *ui.entries.values())
+                for widget in (
+                    ui.predict_button,
+                    ui.demo_button,
+                    ui.load_button,
+                    *ui.entries.values(),
+                )
             )
             release.set()
             deadline = time.monotonic() + 2
@@ -317,6 +345,26 @@ class KingResearchFormTests(unittest.TestCase):
         )
         self.assertIn("Synthetic example loaded", ui.status_var.get())
 
+    def test_tk_json_load_is_atomic_and_preserves_values_on_failure(self) -> None:
+        _root, ui = self.make_hidden_form()
+        before = {name: entry.get() for name, entry in ui.entries.items()}
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "request.json"
+            changed = {**EXAMPLE, "bedrooms": 4}
+            path.write_text(json.dumps(changed), encoding="utf-8")
+            ui.load_request(path)
+            self.assertEqual(ui.entries["bedrooms"].get(), "4.0")
+            self.assertIn("Request loaded", ui.status_var.get())
+
+            valid = {name: entry.get() for name, entry in ui.entries.items()}
+            path.write_text(json.dumps({**EXAMPLE, "zipcode": "99999"}))
+            with patch("tkinter.messagebox.showerror"):
+                ui.load_request(path)
+            self.assertEqual(
+                {name: entry.get() for name, entry in ui.entries.items()}, valid
+            )
+            self.assertNotEqual(valid, before)
+
     def test_tk_worker_error_reenables_controls_and_announces_failure(self) -> None:
         root, ui = self.make_hidden_form()
         with (
@@ -384,7 +432,12 @@ class KingResearchFormTests(unittest.TestCase):
             observed["status"] = ui.status_var.get()
             observed["disabled"] = all(
                 widget.instate(["disabled"])
-                for widget in (ui.predict_button, ui.demo_button, *ui.entries.values())
+                for widget in (
+                    ui.predict_button,
+                    ui.demo_button,
+                    ui.load_button,
+                    *ui.entries.values(),
+                )
             )
 
         argv = [

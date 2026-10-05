@@ -1,0 +1,12 @@
+{
+  "calibration_id": "72f43517d0dc70b82bada04b9fd967141bd2ec34ef4b8b72746a7d729cea158b",
+  "code_commit": "d49dec62fcb226abadc8cdeb60abd26375550bae",
+  "model_sha256": "cead625a3b87d73f46fdf740bfb366b9ff3b17d52434011a63e0ca91849f0033",
+  "outputs": {
+    "aggregate.json": "3224511009cea9fc3f99c7fdb302f88a43938a47f6c6258e75b96b557de0ad49",
+    "calibration.json": "d46876209ee0c318ea64b78f8d1a1d14d7ca2f143f4f58b2534cee78f2006b4c",
+    "evaluation_intervals.csv": "28d2122cc22d3b7c7da0eb999a5d99033773abb754aa8c1c499b54e650c62412"
+  },
+  "protocol": "king_historical_intervals_v1",
+  "status": "complete"
+}

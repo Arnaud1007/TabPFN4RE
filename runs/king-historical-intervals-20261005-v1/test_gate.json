@@ -1,0 +1,16 @@
+﻿{
+    "status":  "fail",
+    "reason":  "mean_90_interval_width_exceeds_utility_cap",
+    "tests_passed":  20,
+    "branch_coverage_percent":  80,
+    "calibration_rows":  1875,
+    "evaluation_rows":  2877,
+    "coverage80":  0.78241223496697954,
+    "coverage90":  0.88529718456725759,
+    "mean_relative_width90_actual":  0.54454455894837273,
+    "p90_relative_width90_actual":  0.64547507705677953,
+    "aggregate_sha256":  "3224511009cea9fc3f99c7fdb302f88a43938a47f6c6258e75b96b557de0ad49",
+    "manifest_sha256":  "70a1b3178d0fab6693c97a79b5db71ac3fee10cd1ff2cdb471f24e9246ee9f1a",
+    "certified_90_day_origin":  false,
+    "g_us_gate":  "PENDING"
+}

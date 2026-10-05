@@ -2,6 +2,17 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
+## Fast interval result, 5 October 2026
+
+The [King historical interval checkpoint](runs/king-historical-intervals-20261005-v1/report.md)
+reused saved predictions and completed without retraining. Calibration used
+1,875 March sales and evaluation used 2,877 April-May sales. Coverage passed at
+78.24% for the 80% interval and 88.53% for the 90% interval. Mean 90% relative
+width was 54.45%, above the 40% utility cap, so the interval configuration is
+rejected and will not be attached to the prediction form. Do not tune against
+the consumed April-May labels. The next interval attempt requires a new
+development mechanism and a fresh later evaluation cohort.
+
 ## Fast prediction research result, 5 October 2026
 
 The [King rolling recency checkpoint](runs/king-rolling-development-20261005-v1/report.md)

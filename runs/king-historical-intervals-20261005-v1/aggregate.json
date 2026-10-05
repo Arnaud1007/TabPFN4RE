@@ -1,0 +1,26 @@
+{
+  "calibration_rows": 1875,
+  "certified_90_day_origin": false,
+  "coverage80": 0.7824122349669795,
+  "coverage80_wilson95": [
+    0.7669640621932565,
+    0.7971072423988446
+  ],
+  "coverage90": 0.8852971845672576,
+  "coverage90_wilson95": [
+    0.8731356371164797,
+    0.896431182748559
+  ],
+  "evaluation_previously_consumed": true,
+  "evaluation_rows": 2877,
+  "g_us_gate": "PENDING",
+  "interval_failures": 0,
+  "mean_relative_width90_actual": 0.5445445589483727,
+  "model_sha256": "cead625a3b87d73f46fdf740bfb366b9ff3b17d52434011a63e0ca91849f0033",
+  "nested_intervals": 2877,
+  "p90_relative_width90_actual": 0.6454750770567795,
+  "protocol": "king_historical_intervals_v1",
+  "radius80": "0.208938219366218170038963200767562000637315204468",
+  "radius90": "0.286964757320037632370498619317379868340951505214",
+  "source_predictions_sha256": "25e64ecca3c83e017124428bc3b37baf0c44d17094b37fa43f0ae667f4151923"
+}

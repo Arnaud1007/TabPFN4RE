@@ -1,0 +1,14 @@
+{
+  "branch_coverage_percent": 80,
+  "bundle_manifest_matches_private": true,
+  "fit_count": 1,
+  "g_us_gate": "PENDING",
+  "march_may_labels_parsed": 0,
+  "march_may_rows_scored": 0,
+  "prediction_smoke_status": "pass",
+  "promotion_eligible": false,
+  "ruff_status": "pass",
+  "save_load_status": "pass",
+  "status": "pass",
+  "targeted_tests_passed": 54
+}

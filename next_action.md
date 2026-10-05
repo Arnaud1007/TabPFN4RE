@@ -2,6 +2,21 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## Faster saved prediction model, 6 October 2026
+
+The [King absolute-error serving bundle](runs/king-absolute-error-serving-20261006-v1/report.md)
+is built and runnable. One fixed fit on 16,849 pre-March rows completed in
+about 14 seconds, and the saved model returned **$553,846.97** for the example
+request. Future predictions load this checkpoint without training. The public
+manifest is an exact hash-matched copy of the private bundle manifest, and the
+save/reload probe matched exactly.
+
+Use this absolute-error bundle for immediate historical research predictions.
+Do not run another model search until a source clears point-in-time, transaction
+scope and use-rights checks. The next model-critical task remains one fixed OFF
+baseline on a qualified source or a newly matured prospective cohort. G-US is
+still pending.
+
 ## Fast absolute-error result, 6 October 2026
 
 The [King log absolute-error screen](runs/king-log-absolute-error-development-20261006-v1/report.md)

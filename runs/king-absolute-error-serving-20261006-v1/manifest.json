@@ -1,0 +1,62 @@
+{
+  "checkpoint_identity": "de9a7e8b1b6261a689070af200e4c4d1eb51a4fb5d77d8977341875bbf7d7357",
+  "code_commit": "3bdf96379d02a678e365d03e877b12ffe93ce9fd",
+  "configuration": {
+    "colsample_bytree": 0.8,
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_child_weight": 10,
+    "n_estimators": 250,
+    "n_jobs": 4,
+    "objective": "reg:absoluteerror",
+    "random_state": 42,
+    "subsample": 0.8,
+    "tree_method": "hist"
+  },
+  "configuration_sha256": "d85a2b3844e965e3cc893714691b9c36e864994db2bfada94e78a556bf4eac99",
+  "dependency_lock_sha256": "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f",
+  "feature_policy_sha256": "5488f83d209bc81b513dbd4353df9d5bfc55fdbc51c298a554f4409efd448fbc",
+  "fit_count": 1,
+  "march_may_labels_parsed": 0,
+  "march_may_rows_scored": 0,
+  "objective": "reg:absoluteerror",
+  "outputs": {
+    "candidate.json": "f23e09e235cd73b93b26586a33cc1813fd0c45136da250f4e84e44dda15172b6",
+    "feature_names.json": "5488f83d209bc81b513dbd4353df9d5bfc55fdbc51c298a554f4409efd448fbc",
+    "summary.json": "406ec4f751313dfc73a2bac080de2fd71ec5b03111b4b7c73584d433f58ee34a",
+    "xgboost_model.json": "de9a7e8b1b6261a689070af200e4c4d1eb51a4fb5d77d8977341875bbf7d7357"
+  },
+  "protocol": "king_log_absolute_error_serving_refit_v1",
+  "quarantine_counts": {
+    "future_year_built": 12
+  },
+  "run_id": "king-absolute-error-serving-20261006-v1",
+  "runtime_versions": {
+    "machine": "AMD64",
+    "numpy": "2.4.6",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.6",
+    "xgboost": "3.2.0"
+  },
+  "save_load_verification": {
+    "absolute_tolerance": 1e-12,
+    "maximum_absolute_difference": 0.0,
+    "maximum_relative_difference": 0.0,
+    "prediction_sha256": "4e12678538e281fc5e83c04a67a120b0e9d24766acd6058fabcaec4b496faabc",
+    "probe_count": 8,
+    "probe_sha256": "c328b8caaadbc540fb7375aa79707dfcddb44cfbcd8436fdf7df7c33ec151bfb",
+    "relative_tolerance": 1e-12,
+    "status": "passed"
+  },
+  "scope": "historical_research_only",
+  "selected_candidate": "xgboost_log_absolute_error",
+  "selection_aggregate_sha256": "1b2dfe8132382297245dcc9ed4afd80b7282b6371d21a93e00a565862eaaa504",
+  "selection_manifest_sha256": "6b28a8bd0e22f9c0856c2faf15568992d2c139f24d51b63928d550f13bf108c5",
+  "source_rows_parsed": 16861,
+  "source_sha256": "25817379c3f06c584ca61eb2413a8368af72fc5548848a0ceb9bb4a885e90401",
+  "stage_manifest_sha256": "6128246fb1397972b004477f1f84821be9c8715f922dbdace7d934e090de8348",
+  "status": "development_refit_complete_test_unscored",
+  "training_cutoff_exclusive": "2015-03-01",
+  "training_membership_sha256": "54c816f9dcda705ac986575ab1eed7b3965cbf1d24604f3ec8cb483a482d13f1",
+  "training_rows": 16849
+}

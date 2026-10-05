@@ -1,0 +1,21 @@
+{
+  "bundle_manifest_sha256": "50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d",
+  "bundle_protocol": "king_log_absolute_error_serving_refit_v1",
+  "checkpoint_sha256": "de9a7e8b1b6261a689070af200e4c4d1eb51a4fb5d77d8977341875bbf7d7357",
+  "fit_count": 1,
+  "g_us_gate": "PENDING",
+  "march_may_labels_parsed": 0,
+  "march_may_rows_scored": 0,
+  "objective": "reg:absoluteerror",
+  "prediction_smoke_amount_usd": 553846.9739548098,
+  "prediction_smoke_status": "historical_research_only",
+  "save_load_maximum_absolute_difference": 0.0,
+  "save_load_status": "passed",
+  "selection_development_mdape": 0.08274982143970246,
+  "selection_development_relative_mdape_improvement": 0.0329465728102238,
+  "selection_development_rows": 5108,
+  "selection_development_windows_improved": 4,
+  "stage_manifest_sha256": "6128246fb1397972b004477f1f84821be9c8715f922dbdace7d934e090de8348",
+  "training_cutoff_exclusive": "2015-03-01",
+  "training_rows": 16849
+}

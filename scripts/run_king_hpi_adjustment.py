@@ -145,6 +145,7 @@ def replay_adjustment(
         raw = _decimal(source["xgboost_usd"], "xgboost_usd")
         _decimal(source["zipcode_median_usd"], "zipcode_median_usd")
         factor = index[sale_quarter] / base
+        adjusted = raw if factor == 1 else (raw * factor).quantize(Decimal("0.01"))
         rows.append(
             {
                 **source,
@@ -152,9 +153,7 @@ def replay_adjustment(
                 "xgboost_usd": str(raw),
                 "sale_quarter": sale_quarter,
                 "hpi_factor": str(factor.normalize()),
-                "hpi_adjusted_xgboost_usd": str(
-                    (raw * factor).quantize(Decimal("0.01"))
-                ),
+                "hpi_adjusted_xgboost_usd": str(adjusted),
             }
         )
     if not rows:

@@ -144,6 +144,16 @@ class KingResearchFormTests(unittest.TestCase):
         self.assertIn("within 90 days", display)
         self.assertIn("does not certify", display)
 
+    def test_scope_warning_tracks_loaded_bundle_protocol(self) -> None:
+        absolute = form.scope_warning(serving.ABSOLUTE_PROTOCOL)
+        legacy = form.scope_warning("king_historical_sale_date_v1")
+
+        self.assertIn("median-like", absolute)
+        self.assertIn("within 90 days", absolute)
+        self.assertIn("does not certify", absolute)
+        self.assertIn("January–February 2015", legacy)
+        self.assertNotEqual(absolute, legacy)
+
     def test_formats_experimental_fhfa_illustration_and_warning(self) -> None:
         response = {
             **RESPONSE,

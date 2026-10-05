@@ -1,0 +1,11 @@
+﻿{
+    "branch_coverage_percent":  81.66,
+    "default_bundle_protocol":  "king_log_absolute_error_serving_refit_v1",
+    "default_manifest_sha256":  "50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d",
+    "g_us_gate":  "PENDING",
+    "prediction_smoke_amount_usd":  553846.9739548098,
+    "prediction_smoke_status":  "pass",
+    "ruff_status":  "pass",
+    "status":  "pass",
+    "tests_passed":  44
+}

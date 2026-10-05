@@ -63,6 +63,13 @@ ABSOLUTE_SCOPE_WARNING = (
 MAX_REQUEST_BYTES = 8_000
 
 
+def scope_warning(protocol: str) -> str:
+    """Return the disclosure that matches the verified bundle protocol."""
+    if protocol == serving.ABSOLUTE_PROTOCOL:
+        return ABSOLUTE_SCOPE_WARNING
+    return SCOPE_WARNING
+
+
 def parse_form_values(
     raw: Mapping[str, str], feature_names: tuple[str, ...]
 ) -> dict[str, float | str]:
@@ -232,6 +239,7 @@ class KingResearchForm:
                 else "Enter a property or load the synthetic example."
             ),
         )
+        self.scope_var = tk.StringVar(master=root, value=SCOPE_WARNING)
         root.title("King County historical research estimate")
         root.minsize(800, 620)
         self._build_widgets()
@@ -246,7 +254,7 @@ class KingResearchForm:
         self.root.rowconfigure(0, weight=1)
         panel.columnconfigure(1, weight=1)
         panel.columnconfigure(3, weight=1)
-        ttk.Label(panel, text=SCOPE_WARNING, wraplength=760).grid(
+        ttk.Label(panel, textvariable=self.scope_var, wraplength=760).grid(
             row=0, column=0, columnspan=4, sticky="w", pady=(0, 12)
         )
         for position, (name, label_text) in enumerate(FIELD_LABELS):
@@ -460,6 +468,7 @@ class KingResearchForm:
         predictor, pending_receipts = payload
         self.feature_names = predictor.feature_names
         self._predict = predictor.predict
+        self.scope_var.set(scope_warning(predictor.bundle.protocol))
         self._pending_receipts = list(pending_receipts)
         self._pending_receipt_path = (
             self._pending_receipts[0] if self._pending_receipts else None

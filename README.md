@@ -79,16 +79,17 @@ The [Ames prototype report](runs/ames-dev-prototype-20261004-v1/report.md) recor
 
 ### King County historical prediction form
 
-The local [15-field King County form](runs/king-form-20261005-v1/report.md) uses
-the saved historical model. From the project root on this workstation:
+The local [15-field King County form](runs/king-absolute-error-serving-20261006-v1/report.md)
+uses the selected absolute-error historical model. From the project root on
+this workstation:
 
 Double-click `Launch-KingResearchForm.cmd` for the pinned local setup, or run
 the equivalent command below. The launcher verifies that the private Python
-environment, model bundle and FHFA snapshot exist before opening the form.
+environment and selected model bundle exist before opening the form.
 
 ```powershell
 $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
-& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-absolute-error-serving-20261006-v1 --manifest-sha256 50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d
 ```
 
 For the quickest demonstration, choose **Load synthetic example** and then
@@ -97,15 +98,14 @@ For the quickest demonstration, choose **Load synthetic example** and then
 with **Load request JSON...**, or enter the 15 physical and location fields,
 then choose **Predict**. Loaded files pass the same validation as typed values;
 an invalid file leaves the existing form values unchanged. The synthetic
-example displays **$542,150** rounded from the saved machine output. The form
+example displays **$553,847** rounded from the saved machine output. The form
 keeps the window responsive during model
 inference, loads the verified checkpoint only once per application session,
-and clears an old estimate when inputs change. The verified live run constructed
-the form in 0.078 seconds, made the model ready after 14.953 seconds,
-then completed the first click in 0.110 seconds and the second in 0.079 seconds.
-This is a 2015 research estimate, with no calibrated interval or current-market
-validity. The private bundle stays outside Git; a fresh clone must build and
-verify its own bundle.
+and clears an old estimate when inputs change. The current checkpoint verifies
+the equivalent saved-model prediction through the shared service; it does not
+reuse the older bundle's GUI timing measurements. This is a 2015 research
+estimate, with no calibrated interval or current-market validity. The private
+bundle stays outside Git; a fresh clone must build and verify its own bundle.
 
 For a real observation made before its outcome is known, enter an opaque
 enrollment reference that does not contain an address, parcel number or owner
@@ -118,11 +118,11 @@ commitment from the saved receipt and does not make a second prediction. See
 the [prospective enrollment report](runs/king-prospective-enrollment-20261005-v1/report.md)
 for the verified behavior and privacy boundary.
 
-- [King historical prediction command](runs/king-serving-20261004-v1/report.md) reuses the saved model without retraining. Edit [the 15-field synthetic request](examples/king-research-request.json) and run the command below on this workstation. The example returns **$542,149.79** in historical 2015 USD terms; it is not a current-market estimate or a 90-day valuation. The private model is not committed to Git.
+- [King historical prediction command](runs/king-absolute-error-serving-20261006-v1/report.md) reuses the selected saved model without retraining. Edit [the 15-field synthetic request](examples/king-research-request.json) and run the command below on this workstation. The example returns **$553,846.97** in historical 2015 USD terms; it is not a current-market estimate or a certified 90-day valuation. The private model is not committed to Git.
 
   ```powershell
   $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
-  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
+  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-absolute-error-serving-20261006-v1 --manifest-sha256 50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d --request examples/king-research-request.json
   ```
 
 - The form's **Predict + record** action is the preferred prospective capture
@@ -135,7 +135,7 @@ for the verified behavior and privacy boundary.
 
   ```powershell
   $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
-  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.capture_king_prediction --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --enrollment-reference demo-20261005 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
+  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.capture_king_prediction --bundle data/raw/king-benchmark/king-absolute-error-serving-20261006-v1 --manifest-sha256 50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d --request examples/king-research-request.json --enrollment-reference demo-20261005
   ```
 
   This lower-level command creates only the private receipt. It uses an

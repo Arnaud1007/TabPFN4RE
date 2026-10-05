@@ -11,6 +11,10 @@ request. Future predictions load this checkpoint without training. The public
 manifest is an exact hash-matched copy of the private bundle manifest, and the
 save/reload probe matched exactly.
 
+Double-click `Launch-KingResearchForm.cmd` to use this selected model. The
+[default-launcher checkpoint](runs/king-default-launcher-20261006-v1/report.md)
+verified the pinned path, manifest, CLI-equivalent output and 43 focused tests.
+
 Use this absolute-error bundle for immediate historical research predictions.
 Do not run another model search until a source clears point-in-time, transaction
 scope and use-rights checks. The next model-critical task remains one fixed OFF
@@ -105,7 +109,7 @@ application's p95 latency target. The form and CLI share the same guarded
 prediction service. Editing an input clears the prior estimate. The private
 model bundle is still needed locally.
 
-**Exact form command:** `$env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"; & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt`.
+**Exact form command:** `$env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"; & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-absolute-error-serving-20261006-v1 --manifest-sha256 50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d`.
 
 **Next model-critical action:** qualify a source with provable pre-origin inputs,
 one-home arm's-length sale labels and permitted use, then run one fixed OFF

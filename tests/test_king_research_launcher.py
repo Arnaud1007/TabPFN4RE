@@ -18,8 +18,7 @@ class KingResearchLauncherTests(unittest.TestCase):
         self.assertIn("%~dp0", text)
         for required in (
             r"data\raw\legacy-replay\.venv\scripts\python.exe",
-            r"data\raw\king-benchmark\king-validation-20261004-v1",
-            r"data\raw\fhfa\hpi_po_metro_2026-10-05.txt",
+            r"data\raw\king-benchmark\king-absolute-error-serving-20261006-v1",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, text)
@@ -30,10 +29,11 @@ class KingResearchLauncherTests(unittest.TestCase):
         self.assertIn("-m scripts.king_research_form", text)
         self.assertIn("--manifest-sha256", text)
         self.assertIn(
-            "32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9",
+            "50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d",
             text,
         )
-        self.assertIn("--fhfa-source", text)
+        self.assertNotIn("--fhfa-source", text)
+        self.assertNotIn("hpi_po_metro", text)
         self.assertRegex(text, r"exit\s+/b\s+%errorlevel%")
         self.assertNotRegex(text, r"\b(?:curl|wget|invoke-webrequest|bitsadmin)\b")
 

@@ -27,6 +27,9 @@ MAX_REQUEST_BYTES = 8_000
 REFERENCE_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}\Z")
 SHA256_PATTERN = re.compile(r"[0-9a-f]{64}\Z")
 REFERENCE_PERIOD = "King County sales, January-February 2015"
+ABSOLUTE_REFERENCE_PERIOD = (
+    "King County rolling development, November 2014-February 2015"
+)
 BASE_RESPONSE_KEYS = frozenset(
     {
         "amount",
@@ -38,6 +41,18 @@ BASE_RESPONSE_KEYS = frozenset(
         "g_us_gate",
         "manifest_sha256",
         "model_sha256",
+    }
+)
+ABSOLUTE_EXTENSION_KEYS = frozenset(
+    {
+        "bundle_protocol",
+        "objective",
+        "training_cutoff_exclusive",
+        "training_period",
+        "selection_period",
+        "point_estimate_semantics",
+        "horizon_days",
+        "conditional_sale_interpretation",
     }
 )
 HPI_KEYS = frozenset(
@@ -139,25 +154,50 @@ def _timestamp(moment: datetime) -> str:
 def _validate_response(
     response: object, expected_manifest_sha256: str
 ) -> dict[str, object]:
+    if type(response) is not dict:
+        raise ValueError("Prediction is incompatible with a King research receipt")
+    has_hpi = "experimental_hpi_adjustment" in response
+    core_keys = set(response) - ({"experimental_hpi_adjustment"} if has_hpi else set())
+    is_absolute = response.get("bundle_protocol") == serving.ABSOLUTE_PROTOCOL
+    expected_keys = (
+        BASE_RESPONSE_KEYS | ABSOLUTE_EXTENSION_KEYS
+        if is_absolute
+        else BASE_RESPONSE_KEYS
+    )
+    shared_invalid = any(
+        (
+            core_keys != expected_keys,
+            response.get("currency") != "USD",
+            response.get("model") != "xgboost",
+            response.get("status") != "historical_research_only",
+            response.get("certified_90_day_origin") is not False,
+            response.get("g_us_gate") != "PENDING",
+            not isinstance(response.get("manifest_sha256"), str),
+            not isinstance(response.get("model_sha256"), str),
+        )
+    )
+    absolute_invalid = is_absolute and any(
+        (
+            response.get("reference_period") != ABSOLUTE_REFERENCE_PERIOD,
+            response.get("objective") != "reg:absoluteerror",
+            response.get("training_cutoff_exclusive") != "2015-03-01",
+            response.get("training_period") != "King County sales before March 2015",
+            response.get("selection_period")
+            != "King County sales, November 2014-February 2015",
+            response.get("point_estimate_semantics")
+            != "median-like sale price from log absolute-error loss",
+            response.get("horizon_days") != 90,
+            response.get("conditional_sale_interpretation")
+            != (
+                "Recorded sale consideration conditional on a qualifying sale "
+                "within the next 90 calendar days"
+            ),
+        )
+    )
     if (
-        type(response) is not dict
-        or set(response)
-        not in (
-            BASE_RESPONSE_KEYS,
-            BASE_RESPONSE_KEYS | {"experimental_hpi_adjustment"},
-        )
-        or any(
-            (
-                response.get("currency") != "USD",
-                response.get("model") != "xgboost",
-                response.get("status") != "historical_research_only",
-                response.get("reference_period") != REFERENCE_PERIOD,
-                response.get("certified_90_day_origin") is not False,
-                response.get("g_us_gate") != "PENDING",
-                not isinstance(response.get("manifest_sha256"), str),
-                not isinstance(response.get("model_sha256"), str),
-            )
-        )
+        shared_invalid
+        or absolute_invalid
+        or (not is_absolute and response.get("reference_period") != REFERENCE_PERIOD)
     ):
         raise ValueError("Prediction is incompatible with a King research receipt")
     if (

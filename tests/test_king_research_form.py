@@ -122,6 +122,28 @@ class KingResearchFormTests(unittest.TestCase):
         self.assertRegex(display.lower(), r"not (?:a )?current")
         self.assertRegex(display.lower(), r"not (?:a )?90.day")
 
+    def test_formats_exact_absolute_bundle_response_with_conditional_scope(
+        self,
+    ) -> None:
+        bundle = serving.VerifiedBundle(
+            FEATURE_NAMES,
+            b"model",
+            "a" * 64,
+            "b" * 64,
+            serving.ABSOLUTE_PROTOCOL,
+            "reg:absoluteerror",
+            "2015-03-01",
+            "King County sales before March 2015",
+            "King County sales, November 2014-February 2015",
+        )
+        response = serving._prediction_response(200_000.25, bundle)
+        display = form.format_prediction(response).lower()
+        self.assertIn("$200,000", display)
+        self.assertIn("median-like", display)
+        self.assertIn("conditional", display)
+        self.assertIn("within 90 days", display)
+        self.assertIn("does not certify", display)
+
     def test_formats_experimental_fhfa_illustration_and_warning(self) -> None:
         response = {
             **RESPONSE,

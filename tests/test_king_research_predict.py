@@ -75,8 +75,68 @@ class KingResearchPredictTests(unittest.TestCase):
         load.assert_called_once_with(Path("private-bundle"), "a" * 64)
         self.assertAlmostEqual(result["amount"], 200_000, places=6)
         self.assertEqual(result["status"], "historical_research_only")
+        self.assertEqual(
+            result["reference_period"], "King County sales, January-February 2015"
+        )
+        self.assertEqual(
+            set(result),
+            {
+                "amount",
+                "currency",
+                "model",
+                "status",
+                "reference_period",
+                "certified_90_day_origin",
+                "g_us_gate",
+                "manifest_sha256",
+                "model_sha256",
+            },
+        )
         self.assertFalse(result["certified_90_day_origin"])
         self.assertEqual(result["g_us_gate"], "PENDING")
+
+    def test_absolute_predictor_fails_closed_on_runtime_drift(self) -> None:
+        verified = serving.VerifiedBundle(
+            FEATURE_NAMES,
+            b"model",
+            "a" * 64,
+            "b" * 64,
+            serving.ABSOLUTE_PROTOCOL,
+            "reg:absoluteerror",
+            "2015-03-01",
+        )
+        drifted = {**serving.ABSOLUTE_RUNTIME, "xgboost": "9.9.9"}
+        with (
+            patch.object(serving, "load_bundle", return_value=verified),
+            patch.object(serving, "_absolute_runtime_versions", return_value=drifted),
+            self.assertRaisesRegex(ValueError, "runtime"),
+        ):
+            serving.load_predictor(Path("bundle"), "a" * 64)
+
+    def test_save_load_verification_accepts_only_differences_within_tolerance(
+        self,
+    ) -> None:
+        verification = {
+            "status": "passed",
+            "probe_count": 8,
+            "probe_sha256": "1" * 64,
+            "prediction_sha256": "2" * 64,
+            "absolute_tolerance": 1e-12,
+            "relative_tolerance": 1e-12,
+            "maximum_absolute_difference": 1e-15,
+            "maximum_relative_difference": 1e-15,
+        }
+        self.assertTrue(serving._valid_save_load_verification(verification))
+        for field in (
+            "maximum_absolute_difference",
+            "maximum_relative_difference",
+        ):
+            with self.subTest(field=field):
+                self.assertFalse(
+                    serving._valid_save_load_verification(
+                        {**verification, field: 1.1e-12}
+                    )
+                )
 
     def test_cli_reads_request_and_reports_prediction_or_error(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -167,6 +227,7 @@ class KingResearchPredictTests(unittest.TestCase):
                 "feature_names.json": names,
                 "xgboost_model.json": model,
                 "candidate.json": candidate,
+                "scorecards.json": b"{}",
             }
             for name, content in files.items():
                 (bundle / name).write_bytes(content)
@@ -205,6 +266,166 @@ class KingResearchPredictTests(unittest.TestCase):
                 manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
                 with self.assertRaises(ValueError):
                     serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
+
+    def test_absolute_error_bundle_dispatch_adds_frozen_protocol_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            private_root = Path(directory)
+            bundle = private_root / "absolute-bundle"
+            bundle.mkdir()
+            names = json.dumps(FEATURE_NAMES).encode()
+            model = b"absolute model"
+            verification = {
+                "status": "passed",
+                "probe_count": 8,
+                "probe_sha256": "1" * 64,
+                "prediction_sha256": "2" * 64,
+                "absolute_tolerance": 1e-12,
+                "relative_tolerance": 1e-12,
+                "maximum_absolute_difference": 0.0,
+                "maximum_relative_difference": 0.0,
+            }
+            candidate = json.dumps(
+                {
+                    "selected_on_development": "xgboost_log_absolute_error",
+                    "artifact": "xgboost_model.json",
+                }
+            ).encode()
+            summary = json.dumps(
+                {
+                    "protocol": "king_log_absolute_error_serving_refit_v1",
+                    "objective": "reg:absoluteerror",
+                    "training_cutoff_exclusive": "2015-03-01",
+                    "source_rows_parsed": 16861,
+                    "training_rows": 16849,
+                    "fit_count": 1,
+                    "march_may_labels_parsed": 0,
+                    "march_may_rows_scored": 0,
+                    "certified_90_day_origin": False,
+                    "g_us_gate": "PENDING",
+                    "save_load_verification": verification,
+                }
+            ).encode()
+            files = {
+                "feature_names.json": names,
+                "xgboost_model.json": model,
+                "candidate.json": candidate,
+                "summary.json": summary,
+            }
+            for name, content in files.items():
+                (bundle / name).write_bytes(content)
+            configuration = dict(serving.ABSOLUTE_MODEL_CONFIGURATION)
+            manifest = {
+                "run_id": "absolute-bundle",
+                "protocol": "king_log_absolute_error_serving_refit_v1",
+                "scope": "historical_research_only",
+                "status": "development_refit_complete_test_unscored",
+                "selected_candidate": "xgboost_log_absolute_error",
+                "objective": "reg:absoluteerror",
+                "training_cutoff_exclusive": "2015-03-01",
+                "training_rows": 16849,
+                "training_membership_sha256": "c" * 64,
+                "source_rows_parsed": 16861,
+                "quarantine_counts": {"future_year_built": 12},
+                "fit_count": 1,
+                "march_may_labels_parsed": 0,
+                "march_may_rows_scored": 0,
+                "source_sha256": SOURCE_SHA256,
+                "dependency_lock_sha256": serving.ABSOLUTE_LOCK_SHA256,
+                "runtime_versions": dict(serving.ABSOLUTE_RUNTIME),
+                "code_commit": "d" * 40,
+                "stage_manifest_sha256": "e" * 64,
+                "save_load_verification": verification,
+                "configuration": configuration,
+                "configuration_sha256": digest(
+                    json.dumps(
+                        configuration, sort_keys=True, separators=(",", ":")
+                    ).encode()
+                ),
+                "checkpoint_identity": digest(model),
+                "feature_policy_sha256": digest(names),
+                "selection_manifest_sha256": serving.ABSOLUTE_SELECTION_MANIFEST_SHA256,
+                "selection_aggregate_sha256": serving.ABSOLUTE_SELECTION_AGGREGATE_SHA256,
+                "outputs": {name: digest(content) for name, content in files.items()},
+            }
+            manifest_path = bundle / "manifest.json"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            registry = private_root / "registry-manifest.json"
+            registry.write_bytes(manifest_path.read_bytes())
+            expected = digest(manifest_path.read_bytes())
+            with (
+                patch.object(serving, "PRIVATE_ROOT", private_root),
+                patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
+                patch.object(serving, "verify_acl"),
+            ):
+                loaded = serving.load_bundle(bundle, expected)
+            self.assertEqual(loaded.protocol, manifest["protocol"])
+            self.assertEqual(loaded.objective, "reg:absoluteerror")
+            self.assertEqual(loaded.training_cutoff_exclusive, "2015-03-01")
+            response = serving._prediction_response(200_000, loaded)
+            self.assertEqual(response["model"], "xgboost")
+            self.assertEqual(response["status"], "historical_research_only")
+            self.assertEqual(response["bundle_protocol"], manifest["protocol"])
+            self.assertEqual(response["objective"], "reg:absoluteerror")
+            self.assertEqual(response["training_cutoff_exclusive"], "2015-03-01")
+            self.assertEqual(
+                response["training_period"], "King County sales before March 2015"
+            )
+            self.assertEqual(
+                response["selection_period"],
+                "King County sales, November 2014-February 2015",
+            )
+            self.assertEqual(
+                response["reference_period"],
+                "King County rolling development, November 2014-February 2015",
+            )
+            self.assertEqual(response["horizon_days"], 90)
+            self.assertIn("conditional", response["conditional_sale_interpretation"])
+            self.assertIn("median-like", response["point_estimate_semantics"])
+
+            manifest["code_commit"] = "short"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            registry.write_bytes(manifest_path.read_bytes())
+            with (
+                patch.object(serving, "PRIVATE_ROOT", private_root),
+                patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
+                patch.object(serving, "verify_acl"),
+                self.assertRaisesRegex(ValueError, "identity metadata"),
+            ):
+                serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
+            manifest["code_commit"] = "d" * 40
+            registry.write_text(json.dumps(manifest), encoding="utf-8")
+
+            manifest["march_may_labels_parsed"] = 1
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            with (
+                patch.object(serving, "PRIVATE_ROOT", private_root),
+                patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
+                patch.object(serving, "verify_acl"),
+                self.assertRaises(ValueError),
+            ):
+                serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
+            manifest["march_may_labels_parsed"] = 0
+
+            manifest["configuration"] = {**configuration, "max_depth": 99}
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            with (
+                patch.object(serving, "PRIVATE_ROOT", private_root),
+                patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
+                patch.object(serving, "verify_acl"),
+                self.assertRaises(ValueError),
+            ):
+                serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
+            manifest["configuration"] = configuration
+
+            manifest["protocol"] = "unknown_protocol"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            with (
+                patch.object(serving, "PRIVATE_ROOT", private_root),
+                patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
+                patch.object(serving, "verify_acl"),
+                self.assertRaisesRegex(ValueError, "unsupported"),
+            ):
+                serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
 
 
 if __name__ == "__main__":

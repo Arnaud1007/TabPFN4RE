@@ -54,6 +54,12 @@ SCOPE_WARNING = (
     "No calibrated interval is available."
 )
 REFERENCE_PERIOD = "King County sales, January-February 2015"
+ABSOLUTE_SCOPE_WARNING = (
+    "Historical research only: median-like estimate from a log absolute-error "
+    "model. The intended target is recorded consideration conditional on a "
+    "qualifying sale within 90 days, but this historical fixture does not certify "
+    "a 90-day valuation origin. No calibrated interval is available."
+)
 MAX_REQUEST_BYTES = 8_000
 
 
@@ -126,12 +132,22 @@ def predict_from_form(
 
 def format_prediction(response: Mapping[str, object]) -> str:
     """Display only a compatible historical response and its evidence limits."""
-    if not isinstance(response, Mapping) or any(
+    if not isinstance(response, Mapping):
+        raise ValueError("Prediction response is incompatible with historical research")
+    is_absolute = response.get("bundle_protocol") == serving.ABSOLUTE_PROTOCOL
+    if is_absolute:
+        manifest_sha256 = response.get("manifest_sha256")
+        if not isinstance(manifest_sha256, str):
+            raise ValueError(
+                "Prediction response is incompatible with historical research"
+            )
+        capture._validate_response(dict(response), manifest_sha256)
+    if any(
         (
             response.get("currency") != "USD",
             response.get("model") != "xgboost",
             response.get("status") != "historical_research_only",
-            response.get("reference_period") != REFERENCE_PERIOD,
+            not is_absolute and response.get("reference_period") != REFERENCE_PERIOD,
             response.get("certified_90_day_origin") is not False,
             response.get("g_us_gate") != "PENDING",
         )
@@ -156,7 +172,7 @@ def format_prediction(response: Mapping[str, object]) -> str:
             raise ValueError("Experimental HPI amount is invalid")
         lines.append(f"FHFA metro-indexed illustration: ${float(adjusted):,.0f} USD")
         lines.append(str(hpi.get("warning", "")))
-    lines.append(SCOPE_WARNING)
+    lines.append(ABSOLUTE_SCOPE_WARNING if is_absolute else SCOPE_WARNING)
     return "\n".join(lines)
 
 

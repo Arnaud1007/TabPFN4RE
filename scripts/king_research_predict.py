@@ -8,10 +8,13 @@ from datetime import date
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
+import platform
 import re
+import stat
 import sys
-from typing import Mapping
+from typing import Mapping, Protocol, Sequence
 
 from tabpfn4realestate.features.fhfa_hpi import (
     HpiSeries,
@@ -19,6 +22,7 @@ from tabpfn4realestate.features.fhfa_hpi import (
     load_verified_metro_series,
 )
 from scripts.king_historical_benchmark import NUMERIC_FEATURES, SOURCE_SHA256
+from scripts.build_king_absolute_error_bundle import ABSOLUTE_MODEL_CONFIGURATION
 from scripts.private_review_io import real_directory, verify_acl
 from scripts.run_king_historical_benchmark import MODEL_PARAMETERS, PRIVATE_ROOT, ROOT
 
@@ -29,6 +33,27 @@ _MAX_REQUEST_BYTES = 8_000
 _SPLIT_PATH = ROOT / "runs/king-historical-20261004-v1/split_manifest.json"
 _LOCK_PATH = ROOT / "locks/ames-prototype-requirements.txt"
 _REQUIRED_FILES = ("candidate.json", "feature_names.json", "xgboost_model.json")
+_ABSOLUTE_REGISTRY_MANIFEST = (
+    ROOT / "runs/king-absolute-error-serving-20261006-v1/manifest.json"
+)
+_MAX_TOTAL_BUNDLE_BYTES = 5_000_000
+ABSOLUTE_PROTOCOL = "king_log_absolute_error_serving_refit_v1"
+ABSOLUTE_SELECTION_MANIFEST_SHA256 = (
+    "6b28a8bd0e22f9c0856c2faf15568992d2c139f24d51b63928d550f13bf108c5"
+)
+ABSOLUTE_SELECTION_AGGREGATE_SHA256 = (
+    "1b2dfe8132382297245dcc9ed4afd80b7282b6371d21a93e00a565862eaaa504"
+)
+ABSOLUTE_LOCK_SHA256 = (
+    "e877af0954e9493b7118f8f302833def58ee13e474164b82b86e46f2b2c04e3f"
+)
+ABSOLUTE_RUNTIME = {
+    "machine": "AMD64",
+    "numpy": "2.4.6",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.6",
+    "xgboost": "3.2.0",
+}
 FHFA_SOURCE_SHA256 = "d664a8e2e92f64aa17201b3bdd84d0ab4d1a4d00e9c6c15d5b34fb400c10d842"
 FHFA_CBSA = "42644"
 FHFA_GEOGRAPHY = "Seattle-Bellevue-Kent, WA (MSAD)"
@@ -44,6 +69,15 @@ class VerifiedBundle:
     model_bytes: bytes
     manifest_sha256: str
     model_sha256: str
+    protocol: str = "king_historical_sale_date_v1"
+    objective: str = "reg:squarederror"
+    training_cutoff_exclusive: str = "2015-01-01"
+    training_period: str = "King County sales before January 2015"
+    selection_period: str = "King County sales, January-February 2015"
+
+
+class PredictorModel(Protocol):
+    def predict(self, matrix: Sequence[Sequence[float]]) -> Sequence[float]: ...
 
 
 @dataclass(frozen=True)
@@ -51,7 +85,7 @@ class LoadedPredictor:
     """One verified checkpoint loaded once for repeated local predictions."""
 
     bundle: VerifiedBundle
-    model: object
+    model: PredictorModel
     hpi_series: HpiSeries | None = None
 
     @property
@@ -74,10 +108,18 @@ class LoadedPredictor:
 
 
 def _read_limited(path: Path, limit: int) -> bytes:
-    if path.is_symlink() or not path.is_file() or path.stat().st_nlink != 1:
+    if path.is_symlink():
         raise ValueError("Bundle file is missing or redirects")
-    with path.open("rb") as stream:
-        content = stream.read(limit + 1)
+    try:
+        with path.open("rb") as stream:
+            metadata = os.fstat(stream.fileno())
+            if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+                raise ValueError("Bundle file is missing or redirects")
+            if metadata.st_size > limit:
+                raise ValueError("Bundle file exceeds its size limit")
+            content = stream.read(limit + 1)
+    except OSError as error:
+        raise ValueError("Bundle file is missing or redirects") from error
     if len(content) > limit:
         raise ValueError("Bundle file exceeds its size limit")
     return content
@@ -104,6 +146,38 @@ def _feature_names(value: object) -> tuple[str, ...]:
     return names
 
 
+def _valid_save_load_verification(value: object) -> bool:
+    if not isinstance(value, dict):
+        return False
+    absolute_tolerance = value.get("absolute_tolerance")
+    relative_tolerance = value.get("relative_tolerance")
+    maximum_absolute = value.get("maximum_absolute_difference")
+    maximum_relative = value.get("maximum_relative_difference")
+    numeric = (
+        absolute_tolerance,
+        relative_tolerance,
+        maximum_absolute,
+        maximum_relative,
+    )
+    return (
+        value.get("status") == "passed"
+        and value.get("probe_count") == 8
+        and absolute_tolerance == 1e-12
+        and relative_tolerance == 1e-12
+        and all(
+            type(item) in (int, float) and math.isfinite(float(item))
+            for item in numeric
+        )
+        and 0 <= maximum_absolute <= absolute_tolerance
+        and 0 <= maximum_relative <= relative_tolerance
+        and all(
+            isinstance(value.get(name), str)
+            and re.fullmatch(r"[0-9a-f]{64}", value[name])
+            for name in ("probe_sha256", "prediction_sha256")
+        )
+    )
+
+
 def load_bundle(bundle_dir: Path, expected_manifest_sha256: str) -> VerifiedBundle:
     """Load only the digest-pinned research checkpoint from the private root."""
     bundle_dir = bundle_dir.absolute()
@@ -119,24 +193,89 @@ def load_bundle(bundle_dir: Path, expected_manifest_sha256: str) -> VerifiedBund
     if _digest(manifest_bytes) != expected_manifest_sha256:
         raise ValueError("Bundle manifest checksum mismatch")
     manifest = json.loads(manifest_bytes)
-    if not isinstance(manifest, dict) or any(
-        manifest.get(key) != value
-        for key, value in {
-            "run_id": bundle_dir.name,
-            "scope": "historical_research_only",
-            "status": "validation_complete_test_unscored",
-            "selected_candidate": "xgboost",
-            "source_sha256": SOURCE_SHA256,
-            "split_manifest_sha256": _digest(_SPLIT_PATH.read_bytes()),
-            "dependency_lock_sha256": _digest(_LOCK_PATH.read_bytes()),
-            "configuration_sha256": _digest(
-                json.dumps(MODEL_PARAMETERS, sort_keys=True).encode()
-            ),
-        }.items()
+    if not isinstance(manifest, dict):
+        raise ValueError("Bundle provenance or research scope is incompatible")
+    protocol = manifest.get("protocol")
+    if protocol not in (None, ABSOLUTE_PROTOCOL):
+        raise ValueError("Bundle protocol is unsupported")
+    if protocol == ABSOLUTE_PROTOCOL:
+        registry_bytes = _read_limited(_ABSOLUTE_REGISTRY_MANIFEST, _MAX_MANIFEST_BYTES)
+        registry_sha256 = _digest(registry_bytes)
+        if (
+            expected_manifest_sha256 != registry_sha256
+            or manifest_bytes != registry_bytes
+        ):
+            raise ValueError("Bundle manifest does not match the committed registry")
+    legacy_expected = {
+        "run_id": bundle_dir.name,
+        "scope": "historical_research_only",
+        "status": "validation_complete_test_unscored",
+        "selected_candidate": "xgboost",
+        "source_sha256": SOURCE_SHA256,
+        "split_manifest_sha256": _digest(_SPLIT_PATH.read_bytes()),
+        "dependency_lock_sha256": _digest(_LOCK_PATH.read_bytes()),
+        "configuration_sha256": _digest(
+            json.dumps(MODEL_PARAMETERS, sort_keys=True).encode()
+        ),
+    }
+    absolute_configuration = dict(ABSOLUTE_MODEL_CONFIGURATION)
+    absolute_expected = {
+        "run_id": bundle_dir.name,
+        "protocol": ABSOLUTE_PROTOCOL,
+        "scope": "historical_research_only",
+        "status": "development_refit_complete_test_unscored",
+        "selected_candidate": "xgboost_log_absolute_error",
+        "objective": "reg:absoluteerror",
+        "training_cutoff_exclusive": "2015-03-01",
+        "training_rows": 16_849,
+        "runtime_versions": ABSOLUTE_RUNTIME,
+        "source_rows_parsed": 16_861,
+        "quarantine_counts": {"future_year_built": 12},
+        "fit_count": 1,
+        "march_may_labels_parsed": 0,
+        "march_may_rows_scored": 0,
+        "source_sha256": SOURCE_SHA256,
+        "dependency_lock_sha256": ABSOLUTE_LOCK_SHA256,
+        "configuration": absolute_configuration,
+        "configuration_sha256": _digest(
+            json.dumps(
+                absolute_configuration, sort_keys=True, separators=(",", ":")
+            ).encode()
+        ),
+        "selection_manifest_sha256": ABSOLUTE_SELECTION_MANIFEST_SHA256,
+        "selection_aggregate_sha256": ABSOLUTE_SELECTION_AGGREGATE_SHA256,
+    }
+    code_commit = manifest.get("code_commit")
+    training_membership = manifest.get("training_membership_sha256")
+    stage_manifest_sha256 = manifest.get("stage_manifest_sha256")
+    if protocol == ABSOLUTE_PROTOCOL and any(
+        not isinstance(value, str) or not re.fullmatch(pattern, value)
+        for value, pattern in (
+            (code_commit, r"[0-9a-f]{40}"),
+            (training_membership, r"[0-9a-f]{64}"),
+            (stage_manifest_sha256, r"[0-9a-f]{64}"),
+        )
     ):
+        raise ValueError("Bundle identity metadata is incompatible")
+    verification = manifest.get("save_load_verification")
+    if protocol == ABSOLUTE_PROTOCOL and not _valid_save_load_verification(
+        verification
+    ):
+        raise ValueError("Bundle save/load verification is incompatible")
+    expected = absolute_expected if protocol == ABSOLUTE_PROTOCOL else legacy_expected
+    if any(manifest.get(key) != value for key, value in expected.items()):
         raise ValueError("Bundle provenance or research scope is incompatible")
     outputs = manifest.get("outputs")
-    if not isinstance(outputs, dict) or not set(_REQUIRED_FILES).issubset(outputs):
+    required_files = (
+        (*_REQUIRED_FILES, "summary.json")
+        if protocol == ABSOLUTE_PROTOCOL
+        else _REQUIRED_FILES
+    )
+    if not isinstance(outputs, dict) or (
+        set(outputs) != set(required_files)
+        if protocol == ABSOLUTE_PROTOCOL
+        else not set(required_files).issubset(outputs)
+    ):
         raise ValueError("Bundle output manifest is incomplete")
     contents: dict[str, bytes] = {}
     for name, expected in outputs.items():
@@ -147,12 +286,42 @@ def load_bundle(bundle_dir: Path, expected_manifest_sha256: str) -> VerifiedBund
         if not isinstance(expected, str) or _digest(content) != expected:
             raise ValueError("Bundle output checksum mismatch")
         contents[name] = content
+    if (
+        protocol == ABSOLUTE_PROTOCOL
+        and sum(len(content) for content in contents.values()) > _MAX_TOTAL_BUNDLE_BYTES
+    ):
+        raise ValueError("Bundle files exceed their aggregate size limit")
     candidate = json.loads(contents["candidate.json"])
-    if candidate != {
-        "selected_on_validation": "xgboost",
-        "artifact": "xgboost_model.json",
-    }:
+    expected_candidate = (
+        {
+            "selected_on_development": "xgboost_log_absolute_error",
+            "artifact": "xgboost_model.json",
+        }
+        if protocol == ABSOLUTE_PROTOCOL
+        else {"selected_on_validation": "xgboost", "artifact": "xgboost_model.json"}
+    )
+    if candidate != expected_candidate:
         raise ValueError("Bundle candidate selection is incompatible")
+    if protocol == ABSOLUTE_PROTOCOL:
+        summary = json.loads(contents["summary.json"])
+        expected_summary = {
+            "protocol": ABSOLUTE_PROTOCOL,
+            "objective": "reg:absoluteerror",
+            "training_cutoff_exclusive": "2015-03-01",
+            "source_rows_parsed": 16_861,
+            "training_rows": 16_849,
+            "fit_count": 1,
+            "march_may_labels_parsed": 0,
+            "march_may_rows_scored": 0,
+            "certified_90_day_origin": False,
+            "g_us_gate": "PENDING",
+        }
+        if (
+            not isinstance(summary, dict)
+            or any(summary.get(key) != value for key, value in expected_summary.items())
+            or summary.get("save_load_verification") != verification
+        ):
+            raise ValueError("Bundle summary is incompatible")
     names = _feature_names(json.loads(contents["feature_names.json"]))
     model_sha = _digest(contents["xgboost_model.json"])
     if manifest.get("checkpoint_identity") != model_sha or manifest.get(
@@ -160,7 +329,23 @@ def load_bundle(bundle_dir: Path, expected_manifest_sha256: str) -> VerifiedBund
     ) != _digest(contents["feature_names.json"]):
         raise ValueError("Bundle checkpoint identity is incompatible")
     return VerifiedBundle(
-        names, contents["xgboost_model.json"], expected_manifest_sha256, model_sha
+        names,
+        contents["xgboost_model.json"],
+        expected_manifest_sha256,
+        model_sha,
+        ABSOLUTE_PROTOCOL
+        if protocol == ABSOLUTE_PROTOCOL
+        else "king_historical_sale_date_v1",
+        "reg:absoluteerror" if protocol == ABSOLUTE_PROTOCOL else "reg:squarederror",
+        "2015-03-01" if protocol == ABSOLUTE_PROTOCOL else "2015-01-01",
+        (
+            "King County sales before March 2015"
+            if protocol == ABSOLUTE_PROTOCOL
+            else "King County sales before January 2015"
+        ),
+        "King County sales, November 2014-February 2015"
+        if protocol == ABSOLUTE_PROTOCOL
+        else "King County sales, January-February 2015",
     )
 
 
@@ -230,7 +415,7 @@ def encode_request(
     )
 
 
-def predict_price(model: object, vector: tuple[float, ...]) -> float:
+def predict_price(model: PredictorModel, vector: tuple[float, ...]) -> float:
     log_price = float(model.predict([vector])[0])
     try:
         price = math.exp(log_price)
@@ -248,12 +433,30 @@ def load_predictor(
 ) -> LoadedPredictor:
     """Verify and deserialize a checkpoint once for a serving session."""
     bundle = load_bundle(bundle_dir, manifest_sha256)
+    if (
+        bundle.protocol == ABSOLUTE_PROTOCOL
+        and _absolute_runtime_versions() != ABSOLUTE_RUNTIME
+    ):
+        raise ValueError("Absolute-error bundle runtime is incompatible")
     from xgboost import XGBRegressor
 
     model = XGBRegressor()
     model.load_model(bytearray(bundle.model_bytes))
     hpi_series = None if fhfa_source is None else _load_king_fhfa_series(fhfa_source)
     return LoadedPredictor(bundle, model, hpi_series)
+
+
+def _absolute_runtime_versions() -> dict[str, str]:
+    import numpy
+    import xgboost
+
+    return {
+        "machine": platform.machine(),
+        "numpy": numpy.__version__,
+        "platform": platform.platform(),
+        "python": platform.python_version(),
+        "xgboost": xgboost.__version__,
+    }
 
 
 def _load_king_fhfa_series(path: Path) -> HpiSeries:
@@ -269,7 +472,7 @@ def _load_king_fhfa_series(path: Path) -> HpiSeries:
 
 
 def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, object]:
-    return {
+    legacy = {
         "amount": amount,
         "currency": "USD",
         "model": "xgboost",
@@ -279,6 +482,25 @@ def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, obj
         "g_us_gate": "PENDING",
         "manifest_sha256": bundle.manifest_sha256,
         "model_sha256": bundle.model_sha256,
+    }
+    if bundle.protocol != ABSOLUTE_PROTOCOL:
+        return legacy
+    return {
+        **legacy,
+        "reference_period": (
+            "King County rolling development, November 2014-February 2015"
+        ),
+        "bundle_protocol": bundle.protocol,
+        "objective": bundle.objective,
+        "training_cutoff_exclusive": bundle.training_cutoff_exclusive,
+        "training_period": bundle.training_period,
+        "selection_period": bundle.selection_period,
+        "point_estimate_semantics": "median-like sale price from log absolute-error loss",
+        "horizon_days": 90,
+        "conditional_sale_interpretation": (
+            "Recorded sale consideration conditional on a qualifying sale within "
+            "the next 90 calendar days"
+        ),
     }
 
 
@@ -291,14 +513,20 @@ def with_hpi_research_adjustment(
     as_of: date,
 ) -> dict[str, object]:
     """Return a copy with a clearly bounded FHFA market-level illustration."""
+    reference_compatible = response.get("reference_period") == (
+        "King County sales, January-February 2015"
+    ) or (
+        response.get("bundle_protocol") == ABSOLUTE_PROTOCOL
+        and response.get("reference_period")
+        == "King County rolling development, November 2014-February 2015"
+    )
     if any(
         (
             response.get("currency") != "USD",
             response.get("status") != "historical_research_only",
             response.get("certified_90_day_origin") is not False,
             response.get("g_us_gate") != "PENDING",
-            response.get("reference_period")
-            != "King County sales, January-February 2015",
+            not reference_compatible,
             series.series_id != "FHFA_PO_NSA_SEATTLE_BELLEVUE_KENT",
             series.cbsa_code != FHFA_CBSA,
             series.geography != FHFA_GEOGRAPHY,

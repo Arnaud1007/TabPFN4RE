@@ -188,6 +188,25 @@ class KingPredictionCaptureTests(unittest.TestCase):
                     {**RESPONSE, "experimental_hpi_adjustment": hpi}, "a" * 64
                 )
 
+    def test_actual_absolute_response_is_accepted_by_capture_contract(self) -> None:
+        bundle = capture.serving.VerifiedBundle(
+            ("bedrooms", "zipcode=98103"),
+            b"model",
+            "a" * 64,
+            "b" * 64,
+            capture.serving.ABSOLUTE_PROTOCOL,
+            "reg:absoluteerror",
+            "2015-03-01",
+            "King County sales before March 2015",
+            "King County sales, November 2014-February 2015",
+        )
+        response = capture.serving._prediction_response(542149.79, bundle)
+        self.assertEqual(capture._validate_response(response, "a" * 64), response)
+        self.assertEqual(
+            set(response),
+            capture.BASE_RESPONSE_KEYS | capture.ABSOLUTE_EXTENSION_KEYS,
+        )
+
     def test_predictor_failure_leaves_no_receipt(self) -> None:
         def fail(*_args):
             raise ValueError("bad bundle")

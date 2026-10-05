@@ -1,0 +1,19 @@
+﻿{
+  "run_id": "u0-hcpa-root-documentation-20261005-v1",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "artifact_integrity_and_privacy",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File runs/u0-hcpa-root-documentation-20261005-v1/verify_artifacts.ps1",
+      "exit_code": 0,
+      "duration_seconds": 8.055088,
+      "output": [
+        "artifact_parse=PASS",
+        "private_hashes=PASS",
+        "private_storage=PASS",
+        "candidate_set_privacy=PASS"
+      ]
+    }
+  ],
+  "note": "Documentation-only checkpoint; no production code changed and no model test was applicable. The verifier checks the complete expected changed and untracked publication set."
+}

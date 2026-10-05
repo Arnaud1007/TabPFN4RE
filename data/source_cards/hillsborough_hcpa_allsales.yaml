@@ -22,6 +22,17 @@ local_raw_copy: data/raw/hcpa/allsales_09_18_2026.zip
 local_raw_copy_status: unchanged_sha256_verified_ignored_by_git
 embedded_documentation: allsales.doc
 embedded_documentation_sha256: 8975be10a94a581a76a2a9a9370eda16c3b1730cc54ecc3e9f2afb2998b62175
+root_documentation_audit: runs/u0-hcpa-root-documentation-20261005-v1/report.md
+root_documentation_file: _Documentation.doc
+root_documentation_sha256: 207fab6385b9be0a48eab5fe4f0960d0f99ec08d8db83f18474dfa280db37253
+root_documentation_note: >-
+  The publisher document confirms Clerk receipt followed by HCPA review,
+  warns of resulting delay, and names multi-parcel, barter/trade and title
+  transfers as unqualified examples. It still describes S_DATE only as sale
+  date and does not establish per-row first publication or one-home price
+  scope. The document is internally dated 2017-07-25 and the download listing
+  displays a 2023-11-06 update, so current operational policy remains subject
+  to publisher confirmation.
 geography: Hillsborough County, Florida only
 row_grain: >-
   Sale entry linked to parcel. Instrument-number groups are counted, but their
@@ -120,31 +131,38 @@ verified_close_date_meaning: false
 first_available_at: absent_from_download_layout
 publication_lag: >-
   Embedded allsales.doc says sales are entered after receipt from the Clerk's
-  Office and staff review, which may take several weeks.
+  Office and staff review, which may take several weeks. The separately
+  downloaded root documentation independently says HCPA reviews Clerk sales
+  before accepting them and cannot guarantee timeliness or completeness.
 historical_vintages: dated current files visible on downloads page; archive continuity unverified
 historical_asof_eligible: false
 primary_90_day_close_origin_eligible: false
 rights_basis: >-
-  Public download page (https://downloads.hcpafl.org/) displays a 2026
-  Hillsborough County Property Appraiser All Rights Reserved footer. The
-  publisher's Terms (https://www.hcpafl.org/Terms), checked 2026-09-28,
-  reserve ungranted rights and do not provide a dataset-specific commercial
-  AVM or redistribution permission. This is an unresolved permission question,
-  not a determination of the legal status of public records.
+  A general disclaimer in the official root documentation downloaded
+  2026-10-05 says users may redistribute "this data," modified or unmodified,
+  but must remove all HCPA references from the final product. Because the
+  document is titled as parcel-layer documentation, its scope for the
+  separately packaged All Sales archive is not explicit. The public page still
+  displays an All Rights Reserved footer and the general Terms do not address
+  commercial AVM training, serving, model artifacts or comparable display.
 additional_access_route: >-
   The publisher's Maps & Data page
   (https://www.hcpafl.org/Downloads/Maps-Data) offers paid current assessment,
   certified-roll and parcel-layer requests. No paid request was made, and the
   listed products do not establish historical All Sales availability or reuse
   rights.
-permitted_use_decision: source_inventory_only_pending_specific_reuse_review
-redistribution: not_established
+permitted_use_decision: >-
+  source_inventory_only; redistribution_scope_and_commercial_avm_use_pending
+  specific_publisher_clarification
+redistribution: >-
+  publisher_document_contains_permission_with_hcpa_reference_removal_condition;
+  scope_to_standalone_allsales_not_explicit
 next_checks: >-
   Resolve S_DATE against execution/closing evidence, archive dated source files
   from now on for observed first availability, audit 200 records with priority
   to the 36 sampled rows in repeated instrument groups, verify their price
-  scope and parcel linkage, determine historical vintages and source-specific
-  rights.
+  scope and parcel linkage, determine historical vintages, and obtain explicit
+  commercial AVM and derived-artifact use clarification.
 manual_audit_protocol: decisions/0013-hcpa-manual-audit-sample.md
 sample_run: runs/u0-hcpa-audit-sample-20260928T160539Z/report.md
 sample_selected_records: 200

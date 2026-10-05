@@ -28,10 +28,13 @@ me to the responsible data and permissions staff?
 3. Does one All Sales row always represent the entire consideration for one
    parcel, or can a multi-parcel deed repeat the full consideration on each
    parcel? Which fields or rules identify those cases and later corrections?
-4. What permissions or agreement govern use of the All Sales data to train and
-   serve a commercial automated valuation model? Please distinguish use of
-   raw records, derived features or model weights, and display of individual
-   comparable-sale records to users. Are there fees or attribution conditions?
+4. The general disclaimer in the root `_Documentation.doc` says users may
+   redistribute "this data," modified or unmodified, if all HCPA references
+   are removed from the final product. Does that permission cover the
+   standalone All Sales ZIP as well as the parcel layer, and does it cover
+   training and serving a commercial automated valuation model? Please
+   distinguish raw records, derived features or model weights, and display of
+   individual comparable-sale records. Are there additional fees or conditions?
 
 I can supply the exact public archive name and a small number of record
 examples through a suitable channel if they would help resolve the field
@@ -45,6 +48,11 @@ Thank you.
 - [HCPA public downloads](https://downloads.hcpafl.org/Default.aspx) list a
   dated All Sales ZIP; the embedded `allsales.doc` describes `S_DATE` only as
   the date of sale and warns that entry can lag Clerk receipt and review.
+- The root `_Documentation.doc`, captured and hashed on 5 October 2026,
+  contains a redistribution permission with an HCPA-reference-removal
+  condition and independently describes Clerk receipt followed by HCPA
+  review. It does not expressly define the permission's scope for the
+  standalone All Sales ZIP or commercial model use.
 - [HCPA terms](https://www.hcpafl.org/Terms) reserve ungranted rights and do
   not state a dataset-specific commercial AVM permission.
 - [HCPA Maps & Data](https://www.hcpafl.org/Downloads/Maps-Data) lists paid

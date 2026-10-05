@@ -36,6 +36,17 @@ prospective captures while that source gate is unresolved.
 
 ## HCPA source-review checkpoint, 5 October 2026
 
+The [root documentation audit](runs/u0-hcpa-root-documentation-20261005-v1/report.md)
+captured the official `_Documentation.doc` exactly and found a general
+redistribution permission with a condition that HCPA references be removed
+from the final product. Because this is titled parcel-layer documentation, its
+scope for the standalone All Sales ZIP is not explicit. It also confirms Clerk
+receipt followed by HCPA review and names multi-parcel, barter/trade and title
+transfers as unqualified examples. It does not clear commercial AVM use,
+define `S_DATE` as closing date, identify per-row first publication, or prove
+one-home price scope. The source is therefore still excluded from certified
+90-day training; the custodian inquiry is now narrower.
+
 The [frozen-sample review](runs/u0-hcpa-review-progress-20261005-v1/report.md)
 now has one reviewer-attested complete rubric, with nine unknown findings;
 199 of 200 sampled records remain unreviewed. The checked deed-index evidence
@@ -57,8 +68,9 @@ older 2025 parcel ZIP still lacks a contemporaneous exact-byte checksum.
 
 **Next runnable source work:** Use the frozen 200-row HCPA review sample and
 private ledger to complete source rubrics, preserving unknowns; have the
-owner send the prepared custodian inquiry for `S_DATE`, price scope, release
-history and rights. Continue exact-byte capture when a new official release
+owner send the revised custodian inquiry for `S_DATE`, price scope, release
+history and commercial model-use terms. Continue exact-byte capture when a
+new official release
 appears. If historical provenance and labels clear, fit one fixed OFF
 baseline; otherwise keep the verified King historical research predictor
 available while prospective outcomes mature. Do not rerun the HCPA listing

@@ -108,6 +108,21 @@ verify its own bundle.
   timestamp or commitment and a matured qualifying sale before it can support
   prospective certification; G-US remains pending.
 
+  Receipt format v2 includes a private random nonce and retains the exact raw
+  JSON only inside the ignored, access-restricted receipt. To prepare a public
+  commitment without publishing the property inputs, price, request hashes,
+  response hash, receipt ID or local prediction time, create an output
+  directory under `runs/` and run:
+
+  ```powershell
+  New-Item -ItemType Directory -Force runs/king-prospective-commitments-v1 | Out-Null
+  & '.venv/Scripts/python.exe' -m scripts.prepare_king_receipt_commitment --receipt data/raw/king/prospective-predictions/<private-receipt>.json --output-dir runs/king-prospective-commitments-v1
+  ```
+
+  Commit and push the resulting JSON before outcomes are inspected. The Git
+  artifact commits the private receipt bytes, but it still does not authenticate
+  the workstation clock, prove that an outcome was unknown, or certify accuracy.
+
 - [King historical validation report](runs/king-historical-20261004-v1/report.md) records a fixed two-model comparison on 2,228 sale-date validation rows: XGBoost 8.90% MdAPE and 55.25% within 10%, versus ZIP-code median 21.20% and 25.18%. A separate [later-period research check](runs/king-later-2015-v1/report.md) scored the frozen model on 4,752 March-May 2015 sales: 10.52% MdAPE and 47.94% within 10%, versus 20.00% and 25.38% for the ZIP median. The source lacks verified pre-sale feature availability, so neither result is a current or 90-day valuation claim.
 - [Indiana 2024-to-2025 research report](runs/indiana-sdf-20261004-v1/report.md) records 71,054 later sales scored in 24.46 seconds: the county/ZIP median achieved 28.68% MdAPE, while a fixed XGBoost model using the same county, ZIP and acreage information reached 30.79%. The simpler reference remains stronger on typical error; neither is a current-home valuation.
 - [Indiana assessment-snapshot diagnostic](runs/indiana-assessment-diagnostic-v1/report.md) compares the exact same 71,054 development sales with two fixed tree models. Adding assessed land/improvement values and neighborhood code reduced MdAPE from 30.79% to 15.19% in a 36.32-second full run. The fields' availability 90 days before sale is unknown, so this is not a deployable predictor.

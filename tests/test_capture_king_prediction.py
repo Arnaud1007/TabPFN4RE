@@ -93,11 +93,17 @@ class KingPredictionCaptureTests(unittest.TestCase):
                 clock=lambda: NOW,
                 predictor=lambda *_args: RESPONSE,
                 code_state=lambda: ("c" * 40, False),
+                privacy_nonce_factory=lambda: "1" * 64,
             )
 
         receipt_path = self.private_root / f"{result['receipt_id']}.json"
         self.assertEqual(json.loads(receipt_path.read_text()), result)
         self.assertEqual(result["captured_at_utc"], "2026-10-05T12:34:56Z")
+        self.assertEqual(result["protocol"], "king-research-prospective-receipt-v2")
+        self.assertEqual(result["privacy_nonce"], "1" * 64)
+        self.assertEqual(
+            result["request_raw_utf8"], self.request_path.read_text(encoding="utf-8")
+        )
         self.assertEqual(result["scope"], "prospective_research_observation")
         self.assertEqual(result["prediction"], RESPONSE)
         self.assertEqual(
@@ -127,6 +133,7 @@ class KingPredictionCaptureTests(unittest.TestCase):
                     clock=lambda: NOW,
                     predictor=lambda *_args: RESPONSE,
                     code_state=lambda: ("c" * 40, False),
+                    privacy_nonce_factory=lambda: "1" * 64,
                 )
 
     def test_rejects_bad_reference_time_request_and_prediction_scope(self) -> None:
@@ -162,6 +169,7 @@ class KingPredictionCaptureTests(unittest.TestCase):
                             clock=lambda moment=moment: moment,
                             predictor=lambda *_args, response=response: response,
                             code_state=lambda: ("c" * 40, False),
+                            privacy_nonce_factory=lambda: "1" * 64,
                         )
                 self.assertEqual(list(self.private_root.iterdir()), [])
 
@@ -195,6 +203,43 @@ class KingPredictionCaptureTests(unittest.TestCase):
                     clock=lambda: NOW,
                     predictor=fail,
                     code_state=lambda: ("c" * 40, False),
+                    privacy_nonce_factory=lambda: "1" * 64,
+                )
+        self.assertEqual(list(self.private_root.iterdir()), [])
+
+    def test_invalid_privacy_nonce_never_publishes_a_receipt(self) -> None:
+        invalid = ("1" * 63, "A" * 64, "g" * 64, 1, None)
+        for index, nonce in enumerate(invalid):
+            with self.subTest(index=index):
+                with patch.object(capture, "PRIVATE_ROOT", self.private_root):
+                    with self.assertRaises(ValueError):
+                        capture.capture_prediction(
+                            bundle=Path("private-bundle"),
+                            manifest_sha256="a" * 64,
+                            request_path=self.request_path,
+                            enrollment_reference="prospect-0001",
+                            fhfa_source=None,
+                            clock=lambda: NOW,
+                            predictor=lambda *_args: RESPONSE,
+                            code_state=lambda: ("c" * 40, False),
+                            privacy_nonce_factory=lambda nonce=nonce: nonce,
+                        )
+                self.assertEqual(list(self.private_root.iterdir()), [])
+
+        with patch.object(capture, "PRIVATE_ROOT", self.private_root):
+            with self.assertRaisesRegex(RuntimeError, "nonce failure"):
+                capture.capture_prediction(
+                    bundle=Path("private-bundle"),
+                    manifest_sha256="a" * 64,
+                    request_path=self.request_path,
+                    enrollment_reference="prospect-0001",
+                    fhfa_source=None,
+                    clock=lambda: NOW,
+                    predictor=lambda *_args: RESPONSE,
+                    code_state=lambda: ("c" * 40, False),
+                    privacy_nonce_factory=lambda: (_ for _ in ()).throw(
+                        RuntimeError("nonce failure")
+                    ),
                 )
         self.assertEqual(list(self.private_root.iterdir()), [])
 
@@ -211,6 +256,7 @@ class KingPredictionCaptureTests(unittest.TestCase):
                     clock=lambda: NOW,
                     predictor=lambda *_args: RESPONSE,
                     code_state=lambda: next(states),
+                    privacy_nonce_factory=lambda: "1" * 64,
                 )
         self.assertEqual(list(self.private_root.iterdir()), [])
 
@@ -250,6 +296,8 @@ class KingPredictionCaptureTests(unittest.TestCase):
         public = json.loads(output.getvalue())
         self.assertEqual(public["receipt_id"], "receipt-1")
         self.assertNotIn("request", public)
+        self.assertNotIn("request_sha256", public)
+        self.assertNotIn("response_sha256", public)
         serialized = output.getvalue()
         for secret in ("bedrooms", "zipcode", "98103", "prospect-0001"):
             self.assertNotIn(secret, serialized)
@@ -283,6 +331,7 @@ class KingPredictionCaptureTests(unittest.TestCase):
                     clock=lambda: NOW,
                     predictor=lambda *_args: RESPONSE,
                     code_state=lambda: ("c" * 40, False),
+                    privacy_nonce_factory=lambda: "1" * 64,
                 )
         self.assertEqual(list(self.private_root.iterdir()), [])
 

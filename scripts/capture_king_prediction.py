@@ -10,6 +10,7 @@ import math
 import os
 from pathlib import Path
 import re
+import secrets
 import stat
 import subprocess
 import sys
@@ -277,6 +278,7 @@ def capture_prediction(
     clock: Callable[[], datetime] = lambda: datetime.now(UTC),
     predictor: Callable[..., dict[str, object]] = serving.predict,
     code_state: Callable[[], tuple[str, bool]] = _code_state,
+    privacy_nonce_factory: Callable[[], str] = lambda: secrets.token_hex(32),
 ) -> dict[str, object]:
     """Predict first, then exclusively publish one private receipt."""
     if REFERENCE_PATTERN.fullmatch(enrollment_reference) is None:
@@ -299,12 +301,19 @@ def capture_prediction(
     response_canonical = canonical_bytes(response)
     request_digest = sha256(request_canonical).hexdigest()
     enrollment_digest = sha256(enrollment_reference.encode("utf-8")).hexdigest()
+    privacy_nonce = privacy_nonce_factory()
+    if (
+        not isinstance(privacy_nonce, str)
+        or SHA256_PATTERN.fullmatch(privacy_nonce) is None
+    ):
+        raise ValueError(
+            "Privacy nonce must be 32 random bytes encoded as lowercase hex"
+        )
     receipt_id = (
-        predicted_at.replace("-", "").replace(":", "")
-        + f"-{request_digest[:12]}-{enrollment_digest[:12]}"
+        predicted_at.replace("-", "").replace(":", "") + f"-{privacy_nonce[:24]}"
     )
     receipt: dict[str, object] = {
-        "protocol": "king-research-prospective-receipt-v1",
+        "protocol": "king-research-prospective-receipt-v2",
         "receipt_id": receipt_id,
         "captured_at_utc": predicted_at,
         "timestamp_authority": "local_system_clock_untrusted",
@@ -315,10 +324,12 @@ def capture_prediction(
             "or commitment is required before certification."
         ),
         "request": request,
+        "request_raw_utf8": raw_request.decode("utf-8"),
         "request_raw_sha256": sha256(raw_request).hexdigest(),
         "request_sha256": request_digest,
         "request_bytes": len(raw_request),
         "enrollment_reference_sha256": enrollment_digest,
+        "privacy_nonce": privacy_nonce,
         "response_sha256": sha256(response_canonical).hexdigest(),
         "prediction": response,
         "manifest_sha256": response["manifest_sha256"],
@@ -362,8 +373,6 @@ def public_capture_result(receipt: Mapping[str, object]) -> dict[str, object]:
         "currency": prediction["currency"],
         "manifest_sha256": receipt["manifest_sha256"],
         "model_sha256": receipt["model_sha256"],
-        "request_sha256": receipt["request_sha256"],
-        "response_sha256": receipt["response_sha256"],
         "dirty_tree_at_capture": receipt["dirty_tree_at_capture"],
         "certification_eligible": False,
         "g_us_gate": "PENDING",
@@ -392,6 +401,7 @@ def main() -> int:
         OSError,
         ValueError,
         TypeError,
+        OverflowError,
         RecursionError,
         subprocess.SubprocessError,
     ) as error:

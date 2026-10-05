@@ -1,0 +1,14 @@
+{
+  "aggregate_replay_match": true,
+  "aggregate_sha256": "8683300357f239e740792c254fda929bc2d31f46afc4b9169c7b3071939412b1",
+  "branch_coverage_percent": 88,
+  "candidate_count": 1,
+  "candidate_only": true,
+  "g_us_gate": "PENDING",
+  "ledger_appended": false,
+  "ledger_sha256": "b37ab8a906a60f7ef103be3b6a228360e729c80811b43e4cef50a5fa36846ac1",
+  "model_eligible": false,
+  "source_training_status": "blocked",
+  "status": "pass",
+  "tests_passed": 50
+}

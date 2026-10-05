@@ -105,10 +105,10 @@ class HcpaPropertyRecordPdfTests(unittest.TestCase):
             ),
         )
 
-    def test_decodes_supported_literal_escape_forms_and_nested_parentheses(self) -> None:
-        pdf = flate_pdf(
-            b"BT (A\\nB\\rC\\tD\\bE\\fF\\101\\q(nested)) Tj ET"
-        )
+    def test_decodes_supported_literal_escape_forms_and_nested_parentheses(
+        self,
+    ) -> None:
+        pdf = flate_pdf(b"BT (A\\nB\\rC\\tD\\bE\\fF\\101\\q(nested)) Tj ET")
 
         self.assertEqual(
             extract(pdf, max_pdf_bytes=len(pdf), max_decoded_bytes=200),
@@ -116,9 +116,7 @@ class HcpaPropertyRecordPdfTests(unittest.TestCase):
         )
 
     def test_text_operator_scan_skips_et_inside_literal_string(self) -> None:
-        pdf = flate_pdf(
-            b"BT (OWNER ET AL) Tj (Parcel ID) Tj (SYNTHETIC) Tj ET"
-        )
+        pdf = flate_pdf(b"BT (OWNER ET AL) Tj (Parcel ID) Tj (SYNTHETIC) Tj ET")
 
         self.assertEqual(
             extract(pdf, max_pdf_bytes=len(pdf), max_decoded_bytes=200),
@@ -139,9 +137,7 @@ class HcpaPropertyRecordPdfTests(unittest.TestCase):
     def test_rejects_oversized_non_pdf_corrupt_and_unsupported_streams(self) -> None:
         valid = flate_pdf(b"BT (safe) Tj ET")
         corrupt = valid.replace(zlib.compress(b"BT (safe) Tj ET"), b"not-zlib")
-        unsupported = flate_pdf(
-            b"BT (safe) Tj ET", filter_name=b"ASCII85Decode"
-        )
+        unsupported = flate_pdf(b"BT (safe) Tj ET", filter_name=b"ASCII85Decode")
         expansion = flate_pdf(b"(" + b"A" * 4096 + b")")
         cases = (
             (valid, len(valid) - 1, 4096),
@@ -188,13 +184,9 @@ class HcpaPropertyRecordPdfTests(unittest.TestCase):
         )
 
     def test_discards_all_fields_from_stream_with_malformed_suffix(self) -> None:
-        malformed = flate_pdf(
-            b"BT (Document Number) Tj (FORGED) Tj ET ("
-        )
+        malformed = flate_pdf(b"BT (Document Number) Tj (FORGED) Tj ET (")
         text = flate_pdf(b"BT (safe) Tj ET")
-        combined = malformed.removesuffix(b"%%EOF\n") + text.removeprefix(
-            b"%PDF-1.4\n"
-        )
+        combined = malformed.removesuffix(b"%%EOF\n") + text.removeprefix(b"%PDF-1.4\n")
 
         self.assertEqual(
             extract(
@@ -355,6 +347,180 @@ class HcpaPropertyRecordPdfTests(unittest.TestCase):
         self.assertEqual(unknown["document_identity"], "unknown")
         self.assertEqual(unknown["qualification_code"], "unknown")
         self.assertEqual(unknown["parcel_unit_identity"], "match")
+
+    def test_compare_unlabelled_tokens_matches_normalized_strap_folio_and_document(
+        self,
+    ) -> None:
+        row = {
+            "PIN": "U-12-34-56-ABC-DEF123-GHIJK.L",
+            "STRAP": "563412ABCDEF123GHIJKLU",
+            "FOLIO": "0000-123-456",
+            "DOC_NUM": "DOC-12.34",
+            "DOR_CODE": "0100",
+            "QU": "Q",
+        }
+        tokens = (
+            "HILLSBOROUGH COUNTY PROPERTY APPRAISER",
+            "56 34 12 ABC DEF123 GHIJKL U",
+            "0000 / 123 / 456",
+            "DOC 12/34",
+            "Sale history",
+            "2025",
+            "Instrument",
+            "Status",
+            "Qualified",
+            "Residential - Single Family Homes",
+        )
+
+        result = property_pdf.compare_sample_row(row, tokens)
+
+        self.assertEqual(result["parcel_unit_identity"], "match")
+        self.assertEqual(result["document_identity"], "match")
+        self.assertEqual(result["property_class"], "match")
+        self.assertEqual(result["qualification_code"], "match")
+        self.assertTrue(result["privacy_sensitive"])
+        self.assert_no_transaction_conclusions(result)
+
+    def test_compare_unlabelled_tokens_accepts_exact_pin_or_folio_identity(
+        self,
+    ) -> None:
+        base = {
+            "PIN": "T-AA-BB-CC-DDD-EEEEEE-FFFFF.G",
+            "STRAP": "CCBBAADDDEEEEEEFFFFFGT",
+            "FOLIO": "999999-0002",
+            "DOC_NUM": "SYN-DOC-2002",
+            "DOR_CODE": "0100",
+            "QU": "U",
+        }
+        for identity_token in (
+            "T AA BB CC DDD EEEEEE FFFFF G",
+            "999999 / 0002",
+        ):
+            with self.subTest(identity_token=identity_token):
+                result = property_pdf.compare_sample_row(
+                    base,
+                    (
+                        identity_token,
+                        "SYN DOC 2002",
+                        "Unqualified",
+                        "SINGLE FAMILY",
+                    ),
+                )
+                self.assertEqual(result["parcel_unit_identity"], "match")
+                self.assertEqual(result["document_identity"], "match")
+                self.assertEqual(result["qualification_code"], "match")
+                self.assertEqual(result["property_class"], "match")
+                self.assert_no_transaction_conclusions(result)
+
+    def test_compare_qualification_is_relative_to_exact_document_token(self) -> None:
+        base = {
+            "PIN": "A-01-02-03-XYZ-ABCDEF-12345.6",
+            "DOC_NUM": "SYN-DOC-3003",
+            "DOR_CODE": "0100",
+            "QU": "Q",
+        }
+        exact_at_six = (
+            "SYN DOC 3003",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "Qualified",
+        )
+        opposite = ("SYN DOC 3003", "Unqualified")
+        too_far = exact_at_six[:-1] + ("six", "Qualified")
+        before_document = ("Qualified", "SYN DOC 3003", "one")
+
+        self.assertEqual(
+            property_pdf.compare_sample_row(base, exact_at_six)["qualification_code"],
+            "match",
+        )
+        self.assertEqual(
+            property_pdf.compare_sample_row(base, opposite)["qualification_code"],
+            "mismatch",
+        )
+        self.assertEqual(
+            property_pdf.compare_sample_row(base, too_far)["qualification_code"],
+            "unknown",
+        )
+        self.assertEqual(
+            property_pdf.compare_sample_row(base, before_document)[
+                "qualification_code"
+            ],
+            "unknown",
+        )
+
+    def test_compare_rejects_substring_only_document_and_parcel_matches(self) -> None:
+        row = {
+            "PIN": "U-12-34-56-ABC-DEF123-GHIJK.L",
+            "STRAP": "563412ABCDEF123GHIJKLU",
+            "FOLIO": "SYN-000-004",
+            "DOC_NUM": "SYN-DOC-4",
+            "DOR_CODE": "0100",
+            "QU": "U",
+        }
+        result = property_pdf.compare_sample_row(
+            row,
+            (
+                "prefix-563412ABCDEF123GHIJKLU-suffix",
+                "prefix SYN-DOC-4 suffix",
+                "Unqualified",
+                "not a property-class token",
+            ),
+        )
+
+        self.assertEqual(result["parcel_unit_identity"], "unknown")
+        self.assertEqual(result["document_identity"], "unknown")
+        self.assertEqual(result["qualification_code"], "unknown")
+        self.assertEqual(result["property_class"], "unknown")
+        self.assert_no_transaction_conclusions(result)
+
+    def test_compare_unlabelled_absence_is_unknown(self) -> None:
+        result = property_pdf.compare_sample_row(
+            {
+                "PIN": "U-12-34-56-ABC-DEF123-GHIJK.L",
+                "FOLIO": "SYN-000-005",
+                "DOC_NUM": "SYN-DOC-5",
+                "DOR_CODE": "0100",
+                "QU": "U",
+            },
+            ("unrelated", "tokens", "only"),
+        )
+
+        self.assertEqual(result["parcel_unit_identity"], "unknown")
+        self.assertEqual(result["document_identity"], "unknown")
+        self.assertEqual(result["property_class"], "unknown")
+        self.assertEqual(result["qualification_code"], "unknown")
+        self.assert_no_transaction_conclusions(result)
+
+    def test_unlabelled_fallback_rejects_invalid_identity_and_negated_class(
+        self,
+    ) -> None:
+        result = property_pdf.compare_sample_row(
+            {
+                "PIN": "bad",
+                "FOLIO": "bad folio!",
+                "DOC_NUM": "DOC",
+                "DOR_CODE": "0100",
+                "QU": "Q",
+            },
+            ("bad", "bad folio!", "DOC", "Qualified", "NOT SINGLE FAMILY"),
+        )
+
+        self.assertEqual(result["parcel_unit_identity"], "unknown")
+        self.assertEqual(result["property_class"], "unknown")
+
+    def assert_no_transaction_conclusions(self, result: dict) -> None:
+        for forbidden in (
+            "date_vs_closing",
+            "closing_date",
+            "price_scope",
+            "consideration_scope",
+            "multi_parcel_consideration",
+            "sale_price",
+        ):
+            self.assertNotIn(forbidden, result)
 
 
 if __name__ == "__main__":

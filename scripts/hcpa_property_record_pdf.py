@@ -16,12 +16,8 @@ from scripts.audit_hcpa_pin_crosswalk import transform_pin
 
 
 _ALLOWED_PIN_PREFIXES = frozenset(("A", "T", "U"))
-_STREAM_HEADER = re.compile(
-    rb"<<(.*?)>>\s*stream\r?\n", re.DOTALL
-)
-_DIRECT_LENGTH = re.compile(
-    rb"/Length\s+([0-9]+)\b(?!\s+[0-9]+\s+R\b)"
-)
+_STREAM_HEADER = re.compile(rb"<<(.*?)>>\s*stream\r?\n", re.DOTALL)
+_DIRECT_LENGTH = re.compile(rb"/Length\s+([0-9]+)\b(?!\s+[0-9]+\s+R\b)")
 _FILTER = re.compile(rb"/Filter\s*/([A-Za-z0-9]+)")
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 _MAX_PDF_BYTES = 10_000_000
@@ -29,6 +25,10 @@ _MAX_DECODED_BYTES = 10_000_000
 _MAX_STREAMS = 256
 _MAX_FIELDS = 10_000
 _MAX_STRUCTURE_MARKERS = 1_024
+_FOLIO = re.compile(r"(?:[0-9]{10}|[0-9]{6}-[0-9]{4})\Z", re.ASCII)
+_SINGLE_FAMILY_TOKENS = frozenset(
+    ("SINGLEFAMILY", "RESIDENTIALSINGLEFAMILYHOMES", "0100SINGLEFAMILYR")
+)
 
 
 class _MalformedTextStream(ValueError):
@@ -88,11 +88,19 @@ def _literal_at(content: bytes, start: int) -> tuple[str, int]:
             elif escaped in b"()\\":
                 result.append(escaped)
             elif escaped in b"\r\n":
-                if escaped == 0x0D and index + 1 < len(content) and content[index + 1] == 0x0A:
+                if (
+                    escaped == 0x0D
+                    and index + 1 < len(content)
+                    and content[index + 1] == 0x0A
+                ):
                     index += 1
             elif 0x30 <= escaped <= 0x37:
                 digits = bytes((escaped,))
-                while len(digits) < 3 and index + 1 < len(content) and 0x30 <= content[index + 1] <= 0x37:
+                while (
+                    len(digits) < 3
+                    and index + 1 < len(content)
+                    and 0x30 <= content[index + 1] <= 0x37
+                ):
                     index += 1
                     digits += bytes((content[index],))
                 result.append(int(digits, 8))
@@ -106,7 +114,9 @@ def _literal_at(content: bytes, start: int) -> tuple[str, int]:
             if depth == 0:
                 try:
                     return result.decode("latin-1"), index + 1
-                except UnicodeDecodeError as error:  # pragma: no cover - latin-1 is total
+                except (
+                    UnicodeDecodeError
+                ) as error:  # pragma: no cover - latin-1 is total
                     raise ValueError("PDF literal string cannot be decoded") from error
             result.append(byte)
         else:
@@ -166,7 +176,9 @@ def _ordered_tj_literals(content: bytes, max_fields: int) -> list[str]:
                 carriage_return = block.find(b"\r", index + 1)
                 line_feed = block.find(b"\n", index + 1)
                 endings = tuple(
-                    position for position in (carriage_return, line_feed) if position >= 0
+                    position
+                    for position in (carriage_return, line_feed)
+                    if position >= 0
                 )
                 index = min(endings) + 1 if endings else len(block)
                 continue
@@ -180,9 +192,7 @@ def _ordered_tj_literals(content: bytes, max_fields: int) -> list[str]:
             operator = literal_end
             while operator < len(block) and block[operator] in b"\x00\t\n\x0c\r ":
                 operator += 1
-            if block.startswith(b"Tj", operator) and _token_at(
-                block, operator, b"Tj"
-            ):
+            if block.startswith(b"Tj", operator) and _token_at(block, operator, b"Tj"):
                 fields.append(value)
                 if len(fields) > max_fields:
                     raise ValueError("PDF field count exceeds the safety ceiling")
@@ -252,9 +262,7 @@ def extract_ordered_fields(
         decoded = _decode_flate(pdf_bytes[start:end], remaining)
         decoded_total += len(decoded)
         try:
-            stream_fields = _ordered_tj_literals(
-                decoded, _MAX_FIELDS - len(fields)
-            )
+            stream_fields = _ordered_tj_literals(decoded, _MAX_FIELDS - len(fields))
         except _MalformedTextStream:
             continue
         fields.extend(stream_fields)
@@ -282,6 +290,53 @@ def _state(expected: object, actual: str | None) -> str:
     return "match" if expected == actual else "mismatch"
 
 
+def _normalized(value: object) -> str:
+    if not isinstance(value, str):
+        return ""
+    return re.sub(r"[^A-Z0-9]", "", value.upper())
+
+
+def _exact_token_indexes(
+    expected: object, ordered_fields: Sequence[str]
+) -> tuple[int, ...]:
+    normalized = _normalized(expected)
+    if not normalized:
+        return ()
+    return tuple(
+        index
+        for index, token in enumerate(ordered_fields)
+        if _normalized(token) == normalized
+    )
+
+
+def _valid_unlabelled_document(value: object) -> bool:
+    normalized = _normalized(value)
+    return (
+        6 <= len(normalized) <= 32 and sum(char.isdigit() for char in normalized) >= 4
+    )
+
+
+def _unlabelled_qualification(
+    row: Mapping[str, object], ordered_fields: Sequence[str]
+) -> str:
+    expected = row.get("QU")
+    if expected not in ("Q", "U") or not _valid_unlabelled_document(row.get("DOC_NUM")):
+        return "unknown"
+    indexes = _exact_token_indexes(row.get("DOC_NUM"), ordered_fields)
+    statuses: set[str] = set()
+    for index in indexes:
+        statuses.update(
+            _normalized(token)
+            for token in ordered_fields[index + 1 : index + 7]
+            if _normalized(token) in ("QUALIFIED", "UNQUALIFIED")
+        )
+    if len(statuses) != 1:
+        return "unknown"
+    actual = statuses.pop()
+    wanted = "QUALIFIED" if expected == "Q" else "UNQUALIFIED"
+    return "match" if actual == wanted else "mismatch"
+
+
 def compare_sample_row(
     row: Mapping[str, object], ordered_fields: Sequence[str]
 ) -> dict[str, bool | str]:
@@ -293,10 +348,50 @@ def compare_sample_row(
         expected_strap = pin_to_strap(row.get("PIN"))
     except ValueError:
         expected_strap = ""
+    document_identity = _state(row.get("DOC_NUM"), fields.get("Document Number"))
+    if (
+        document_identity == "unknown"
+        and "Document Number" not in fields
+        and _valid_unlabelled_document(row.get("DOC_NUM"))
+        and _exact_token_indexes(row.get("DOC_NUM"), ordered_fields)
+    ):
+        document_identity = "match"
+    parcel_identity = _state(expected_strap, fields.get("Parcel ID"))
+    folio = row.get("FOLIO")
+    valid_folio = (
+        folio
+        if isinstance(folio, str)
+        and 3 <= len(folio) <= 32
+        and folio.isascii()
+        and _FOLIO.fullmatch(folio)
+        else ""
+    )
+    if (
+        parcel_identity == "unknown"
+        and "Parcel ID" not in fields
+        and (
+            (expected_strap and _exact_token_indexes(row.get("PIN"), ordered_fields))
+            or (expected_strap and _exact_token_indexes(expected_strap, ordered_fields))
+            or (valid_folio and _exact_token_indexes(valid_folio, ordered_fields))
+        )
+    ):
+        parcel_identity = "match"
+    property_class = _state(row.get("DOR_CODE"), fields.get("DOR Code"))
+    if (
+        property_class == "unknown"
+        and "DOR Code" not in fields
+        and row.get("DOR_CODE") == "0100"
+        and (document_identity == "match" or parcel_identity == "match")
+        and any(_normalized(token) in _SINGLE_FAMILY_TOKENS for token in ordered_fields)
+    ):
+        property_class = "match"
+    qualification = _state(row.get("QU"), fields.get("Qualification"))
+    if qualification == "unknown" and "Qualification" not in fields:
+        qualification = _unlabelled_qualification(row, ordered_fields)
     return {
         "privacy_sensitive": True,
-        "document_identity": _state(row.get("DOC_NUM"), fields.get("Document Number")),
-        "parcel_unit_identity": _state(expected_strap, fields.get("Parcel ID")),
-        "property_class": _state(row.get("DOR_CODE"), fields.get("DOR Code")),
-        "qualification_code": _state(row.get("QU"), fields.get("Qualification")),
+        "document_identity": document_identity,
+        "parcel_unit_identity": parcel_identity,
+        "property_class": property_class,
+        "qualification_code": qualification,
     }

@@ -2,6 +2,22 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
+## Private HCPA candidate checkpoint, 5 October 2026
+
+The [private property-record candidate checkpoint](runs/u0-hcpa-property-record-candidate-20261005-v1/report.md)
+now converts one hash-pinned official PDF into a create-only private comparison
+candidate. One and only one frozen sample row matched document identity, parcel
+identity, the narrowly allowlisted single-family class and qualification. The
+public aggregate has no property PDF fingerprint, ordinal, timestamp, address,
+price or identifier. The private candidate is not attested, was not appended to
+the ledger and is not model eligible; the accepted audit remains 2 of 200.
+
+**Next review action:** inspect the private candidate with the required Clerk
+evidence or documented access attempt, then append a separate reviewer-attested
+ledger revision if warranted. Keep closing/date semantics, consideration scope,
+historical availability and reuse rights unknown. HCPA training and G-US remain
+blocked.
+
 ## Immediate prediction checkpoint, 5 October 2026
 
 The [one-action enrollment checkpoint](runs/king-prospective-enrollment-20261005-v1/report.md)

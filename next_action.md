@@ -2,6 +2,18 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
+## HCPA source-review checkpoint, 5 October 2026
+
+The [frozen-sample review](runs/u0-hcpa-review-progress-20261005-v1/report.md)
+now has one reviewer-attested complete rubric, with nine unknown findings;
+199 of 200 sampled records remain unreviewed. The checked deed-index evidence
+describes a condominium outside the initial single-family cohort. It does not
+establish closing date, one-home consideration, publication timing or reuse
+rights. HCPA is still excluded from certified 90-day training. The private
+review ledger and source ZIPs remain Git-ignored with restricted local access.
+
+**Exact resume command:** `& '.venv/Scripts/python.exe' -m scripts.review_hcpa_sample summary data/raw/hcpa/audit-sample-20260928-888226e.jsonl data/raw/hcpa/review-ledger-20260928.jsonl - runs/u0-hcpa-review-progress-20261005-v1/summary_next.json --sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9`. Review further rows only against accessible official records; retain unresolved facts as unknown and append revisions through the ledger CLI.
+
 ## Exact HCPA source captures, 5 October 2026
 
 The [prospective capture report](runs/u0-hcpa-prospective-captures-20261005-v1/report.md)

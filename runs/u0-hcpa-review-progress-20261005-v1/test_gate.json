@@ -1,0 +1,44 @@
+{
+  "run_id": "u0-hcpa-review-progress-20261005-v1",
+  "status": "one_complete_rubric_source_not_admitted",
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "private_entry_sha256": "486d8ad115d29f73d9ff46d35c18e7bcffe6904387ccf97c8cf261cad9adf623",
+  "private_ledger_sha256": "ff7a5495e78e23a6d4b95f2da55aa730de802b8f42401a6c692d9d6b30b21577",
+  "checks": [
+    {
+      "method": "Manual read-only comparison against the frozen sample and saved Clerk observation; not an executable test",
+      "command": null,
+      "exit_code": null,
+      "observed": "source fields, instrument and decimal amount matched; HCPA date preceded Clerk recording; condominium description observed"
+    },
+    {
+      "command": "& '.venv/Scripts/python.exe' -m scripts.review_hcpa_sample append data/raw/hcpa/audit-sample-20260928-888226e.jsonl data/raw/hcpa/review-ledger-20260928.jsonl data/raw/hcpa/review-entry-condo-20261005.json runs/u0-hcpa-review-progress-20261005-v1/summary.json --sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+      "exit_code": 0,
+      "observed": "1 complete rubric, 9 unknown findings, 199 unreviewed",
+      "output": "summary.json"
+    },
+    {
+      "command": "& '.venv/Scripts/python.exe' -m scripts.review_hcpa_sample summary data/raw/hcpa/audit-sample-20260928-888226e.jsonl data/raw/hcpa/review-ledger-20260928.jsonl - runs/u0-hcpa-review-progress-20261005-v1/summary_replay.json --sample-sha256 2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+      "exit_code": 0,
+      "observed": "summary replay byte-identical",
+      "output": "summary_replay.json"
+    },
+    {
+      "command": "$auditPaths = @('data/raw/hcpa', 'data/raw/hcpa/audit-sample-20260928-888226e.jsonl', 'data/raw/hcpa/review-entry-condo-20261005.json', 'data/raw/hcpa/review-ledger-20260928.jsonl'); $currentSid = [System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value; $allowedSids = @($currentSid, 'S-1-5-18', 'S-1-5-32-544'); foreach ($auditPath in $auditPaths) { $auditAcl = Get-Acl -LiteralPath $auditPath; $entrySids = @($auditAcl.Access | ForEach-Object { $_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value }); if (($entrySids | Where-Object { $_ -notin $allowedSids }).Count -gt 0 -or $currentSid -notin $entrySids) { throw \"Unexpected ACL entry: $auditPath\" }; if ($auditPath -eq 'data/raw/hcpa' -and -not $auditAcl.AreAccessRulesProtected) { throw 'Private root inherits broad ACL' } }; Write-Output 'Private root, sample, entry and ledger contain only owner, System and Administrators ACLs'",
+      "exit_code": 0,
+      "observed": "restricted root verified; sample, entry and ledger inherit only current user, System and Administrators"
+    },
+    {
+      "command": "$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD = '1'; python -m pytest -q tests/test_hcpa_sample_review.py",
+      "exit_code": 0,
+      "observed": "29 passed, 28 subtests passed in 1.12 seconds"
+    }
+  ],
+  "failed_test_attempts": [
+    {"command": "& '.venv/Scripts/python.exe' -m pytest -q tests/test_hcpa_sample_review.py", "exit_code": 1, "reason": "Project venv has no pytest module"},
+    {"command": "python -m pytest -q tests/test_hcpa_sample_review.py", "exit_code": 1, "reason": "Global unrelated pytest_postgresql plugin failed to load libpq before tests"}
+  ],
+  "full_suite_rerun": false,
+  "certified_sale_labels": 0,
+  "g_us_gate": "PENDING"
+}

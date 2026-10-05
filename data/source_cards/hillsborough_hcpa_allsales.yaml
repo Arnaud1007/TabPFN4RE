@@ -148,12 +148,14 @@ next_checks: >-
 manual_audit_protocol: decisions/0013-hcpa-manual-audit-sample.md
 sample_run: runs/u0-hcpa-audit-sample-20260928T160539Z/report.md
 sample_selected_records: 200
-manually_reviewed_records: 0
+manually_reviewed_records: 1
 partial_clerk_linkage_spotchecks: 1
 partial_clerk_spotcheck_report: runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.md
 review_ledger_protocol: decisions/0014-hcpa-review-ledger.md
 review_ledger_run: runs/u0-hcpa-review-ledger-20260928T174512Z/report.md
-private_ledger_status: one_partial_entry_zero_completed_rubrics
+private_ledger_status: one_superseding_complete_rubric_nine_unknown_findings_199_unreviewed
+latest_review_progress_run: runs/u0-hcpa-review-progress-20261005-v1/report.md
+latest_private_ledger_sha256: ff7a5495e78e23a6d4b95f2da55aa730de802b8f42401a6c692d9d6b30b21577
 source_inquiry_draft: data/requests/hcpa_all_sales_inquiry_draft.md
 source_inquiry_status: owner_ready_to_send_handoff_not_sent_by_agent
 sample_note: >-

@@ -63,7 +63,7 @@ the saved historical model. From the project root on this workstation:
 
 ```powershell
 $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"
-& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9
+& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
 ```
 
 Choose **Load synthetic example**, then **Predict**, or enter the 15 physical
@@ -81,7 +81,7 @@ verify its own bundle.
 
   ```powershell
   $env:PYTHONPATH = (Resolve-Path -LiteralPath 'src').Path
-  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json
+  & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_predict --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --request examples/king-research-request.json --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt
   ```
 
 - [King historical validation report](runs/king-historical-20261004-v1/report.md) records a fixed two-model comparison on 2,228 sale-date validation rows: XGBoost 8.90% MdAPE and 55.25% within 10%, versus ZIP-code median 21.20% and 25.18%. A separate [later-period research check](runs/king-later-2015-v1/report.md) scored the frozen model on 4,752 March-May 2015 sales: 10.52% MdAPE and 47.94% within 10%, versus 20.00% and 25.38% for the ZIP median. The source lacks verified pre-sale feature availability, so neither result is a current or 90-day valuation claim.

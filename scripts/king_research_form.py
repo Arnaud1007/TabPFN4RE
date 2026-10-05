@@ -108,7 +108,18 @@ def format_prediction(response: Mapping[str, object]) -> str:
         raise ValueError("Prediction amount is invalid") from error
     if not math.isfinite(number) or number <= 0:
         raise ValueError("Prediction amount is invalid")
-    return f"Estimated sale price: ${number:,.0f} USD\n{SCOPE_WARNING}"
+    lines = [f"Historical 2015 estimate: ${number:,.0f} USD"]
+    hpi = response.get("experimental_hpi_adjustment")
+    if hpi is not None:
+        if not isinstance(hpi, Mapping) or hpi.get("status") != "research_only":
+            raise ValueError("Experimental HPI response is incompatible")
+        adjusted = hpi.get("amount")
+        if type(adjusted) not in (int, float) or not math.isfinite(float(adjusted)):
+            raise ValueError("Experimental HPI amount is invalid")
+        lines.append(f"FHFA metro-indexed illustration: ${float(adjusted):,.0f} USD")
+        lines.append(str(hpi.get("warning", "")))
+    lines.append(SCOPE_WARNING)
+    return "\n".join(lines)
 
 
 def demo_path() -> Path:
@@ -126,6 +137,7 @@ class KingResearchForm:
         feature_names: tuple[str, ...],
         predictor: Callable[[Mapping[str, object]], dict[str, object]] | None = None,
         loading: bool = False,
+        fhfa_source: Path | None = None,
     ) -> None:
         if tk is None or ttk is None:
             raise RuntimeError("Tkinter is unavailable in this Python installation")
@@ -134,6 +146,7 @@ class KingResearchForm:
         self.manifest_sha256 = manifest_sha256
         self.feature_names = feature_names
         self._predict = predictor
+        self.fhfa_source = fhfa_source
         self.entries: dict[str, ttk.Entry] = {}
         self.entry_vars: dict[str, tk.StringVar] = {}
         self._responses: queue.SimpleQueue[tuple[str, object]] = queue.SimpleQueue()
@@ -250,7 +263,9 @@ class KingResearchForm:
 
     def _load_predictor_worker(self) -> None:
         try:
-            predictor = serving.load_predictor(self.bundle_dir, self.manifest_sha256)
+            predictor = serving.load_predictor(
+                self.bundle_dir, self.manifest_sha256, self.fhfa_source
+            )
         except Exception as error:
             self._responses.put(("startup_error", error))
         else:
@@ -289,9 +304,17 @@ class KingResearchForm:
     def _predict_worker(self, request: Mapping[str, object]) -> None:
         try:
             if self._predict is None:
-                response = serving.predict(
-                    self.bundle_dir, request, self.manifest_sha256
-                )
+                if self.fhfa_source is None:
+                    response = serving.predict(
+                        self.bundle_dir, request, self.manifest_sha256
+                    )
+                else:
+                    response = serving.predict(
+                        self.bundle_dir,
+                        request,
+                        self.manifest_sha256,
+                        self.fhfa_source,
+                    )
             else:
                 response = self._predict(request)
         except Exception as error:
@@ -355,6 +378,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--manifest-sha256", required=True)
+    parser.add_argument("--fhfa-source", type=Path)
     args = parser.parse_args()
     if tk is None:
         parser.error("Tkinter is unavailable in this Python installation")
@@ -370,6 +394,7 @@ def main() -> int:
         args.manifest_sha256,
         (),
         loading=True,
+        fhfa_source=args.fhfa_source,
     )
     form.start_loading()
     root.mainloop()

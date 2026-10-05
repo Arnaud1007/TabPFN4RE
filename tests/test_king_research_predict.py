@@ -100,7 +100,9 @@ class KingResearchPredictTests(unittest.TestCase):
             ):
                 self.assertEqual(serving.main(), 0)
             self.assertEqual(json.loads(output.getvalue()), response)
-            predict.assert_called_once_with(Path("private-bundle"), REQUEST, "a" * 64)
+            predict.assert_called_once_with(
+                Path("private-bundle"), REQUEST, "a" * 64, None
+            )
 
             error_output = io.StringIO()
             with (

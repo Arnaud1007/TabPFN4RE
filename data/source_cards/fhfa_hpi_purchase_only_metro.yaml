@@ -1,0 +1,29 @@
+source_id: fhfa_hpi_purchase_only_metro
+status: research_adjustment_snapshot_verified
+publisher: U.S. Federal Housing Finance Agency
+dataset_name: Quarterly Purchase-Only HPI by Metro Area
+documentation_url: https://www.fhfa.gov/house-price-index
+download_url: https://www.fhfa.gov/hpi/download/quarterly_datasets/hpi_po_metro.txt
+retrieved_on: 2026-10-05
+source_release_date: 2026-08-25
+sha256: d664a8e2e92f64aa17201b3bdd84d0ab4d1a4d00e9c6c15d5b34fb400c10d842
+geography: Seattle-Bellevue-Kent, WA (MSAD)
+cbsa_code: "42644"
+series: purchase-only, not seasonally adjusted
+selected_values:
+  2014Q3: 282.69
+  2015Q1: 293.68
+  2015Q2: 311.57
+  2026Q2: 638.47
+availability_rule: >-
+  Every selected historical value is conservatively available on the current
+  snapshot retrieval date. Earlier publication vintages were not recovered.
+rights: publicly available official federal index; redistribution decision for raw bytes not made
+redistribution: raw file remains outside Git
+permitted_use_decision: local research adjustment only
+historical_asof_eligible: false
+primary_90_day_close_origin_eligible: false
+notes: >-
+  The index measures average single-family market appreciation for the metro
+  division. It is not an individual property valuation. Current revised
+  values contain hindsight and cannot certify a historical point-in-time test.

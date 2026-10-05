@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+from datetime import date
 import hashlib
 import json
 import math
@@ -12,6 +13,11 @@ import re
 import sys
 from typing import Mapping
 
+from tabpfn4realestate.features.fhfa_hpi import (
+    HpiSeries,
+    adjust_price,
+    load_verified_metro_series,
+)
 from scripts.king_historical_benchmark import NUMERIC_FEATURES, SOURCE_SHA256
 from scripts.private_review_io import real_directory, verify_acl
 from scripts.run_king_historical_benchmark import MODEL_PARAMETERS, PRIVATE_ROOT, ROOT
@@ -23,6 +29,13 @@ _MAX_REQUEST_BYTES = 8_000
 _SPLIT_PATH = ROOT / "runs/king-historical-20261004-v1/split_manifest.json"
 _LOCK_PATH = ROOT / "locks/ames-prototype-requirements.txt"
 _REQUIRED_FILES = ("candidate.json", "feature_names.json", "xgboost_model.json")
+FHFA_SOURCE_SHA256 = "d664a8e2e92f64aa17201b3bdd84d0ab4d1a4d00e9c6c15d5b34fb400c10d842"
+FHFA_CBSA = "42644"
+FHFA_GEOGRAPHY = "Seattle-Bellevue-Kent, WA (MSAD)"
+FHFA_BASE_QUARTER = "2015Q1"
+FHFA_TARGET_QUARTER = "2026Q2"
+FHFA_SNAPSHOT_DATE = date(2026, 10, 5)
+FHFA_RELEASE_DATE = date(2026, 8, 25)
 
 
 @dataclass(frozen=True)
@@ -39,6 +52,7 @@ class LoadedPredictor:
 
     bundle: VerifiedBundle
     model: object
+    hpi_series: HpiSeries | None = None
 
     @property
     def feature_names(self) -> tuple[str, ...]:
@@ -47,7 +61,16 @@ class LoadedPredictor:
     def predict(self, request: Mapping[str, object]) -> dict[str, object]:
         values = validate_request(request, self.feature_names)
         amount = predict_price(self.model, encode_request(values, self.feature_names))
-        return _prediction_response(amount, self.bundle)
+        response = _prediction_response(amount, self.bundle)
+        if self.hpi_series is None:
+            return response
+        return with_hpi_research_adjustment(
+            response,
+            series=self.hpi_series,
+            base_quarter=FHFA_BASE_QUARTER,
+            target_quarter=FHFA_TARGET_QUARTER,
+            as_of=FHFA_SNAPSHOT_DATE,
+        )
 
 
 def _read_limited(path: Path, limit: int) -> bytes:
@@ -220,14 +243,29 @@ def predict_price(model: object, vector: tuple[float, ...]) -> float:
     return price
 
 
-def load_predictor(bundle_dir: Path, manifest_sha256: str) -> LoadedPredictor:
+def load_predictor(
+    bundle_dir: Path, manifest_sha256: str, fhfa_source: Path | None = None
+) -> LoadedPredictor:
     """Verify and deserialize a checkpoint once for a serving session."""
     bundle = load_bundle(bundle_dir, manifest_sha256)
     from xgboost import XGBRegressor
 
     model = XGBRegressor()
     model.load_model(bytearray(bundle.model_bytes))
-    return LoadedPredictor(bundle, model)
+    hpi_series = None if fhfa_source is None else _load_king_fhfa_series(fhfa_source)
+    return LoadedPredictor(bundle, model, hpi_series)
+
+
+def _load_king_fhfa_series(path: Path) -> HpiSeries:
+    return load_verified_metro_series(
+        path,
+        expected_sha256=FHFA_SOURCE_SHA256,
+        cbsa_code=FHFA_CBSA,
+        geography=FHFA_GEOGRAPHY,
+        quarters=("2014Q3", FHFA_BASE_QUARTER, "2015Q2", FHFA_TARGET_QUARTER),
+        source_release_date=FHFA_RELEASE_DATE,
+        retrieved_at=FHFA_SNAPSHOT_DATE,
+    )
 
 
 def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, object]:
@@ -244,10 +282,84 @@ def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, obj
     }
 
 
-def predict(
-    bundle_dir: Path, request: Mapping[str, object], manifest_sha256: str
+def with_hpi_research_adjustment(
+    response: Mapping[str, object],
+    *,
+    series: HpiSeries,
+    base_quarter: str,
+    target_quarter: str,
+    as_of: date,
 ) -> dict[str, object]:
-    return load_predictor(bundle_dir, manifest_sha256).predict(request)
+    """Return a copy with a clearly bounded FHFA market-level illustration."""
+    if any(
+        (
+            response.get("currency") != "USD",
+            response.get("status") != "historical_research_only",
+            response.get("certified_90_day_origin") is not False,
+            response.get("g_us_gate") != "PENDING",
+            response.get("reference_period")
+            != "King County sales, January-February 2015",
+            series.series_id != "FHFA_PO_NSA_SEATTLE_BELLEVUE_KENT",
+            series.cbsa_code != FHFA_CBSA,
+            series.geography != FHFA_GEOGRAPHY,
+            series.source_sha256 != FHFA_SOURCE_SHA256,
+            series.source_release_date != FHFA_RELEASE_DATE,
+            series.retrieved_at != FHFA_SNAPSHOT_DATE,
+            base_quarter != FHFA_BASE_QUARTER,
+            target_quarter != FHFA_TARGET_QUARTER,
+            as_of != FHFA_SNAPSHOT_DATE,
+        )
+    ):
+        raise ValueError("HPI adjustment requires a historical King response")
+    amount = response.get("amount")
+    adjustment = adjust_price(
+        amount=amount,  # type: ignore[arg-type]
+        series=series,
+        base_quarter=base_quarter,
+        target_quarter=target_quarter,
+        as_of=as_of,
+    )
+    selected = {
+        item.quarter: item
+        for item in series.observations
+        if item.quarter in (base_quarter, target_quarter)
+    }
+    metadata = {
+        "amount": adjustment.amount,
+        "currency": "USD",
+        "status": "research_only",
+        "series_id": series.series_id,
+        "cbsa_code": series.cbsa_code,
+        "geography": series.geography,
+        "index_type": series.index_type,
+        "seasonality": series.seasonality,
+        "base_quarter": adjustment.base_quarter,
+        "target_quarter": adjustment.target_quarter,
+        "factor": adjustment.factor,
+        "as_of": adjustment.as_of.isoformat(),
+        "source_release_date": series.source_release_date.isoformat(),
+        "retrieved_at": series.retrieved_at.isoformat(),
+        "snapshot_available_at": series.retrieved_at.isoformat(),
+        "base_index": adjustment.base_index,
+        "target_index": adjustment.target_index,
+        "base_available_at": selected[base_quarter].available_at.isoformat(),
+        "target_available_at": selected[target_quarter].available_at.isoformat(),
+        "source_sha256": series.source_sha256,
+        "warning": (
+            "Research only: this applies average market appreciation and is not "
+            "a current valuation, not a 90-day estimate, and not property-specific."
+        ),
+    }
+    return {**response, "experimental_hpi_adjustment": metadata}
+
+
+def predict(
+    bundle_dir: Path,
+    request: Mapping[str, object],
+    manifest_sha256: str,
+    fhfa_source: Path | None = None,
+) -> dict[str, object]:
+    return load_predictor(bundle_dir, manifest_sha256, fhfa_source).predict(request)
 
 
 def main() -> int:
@@ -255,10 +367,16 @@ def main() -> int:
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--manifest-sha256", required=True)
     parser.add_argument("--request", type=Path, required=True)
+    parser.add_argument("--fhfa-source", type=Path)
     arguments = parser.parse_args()
     try:
         raw = _read_limited(arguments.request, _MAX_REQUEST_BYTES)
-        result = predict(arguments.bundle, json.loads(raw), arguments.manifest_sha256)
+        result = predict(
+            arguments.bundle,
+            json.loads(raw),
+            arguments.manifest_sha256,
+            arguments.fhfa_source,
+        )
     except (OSError, ValueError, TypeError, KeyError, IndexError) as error:
         print(f"King historical prediction unavailable: {error}", file=sys.stderr)
         return 2

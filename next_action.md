@@ -15,7 +15,7 @@ application's p95 latency target. The form and CLI share the same guarded
 prediction service. Editing an input clears the prior estimate. The private
 model bundle is still needed locally.
 
-**Exact form command:** `$env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"; & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9`.
+**Exact form command:** `$env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 'src')"; & 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.king_research_form --bundle data/raw/king-benchmark/king-validation-20261004-v1 --manifest-sha256 32c11c3ac12e69126d2e1b2b58ab9eb5403a001836cfeb102442b234fef7cbe9 --fhfa-source data/raw/fhfa/hpi_po_metro_2026-10-05.txt`.
 
 **Next model-critical action:** qualify a source with provable pre-origin inputs,
 one-home arm's-length sale labels and permitted use, then run one fixed OFF

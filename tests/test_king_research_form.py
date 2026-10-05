@@ -283,6 +283,7 @@ class KingResearchFormTests(unittest.TestCase):
             self.skipTest(f"A local Tk display is unavailable: {error}")
         self.addCleanup(root.destroy)
         root.withdraw()
+        root.update()
         return root, []
 
     def test_tk_demo_populates_all_fifteen_fields(self) -> None:
@@ -380,7 +381,7 @@ class KingResearchFormTests(unittest.TestCase):
             patch("tkinter.messagebox.showerror") as error_dialog,
         ):
             try:
-                self.assertEqual(form.main(), 0)
+                self.assertEqual(form.main(), 2)
             except (ImportError, SystemExit) as error:
                 self.fail(f"Startup crashed instead of showing an error: {error}")
         error_dialog.assert_called_once()

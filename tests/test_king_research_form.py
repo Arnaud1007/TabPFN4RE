@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import builtins
 from contextlib import redirect_stdout
 import io
 import json
@@ -130,6 +131,9 @@ class KingResearchFormTests(unittest.TestCase):
 
     def test_startup_reuses_one_verified_model_for_two_tk_submissions(self) -> None:
         root, ui_instances = self._empty_tk_root()
+        started = threading.Event()
+        release = threading.Event()
+        self.addCleanup(release.set)
         loaded_models = []
         predicted_models = []
         observed: dict[str, object] = {}
@@ -141,6 +145,8 @@ class KingResearchFormTests(unittest.TestCase):
         class CountingRegressor:
             def load_model(self, content):
                 self.assert_bytes = bytes(content)
+                started.set()
+                release.wait(timeout=1.5)
                 loaded_models.append(self)
 
             def predict(self, _matrix):
@@ -157,9 +163,27 @@ class KingResearchFormTests(unittest.TestCase):
             return ui
 
         def run_form_flow():
-            observed["bundle_reads_at_open"] = load_bundle.call_count
+            observed["window_delay"] = time.monotonic() - began
+            deadline = time.monotonic() + 0.5
+            while time.monotonic() < deadline and not started.is_set():
+                root.update()
+                time.sleep(0.01)
+            observed["model_load_started"] = started.is_set()
             observed["model_loads_at_open"] = len(loaded_models)
             ui = ui_instances[0]
+            observed["loading_status"] = ui.status_var.get().lower()
+            observed["controls_disabled"] = all(
+                widget.instate(["disabled"])
+                for widget in (ui.predict_button, ui.demo_button, *ui.entries.values())
+            )
+            release.set()
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline and ui.predict_button.instate(
+                ["disabled"]
+            ):
+                root.update()
+                time.sleep(0.01)
+            self.assertFalse(ui.predict_button.instate(["disabled"]))
             for name, value in self.raw.items():
                 ui.entries[name].delete(0, "end")
                 ui.entries[name].insert(0, value)
@@ -181,6 +205,7 @@ class KingResearchFormTests(unittest.TestCase):
             "--manifest-sha256",
             "a" * 64,
         ]
+        began = time.monotonic()
         with (
             patch.object(sys, "argv", argv),
             patch.object(serving, "load_bundle", return_value=bundle) as load_bundle,
@@ -193,11 +218,14 @@ class KingResearchFormTests(unittest.TestCase):
         ):
             self.assertEqual(form.main(), 0)
 
-        with self.subTest("one verified bundle at startup"):
-            self.assertEqual(observed["bundle_reads_at_open"], 1)
+        with self.subTest("window and loading controls appear before model load"):
+            self.assertLess(observed["window_delay"], 0.5)
+            self.assertTrue(observed["model_load_started"])
+            self.assertEqual(observed["model_loads_at_open"], 0)
+            self.assertRegex(observed["loading_status"], r"load|prepar|initializ")
+            self.assertTrue(observed["controls_disabled"])
+        with self.subTest("one verified bundle and model across both requests"):
             self.assertEqual(load_bundle.call_count, 1)
-        with self.subTest("one loaded XGBoost model at startup"):
-            self.assertEqual(observed["model_loads_at_open"], 1)
             self.assertEqual(len(loaded_models), 1)
             self.assertEqual(loaded_models[0].assert_bytes, bundle.model_bytes)
         with self.subTest("same model served both form requests"):
@@ -233,7 +261,9 @@ class KingResearchFormTests(unittest.TestCase):
             output = io.StringIO()
             with (
                 patch.object(sys, "argv", argv),
-                patch.object(serving, "load_bundle", return_value=bundle) as load_bundle,
+                patch.object(
+                    serving, "load_bundle", return_value=bundle
+                ) as load_bundle,
                 patch.dict(sys.modules, {"xgboost": fake_xgboost}),
                 redirect_stdout(output),
             ):
@@ -285,7 +315,56 @@ class KingResearchFormTests(unittest.TestCase):
             self.assertFalse(ui.result_var.get())
             error_dialog.assert_called_once()
 
-    def test_main_rejects_bad_bundle_before_opening_the_window(self) -> None:
+    def test_main_shows_bad_bundle_as_a_controlled_ui_error(self) -> None:
+        with patch.object(
+            serving, "load_bundle", side_effect=ValueError("checksum mismatch")
+        ):
+            status, disabled = self._startup_error_in_window()
+        self.assertIn("checksum mismatch", status)
+        self.assertTrue(disabled)
+
+    def test_missing_xgboost_shows_a_controlled_ui_error(self) -> None:
+        bundle = serving.VerifiedBundle(
+            FEATURE_NAMES, b"mock model bytes", "a" * 64, "b" * 64
+        )
+        real_import = builtins.__import__
+
+        def without_xgboost(name, *args, **kwargs):
+            if name == "xgboost" or name.startswith("xgboost."):
+                raise ImportError("No module named xgboost")
+            return real_import(name, *args, **kwargs)
+
+        with (
+            patch.object(serving, "load_bundle", return_value=bundle),
+            patch.object(builtins, "__import__", side_effect=without_xgboost),
+        ):
+            status, disabled = self._startup_error_in_window()
+        self.assertIn("xgboost", status.lower())
+        self.assertRegex(status.lower(), r"unavailable|missing|install")
+        self.assertTrue(disabled)
+
+    def _startup_error_in_window(self) -> tuple[str, bool]:
+        root, ui_instances = self._empty_tk_root()
+        real_form_class = form.KingResearchForm
+        observed: dict[str, object] = {}
+
+        def capture_form(*args, **kwargs):
+            ui = real_form_class(*args, **kwargs)
+            ui_instances.append(ui)
+            return ui
+
+        def inspect_window():
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline and not error_dialog.called:
+                root.update()
+                time.sleep(0.01)
+            ui = ui_instances[0]
+            observed["status"] = ui.status_var.get()
+            observed["disabled"] = all(
+                widget.instate(["disabled"])
+                for widget in (ui.predict_button, ui.demo_button, *ui.entries.values())
+            )
+
         argv = [
             "king_research_form",
             "--bundle",
@@ -295,15 +374,17 @@ class KingResearchFormTests(unittest.TestCase):
         ]
         with (
             patch.object(sys, "argv", argv),
-            patch.object(
-                serving, "load_bundle", side_effect=ValueError("checksum mismatch")
-            ),
-            patch.object(form.tk, "Tk") as create_window,
-            self.assertRaises(SystemExit) as exit_status,
+            patch.object(form.tk, "Tk", return_value=root),
+            patch.object(form, "KingResearchForm", side_effect=capture_form),
+            patch.object(root, "mainloop", side_effect=inspect_window),
+            patch("tkinter.messagebox.showerror") as error_dialog,
         ):
-            form.main()
-        self.assertEqual(exit_status.exception.code, 2)
-        create_window.assert_not_called()
+            try:
+                self.assertEqual(form.main(), 0)
+            except (ImportError, SystemExit) as error:
+                self.fail(f"Startup crashed instead of showing an error: {error}")
+        error_dialog.assert_called_once()
+        return str(observed["status"]), bool(observed["disabled"])
 
     def make_hidden_form(self) -> tuple[tk.Tk, form.KingResearchForm]:
         try:

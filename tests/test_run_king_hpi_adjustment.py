@@ -2,21 +2,17 @@
 
 from __future__ import annotations
 
-from decimal import Decimal
 import hashlib
-from pathlib import Path
 import tempfile
 import unittest
+from decimal import Decimal
+from pathlib import Path
 from unittest.mock import patch
 
+from scripts import run_king_hpi_adjustment as replay
 from tabpfn4realestate.evaluation.metrics import score_predictions
 
-from scripts import run_king_hpi_adjustment as replay
-
-
-PREDICTION_HEADER = (
-    "row_id,sale_date,actual_usd,xgboost_usd,zipcode_median_usd\n"
-)
+PREDICTION_HEADER = "row_id,sale_date,actual_usd,xgboost_usd,zipcode_median_usd\n"
 HPI_HEADER = "cbsa\tmetro_name\tyr\tqtr\tindex_nsa\tindex_sa\n"
 
 
@@ -98,12 +94,8 @@ class KingHpiReplayTests(unittest.TestCase):
         scorecards = result["scorecards"]
         self.assertEqual(set(scorecards), {"overall", "2015Q1", "2015Q2"})
         for cohort in scorecards.values():
-            self.assertEqual(
-                set(cohort), {"xgboost", "hpi_adjusted_xgboost"}
-            )
-        self.assertEqual(
-            scorecards["overall"]["hpi_adjusted_xgboost"]["mdape"], 0.0
-        )
+            self.assertEqual(set(cohort), {"xgboost", "hpi_adjusted_xgboost"})
+        self.assertEqual(scorecards["overall"]["hpi_adjusted_xgboost"]["mdape"], 0.0)
         self.assertGreater(scorecards["overall"]["xgboost"]["mdape"], 0.0)
         self.assertEqual(common_metric_engine.call_count, 6)
 
@@ -128,9 +120,11 @@ class KingHpiReplayTests(unittest.TestCase):
                     "expected_hpi_sha256": valid_hpi_hash,
                 }
                 arguments[changed_argument] = "0" * 64
-                with self.subTest(changed_argument=changed_argument):
-                    with self.assertRaisesRegex(ValueError, "checksum"):
-                        replay.replay_adjustment(**arguments)
+                with (
+                    self.subTest(changed_argument=changed_argument),
+                    self.assertRaisesRegex(ValueError, "checksum"),
+                ):
+                    replay.replay_adjustment(**arguments)
 
     def test_schema_duplicate_ids_and_dates_outside_q1_q2_fail_closed(self) -> None:
         changed_header = prediction_bytes().replace(
@@ -149,11 +143,13 @@ class KingHpiReplayTests(unittest.TestCase):
             self.run_fixture(predictions=duplicated)
         for invalid_date in ("2014-12-31", "2015-07-01", "not-a-date", ""):
             rows = (f"bad,{invalid_date},100,100,90\n",)
-            with self.subTest(invalid_date=invalid_date):
-                with self.assertRaisesRegex(ValueError, "sale date|quarter"):
-                    self.run_fixture(predictions=prediction_bytes(rows))
+            with (
+                self.subTest(invalid_date=invalid_date),
+                self.assertRaisesRegex(ValueError, "sale date|quarter"),
+            ):
+                self.run_fixture(predictions=prediction_bytes(rows))
 
-    def test_candidate_criteria_are_explicit_and_require_every_guardrail(self) -> None:
+    def test_descriptive_change_cannot_be_used_for_promotion(self) -> None:
         raw = {
             "mdape": Decimal("0.10"),
             "within_10": Decimal("0.80"),
@@ -164,38 +160,17 @@ class KingHpiReplayTests(unittest.TestCase):
             "within_10": Decimal("0.795"),
             "p90_ape": Decimal("0.205"),
         }
-        result = replay.assess_candidate(raw, passing)
+        result = replay.describe_retrospective_change(raw, passing)
 
-        self.assertEqual(
-            result["thresholds"],
-            {
-                "minimum_relative_mdape_reduction": "0.02",
-                "maximum_within_10_degradation": "0.005",
-                "maximum_p90_ape_degradation": "0.005",
-            },
-        )
-        self.assertEqual(
-            result["passes"],
-            {
-                "mdape_useful_gain": True,
-                "within_10_noninferiority": True,
-                "p90_ape_noninferiority": True,
-            },
-        )
-        self.assertEqual(result["outcome"], "candidate_for_further_research")
-
-        for key, value in (
-            ("mdape", Decimal("0.099")),
-            ("within_10", Decimal("0.7949")),
-            ("p90_ape", Decimal("0.2051")),
-        ):
-            failing = dict(passing)
-            failing[key] = value
-            with self.subTest(key=key):
-                self.assertEqual(
-                    replay.assess_candidate(raw, failing)["outcome"],
-                    "do_not_promote",
-                )
+        self.assertEqual(result["mdape_delta"], "-0.002")
+        self.assertEqual(result["within_10_delta"], "-0.005")
+        self.assertEqual(result["p90_ape_delta"], "0.005")
+        self.assertFalse(result["promotion_eligible"])
+        self.assertFalse(result["historical_asof_eligible"])
+        self.assertTrue(result["uses_revised_hindsight"])
+        self.assertFalse(result["applicability_verified"])
+        self.assertEqual(result["cohort_status"], "consumed_post_hoc")
+        self.assertIn("untouched cohort", result["reason"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,29 @@
+{
+  "complete_records": 2,
+  "completion_basis": "rubric completion attested by reviewer; unknown findings and access limits remain unverified source facts",
+  "ledger_sha256": "b37ab8a906a60f7ef103be3b6a228360e729c80811b43e4cef50a5fa36846ac1",
+  "partial_records": 0,
+  "review_entries": 3,
+  "review_protocol_version": "hcpa-review-v1",
+  "reviewed_records": 2,
+  "sample_sha256": "2f26728c37f8218d1bb79ee75e4082fb918665eb2cb4cc287feba7f6250aaec9",
+  "sampled_records": 200,
+  "superseded_entries": 1,
+  "unknown_counts": {
+    "date_vs_closing": 2,
+    "date_vs_deed_execution": 2,
+    "date_vs_recording": 1,
+    "document_identity": 0,
+    "duplicate_status": 1,
+    "evidence_quality": 0,
+    "missing_fields": 0,
+    "multi_parcel_consideration": 2,
+    "parcel_unit_identity": 1,
+    "price_scope": 2,
+    "property_class": 0,
+    "qualification_code": 1,
+    "reason_code": 2,
+    "reuse_rights": 2
+  },
+  "unreviewed_records": 198
+}

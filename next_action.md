@@ -47,6 +47,13 @@ prospective captures while that source gate is unresolved.
 
 ## HCPA source-review checkpoint, 5 October 2026
 
+The [official property-record evidence checkpoint](runs/u0-hcpa-property-record-evidence-20261005-v1/report.md)
+adds a strict official-page evidence type and completes one additional
+single-family rubric. The audit is now 2 of 200 complete. Parcel identity,
+property class and the displayed qualification label agree, but exact date,
+consideration scope, reason-code meaning, historical availability and use
+rights remain unresolved. HCPA is still excluded from certified training.
+
 The [root documentation audit](runs/u0-hcpa-root-documentation-20261005-v1/report.md)
 captured the official `_Documentation.doc` exactly and found a general
 redistribution permission with a condition that HCPA references be removed

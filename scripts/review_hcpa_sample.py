@@ -85,17 +85,30 @@ EVIDENCE_KINDS = {
     "closing_record",
     "rights_document",
     "official_documentation",
+    "hcpa_property_record",
     "unavailable_attempt",
 }
 SPECIAL_EVIDENCE = {
-    "document_identity": {"clerk_index", "clerk_instrument"},
-    "parcel_unit_identity": {"clerk_index", "clerk_instrument"},
+    "document_identity": {
+        "clerk_index",
+        "clerk_instrument",
+        "hcpa_property_record",
+    },
+    "parcel_unit_identity": {
+        "clerk_index",
+        "clerk_instrument",
+        "hcpa_property_record",
+    },
     "date_vs_deed_execution": {"clerk_instrument"},
     "date_vs_recording": {"clerk_index", "clerk_instrument"},
     "date_vs_closing": {"closing_record"},
     "price_scope": {"clerk_instrument"},
-    "property_class": {"clerk_index", "clerk_instrument"},
-    "qualification_code": {"official_documentation"},
+    "property_class": {
+        "clerk_index",
+        "clerk_instrument",
+        "hcpa_property_record",
+    },
+    "qualification_code": {"official_documentation", "hcpa_property_record"},
     "reason_code": {"official_documentation"},
     "multi_parcel_consideration": {"clerk_instrument"},
     "reuse_rights": {"rights_document"},
@@ -225,10 +238,30 @@ def _validate_evidence(evidence: object, sample_sha256: str) -> dict[str, str]:
         try:
             url = urlsplit(reference)
             hostname = url.hostname
+            username = url.username
+            password = url.password
+            port = url.port
         except ValueError as error:
             raise ValueError("Invalid evidence HTTPS reference") from error
-        if url.scheme != "https" or not hostname or url.username or url.password:
+        if (
+            url.scheme != "https"
+            or not hostname
+            or username is not None
+            or password is not None
+        ):
             raise ValueError("Invalid evidence HTTPS reference")
+        if kind == "hcpa_property_record" and (
+            hostname != "gis.hcpafl.org"
+            or port is not None
+            or url.path != "/PropertySearch/"
+            or url.query
+            or re.fullmatch(
+                r"/parcel/basic/[0-9]{6}[A-Z0-9]{3}[0-9]{12}[A-Z]",
+                url.fragment,
+            )
+            is None
+        ):
+            raise ValueError("Invalid HCPA property-record evidence")
     return evidence
 
 

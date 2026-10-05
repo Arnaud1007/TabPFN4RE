@@ -1,0 +1,12 @@
+{
+    "complete_records":  2,
+    "g_us_gate":  "PENDING",
+    "ledger_sha256":  "b37ab8a906a60f7ef103be3b6a228360e729c80811b43e4cef50a5fa36846ac1",
+    "partial_records":  0,
+    "source_training_status":  "blocked",
+    "status":  "pass",
+    "tests_passed":  32,
+    "unreviewed_records":  198,
+    "branch_coverage_percent":  88,
+    "replay_sha256":  "b6e7bba6989ba9ab1a37c87db1bfd420cb2f019adc38657ad00f558caf0eb9f0"
+}

@@ -1,0 +1,23 @@
+﻿{
+    "status":  "pass",
+    "experiment_verdict":  "development_screen_pass",
+    "tests_passed":  11,
+    "branch_coverage_percent":  81,
+    "evaluation_rows":  5108,
+    "fit_count":  4,
+    "improved_windows":  4,
+    "incumbent_mdape":  0.085569030639676816,
+    "challenger_mdape":  0.082749821439702456,
+    "relative_mdape_improvement":  0.0329465728102238,
+    "incumbent_within_10":  0.562451057165231,
+    "challenger_within_10":  0.57341425215348474,
+    "incumbent_p90_ape":  0.26864227851430977,
+    "challenger_p90_ape":  0.26949732769995938,
+    "march_may_labels_parsed":  0,
+    "march_may_rows_scored":  0,
+    "promotion_eligible":  false,
+    "development_screening_candidate":  "xgboost_log_absolute_error",
+    "aggregate_sha256":  "1b2dfe8132382297245dcc9ed4afd80b7282b6371d21a93e00a565862eaaa504",
+    "manifest_sha256":  "6b28a8bd0e22f9c0856c2faf15568992d2c139f24d51b63928d550f13bf108c5",
+    "g_us_gate":  "PENDING"
+}

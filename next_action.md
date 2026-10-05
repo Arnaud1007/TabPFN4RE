@@ -2,6 +2,16 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## Fast absolute-error result, 6 October 2026
+
+The [King log absolute-error screen](runs/king-log-absolute-error-development-20261006-v1/report.md)
+completed four fixed fits in 25 seconds. Changing only the log-price objective
+from squared to absolute error improved pooled MdAPE from 8.56% to 8.27%,
+improved all four windows and raised within-10 accuracy from 56.25% to 57.34%.
+Use log absolute error as the preferred candidate in the next qualified
+point-in-time experiment. Do not attach it to serving or reopen March-May for
+selection; source timing, transaction scope and rights remain unresolved.
+
 ## Fast comparable result, 6 October 2026
 
 The [King comparable residual screen](runs/king-comparable-development-20261006-v1/report.md)

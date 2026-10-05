@@ -1,0 +1,19 @@
+{
+  "capture_completed_at_utc": "2026-10-05T09:12:00Z",
+  "capture_started_at_utc": "2026-10-05T09:08:06Z",
+  "certified_sale_labels": 0,
+  "code_commit": "34e36bdd208b450b9e37e1b3ad9a136177c3a20b",
+  "dirty_tree_at_capture": false,
+  "family": "parcels",
+  "filename": "parcels_10_02_2026.zip",
+  "first_public_availability_verified": false,
+  "g_us_gate": "PENDING",
+  "listing_html_sha256": "d2851409c10febac448e499bc406cc0488846bc613b0d62f35a2c28dbeeda70e",
+  "raw_zip_bytes": 155508869,
+  "raw_zip_sha256": "1443f2068fe52d8d04d0d91da047a25b2868ec090f47a95cbac9c44d313c1f39",
+  "response_filename_verified": true,
+  "script_sha256": "810f7f51631c22790a0fc7962a49a19d898ae3b35ba76bc2efff06d9367d6f9c",
+  "source_url": "https://downloads.hcpafl.org/Default.aspx",
+  "status": "observed_not_qualified",
+  "zip_structure_validated": false
+}

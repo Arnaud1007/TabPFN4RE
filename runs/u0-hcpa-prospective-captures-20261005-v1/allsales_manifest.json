@@ -1,0 +1,19 @@
+{
+  "capture_completed_at_utc": "2026-10-05T09:14:57Z",
+  "capture_started_at_utc": "2026-10-05T09:12:52Z",
+  "certified_sale_labels": 0,
+  "code_commit": "34e36bdd208b450b9e37e1b3ad9a136177c3a20b",
+  "dirty_tree_at_capture": false,
+  "family": "allsales",
+  "filename": "allsales_09_18_2026.zip",
+  "first_public_availability_verified": false,
+  "g_us_gate": "PENDING",
+  "listing_html_sha256": "b86cdd44f21ce2d03d093e18b2bfbd487811474c68695a58dd03af196a878e33",
+  "raw_zip_bytes": 71234943,
+  "raw_zip_sha256": "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7",
+  "response_filename_verified": true,
+  "script_sha256": "810f7f51631c22790a0fc7962a49a19d898ae3b35ba76bc2efff06d9367d6f9c",
+  "source_url": "https://downloads.hcpafl.org/Default.aspx",
+  "status": "observed_not_qualified",
+  "zip_structure_validated": false
+}

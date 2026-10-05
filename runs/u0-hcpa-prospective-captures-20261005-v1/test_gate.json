@@ -1,0 +1,44 @@
+{
+  "run_id": "u0-hcpa-prospective-captures-20261005-v1",
+  "status": "source_observation_verified_model_gate_pending",
+  "code_commit_at_capture": "34e36bdd208b450b9e37e1b3ad9a136177c3a20b",
+  "environment": "Windows, project .venv, Python 3.11",
+  "checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m unittest discover -s tests -p test_capture_hcpa*.py -v",
+      "exit_code": 0,
+      "observed": "12 passed, 0 skipped",
+      "duration_seconds": 1.673
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/capture_hcpa_release.py tests/test_capture_hcpa_release.py",
+      "exit_code": 0,
+      "observed": "All checks passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts/capture_hcpa_release.py tests/test_capture_hcpa_release.py",
+      "exit_code": 0,
+      "observed": "2 files already formatted"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pip_audit -r locks/ames-prototype-requirements.txt",
+      "exit_code": 0,
+      "observed": "No known vulnerabilities found"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m scripts.capture_hcpa_release parcels parcels_10_02_2026.zip",
+      "exit_code": 0,
+      "observed": "155508869 bytes; SHA-256 matched independent Get-FileHash",
+      "manifest": "parcels_manifest.json"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m scripts.capture_hcpa_release allsales allsales_09_18_2026.zip",
+      "exit_code": 0,
+      "observed": "71234943 bytes; SHA-256 matched independent Get-FileHash",
+      "manifest": "allsales_manifest.json"
+    }
+  ],
+  "full_suite_rerun": false,
+  "certified_sale_labels": 0,
+  "g_us_gate": "PENDING"
+}

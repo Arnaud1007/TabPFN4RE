@@ -2,6 +2,24 @@
 
 Updated: 2026-10-05. Branch: `audit/u0`.
 
+## Exact HCPA source captures, 5 October 2026
+
+The [prospective capture report](runs/u0-hcpa-prospective-captures-20261005-v1/report.md)
+records clean-commit, exact-byte downloads of the October 2 parcel ZIP and
+September 18 All Sales ZIP, with independent SHA-256 checks. These are source
+observations, not a 90-day model result. The current exact parcel bytes were
+first observed today; there are no matured sales at origins using them. The
+older 2025 parcel ZIP still lacks a contemporaneous exact-byte checksum.
+
+**Next runnable source work:** Use the frozen 200-row HCPA review sample and
+private ledger to complete source rubrics, preserving unknowns; have the
+owner send the prepared custodian inquiry for `S_DATE`, price scope, release
+history and rights. Continue exact-byte capture when a new official release
+appears. If historical provenance and labels clear, fit one fixed OFF
+baseline; otherwise keep the verified King historical research predictor
+available while prospective outcomes mature. Do not rerun the HCPA listing
+capture merely to repeat the same filename observation.
+
 ## Prediction results reset, 5 October 2026
 
 **Immediate result, verified today:** The saved King County model returned
@@ -46,18 +64,17 @@ is not a completed manual audit. Pause additional model families, new markets,
 post-hoc slices and nonessential documentation while these prediction
 deliverables are open. Push each accepted checkpoint to `origin/audit/u0`.
 
-**Next runnable task:** Run `scripts.capture_hcpa_download_listing` to record
-listing changes. Download and hash the exact file from any newly published
-Hillsborough ZIP separately under ignored raw storage; the listing capture
-script does not save ZIP bytes. Seek a contemporaneous checksum or publisher
+**Source continuation:** Seek a contemporaneous checksum or publisher
 release history for the 2025 parcel archive. The [archived listing
 check](runs/u0-hcpa-wayback-20261005-v1/report.md) shows the filename in an
 April 2026 capture, but does not date our September ZIP bytes. Resolve All
 Sales date, price scope and reuse questions before a 90-day baseline.
 
-Resume listing observation from the project root with
-`& 'data/raw/legacy-replay/.venv/Scripts/python.exe' -m scripts.capture_hcpa_download_listing`.
-This command records page HTML only; it does not retrieve parcel or sale ZIPs.
+To capture a newly listed exact ZIP from the project root, use
+`& '.venv/Scripts/python.exe' -m scripts.capture_hcpa_release parcels <exact-listed-filename>`
+or substitute `allsales` and its exact filename. The command rejects a changed
+listing or mismatched response filename and stores the bytes under ignored
+private storage. It does not itself qualify the data for modelling.
 
 ## Prediction-first reset after three days
 

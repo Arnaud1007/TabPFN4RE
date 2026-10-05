@@ -1,0 +1,25 @@
+source_id: hillsborough_hcpa_current_parcels_20261002
+status: exact_zip_observed_for_prospective_source_inventory_not_model_eligible
+publisher: Hillsborough County Property Appraiser
+publisher_page: https://downloads.hcpafl.org/Default.aspx
+file_name: parcels_10_02_2026.zip
+capture_completed_at_utc: 2026-10-05T09:12:00Z
+local_raw_copy: data/raw/hcpa/prospective-releases/hcpa-parcels-20261005T090805Z-b108ea80/parcels_10_02_2026.zip
+raw_bytes: 155508869
+raw_sha256: 1443f2068fe52d8d04d0d91da047a25b2868ec090f47a95cbac9c44d313c1f39
+capture_manifest: runs/u0-hcpa-prospective-captures-20261005-v1/parcels_manifest.json
+capture_report: runs/u0-hcpa-prospective-captures-20261005-v1/report.md
+response_filename_verified: true
+zip_structure_validated: false
+row_grain: unverified_current_parcel_archive_not_single_dwelling
+first_public_availability_verified: false
+first_observed_exact_bytes_at_utc: 2026-10-05T09:12:00Z
+historical_asof_eligible_before_capture: false
+primary_90_day_close_origin_eligible_now: false
+rights_basis: dataset_specific_commercial_use_and_redistribution_not_established
+permitted_use_decision: source_inventory_only_pending_specific_reuse_review
+redistribution: not_established
+next_checks: >-
+  Inspect ZIP structure without extracting untrusted members, audit parcel
+  identity and attribute semantics, resolve rights, and wait for matured
+  prospective sale labels before any 90-day model claim.

@@ -1,6 +1,16 @@
 # Next action
 
-Updated: 2026-10-05. Branch: `audit/u0`.
+Updated: 2026-10-06. Branch: `audit/u0`.
+
+## Fast comparable result, 6 October 2026
+
+The [King comparable residual screen](runs/king-comparable-development-20261006-v1/report.md)
+completed in about 30 seconds on 5,108 rolling development sales. Chronological
+out of fold comparable residuals worsened pooled MdAPE from 8.56% to 9.10% and
+improved none of four windows. Keep the fixed XGBoost and do not tune this
+comparable configuration against the same windows. The source cannot resolve
+duplicate economic transfers or point in time availability, so the screen does
+not satisfy US10 and cannot support promotion or G-US.
 
 ## Fast interval result, 5 October 2026
 

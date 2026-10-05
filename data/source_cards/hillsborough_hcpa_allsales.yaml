@@ -158,22 +158,22 @@ redistribution: >-
   publisher_document_contains_permission_with_hcpa_reference_removal_condition;
   scope_to_standalone_allsales_not_explicit
 next_checks: >-
-  Resolve S_DATE against execution/closing evidence, archive dated source files
-  from now on for observed first availability, audit 200 records with priority
-  to the 36 sampled rows in repeated instrument groups, verify their price
-  scope and parcel linkage, determine historical vintages, and obtain explicit
-  commercial AVM and derived-artifact use clarification.
+  Resolve S_DATE, one-home consideration, historical publication and explicit
+  commercial AVM or derived-artifact use through authoritative source-wide
+  evidence. Continue exact prospective release captures. ADR 0104 stops the
+  remaining retrospective row reviews until such evidence arrives.
 manual_audit_protocol: decisions/0013-hcpa-manual-audit-sample.md
 sample_run: runs/u0-hcpa-audit-sample-20260928T160539Z/report.md
 sample_selected_records: 200
-manually_reviewed_records: 1
+manually_reviewed_records: 12
 partial_clerk_linkage_spotchecks: 1
 partial_clerk_spotcheck_report: runs/u0-hcpa-clerk-spotcheck-20260928T171047Z/report.md
 review_ledger_protocol: decisions/0014-hcpa-review-ledger.md
 review_ledger_run: runs/u0-hcpa-review-ledger-20260928T174512Z/report.md
-private_ledger_status: one_superseding_complete_rubric_nine_unknown_findings_199_unreviewed
-latest_review_progress_run: runs/u0-hcpa-review-progress-20261005-v1/report.md
-latest_private_ledger_sha256: ff7a5495e78e23a6d4b95f2da55aa730de802b8f42401a6c692d9d6b30b21577
+private_ledger_status: twelve_complete_rubrics_zero_model_eligible_188_unreviewed
+latest_review_progress_run: runs/u0-hcpa-review-batch-20261006-v1/report.md
+latest_private_ledger_sha256: 29d4d53fbf688483bb939f355dc710eb750678837ced6b8499554eeb4f578782
+retrospective_admission_decision: decisions/0104-hcpa-retrospective-source-admission-no-go.md
 source_inquiry_draft: data/requests/hcpa_all_sales_inquiry_draft.md
 source_inquiry_status: owner_ready_to_send_handoff_not_sent_by_agent
 sample_note: >-

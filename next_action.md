@@ -2,6 +2,21 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## HCPA retrospective no-go, 6 October 2026
+
+The [bounded HCPA review](runs/u0-hcpa-review-batch-20261006-v1/report.md)
+added nine strict official-property-record reviews, bringing the frozen sample
+to 12 complete and 188 unreviewed. Seven new records corroborated all four
+supported identity/classification fields; two did not expose the sampled sale
+row. Every completed review still lacks closing-date, one-home consideration,
+publication-history and reuse evidence.
+
+[ADR 0104](decisions/0104-hcpa-retrospective-source-admission-no-go.md) stops
+the remaining row reviews until authoritative source-wide evidence arrives.
+Do not fit a retrospective HCPA model. Continue exact prospective release
+captures; when semantics and rights clear, run one frozen absolute-error OFF
+baseline without another architecture search.
+
 ## Faster saved prediction model, 6 October 2026
 
 The [King absolute-error serving bundle](runs/king-absolute-error-serving-20261006-v1/report.md)

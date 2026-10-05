@@ -1,0 +1,13 @@
+{
+  "batch_captured_pdfs": 10,
+  "batch_entries_appended": 9,
+  "batch_full_identity_and_qualification_matches": 7,
+  "batch_unknown_document_or_qualification": 2,
+  "complete_records": 12,
+  "g_us_gate": "PENDING",
+  "ledger_sha256": "29d4d53fbf688483bb939f355dc710eb750678837ced6b8499554eeb4f578782",
+  "model_eligible_records": 0,
+  "retrospective_source_admission": "NO_GO",
+  "sampled_records": 200,
+  "unreviewed_records": 188
+}

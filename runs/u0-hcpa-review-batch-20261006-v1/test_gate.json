@@ -1,0 +1,10 @@
+{
+  "complete_records": 12,
+  "g_us_gate": "PENDING",
+  "ledger_replay_status": "pass",
+  "model_eligible_records": 0,
+  "private_artifacts_committed": false,
+  "retrospective_source_admission": "NO_GO",
+  "status": "pass",
+  "strict_evidence_entries_appended": 9
+}

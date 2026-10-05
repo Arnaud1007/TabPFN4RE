@@ -7,9 +7,11 @@ Updated: 2026-10-05. Branch: `audit/u0`.
 The [King County local form](runs/king-form-20261005-v1/report.md) now gives a
 historical research estimate from the saved model without training. Its
 synthetic example displays `$542,150`. The live verification recorded an
-8.547-second first prediction on this workstation and an immediate,
-nonblocking submit; another run took 51.469 seconds, so the final application's
-p95 latency target is not established. The form and CLI share the same guarded
+0.078-second form construction, a 14.953-second model-ready time, a 0.110-second
+first prediction and a 0.079-second repeated prediction on this workstation.
+The window stays responsive during loading and the verified model is loaded
+once per application session. These observations do not establish the final
+application's p95 latency target. The form and CLI share the same guarded
 prediction service. Editing an input clears the prior estimate. The private
 model bundle is still needed locally.
 

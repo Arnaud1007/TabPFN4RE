@@ -69,9 +69,13 @@ $env:PYTHONPATH = "$(Resolve-Path -LiteralPath '.');$(Resolve-Path -LiteralPath 
 Choose **Load synthetic example**, then **Predict**, or enter the 15 physical
 and location fields. The synthetic example displays **$542,150** rounded from
 the saved machine output. The form keeps the window responsive during model
-loading and clears an old estimate when inputs change. This is a 2015 research
-estimate, with no calibrated interval or current-market validity. The private
-bundle stays outside Git; a fresh clone must build and verify its own bundle.
+inference, loads the verified checkpoint only once per application session,
+and clears an old estimate when inputs change. The verified live run constructed
+the form in 0.078 seconds, made the model ready after 14.953 seconds,
+then completed the first click in 0.110 seconds and the second in 0.079 seconds.
+This is a 2015 research estimate, with no calibrated interval or current-market
+validity. The private bundle stays outside Git; a fresh clone must build and
+verify its own bundle.
 
 - [King historical prediction command](runs/king-serving-20261004-v1/report.md) reuses the saved model without retraining. Edit [the 15-field synthetic request](examples/king-research-request.json) and run the command below on this workstation. The example returns **$542,149.79** in historical 2015 USD terms; it is not a current-market estimate or a 90-day valuation. The private model is not committed to Git.
 

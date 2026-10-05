@@ -22,8 +22,10 @@ valuation, a 90-day prediction, or a calibrated interval.
   scope text.
 - Reused `scripts/king_research_predict.py` for bundle verification, input
   validation, encoding, and model inference.
-- Moved inference to a worker thread so bundle/model loading does not freeze
-  the window. Inputs and actions are locked until the result returns.
+- Move checkpoint loading and inference to worker threads so the window stays
+  responsive. Inputs and actions are locked until the model or result is ready.
+- Verify and deserialize the checkpoint once at application startup, then
+  reuse that loaded model for every prediction in the session.
 - Clear a displayed estimate whenever an input changes, preventing the old
   result from appearing to describe edited values.
 - Added unit and hidden-window integration tests, plus a live verifier against
@@ -31,16 +33,20 @@ valuation, a 90-day prediction, or a calibrated interval.
 
 ## Verification
 
-The focused form and prediction suite passed **20 tests**. Branch coverage was
-**85%** across the two serving modules (form 83%, prediction service 88%). Ruff
+The focused form and prediction suite passed **23 tests**. Branch coverage was
+**86%** across the two serving modules (form 85%, prediction service 88%). Ruff
 lint and formatting checks passed. Independent code, Python, security, and
 accessibility reviews were run; no code or security blocker remains.
 
 The optimized live verifier passed under `python -O`, proving that its checks
-are not removed with assertions. Its saved run recorded an immediate submit
-and an **8.547-second** completed prediction. A separate cold/concurrent run
-took **51.469 seconds**. These observations prove a responsive interface and a
-working result, but do not establish the application's p95 latency target.
+are not removed with assertions. Its saved run constructed the form in
+**0.078 seconds**, made the model ready after **14.953 seconds**, and recorded a
+**0.110-second first prediction** and a **0.079-second repeated prediction**.
+The prior implementation loaded the checkpoint after each click; observed
+completion ranged from 8.547 to 51.469 seconds. The main-flow integration test
+proves that the form is created and disabled before model loading completes;
+the live result proves model reuse and fast clicks after readiness. One run
+does not establish the application's p95 latency target.
 
 A broad lightweight-environment run executed **1,373 tests** and reported two
 errors because that environment did not contain `scikit-learn`. Both affected

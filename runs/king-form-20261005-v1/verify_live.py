@@ -13,7 +13,6 @@ import tkinter as tk
 from unittest.mock import patch
 
 from scripts.king_research_form import KingResearchForm
-from scripts.king_research_predict import load_bundle
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,15 +31,37 @@ def require(condition: bool, message: str) -> None:
 
 
 def main() -> int:
-    verified = load_bundle(BUNDLE, MANIFEST_SHA256)
     root = tk.Tk()
     root.withdraw()
     try:
-        form = KingResearchForm(root, BUNDLE, MANIFEST_SHA256, verified.feature_names)
+        window_started = time.monotonic()
+        form = KingResearchForm(
+            root,
+            BUNDLE,
+            MANIFEST_SHA256,
+            (),
+            loading=True,
+        )
+        form_construction_seconds = time.monotonic() - window_started
         with (
             patch("tkinter.messagebox.showinfo") as info,
             patch("tkinter.messagebox.showerror") as error,
         ):
+            model_started = time.monotonic()
+            form.start_loading()
+            deadline = time.monotonic() + 60
+            while time.monotonic() < deadline and form.predict_button.instate(
+                ["disabled"]
+            ):
+                root.update()
+                time.sleep(0.025)
+            model_ready_seconds = time.monotonic() - model_started
+            require(form_construction_seconds < 0.5, "Form construction was delayed")
+            require(not error.called, "Model startup reported an error")
+            require(
+                not form.predict_button.instate(["disabled"]),
+                "Model did not become ready",
+            )
             form.load_demo()
             started = time.monotonic()
             form.submit()
@@ -74,6 +95,17 @@ def main() -> int:
                 "Property inputs stayed locked after prediction",
             )
 
+            form.load_demo()
+            repeated_started = time.monotonic()
+            form.submit()
+            deadline = time.monotonic() + 5
+            while time.monotonic() < deadline and not form.result_var.get():
+                root.update()
+                time.sleep(0.01)
+            repeated_seconds = time.monotonic() - repeated_started
+            require(form.result_var.get(), "Repeated prediction did not complete")
+            require(repeated_seconds < 1, "Repeated prediction exceeded one second")
+
             form.entries["sqft_living"].delete(0, "end")
             require(not form.result_var.get(), "Stale result survived a field edit")
             require("changed" in form.status_var.get().lower(), "Edit status missing")
@@ -88,10 +120,15 @@ def main() -> int:
                     "historical_scope": True,
                     "model_output_matches_saved_example_when_rounded": True,
                     "nonblocking_submit_under_half_second": True,
+                    "loaded_model_reused": True,
+                    "responsive_loading_form": True,
                     "invalid_input_rejected_without_stale_result": True,
                     "edited_input_clears_result": True,
+                    "form_construction_seconds": round(form_construction_seconds, 4),
+                    "model_ready_seconds": round(model_ready_seconds, 4),
                     "submit_seconds": round(submit_seconds, 4),
                     "completion_seconds": round(completion_seconds, 4),
+                    "repeated_prediction_seconds": round(repeated_seconds, 4),
                 },
                 sort_keys=True,
             )

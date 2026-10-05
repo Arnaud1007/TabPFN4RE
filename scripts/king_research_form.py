@@ -11,7 +11,7 @@ import re
 import sys
 import threading
 import traceback
-from typing import Mapping
+from typing import Callable, Mapping
 
 try:
     import tkinter as tk
@@ -124,6 +124,8 @@ class KingResearchForm:
         bundle_dir: Path,
         manifest_sha256: str,
         feature_names: tuple[str, ...],
+        predictor: Callable[[Mapping[str, object]], dict[str, object]] | None = None,
+        loading: bool = False,
     ) -> None:
         if tk is None or ttk is None:
             raise RuntimeError("Tkinter is unavailable in this Python installation")
@@ -131,18 +133,27 @@ class KingResearchForm:
         self.bundle_dir = bundle_dir
         self.manifest_sha256 = manifest_sha256
         self.feature_names = feature_names
+        self._predict = predictor
         self.entries: dict[str, ttk.Entry] = {}
         self.entry_vars: dict[str, tk.StringVar] = {}
         self._responses: queue.SimpleQueue[tuple[str, object]] = queue.SimpleQueue()
-        self._pending = False
+        self._pending = loading
+        self.startup_exit_code = 0
         self.result_var = tk.StringVar(master=root, value="")
         self.status_var = tk.StringVar(
-            master=root, value="Enter a property or load the synthetic example."
+            master=root,
+            value=(
+                "Loading and verifying the historical model..."
+                if loading
+                else "Enter a property or load the synthetic example."
+            ),
         )
         root.title("King County historical research estimate")
         root.minsize(800, 570)
         self._build_widgets()
-        root.after_idle(self.entries["bedrooms"].focus_set)
+        self._set_pending(loading)
+        if not loading:
+            root.after_idle(self.entries["bedrooms"].focus_set)
 
     def _build_widgets(self) -> None:
         panel = ttk.Frame(self.root, padding=16)
@@ -232,6 +243,39 @@ class KingResearchForm:
             target=self._predict_worker, args=(request,), daemon=True
         ).start()
 
+    def start_loading(self) -> None:
+        """Load and verify the checkpoint without blocking the Tk event loop."""
+        self.root.after(25, self._poll_startup)
+        threading.Thread(target=self._load_predictor_worker, daemon=True).start()
+
+    def _load_predictor_worker(self) -> None:
+        try:
+            predictor = serving.load_predictor(self.bundle_dir, self.manifest_sha256)
+        except Exception as error:
+            self._responses.put(("startup_error", error))
+        else:
+            self._responses.put(("ready", predictor))
+
+    def _poll_startup(self) -> None:
+        try:
+            outcome, payload = self._responses.get_nowait()
+        except queue.Empty:
+            self.root.after(25, self._poll_startup)
+            return
+        if outcome == "startup_error":
+            self._show_startup_error(payload)
+            return
+        if outcome != "ready" or not isinstance(payload, serving.LoadedPredictor):
+            self._show_startup_error(RuntimeError("Loaded model response is invalid"))
+            return
+        self.feature_names = payload.feature_names
+        self._predict = payload.predict
+        self._set_pending(False)
+        self.status_var.set(
+            "Historical model ready. Enter a property or load the example."
+        )
+        self.entries["bedrooms"].focus_set()
+
     def _set_pending(self, pending: bool) -> None:
         self._pending = pending
         state = "disabled" if pending else "!disabled"
@@ -244,7 +288,12 @@ class KingResearchForm:
 
     def _predict_worker(self, request: Mapping[str, object]) -> None:
         try:
-            response = serving.predict(self.bundle_dir, request, self.manifest_sha256)
+            if self._predict is None:
+                response = serving.predict(
+                    self.bundle_dir, request, self.manifest_sha256
+                )
+            else:
+                response = self._predict(request)
         except Exception as error:
             self._responses.put(("error", error))
         else:
@@ -285,6 +334,16 @@ class KingResearchForm:
         )
         self._focus_invalid_field(detail)
 
+    def _show_startup_error(self, error: object) -> None:
+        if isinstance(error, BaseException):
+            detail = str(error) or error.__class__.__name__
+        else:
+            detail = "Unknown model-loading failure"
+        status = f"Historical model unavailable: {detail}"
+        self.startup_exit_code = 2
+        self.status_var.set(status)
+        messagebox.showerror("King County model unavailable", status, parent=self.root)
+
     def _focus_invalid_field(self, message: str) -> None:
         for name in FORM_FIELDS:
             if name in message:
@@ -302,16 +361,19 @@ def main() -> int:
     if not re.fullmatch(r"[0-9a-f]{64}", args.manifest_sha256):
         parser.error("Manifest SHA-256 must be 64 lowercase hexadecimal characters")
     try:
-        bundle = serving.load_bundle(args.bundle, args.manifest_sha256)
-    except (OSError, ValueError, TypeError, KeyError) as error:
-        parser.error(f"Historical King bundle unavailable: {error}")
-    try:
         root = tk.Tk()
     except tk.TclError as error:
         parser.error(f"Local display is unavailable: {error}")
-    KingResearchForm(root, args.bundle, args.manifest_sha256, bundle.feature_names)
+    form = KingResearchForm(
+        root,
+        args.bundle,
+        args.manifest_sha256,
+        (),
+        loading=True,
+    )
+    form.start_loading()
     root.mainloop()
-    return 0
+    return form.startup_exit_code
 
 
 if __name__ == "__main__":

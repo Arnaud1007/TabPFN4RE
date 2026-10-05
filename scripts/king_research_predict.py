@@ -33,6 +33,23 @@ class VerifiedBundle:
     model_sha256: str
 
 
+@dataclass(frozen=True)
+class LoadedPredictor:
+    """One verified checkpoint loaded once for repeated local predictions."""
+
+    bundle: VerifiedBundle
+    model: object
+
+    @property
+    def feature_names(self) -> tuple[str, ...]:
+        return self.bundle.feature_names
+
+    def predict(self, request: Mapping[str, object]) -> dict[str, object]:
+        values = validate_request(request, self.feature_names)
+        amount = predict_price(self.model, encode_request(values, self.feature_names))
+        return _prediction_response(amount, self.bundle)
+
+
 def _read_limited(path: Path, limit: int) -> bytes:
     if path.is_symlink() or not path.is_file() or path.stat().st_nlink != 1:
         raise ValueError("Bundle file is missing or redirects")
@@ -203,16 +220,17 @@ def predict_price(model: object, vector: tuple[float, ...]) -> float:
     return price
 
 
-def predict(
-    bundle_dir: Path, request: Mapping[str, object], manifest_sha256: str
-) -> dict[str, object]:
+def load_predictor(bundle_dir: Path, manifest_sha256: str) -> LoadedPredictor:
+    """Verify and deserialize a checkpoint once for a serving session."""
+    bundle = load_bundle(bundle_dir, manifest_sha256)
     from xgboost import XGBRegressor
 
-    bundle = load_bundle(bundle_dir, manifest_sha256)
-    values = validate_request(request, bundle.feature_names)
     model = XGBRegressor()
     model.load_model(bytearray(bundle.model_bytes))
-    amount = predict_price(model, encode_request(values, bundle.feature_names))
+    return LoadedPredictor(bundle, model)
+
+
+def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, object]:
     return {
         "amount": amount,
         "currency": "USD",
@@ -224,6 +242,12 @@ def predict(
         "manifest_sha256": bundle.manifest_sha256,
         "model_sha256": bundle.model_sha256,
     }
+
+
+def predict(
+    bundle_dir: Path, request: Mapping[str, object], manifest_sha256: str
+) -> dict[str, object]:
+    return load_predictor(bundle_dir, manifest_sha256).predict(request)
 
 
 def main() -> int:

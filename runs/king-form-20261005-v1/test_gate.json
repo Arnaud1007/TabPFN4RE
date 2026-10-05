@@ -8,7 +8,7 @@
       "name": "focused_tests_and_coverage",
       "command": "$env:PYTHONPATH=(Resolve-Path -LiteralPath 'src').Path; .venv/Scripts/python.exe -m coverage run --branch --source=scripts.king_research_form,scripts.king_research_predict -m unittest discover -s tests -p 'test_king_research*.py' -q; .venv/Scripts/python.exe -m coverage report -m scripts/king_research_form.py scripts/king_research_predict.py",
       "exit_code": 0,
-      "observed": "20 tests passed; 85% combined branch coverage"
+      "observed": "23 tests passed; 86% combined branch coverage"
     },
     {
       "name": "lint_and_format",
@@ -20,7 +20,7 @@
       "name": "live_saved_bundle",
       "command": "$env:PYTHONPATH='<repo>;<repo>/src'; data/raw/legacy-replay/.venv/Scripts/python.exe -O runs/king-form-20261005-v1/verify_live.py",
       "exit_code": 0,
-      "observed": "Expected rounded estimate and historical warnings; nonblocking submit; completion 8.547 seconds"
+      "observed": "Expected rounded estimate and historical warnings; form construction in 0.078 seconds, model ready in 14.953 seconds, 0.110-second first prediction, 0.079-second repeated prediction"
     },
     {
       "name": "broad_lightweight_suite",
@@ -36,9 +36,9 @@
     }
   ],
   "coverage": {
-    "scripts.king_research_form": 83,
+    "scripts.king_research_form": 85,
     "scripts.king_research_predict": 88,
-    "combined": 85
+    "combined": 86
   },
   "live_result": "live_result.json",
   "private_bundle_committed": false,
@@ -47,7 +47,7 @@
   "calibrated_intervals": false,
   "g_us_gate": "PENDING",
   "limitations": [
-    "Cold completion time varied from 8.547 to 51.469 seconds; p95 is not established",
+    "The 14.953-second model-ready time and single-session click timings do not establish p95 latency",
     "Screen-reader label association remains to be verified on the target Windows assistive technology",
     "Private saved bundle is required locally"
   ]

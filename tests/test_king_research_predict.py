@@ -321,7 +321,7 @@ class KingResearchPredictTests(unittest.TestCase):
             expected = digest(manifest_path.read_bytes())
             with (
                 patch.object(serving, "PRIVATE_ROOT", private_root),
-                patch.object(serving, "verify_acl"),
+                patch.object(serving, "verify_acl_many"),
             ):
                 with self.assertRaisesRegex(ValueError, "checksum"):
                     serving.load_bundle(bundle, "0" * 64)
@@ -425,7 +425,7 @@ class KingResearchPredictTests(unittest.TestCase):
             with (
                 patch.object(serving, "PRIVATE_ROOT", private_root),
                 patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
-                patch.object(serving, "verify_acl"),
+                patch.object(serving, "verify_acl_many"),
             ):
                 loaded = serving.load_bundle(bundle, expected)
             self.assertEqual(loaded.protocol, manifest["protocol"])
@@ -458,7 +458,7 @@ class KingResearchPredictTests(unittest.TestCase):
             with (
                 patch.object(serving, "PRIVATE_ROOT", private_root),
                 patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
-                patch.object(serving, "verify_acl"),
+                patch.object(serving, "verify_acl_many"),
                 self.assertRaisesRegex(ValueError, "identity metadata"),
             ):
                 serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
@@ -470,7 +470,7 @@ class KingResearchPredictTests(unittest.TestCase):
             with (
                 patch.object(serving, "PRIVATE_ROOT", private_root),
                 patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
-                patch.object(serving, "verify_acl"),
+                patch.object(serving, "verify_acl_many"),
                 self.assertRaises(ValueError),
             ):
                 serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
@@ -481,7 +481,7 @@ class KingResearchPredictTests(unittest.TestCase):
             with (
                 patch.object(serving, "PRIVATE_ROOT", private_root),
                 patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
-                patch.object(serving, "verify_acl"),
+                patch.object(serving, "verify_acl_many"),
                 self.assertRaises(ValueError),
             ):
                 serving.load_bundle(bundle, digest(manifest_path.read_bytes()))
@@ -492,7 +492,7 @@ class KingResearchPredictTests(unittest.TestCase):
             with (
                 patch.object(serving, "PRIVATE_ROOT", private_root),
                 patch.object(serving, "_ABSOLUTE_REGISTRY_MANIFEST", registry),
-                patch.object(serving, "verify_acl"),
+                patch.object(serving, "verify_acl_many"),
                 self.assertRaisesRegex(ValueError, "unsupported"),
             ):
                 serving.load_bundle(bundle, digest(manifest_path.read_bytes()))

@@ -24,7 +24,7 @@ from tabpfn4realestate.features.fhfa_hpi import (
 )
 from scripts.king_historical_benchmark import NUMERIC_FEATURES, SOURCE_SHA256
 from scripts.build_king_absolute_error_bundle import ABSOLUTE_MODEL_CONFIGURATION
-from scripts.private_review_io import real_directory, verify_acl
+from scripts.private_review_io import real_directory, verify_acl_many
 from scripts.run_king_historical_benchmark import MODEL_PARAMETERS, PRIVATE_ROOT, ROOT
 
 _MAX_MANIFEST_BYTES = 20_000
@@ -198,11 +198,10 @@ def load_bundle(bundle_dir: Path, expected_manifest_sha256: str) -> VerifiedBund
     if not re.fullmatch(r"[0-9a-f]{64}", expected_manifest_sha256):
         raise ValueError("Expected manifest SHA-256 is invalid")
     real_directory(PRIVATE_ROOT, PRIVATE_ROOT.parent)
-    verify_acl(PRIVATE_ROOT)
     if bundle_dir.parent != PRIVATE_ROOT:
         raise ValueError("Bundle must be directly inside the private King directory")
+    verify_acl_many((PRIVATE_ROOT, bundle_dir))
     real_directory(bundle_dir, PRIVATE_ROOT)
-    verify_acl(bundle_dir)
     manifest_bytes = _read_limited(bundle_dir / "manifest.json", _MAX_MANIFEST_BYTES)
     if _digest(manifest_bytes) != expected_manifest_sha256:
         raise ValueError("Bundle manifest checksum mismatch")

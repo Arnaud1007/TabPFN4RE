@@ -17,7 +17,7 @@ import re
 import socket
 import subprocess
 import tempfile
-from typing import Iterator
+from typing import Iterator, Sequence
 
 
 def same_path(a: Path, b: Path) -> bool:
@@ -98,27 +98,70 @@ def _powershell_acl(directory: Path, script: str, sid: str) -> dict:
     return value
 
 
+def _powershell_acl_many(directories: Sequence[Path], sid: str) -> list[object]:
+    environment = {
+        **os.environ,
+        "TABPFN_ACL_DIRS": json.dumps([str(path) for path in directories]),
+        "TABPFN_OWNER_SID": sid,
+    }
+    script = (
+        "$ErrorActionPreference='Stop'; "
+        "$paths=ConvertFrom-Json -InputObject $env:TABPFN_ACL_DIRS; "
+        "$results=New-Object System.Collections.ArrayList; foreach($path in $paths){ $acl=Get-Acl -LiteralPath $path; "
+        "$entries=@($acl.Access|ForEach-Object{ $_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value }); "
+        "$allowed=@($env:TABPFN_OWNER_SID,'S-1-5-18','S-1-5-32-544'); "
+        "$foreign=@($entries|Where-Object{ $_ -notin $allowed }); "
+        "if((-not $acl.AreAccessRulesProtected)-or($entries -notcontains $env:TABPFN_OWNER_SID)-or($foreign.Count -ne 0)){ throw 'ACL verification failed' }; "
+        "[void]$results.Add([pscustomobject]@{protected=$acl.AreAccessRulesProtected; entries=[object[]]$entries}) }; "
+        "ConvertTo-Json -InputObject ([object[]]$results) -Depth 4 -Compress"
+    )
+    try:
+        result = subprocess.run(
+            ["powershell", "-NoProfile", "-NonInteractive", "-Command", script],
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        value = json.loads(result.stdout)
+    except (OSError, subprocess.CalledProcessError, json.JSONDecodeError) as error:
+        raise ValueError("Private review ACL verification failed") from error
+    if isinstance(value, dict) and len(directories) == 1:
+        value = [value]
+    if not isinstance(value, list):
+        raise ValueError("Private review ACL verification failed")
+    return value
+
+
 def verify_acl(directory: Path) -> None:
+    verify_acl_many((directory,))
+
+
+def verify_acl_many(directories: Sequence[Path]) -> None:
+    directories = tuple(Path(path) for path in directories)
+    if not directories:
+        raise ValueError("Private review ACL verification requires a directory")
     if os.name != "nt":
-        if directory.stat().st_mode & 0o077:
-            raise ValueError("Private review directory permissions are too broad")
+        for directory in directories:
+            if directory.stat().st_mode & 0o077:
+                raise ValueError("Private review directory permissions are too broad")
         return
     sid = user_sid()
-    script = (
-        "$ErrorActionPreference='Stop'; $acl=Get-Acl -LiteralPath $env:TABPFN_ACL_DIR; "
-        "$entries=@($acl.Access|ForEach-Object{ $_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value }); "
-        "@{protected=$acl.AreAccessRulesProtected; entries=$entries}|ConvertTo-Json -Compress"
-    )
-    verified = _powershell_acl(directory, script, sid)
-    entries = verified.get("entries")
-    allowed = {sid, "S-1-5-18", "S-1-5-32-544"}
-    if (
-        verified.get("protected") is not True
-        or not isinstance(entries, list)
-        or not set(entries).issubset(allowed)
-        or sid not in entries
-    ):
+    results = _powershell_acl_many(directories, sid)
+    if len(results) != len(directories):
         raise ValueError("Private review ACL verification failed")
+    allowed = {sid, "S-1-5-18", "S-1-5-32-544"}
+    for verified in results:
+        if not isinstance(verified, dict):
+            raise ValueError("Private review ACL verification failed")
+        entries = verified.get("entries")
+        if (
+            verified.get("protected") is not True
+            or not isinstance(entries, list)
+            or not set(entries).issubset(allowed)
+            or sid not in entries
+        ):
+            raise ValueError("Private review ACL verification failed")
 
 
 def secure_directory(directory: Path) -> None:

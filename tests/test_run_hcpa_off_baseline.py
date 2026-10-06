@@ -132,7 +132,7 @@ def test_cli_is_deterministic_accepts_no_paths_and_fails_generically(
     rejected = capsys.readouterr()
     assert rejected.out == ""
     assert rejected.err == "HCPA OFF baseline preflight failed\n"
-    assert secret not in rejected.err
+    assert sensitive_path not in rejected.err
 
     monkeypatch.setattr(
         runner,

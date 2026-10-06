@@ -1,0 +1,63 @@
+{
+  "run_id": "u0-hcpa-off-preflight-v1-20261006",
+  "status": "verified_blocked",
+  "environment": {
+    "python": "3.11.6",
+    "pytest": "9.0.2",
+    "coverage": "7.16.2",
+    "ruff": "0.13.0",
+    "platform": "Windows"
+  },
+  "checks": [
+    {
+      "name": "focused_tests_and_branch_coverage",
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --source=scripts.run_hcpa_off_baseline -m pytest tests/test_run_hcpa_off_baseline.py -q",
+      "exit_code": 0,
+      "observed": "13 passed; 90% branch-aware coverage of the 33-statement runner",
+      "outputs": ["focused_tests.log", "coverage.log"]
+    },
+    {
+      "name": "combined_regression",
+      "command": ".venv/Scripts/python.exe -m pytest tests/test_hcpa_source_admission.py tests/test_run_hcpa_off_baseline.py -q -rs",
+      "exit_code": 0,
+      "observed": "71 passed, 2 skipped; skips are unavailable Windows file and directory symlink creation",
+      "output": "combined_tests.log"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".venv/Scripts/python.exe -m ruff check scripts/run_hcpa_off_baseline.py tests/test_run_hcpa_off_baseline.py",
+      "exit_code": 0,
+      "observed": "All checks passed",
+      "output": "ruff_check.log"
+    },
+    {
+      "name": "ruff_format",
+      "command": ".venv/Scripts/python.exe -m ruff format --check scripts/run_hcpa_off_baseline.py tests/test_run_hcpa_off_baseline.py",
+      "exit_code": 0,
+      "observed": "2 files already formatted",
+      "output": "ruff_format.log"
+    },
+    {
+      "name": "production_cli_equivalence",
+      "commands": [
+        ".venv/Scripts/python.exe -m scripts.run_hcpa_off_baseline",
+        ".venv/Scripts/python.exe scripts/run_hcpa_off_baseline.py"
+      ],
+      "exit_codes": [3, 3],
+      "observed": "byte-identical blocked JSON",
+      "outputs": ["cli_module.json", "cli_direct.json", "cli_checks.json"]
+    },
+    {
+      "name": "invalid_argument_privacy",
+      "command": ".venv/Scripts/python.exe -m scripts.run_hcpa_off_baseline --unexpected",
+      "exit_code": 2,
+      "observed": "empty stdout, generic stderr, argument not echoed",
+      "outputs": ["cli_invalid.stdout", "cli_invalid.stderr", "cli_checks.json"]
+    }
+  ],
+  "source_admitted": false,
+  "model_fit_permitted": false,
+  "model_fit_executed": false,
+  "outputs_written_by_runner": false,
+  "private_data_accessed_by_runner": false
+}

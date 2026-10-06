@@ -2,6 +2,23 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## HCPA OFF runner stops immediately at preflight, 6 October 2026
+
+The [runner preflight](runs/u0-hcpa-off-preflight-v1-20261006/report.md)
+passes 13 focused tests with 90% branch-aware runner coverage. The combined
+admission and runner regression passes 71 tests with two documented Windows
+symlink-creation skips, and Ruff lint and format checks pass. Direct-script and
+module invocations returned byte-identical blocked JSON with exit 3. An invalid
+argument returned generic stderr and exit 2 without echoing the argument.
+
+No raw row, archive, private ledger, label or model was accessed by the runner;
+no output or run reservation was written by it, and no model fit ran. This is
+an executable blocked boundary, not a prediction result. Keep HCPA training
+blocked until the source-admission and fit-readiness findings clear and a later
+reviewed protocol adds the first permitted downstream step.
+
+**Exact local recheck:** `& '.venv/Scripts/python.exe' -m scripts.run_hcpa_off_baseline`
+
 ## HCPA source-admission gate is executable and pending, 6 October 2026
 
 The [source-admission verification](runs/u0-hcpa-source-admission-v1-20261006/report.md)

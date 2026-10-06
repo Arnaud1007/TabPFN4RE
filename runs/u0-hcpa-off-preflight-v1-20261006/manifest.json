@@ -1,0 +1,41 @@
+{
+  "run_id": "u0-hcpa-off-preflight-v1-20261006",
+  "captured_on": "2026-10-06",
+  "base_commit": "0f7fa1d6f8df350bc4358985a8437429547fb608",
+  "dirty_tree_during_verification": true,
+  "status": "verified_blocked",
+  "inputs": {
+    "scripts/run_hcpa_off_baseline.py": "97383be574fbdd438063da7c9b6ca9403fd07d2b28b43f2a38672d18d244d6fc",
+    "tests/test_run_hcpa_off_baseline.py": "ac2115911928999e76668a8bef695527cc1d0ed11b1c6c9ae7af8053360eecaa",
+    "decisions/0110-hcpa-off-runner-preflight.md": "1ec9fca3a0f867a99b27d2a1e207b9ec7868c4e75117675dbeef1cf5af849195",
+    "scripts/hcpa_source_admission.py": "fd835a5ac8162e826a1c63d961f13d4b9a2f9cf69fb16885b163d0548b30dd8d",
+    "data/source_admission/hcpa_allsales_v1.json": "f03f69f2cb8b660c2e80dbc89630a4346278fdbaf5deb2752e307cc34771a320",
+    "data/model_policies/hcpa_off_absolute_error_v1.json": "d397c7a07dc82d11ad629465acb17be99d98d54cdffd0d0835f57420e9f5f49d"
+  },
+  "outputs": {
+    "plan.md": "6a21efe35c546157d1a406a8a751fa5603d2744d022332a44f568dff82182481",
+    "report.md": "4e6f3bed62736165ec4f4e93e2981539cffe555057f250f34e042f9860a67617",
+    "test_gate.json": "eaf0444d4acc1a6e5a6016ff69186ce3a02090441b2f7365b605cd4a1e129700",
+    "focused_tests.log": "c14b39ff71c607c7baf1071ea0d8dbf03f8f5e2747d9607bb898f6fb97926cfe",
+    "coverage.log": "b014dbea7c44be4f67515088b0099af4de4a3943471432de5f335ecc023bba8f",
+    "combined_tests.log": "0b66b0539ecaa8254b76e348f66178799e877b42e8be55a4b3bfd759a7aecdd5",
+    "ruff_check.log": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+    "ruff_format.log": "97d85b4b6c185a05396e2d09a3c304ff0f7cc77f8b7b7bb7989ec6cd875b3898",
+    "cli_module.json": "181430b5365ac8a85406963d612d6d41d062b337e70dadb396da7f3f6437b6c8",
+    "cli_direct.json": "181430b5365ac8a85406963d612d6d41d062b337e70dadb396da7f3f6437b6c8",
+    "cli_checks.json": "222bd2151b6649cf22f837b12abeac4c8cfe76dc5b376e54c708c3e2886a83fe",
+    "cli_invalid.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cli_invalid.stderr": "19b0afb2565440ef3852b265e9a4fbad623c06277feda0bfcaf47ba0c907f05c",
+    "cli_invalid_stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cli_invalid_stderr.txt": "19b0afb2565440ef3852b265e9a4fbad623c06277feda0bfcaf47ba0c907f05c"
+  },
+  "privacy": {
+    "contains_raw_rows": false,
+    "contains_addresses": false,
+    "contains_private_ledger_data": false,
+    "contains_labels": false,
+    "contains_model_artifacts": false
+  },
+  "model_fit_executed": false,
+  "outputs_written_by_runner": false
+}

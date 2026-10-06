@@ -1,0 +1,9 @@
+{
+    "module_exit":  3,
+    "direct_exit":  3,
+    "outputs_identical":  true,
+    "invalid_exit":  2,
+    "invalid_stdout":  "",
+    "invalid_stderr":  "HCPA OFF baseline preflight failed",
+    "invalid_argument_echoed":  false
+}

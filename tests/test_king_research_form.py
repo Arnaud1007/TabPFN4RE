@@ -143,6 +143,18 @@ class KingResearchFormTests(unittest.TestCase):
         self.assertIn("conditional", display)
         self.assertIn("within 90 days", display)
         self.assertIn("does not certify", display)
+        self.assertIn("training cutoff: 2015-03-01", display)
+        self.assertIn("market support: not validated", display)
+        self.assertIn("uncertainty: unavailable", display)
+        self.assertIn("no calibrated interval artifact is bundled", display)
+        for limitation in response["evidence_limitations"]:
+            self.assertIn(limitation.lower(), display)
+        for limitation in response["limitations"]:
+            self.assertIn(limitation.lower(), display)
+
+        response["uncertainty"]["interval_90"] = [100_000, 300_000]
+        with self.assertRaises(ValueError):
+            form.format_prediction(response)
 
     def test_scope_warning_tracks_loaded_bundle_protocol(self) -> None:
         absolute = form.scope_warning(serving.ABSOLUTE_PROTOCOL)

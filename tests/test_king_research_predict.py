@@ -55,6 +55,52 @@ class OverflowModel:
 
 
 class KingResearchPredictTests(unittest.TestCase):
+    def test_absolute_response_has_fresh_disclosure_contract(self) -> None:
+        bundle = serving.VerifiedBundle(
+            FEATURE_NAMES,
+            b"model",
+            "a" * 64,
+            "b" * 64,
+            serving.ABSOLUTE_PROTOCOL,
+            "reg:absoluteerror",
+            "2015-03-01",
+            "King County sales before March 2015",
+            "King County sales, November 2014-February 2015",
+        )
+
+        first = serving._prediction_response(200_000.25, bundle)
+        second = serving._prediction_response(200_000.25, bundle)
+
+        self.assertEqual(
+            first["response_schema_version"],
+            "king_historical_prediction_response_v2",
+        )
+        self.assertEqual(
+            first["valuation_reference"],
+            {
+                "kind": "historical_king_county_sales",
+                "training_cutoff_exclusive": "2015-03-01",
+                "current_market_valuation": False,
+            },
+        )
+        self.assertEqual(first["data_freshness"]["status"], "historical_only")
+        self.assertFalse(first["data_freshness"]["current_market_inputs_included"])
+        self.assertEqual(first["support"]["status"], "schema_supported_research_only")
+        self.assertEqual(first["support"]["service_area_status"], "not_validated")
+        self.assertEqual(first["uncertainty"]["status"], "unavailable")
+        self.assertIsNone(first["uncertainty"]["interval_80"])
+        self.assertIsNone(first["uncertainty"]["interval_90"])
+        self.assertTrue(first["evidence_limitations"])
+        self.assertTrue(first["limitations"])
+
+        first["valuation_reference"]["kind"] = "tampered"
+        first["limitations"].clear()
+        self.assertEqual(
+            second["valuation_reference"]["kind"],
+            "historical_king_county_sales",
+        )
+        self.assertTrue(second["limitations"])
+
     def test_predict_uses_verified_bundle_and_emits_historical_scope(self) -> None:
         fake_xgboost = types.ModuleType("xgboost")
 

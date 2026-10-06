@@ -175,7 +175,9 @@ def _validate_receipt(receipt: Mapping[str, object]) -> None:
     ):
         raise ValueError("Private receipt content hash mismatch")
     prediction = capture._validate_response(
-        receipt["prediction"], receipt["manifest_sha256"]
+        receipt["prediction"],
+        receipt["manifest_sha256"],
+        allow_legacy_absolute=True,
     )
     if (
         receipt["model_sha256"] != prediction["model_sha256"]

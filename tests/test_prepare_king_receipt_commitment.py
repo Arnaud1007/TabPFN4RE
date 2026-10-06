@@ -14,6 +14,7 @@ from unittest.mock import patch
 from contextlib import redirect_stderr, redirect_stdout
 
 from scripts import capture_king_prediction as capture
+from scripts import king_research_predict as serving
 from scripts import prepare_king_receipt_commitment as commitment
 from tests.test_capture_king_prediction import NOW, REQUEST, RESPONSE
 
@@ -88,6 +89,36 @@ class KingReceiptCommitmentTests(unittest.TestCase):
             self.assertNotIn(str(value), serialized)
         with self.assertRaises(FileExistsError):
             self.prepare()
+
+    def test_prepares_pre_schema_absolute_receipt_without_weakening_capture(
+        self,
+    ) -> None:
+        receipt = json.loads(self.receipt.read_text(encoding="utf-8"))
+        bundle = serving.VerifiedBundle(
+            ("bedrooms", "zipcode=98103"),
+            b"model",
+            "a" * 64,
+            "b" * 64,
+            serving.ABSOLUTE_PROTOCOL,
+            "reg:absoluteerror",
+            "2015-03-01",
+            "King County sales before March 2015",
+            "King County sales, November 2014-February 2015",
+        )
+        current = serving._prediction_response(542149.79, bundle)
+        disclosure_keys = set(serving._absolute_disclosures("2015-03-01"))
+        legacy = {
+            key: value for key, value in current.items() if key not in disclosure_keys
+        }
+        with self.assertRaises(ValueError):
+            capture._validate_response(legacy, "a" * 64)
+        receipt["prediction"] = legacy
+        receipt["response_sha256"] = sha256(capture.canonical_bytes(legacy)).hexdigest()
+        self.receipt.write_bytes(capture.canonical_bytes(receipt))
+
+        result = self.prepare()
+
+        self.assertEqual(result["protocol"], "king-research-public-commitment-v1")
 
     def test_rejects_tampered_or_noncanonical_receipt_without_output(self) -> None:
         original = json.loads(self.receipt.read_text(encoding="utf-8"))

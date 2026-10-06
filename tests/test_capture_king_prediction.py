@@ -202,6 +202,37 @@ class KingPredictionCaptureTests(unittest.TestCase):
         )
         response = capture.serving._prediction_response(542149.79, bundle)
         self.assertEqual(capture._validate_response(response, "a" * 64), response)
+        invalid = (
+            {key: value for key, value in response.items() if key != "support"},
+            {**response, "extra_disclosure": True},
+            {**response, "response_schema_version": "v3"},
+            {**response, "support": {**response["support"], "status": "supported"}},
+            {
+                **response,
+                "valuation_reference": {
+                    **response["valuation_reference"],
+                    "current_market_valuation": True,
+                },
+            },
+            {
+                **response,
+                "data_freshness": {
+                    **response["data_freshness"],
+                    "current_market_inputs_included": True,
+                },
+            },
+            {
+                **response,
+                "uncertainty": {
+                    **response["uncertainty"],
+                    "interval_90": [100_000, 300_000],
+                },
+            },
+            {**response, "limitations": []},
+        )
+        for candidate in invalid:
+            with self.subTest(candidate=candidate), self.assertRaises(ValueError):
+                capture._validate_response(candidate, "a" * 64)
         self.assertEqual(
             set(response),
             capture.BASE_RESPONSE_KEYS | capture.ABSOLUTE_EXTENSION_KEYS,

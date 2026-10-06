@@ -170,6 +170,23 @@ def format_prediction(response: Mapping[str, object]) -> str:
     if not math.isfinite(number) or number <= 0:
         raise ValueError("Prediction amount is invalid")
     lines = [f"Historical 2015 estimate: ${number:,.0f} USD"]
+    if is_absolute:
+        valuation = response["valuation_reference"]
+        freshness = response["data_freshness"]
+        support = response["support"]
+        uncertainty = response["uncertainty"]
+        lines.extend(
+            (
+                f"Training cutoff: {valuation['training_cutoff_exclusive']}",
+                f"Data freshness: {freshness['status'].replace('_', ' ')}",
+                f"Market support: {support['service_area_status'].replace('_', ' ')}",
+                f"Uncertainty: {uncertainty['status']}. {uncertainty['reason']}",
+                "Evidence limits:",
+                *(f"- {item}" for item in response["evidence_limitations"]),
+                "Use limitations:",
+                *(f"- {item}" for item in response["limitations"]),
+            )
+        )
     hpi = response.get("experimental_hpi_adjustment")
     if hpi is not None:
         if not isinstance(hpi, Mapping) or hpi.get("status") != "research_only":

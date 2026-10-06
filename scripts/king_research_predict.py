@@ -56,6 +56,18 @@ ABSOLUTE_RUNTIME = {
     "xgboost": "3.2.0",
 }
 ABSOLUTE_INFERENCE_RUNTIME = "stdlib_xgboost_json_v1"
+ABSOLUTE_RESPONSE_SCHEMA = "king_historical_prediction_response_v2"
+ABSOLUTE_EVIDENCE_LIMITATIONS = (
+    "No certified 90-day valuation-origin evaluation is available.",
+    "The G-US release gate is pending.",
+    "No calibrated prediction interval artifact is bundled.",
+    "No property-specific comparable evidence is produced by this predictor.",
+)
+ABSOLUTE_LIMITATIONS = (
+    "Historical King County research estimate; not a current market valuation.",
+    "The 90-day conditional-sale target is intended semantics, not a certified capability.",
+    "Do not use this result as a national or production valuation.",
+)
 FHFA_SOURCE_SHA256 = "d664a8e2e92f64aa17201b3bdd84d0ab4d1a4d00e9c6c15d5b34fb400c10d842"
 FHFA_CBSA = "42644"
 FHFA_GEOGRAPHY = "Seattle-Bellevue-Kent, WA (MSAD)"
@@ -496,6 +508,7 @@ def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, obj
         return legacy
     return {
         **legacy,
+        **_absolute_disclosures(bundle.training_cutoff_exclusive),
         "reference_period": (
             "King County rolling development, November 2014-February 2015"
         ),
@@ -515,6 +528,42 @@ def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, obj
             "Recorded sale consideration conditional on a qualifying sale within "
             "the next 90 calendar days"
         ),
+    }
+
+
+def _absolute_disclosures(training_cutoff_exclusive: str) -> dict[str, object]:
+    """Build a fresh, deterministic disclosure contract for one response."""
+    return {
+        "response_schema_version": ABSOLUTE_RESPONSE_SCHEMA,
+        "valuation_reference": {
+            "kind": "historical_king_county_sales",
+            "training_cutoff_exclusive": training_cutoff_exclusive,
+            "current_market_valuation": False,
+        },
+        "data_freshness": {
+            "status": "historical_only",
+            "known_through_exclusive": training_cutoff_exclusive,
+            "current_market_inputs_included": False,
+        },
+        "support": {
+            "status": "schema_supported_research_only",
+            "service_area_status": "not_validated",
+            "reason": (
+                "Input matches the saved King County research feature schema; "
+                "market support has not passed G-US."
+            ),
+        },
+        "uncertainty": {
+            "status": "unavailable",
+            "interval_80": None,
+            "interval_90": None,
+            "reason": (
+                "No calibrated interval artifact is bundled with this historical "
+                "predictor."
+            ),
+        },
+        "evidence_limitations": list(ABSOLUTE_EVIDENCE_LIMITATIONS),
+        "limitations": list(ABSOLUTE_LIMITATIONS),
     }
 
 

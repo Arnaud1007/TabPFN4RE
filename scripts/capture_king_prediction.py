@@ -43,7 +43,7 @@ BASE_RESPONSE_KEYS = frozenset(
         "model_sha256",
     }
 )
-ABSOLUTE_EXTENSION_KEYS = frozenset(
+LEGACY_ABSOLUTE_EXTENSION_KEYS = frozenset(
     {
         "bundle_protocol",
         "inference_runtime",
@@ -54,6 +54,17 @@ ABSOLUTE_EXTENSION_KEYS = frozenset(
         "point_estimate_semantics",
         "horizon_days",
         "conditional_sale_interpretation",
+    }
+)
+ABSOLUTE_EXTENSION_KEYS = LEGACY_ABSOLUTE_EXTENSION_KEYS | frozenset(
+    {
+        "response_schema_version",
+        "valuation_reference",
+        "data_freshness",
+        "support",
+        "uncertainty",
+        "evidence_limitations",
+        "limitations",
     }
 )
 HPI_KEYS = frozenset(
@@ -153,17 +164,28 @@ def _timestamp(moment: datetime) -> str:
 
 
 def _validate_response(
-    response: object, expected_manifest_sha256: str
+    response: object,
+    expected_manifest_sha256: str,
+    *,
+    allow_legacy_absolute: bool = False,
 ) -> dict[str, object]:
     if type(response) is not dict:
         raise ValueError("Prediction is incompatible with a King research receipt")
     has_hpi = "experimental_hpi_adjustment" in response
     core_keys = set(response) - ({"experimental_hpi_adjustment"} if has_hpi else set())
     is_absolute = response.get("bundle_protocol") == serving.ABSOLUTE_PROTOCOL
+    is_current_absolute = (
+        is_absolute
+        and response.get("response_schema_version") == serving.ABSOLUTE_RESPONSE_SCHEMA
+    )
     expected_keys = (
         BASE_RESPONSE_KEYS | ABSOLUTE_EXTENSION_KEYS
-        if is_absolute
-        else BASE_RESPONSE_KEYS
+        if is_current_absolute
+        else (
+            BASE_RESPONSE_KEYS | LEGACY_ABSOLUTE_EXTENSION_KEYS
+            if is_absolute and allow_legacy_absolute
+            else BASE_RESPONSE_KEYS
+        )
     )
     shared_invalid = any(
         (
@@ -196,6 +218,15 @@ def _validate_response(
             ),
         )
     )
+    if is_current_absolute:
+        disclosure_keys = set(serving._absolute_disclosures("2015-03-01"))
+        actual_disclosures = {key: response.get(key) for key in disclosure_keys}
+        expected_disclosures = serving._absolute_disclosures("2015-03-01")
+        absolute_invalid = absolute_invalid or canonical_bytes(
+            actual_disclosures
+        ) != canonical_bytes(expected_disclosures)
+    elif is_absolute and not allow_legacy_absolute:
+        absolute_invalid = True
     if (
         shared_invalid
         or absolute_invalid

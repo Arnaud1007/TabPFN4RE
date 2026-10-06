@@ -1,4 +1,4 @@
-# ADR 0104: Dependency-free King XGBoost inference
+# ADR 0105: Dependency-free King XGBoost inference
 
 ## Status
 

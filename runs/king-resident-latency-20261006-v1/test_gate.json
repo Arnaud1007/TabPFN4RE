@@ -1,0 +1,10 @@
+{
+  "bundle_load_seconds": 19.95553519995883,
+  "deterministic_amounts": true,
+  "prediction_seconds_max": 0.00863309996202588,
+  "prediction_seconds_p50": 0.0009879499557428062,
+  "prediction_seconds_p95": 0.0012667999835684896,
+  "predictions": 100,
+  "resident_p95_under_two_seconds": true,
+  "status": "passed"
+}

@@ -2,6 +2,19 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## Resident prediction latency measured, 6 October 2026
+
+The [resident-latency checkpoint](runs/king-resident-latency-20261006-v1/report.md)
+loaded the hash-pinned absolute-error model once and issued 100 predictions.
+Cold loading took 19.96 seconds on this run, while resident p95 prediction
+latency was 1.27 ms and all estimates were identical. Keep the model resident
+inside the local form and avoid per-click model loading or retraining.
+
+Double-click `Launch-KingResearchForm.cmd`, wait for the one-time loading state
+to clear, then make repeated predictions. Cold startup remains an optimization
+target; the measured delay is variable Windows/NumPy/XGBoost loading rather
+than model creation.
+
 ## HCPA adjacent parcel corrections verified, 6 October 2026
 
 The [adjacent-release comparison](runs/u0-hcpa-parcel-release-diff-20261006-v1/report.md)

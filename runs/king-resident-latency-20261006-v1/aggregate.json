@@ -1,0 +1,13 @@
+{
+  "amount_usd": 553846.9739548098,
+  "bundle_load_seconds": 19.95553519995883,
+  "bundle_manifest_sha256": "50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d",
+  "deterministic_amounts": true,
+  "g_us_gate": "PENDING",
+  "prediction_seconds_max": 0.00863309996202588,
+  "prediction_seconds_p50": 0.0009879499557428062,
+  "prediction_seconds_p95": 0.0012667999835684896,
+  "predictions": 100,
+  "scope": "historical_research_only",
+  "status": "PASS"
+}

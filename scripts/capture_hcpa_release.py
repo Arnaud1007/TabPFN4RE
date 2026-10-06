@@ -23,11 +23,13 @@ from urllib.request import (
 )
 
 from scripts.private_review_io import (
+    advisory_lock,
     new_file,
     real_directory,
     secure_directory,
     verify_acl,
 )
+from scripts.hcpa_release_observation_ledger import append_observation
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -176,7 +178,9 @@ def _response_ok(response, content_types: set[str], max_bytes: int) -> int | Non
 def _timestamp(value: datetime) -> str:
     if value.tzinfo is None or value.utcoffset() is None:
         raise ValueError("Capture clock must be timezone-aware")
-    return value.astimezone(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return (
+        value.astimezone(UTC).isoformat(timespec="microseconds").replace("+00:00", "Z")
+    )
 
 
 def prepare_private_root() -> None:
@@ -189,6 +193,29 @@ def prepare_private_root() -> None:
             secure_directory(directory)
         real_directory(directory, directory.parent)
     verify_acl(PRIVATE_ROOT)
+
+
+def _resume_pending_registrations() -> None:
+    pending_manifests: list[tuple[datetime, Path]] = []
+    for pending in PRIVATE_ROOT.glob("hcpa-*/.ledger_pending"):
+        manifest_path = pending.parent / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        completed = datetime.fromisoformat(
+            manifest["capture_completed_at_utc"].replace("Z", "+00:00")
+        )
+        pending_manifests.append((completed, pending))
+    for _completed, pending in sorted(pending_manifests, key=lambda item: item[0]):
+        append_observation(
+            PRIVATE_ROOT / "observations.jsonl",
+            pending.parent / "manifest.json",
+            PRIVATE_ROOT,
+        )
+        pending.unlink()
+
+
+def _capture_session_lock():
+    """Use an OS-owned lock that is released automatically after termination."""
+    return advisory_lock(PRIVATE_ROOT / "capture-session.lock", PRIVATE_ROOT)
 
 
 def _code_state() -> tuple[str, bool]:
@@ -209,13 +236,14 @@ def _code_state() -> tuple[str, bool]:
     return commit, bool(status)
 
 
-def capture(
+def _capture_locked(
     run_dir: Path,
     family: str,
     expected_filename: str,
     *,
     opener,
     clock,
+    register_ledger: bool = False,
 ) -> dict[str, object]:
     """Save one immutable private ZIP and manifest, leaving failures incomplete."""
     _validate_request(family, expected_filename)
@@ -300,8 +328,41 @@ def capture(
         run_dir / "manifest.json",
         (json.dumps(result, indent=2, sort_keys=True) + "\n").encode(),
     )
-    (run_dir / ".incomplete").unlink()
+    incomplete = run_dir / ".incomplete"
+    pending = run_dir / ".ledger_pending"
+    if register_ledger:
+        os.replace(incomplete, pending)
+        append_observation(
+            PRIVATE_ROOT / "observations.jsonl",
+            run_dir / "manifest.json",
+            PRIVATE_ROOT,
+        )
+        pending.unlink()
+    else:
+        incomplete.unlink()
     return result
+
+
+def capture(
+    run_dir: Path,
+    family: str,
+    expected_filename: str,
+    *,
+    opener,
+    clock,
+    register_ledger: bool = False,
+) -> dict[str, object]:
+    """Serialize capture through registration and resume earlier pending work."""
+    with _capture_session_lock():
+        _resume_pending_registrations()
+        return _capture_locked(
+            run_dir,
+            family,
+            expected_filename,
+            opener=opener,
+            clock=clock,
+            register_ledger=register_ledger,
+        )
 
 
 def main() -> int:
@@ -319,6 +380,7 @@ def main() -> int:
         args.expected_filename,
         opener=opener,
         clock=lambda: datetime.now(UTC),
+        register_ledger=True,
     )
     print(
         json.dumps(

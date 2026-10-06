@@ -170,6 +170,40 @@ def exclusive_lock(ledger: Path, root: Path) -> Iterator[None]:
         lock.unlink(missing_ok=True)
 
 
+@contextmanager
+def advisory_lock(lock: Path, root: Path) -> Iterator[None]:
+    """Hold an OS-owned lock; a leftover lock file does not retain ownership."""
+    lock = private_path(lock, root)
+    descriptor = os.open(
+        lock,
+        os.O_CREAT | os.O_RDWR | getattr(os, "O_BINARY", 0),
+        0o600,
+    )
+    try:
+        if os.fstat(descriptor).st_size == 0:
+            os.write(descriptor, b"\0")
+            os.fsync(descriptor)
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        if os.name == "nt":
+            import msvcrt
+
+            msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        try:
+            yield
+        finally:
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            if os.name == "nt":
+                msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+    finally:
+        os.close(descriptor)
+
+
 def new_file(path: Path, content: bytes) -> None:
     fd = os.open(
         path, os.O_CREAT | os.O_EXCL | os.O_WRONLY | getattr(os, "O_BINARY", 0), 0o600

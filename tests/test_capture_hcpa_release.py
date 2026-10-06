@@ -160,7 +160,9 @@ class HcpaReleaseCaptureTests(unittest.TestCase):
         self.assertRegex(result["code_commit"], r"\A[0-9a-f]{40}\Z")
         self.assertIs(type(result["dirty_tree_at_capture"]), bool)
         self.assertRegex(result["script_sha256"], r"\A[0-9a-f]{64}\Z")
-        self.assertEqual(result["capture_completed_at_utc"], "2026-10-05T09:00:00Z")
+        self.assertEqual(
+            result["capture_completed_at_utc"], "2026-10-05T09:00:00.000000Z"
+        )
         self.assertFalse(result["first_public_availability_verified"])
         self.assertEqual(result["certified_sale_labels"], 0)
         self.assertEqual(
@@ -273,6 +275,60 @@ class HcpaReleaseCaptureTests(unittest.TestCase):
         ):
             capture.prepare_private_root()
             self.assertTrue(capture.PRIVATE_ROOT.is_dir())
+
+    def test_ledger_failure_preserves_completed_pending_capture(self) -> None:
+        with patch.object(
+            capture, "append_observation", side_effect=OSError("ledger unavailable")
+        ) as append:
+            with self.assertRaises(OSError):
+                capture.capture(
+                    self.run_dir,
+                    "allsales",
+                    ALLSALES,
+                    opener=Opener(),
+                    clock=lambda: NOW,
+                    register_ledger=True,
+                )
+        self.assertFalse((self.run_dir / ".incomplete").exists())
+        self.assertTrue((self.run_dir / ".ledger_pending").exists())
+        self.assertTrue((self.run_dir / "manifest.json").exists())
+        append.assert_called_once_with(
+            self.private_root / "observations.jsonl",
+            self.run_dir / "manifest.json",
+            self.private_root,
+        )
+
+    def test_pending_registration_resumes_in_observation_order(self) -> None:
+        run_dir = self.private_root / "hcpa-allsales-20261005T090000Z-test"
+        run_dir.mkdir()
+        (run_dir / ".ledger_pending").write_text("pending\n")
+        (run_dir / "manifest.json").write_text(
+            json.dumps({"capture_completed_at_utc": "2026-10-05T09:00:00.000002Z"})
+        )
+        earlier = self.private_root / "hcpa-parcels-20261005T090000Z-z-last"
+        earlier.mkdir()
+        (earlier / ".ledger_pending").write_text("pending\n")
+        (earlier / "manifest.json").write_text(
+            json.dumps({"capture_completed_at_utc": "2026-10-05T09:00:00.000001Z"})
+        )
+        with patch.object(capture, "append_observation") as append:
+            capture._resume_pending_registrations()
+        self.assertEqual(
+            [call.args[1] for call in append.call_args_list],
+            [earlier / "manifest.json", run_dir / "manifest.json"],
+        )
+        self.assertFalse((run_dir / ".ledger_pending").exists())
+        self.assertFalse((earlier / ".ledger_pending").exists())
+
+    def test_stale_session_file_does_not_block_and_live_lock_is_exclusive(self) -> None:
+        lock = self.private_root / "capture-session.lock"
+        lock.write_bytes(b"\0")
+        with capture._capture_session_lock():
+            with self.assertRaises(OSError):
+                with capture._capture_session_lock():
+                    self.fail("A second live capture session acquired the lock")
+        with capture._capture_session_lock():
+            self.assertTrue(lock.exists())
 
 
 if __name__ == "__main__":

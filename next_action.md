@@ -808,3 +808,16 @@ py -3.11 scripts/run_king_tabpfn_development.py run `
 
 No TabPFN accuracy result exists yet. The frozen King XGBoost development
 result remains the comparison reference and G-US remains `PENDING`.
+
+## LightGBM diagnostic result
+
+The one-configuration LightGBM candidate completed all four frozen development
+fits in memory at commit `65e5ea0`. It produced 8.4268% MdAPE versus 8.2750% for
+XGBoost, improved only one of four windows, and failed the frozen screen.
+XGBoost remains the development reference. The public diagnostic report is
+`runs/king-lightgbm-memory-diagnostic-20261006-v1/report.md`.
+
+The registered artifact-producing LightGBM command remains pending because the
+C: volume reports zero free bytes. Repeat the committed runner when sufficient
+private-volume space exists; do not treat the no-write diagnostic as a complete
+experiment artifact.

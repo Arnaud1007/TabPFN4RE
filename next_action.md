@@ -2,6 +2,19 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## HCPA adjacent parcel corrections verified, 6 October 2026
+
+The [adjacent-release comparison](runs/u0-hcpa-parcel-release-diff-20261006-v1/report.md)
+verified 531,612 rows from the exact 2 October and 5 October parcel archives.
+Geometry and schema were unchanged, but 104 DBF records changed, including
+embedded sale dates/prices, assessed values, tax values and one PIN. This is
+direct evidence that later parcel releases cannot be backfilled into earlier
+valuation origins without leakage.
+
+Keep capturing new exact releases with `--new-only`. The immediate usable
+prediction result remains the saved King research model; HCPA training stays
+blocked until target semantics and permitted use are established.
+
 ## New HCPA parcel release captured, 6 October 2026
 
 The [new-release checkpoint](runs/u0-hcpa-new-release-20261006-v1/report.md)

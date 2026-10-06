@@ -781,3 +781,30 @@ tasks have been verified. Their next dependency is a real source with
 independently hashed raw bytes, permitted use, true target and availability
 semantics, and an audited property/unit mapping. The candidate market map
 does not open a real-data fit or substitute for those U0 checks.
+
+## Immediate TabPFN 3.5 status
+
+The newest official local candidate is pinned as `tabpfn==9.1.0` with
+`tabpfn-v3.5-20260909.safetensors`. The committed preflight is **BLOCKED before
+labels**. Exact evidence is in
+`runs/king-tabpfn-preflight-20261006-v1/preflight.json`.
+
+Current blockers are the absent package, CPU-only Torch runtime, insufficient
+private-volume space, unresolved authorized checkpoint revision and SHA-256,
+absent local checkpoint, and absent owner license decision. Do not download
+weights, accept terms automatically, or use remote inference.
+
+After those inputs are resolved, run:
+
+```powershell
+$env:PYTHONPATH = ".;src"
+py -3.11 scripts/run_king_tabpfn_development.py run `
+  --source data/raw/openml-king-42092/house_sales.arff `
+  --incumbent-predictions data/raw/king-benchmark/king-log-absolute-error-20261006-v1/predictions.csv `
+  --checkpoint data/raw/tabpfn/tabpfn-v3.5-20260909.safetensors `
+  --license-decision data/raw/tabpfn/tabpfn-v3.5-license-decision.json `
+  --output data/raw/king-benchmark/king-tabpfn-development-20261006-v1
+```
+
+No TabPFN accuracy result exists yet. The frozen King XGBoost development
+result remains the comparison reference and G-US remains `PENDING`.

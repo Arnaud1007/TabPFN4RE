@@ -92,3 +92,6 @@
 /locks/king-tabpfn-development.json -text
 /scripts/run_king_tabpfn_development.py -text
 /tests/test_king_tabpfn_development.py -text
+/runs/king-tabpfn-preflight-20261006-v1/preflight.json -text
+/runs/king-tabpfn-preflight-20261006-v1/report.md -text
+/runs/king-tabpfn-preflight-20261006-v1/test_gate.json -text

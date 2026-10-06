@@ -1,0 +1,28 @@
+{
+  "code_commit": "c57a104",
+  "commands": [
+    {
+      "command": "py -3.11 -m unittest tests.test_king_tabpfn_development -q",
+      "exit_code": 0,
+      "result": "18 tests passed; 1 symlink capability skip"
+    },
+    {
+      "command": "python -m coverage run --branch --source=scripts.run_king_tabpfn_development -m pytest tests/test_king_tabpfn_development.py -q",
+      "exit_code": 0,
+      "result": "17 tests passed; 1 skipped; 80% branch coverage"
+    },
+    {
+      "command": ".venv/Scripts/ruff.exe check scripts/run_king_tabpfn_development.py tests/test_king_tabpfn_development.py",
+      "exit_code": 0,
+      "result": "All checks passed"
+    },
+    {
+      "command": "py -3.11 scripts/run_king_tabpfn_development.py preflight --checkpoint data/raw/tabpfn/tabpfn-v3.5-20260909.safetensors --license-decision data/raw/tabpfn/tabpfn-v3.5-license-decision.json",
+      "exit_code": 3,
+      "result": "Expected blocked preflight; no labels opened"
+    }
+  ],
+  "gate_status": "BLOCKED",
+  "g_us_gate": "PENDING",
+  "model_result_available": false
+}

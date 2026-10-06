@@ -46,6 +46,7 @@ BASE_RESPONSE_KEYS = frozenset(
 ABSOLUTE_EXTENSION_KEYS = frozenset(
     {
         "bundle_protocol",
+        "inference_runtime",
         "objective",
         "training_cutoff_exclusive",
         "training_period",
@@ -179,6 +180,7 @@ def _validate_response(
     absolute_invalid = is_absolute and any(
         (
             response.get("reference_period") != ABSOLUTE_REFERENCE_PERIOD,
+            response.get("inference_runtime") != serving.ABSOLUTE_INFERENCE_RUNTIME,
             response.get("objective") != "reg:absoluteerror",
             response.get("training_cutoff_exclusive") != "2015-03-01",
             response.get("training_period") != "King County sales before March 2015",

@@ -6,6 +6,7 @@ import argparse
 from dataclasses import dataclass
 from datetime import date
 import hashlib
+from importlib import metadata
 import json
 import math
 import os
@@ -54,6 +55,7 @@ ABSOLUTE_RUNTIME = {
     "python": "3.11.6",
     "xgboost": "3.2.0",
 }
+ABSOLUTE_INFERENCE_RUNTIME = "stdlib_xgboost_json_v1"
 FHFA_SOURCE_SHA256 = "d664a8e2e92f64aa17201b3bdd84d0ab4d1a4d00e9c6c15d5b34fb400c10d842"
 FHFA_CBSA = "42644"
 FHFA_GEOGRAPHY = "Seattle-Bellevue-Kent, WA (MSAD)"
@@ -433,11 +435,20 @@ def load_predictor(
 ) -> LoadedPredictor:
     """Verify and deserialize a checkpoint once for a serving session."""
     bundle = load_bundle(bundle_dir, manifest_sha256)
-    if (
-        bundle.protocol == ABSOLUTE_PROTOCOL
-        and _absolute_runtime_versions() != ABSOLUTE_RUNTIME
-    ):
-        raise ValueError("Absolute-error bundle runtime is incompatible")
+    if bundle.protocol == ABSOLUTE_PROTOCOL:
+        if _absolute_runtime_versions() != ABSOLUTE_RUNTIME:
+            raise ValueError("Absolute-error bundle runtime is incompatible")
+        from scripts.king_xgboost_json import load_xgboost_json
+
+        model = load_xgboost_json(
+            bundle.model_bytes,
+            len(bundle.feature_names),
+            expected_objective=bundle.objective,
+        )
+        hpi_series = (
+            None if fhfa_source is None else _load_king_fhfa_series(fhfa_source)
+        )
+        return LoadedPredictor(bundle, model, hpi_series)
     from xgboost import XGBRegressor
 
     model = XGBRegressor()
@@ -447,15 +458,13 @@ def load_predictor(
 
 
 def _absolute_runtime_versions() -> dict[str, str]:
-    import numpy
-    import xgboost
-
+    """Read pinned package identities without importing scientific libraries."""
     return {
         "machine": platform.machine(),
-        "numpy": numpy.__version__,
+        "numpy": metadata.version("numpy"),
         "platform": platform.platform(),
         "python": platform.python_version(),
-        "xgboost": xgboost.__version__,
+        "xgboost": metadata.version("xgboost"),
     }
 
 
@@ -491,6 +500,11 @@ def _prediction_response(amount: float, bundle: VerifiedBundle) -> dict[str, obj
             "King County rolling development, November 2014-February 2015"
         ),
         "bundle_protocol": bundle.protocol,
+        "inference_runtime": (
+            ABSOLUTE_INFERENCE_RUNTIME
+            if bundle.protocol == ABSOLUTE_PROTOCOL
+            else "xgboost_native_v1"
+        ),
         "objective": bundle.objective,
         "training_cutoff_exclusive": bundle.training_cutoff_exclusive,
         "training_period": bundle.training_period,

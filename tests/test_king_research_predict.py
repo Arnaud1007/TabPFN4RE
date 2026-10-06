@@ -16,6 +16,7 @@ from contextlib import redirect_stderr, redirect_stdout
 
 from scripts.king_historical_benchmark import NUMERIC_FEATURES, SOURCE_SHA256
 from scripts import king_research_predict as serving
+from tests.test_king_xgboost_json import model_bytes
 
 
 REQUEST = {
@@ -95,10 +96,33 @@ class KingResearchPredictTests(unittest.TestCase):
         self.assertFalse(result["certified_90_day_origin"])
         self.assertEqual(result["g_us_gate"], "PENDING")
 
-    def test_absolute_predictor_fails_closed_on_runtime_drift(self) -> None:
+    def test_absolute_predictor_uses_dependency_free_json_runtime(self) -> None:
         verified = serving.VerifiedBundle(
-            FEATURE_NAMES,
-            b"model",
+            ("f0", "f1"),
+            model_bytes(objective="reg:absoluteerror"),
+            "a" * 64,
+            "b" * 64,
+            serving.ABSOLUTE_PROTOCOL,
+            "reg:absoluteerror",
+            "2015-03-01",
+        )
+        with (
+            patch.object(serving, "load_bundle", return_value=verified),
+            patch.object(
+                serving,
+                "_absolute_runtime_versions",
+                return_value=dict(serving.ABSOLUTE_RUNTIME),
+            ),
+            patch.dict(sys.modules, {"numpy": None, "xgboost": None}),
+        ):
+            predictor = serving.load_predictor(Path("bundle"), "a" * 64)
+
+        self.assertEqual(predictor.model.predict([[2.0, 99.0]]), (1.75,))
+
+    def test_absolute_predictor_rejects_runtime_drift_before_loading(self) -> None:
+        verified = serving.VerifiedBundle(
+            ("f0", "f1"),
+            model_bytes(objective="reg:absoluteerror"),
             "a" * 64,
             "b" * 64,
             serving.ABSOLUTE_PROTOCOL,

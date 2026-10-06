@@ -2,6 +2,19 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## New HCPA parcel release captured, 6 October 2026
+
+The [new-release checkpoint](runs/u0-hcpa-new-release-20261006-v1/report.md)
+used the clean-commit `--new-only` workflow against the official listing. It
+skipped unchanged All Sales bytes and captured only `parcels_10_05_2026.zip`.
+The private three-event ledger verifies its 155,508,715 bytes and classifies it
+as a new parcel release. Twenty-seven focused tests passed.
+
+This adds prospective property-source history without retraining. It still
+creates zero certified sale labels and does not resolve sale-date semantics,
+one-home consideration or commercial model-use rights. Run the same command
+when checking for later official releases; it will avoid duplicate downloads.
+
 ## HCPA prospective release ledger, 6 October 2026
 
 The [prospective ledger checkpoint](runs/u0-hcpa-prospective-ledger-20261006-v1/report.md)

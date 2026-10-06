@@ -1,0 +1,28 @@
+{
+  "captured_families": [
+    "parcels"
+  ],
+  "certified_sale_labels": 0,
+  "g_us_gate": "PENDING",
+  "implementation_commit": "f7958a94ab420977bae33cc1257db4cec69bda5b",
+  "ledger_observations": 3,
+  "ledger_sha256": "c8ba62169bf04912aaa71a1942688cb065a68d6a8b469826db73436dfcfe64e8",
+  "listing_checked_at_utc": "2026-10-06T00:30:18.804786Z",
+  "new_release": {
+    "bytes": 155508715,
+    "capture_completed_at_utc": "2026-10-06T00:30:31.715649Z",
+    "diff_status": "new_release",
+    "family": "parcels",
+    "filename": "parcels_10_05_2026.zip",
+    "sha256": "b6451f5889fd63aa621d4d0266c25c1f7e2b95dfdca6f9ea0f498108c31188c6"
+  },
+  "observed_filenames": {
+    "allsales": "allsales_09_18_2026.zip",
+    "parcels": "parcels_10_05_2026.zip"
+  },
+  "protocol": "hcpa_new_release_capture_v1",
+  "skipped_existing_families": [
+    "allsales"
+  ],
+  "status": "observed_not_qualified"
+}

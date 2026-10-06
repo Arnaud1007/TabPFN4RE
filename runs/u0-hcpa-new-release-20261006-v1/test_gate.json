@@ -1,0 +1,16 @@
+{
+  "branch_coverage_percent": {
+    "capture_hcpa_release": 87,
+    "hcpa_release_observation_ledger": 86
+  },
+  "code_review": "passed",
+  "compile": "passed",
+  "errors": 0,
+  "failures": 0,
+  "focused_tests": 27,
+  "live_command_exit_code": 0,
+  "python_review": "passed",
+  "ruff": "passed",
+  "security_review": "passed",
+  "status": "passed"
+}

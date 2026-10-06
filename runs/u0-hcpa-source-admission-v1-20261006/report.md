@@ -76,4 +76,3 @@ arrives, preserve it as bounded evidence, review rights and semantics, and
 design a new acceptance protocol. Only after source admission and the separate
 fit-readiness gate pass should the project implement the atomic one-run ledger
 and execute the single frozen OFF baseline fit.
-

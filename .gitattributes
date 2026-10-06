@@ -80,3 +80,8 @@
 /decisions/0087-cook-sale-validation-version-boundary.md -text
 /data/requests/cook_county_sales_inquiry_draft.md -text
 /data/source_cards/cook_county_parcel_sales.yaml -text
+/data/model_policies/hcpa_off_absolute_error_v1.json -text
+/data/source_admission/hcpa_allsales_v1.json -text
+/decisions/0109-hcpa-off-baseline-readiness.md -text
+/scripts/hcpa_source_admission.py -text
+/tests/test_hcpa_source_admission.py -text

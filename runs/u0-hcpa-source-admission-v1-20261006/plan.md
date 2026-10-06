@@ -25,4 +25,3 @@ and atomically reserves the declared single fit in a run ledger.
 3. Invoke the production CLI twice and compare its exact output.
 4. Hash the implementation, tests, admission record, model policy, and ADR.
 5. Publish only privacy-safe metadata and observed outcomes.
-

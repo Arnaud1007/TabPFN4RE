@@ -20,6 +20,8 @@ The earlier 08:58 parcel attempt was not imported because its older manifest lac
 - Python compile checks passed.
 - Code, Python and security reviews found no remaining commit-blocking issue.
 - Both private ZIP digests and byte counts were recomputed during registration.
+- The broader suite ran 1,517 tests in the lightweight environment: 1,508 passed, two skipped and seven lacked optional NumPy/scikit-learn dependencies.
+- Those exact seven dependency-bearing tests then passed in the pinned model environment. See [test_gate.json](test_gate.json).
 
 The chain detects accidental alteration within the trusted private workspace. Its hashes are not an external signature or write-once archive.
 

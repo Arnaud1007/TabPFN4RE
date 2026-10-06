@@ -1,0 +1,34 @@
+{
+  "compile": "passed",
+  "coverage": {
+    "capture_hcpa_release_branch_percent": 86,
+    "hcpa_release_observation_ledger_branch_percent": 86
+  },
+  "dependency_tests_pinned_model_environment": {
+    "command": "pinned model Python: exact seven dependency-bearing tests",
+    "errors": 0,
+    "failures": 0,
+    "ran": 7,
+    "skipped": 0
+  },
+  "focused_tests": {
+    "command": ".venv Python unittest: HCPA ledger and capture modules",
+    "errors": 0,
+    "failures": 0,
+    "ran": 19,
+    "skipped": 0
+  },
+  "format": "passed",
+  "interpretation": "All executed assertions passed in an environment containing their declared dependencies. Two pre-existing suite skips remain; no code failure was observed.",
+  "lint": "passed",
+  "project_suite_lightweight_environment": {
+    "command": ".venv Python unittest discover",
+    "duration_seconds": 311.974,
+    "errors_missing_optional_dependencies": 7,
+    "failures": 0,
+    "passed": 1508,
+    "ran": 1517,
+    "skipped": 2
+  },
+  "status": "passed_with_documented_environment_split"
+}

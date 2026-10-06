@@ -90,6 +90,48 @@ class KingFeatureFamilyDevelopmentTests(unittest.TestCase):
             family.read_source_snapshot(source)
         reader.assert_not_called()
 
+    def test_source_snapshot_rejects_missing_changed_and_non_utf8_sources(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with self.assertRaisesRegex(ValueError, "could not be inspected"):
+                family.read_source_snapshot(root / "missing.arff")
+            changed = root / "changed.arff"
+            changed.write_bytes(b"changed")
+            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+                family.read_source_snapshot(changed)
+            invalid_utf8 = root / "invalid.arff"
+            invalid_utf8.write_bytes(b"\xff")
+            with (
+                patch.object(
+                    family,
+                    "SOURCE_SHA256",
+                    hashlib.sha256(invalid_utf8.read_bytes()).hexdigest(),
+                ),
+                self.assertRaisesRegex(ValueError, "not UTF-8"),
+            ):
+                family.read_source_snapshot(invalid_utf8)
+
+    def test_development_reader_rejects_bad_added_features_and_row_count(self) -> None:
+        header = [f"@ATTRIBUTE {name} NUMERIC" for name in COLUMNS] + ["@DATA"]
+        invalid = source_line("1", "20150201T000000", "not-a-number")
+        future = source_line("2", "20150301T000000")
+        with (
+            patch.object(
+                family,
+                "read_source_snapshot",
+                return_value=header + [invalid] + [future] * 21_612,
+            ),
+            self.assertRaisesRegex(ValueError, "Added source feature is invalid"),
+        ):
+            family.read_development_source(Path("ignored"))
+        with (
+            patch.object(
+                family, "read_source_snapshot", return_value=header + [future]
+            ),
+            self.assertRaisesRegex(ValueError, "row count"),
+        ):
+            family.read_development_source(Path("ignored"))
+
     def test_encoding_appends_exact_joint_family_without_changing_base_constants(
         self,
     ) -> None:
@@ -138,6 +180,24 @@ class KingFeatureFamilyDevelopmentTests(unittest.TestCase):
         ):
             family.load_incumbent_manifest()
 
+    def test_incumbent_manifest_rejects_changed_bytes_and_non_object(self) -> None:
+        with (
+            patch.object(family, "read_regular_snapshot", return_value=b"{}"),
+            self.assertRaisesRegex(ValueError, "manifest hash"),
+        ):
+            family.load_incumbent_manifest()
+        content = b"[]"
+        with (
+            patch.object(family, "read_regular_snapshot", return_value=content),
+            patch.object(
+                family,
+                "INCUMBENT_MANIFEST_SHA256",
+                hashlib.sha256(content).hexdigest(),
+            ),
+            self.assertRaisesRegex(TypeError, "must be an object"),
+        ):
+            family.load_incumbent_manifest()
+
     def test_runtime_verifier_maps_incumbent_lock_identity(self) -> None:
         verifier = Mock(return_value={"python": "3.11.6"})
         with patch.object(family, "verify_runtime_versions", verifier):
@@ -178,6 +238,35 @@ class KingFeatureFamilyDevelopmentTests(unittest.TestCase):
                 {"outputs": {"predictions.csv": tampered_digest}},
                 windows,
             )
+
+    def test_incumbent_predictions_reject_schema_count_and_invalid_value(self) -> None:
+        valid = sale("valid", date(2014, 11, 1), "125000")
+        windows = (("2014-11", (), (valid,)),)
+
+        def assert_rejected(payload: bytes, message: str) -> None:
+            digest = hashlib.sha256(payload).hexdigest()
+            with (
+                patch.object(family, "read_regular_snapshot", return_value=payload),
+                patch.object(family, "INCUMBENT_PREDICTION_SHA256", digest),
+                self.assertRaisesRegex(ValueError, message),
+            ):
+                family.read_incumbent_predictions(
+                    Path("ignored"),
+                    {"outputs": {"predictions.csv": digest}},
+                    windows,
+                )
+
+        assert_rejected(b"wrong,columns\n", "schema")
+        assert_rejected(
+            (",".join(family.INCUMBENT_COLUMNS) + "\n").encode(), "membership"
+        )
+        assert_rejected(
+            (
+                ",".join(family.INCUMBENT_COLUMNS)
+                + "\nvalid,2014-11-01,2014-11,125000,123000,nan\n"
+            ).encode(),
+            "invalid",
+        )
 
     def test_selection_rule_boundaries(self) -> None:
         incumbent = SimpleNamespace(

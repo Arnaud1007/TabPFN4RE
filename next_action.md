@@ -2,6 +2,20 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## Three-field King ablation rejected, 6 October 2026
+
+The [three-field development ablation](runs/king-three-field-ablation-20261006-v1/report.md)
+completed four fixed fits in 22.94 seconds. Adding `yr_renovated`,
+`sqft_living15`, and `sqft_lot15` together worsened pooled MdAPE from 8.2750%
+to 8.3664% and improved only one of four windows. Keep the log absolute-error
+incumbent and do not test these fields individually on the same windows.
+
+The next model-critical task is one fixed OFF baseline on a source whose
+point-in-time fields, transaction scope, and use rights have cleared. Until
+then, use the saved King bundle for immediate historical research predictions;
+do not reopen March-May labels or start another King feature search. G-US
+remains **PENDING**.
+
 ## Prediction result and latency verified, 6 October 2026
 
 The [batched ACL latency checkpoint](runs/king-batched-acl-latency-20261006-v1/report.md)

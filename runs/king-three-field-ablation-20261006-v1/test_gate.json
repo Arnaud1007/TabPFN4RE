@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "experiment_verdict": "reject_challenger",
+  "tests_passed": 13,
+  "tests_skipped_environmental": 1,
+  "branch_coverage_percent": 85,
+  "evaluation_rows": 5108,
+  "improved_windows": 1,
+  "incumbent_mdape": 0.08274982143970246,
+  "challenger_mdape": 0.0836637661124407,
+  "challenger_within_10": 0.5749804228660924,
+  "challenger_p90_ape": 0.26756082990844693,
+  "future_renovation_values_replaced": 6,
+  "march_may_labels_parsed": 0,
+  "march_may_rows_scored": 0,
+  "duration_seconds": 22.94,
+  "promotion_eligible": false,
+  "aggregate_sha256": "04f1e5f357f7bc95983ec9ed634b6881bfab4f1e3d5bca82bba278cede072e4f",
+  "manifest_sha256": "8aee57099e17e0a3fd9342fae4de88c7efe84f0b83fb2c6d311c7664a2b6c3b4",
+  "g_us_gate": "PENDING",
+  "subtests_passed": 3
+}

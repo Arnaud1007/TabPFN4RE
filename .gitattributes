@@ -99,3 +99,4 @@
 /locks/king-lightgbm-development.json -text
 /scripts/run_king_lightgbm_development.py -text
 /tests/test_king_lightgbm_development.py -text
+/runs/king-lightgbm-memory-diagnostic-20261006-v1/report.md -text

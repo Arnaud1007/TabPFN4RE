@@ -2,6 +2,25 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## HCPA source-admission gate is executable and pending, 6 October 2026
+
+The [source-admission verification](runs/u0-hcpa-source-admission-v1-20261006/report.md)
+passes 58 focused tests with two Windows symlink-creation skips, 92% branch
+coverage, and Ruff checks. Two production CLI invocations returned identical
+results: `status=pending`, `source_admitted=false`, and
+`model_fit_permitted=false`. The three fit-readiness blockers are pending
+semantic feature flags, historical property attributes, and eligibility
+rules. No HCPA archive, row, private ledger, model artifact, or model fit was
+used.
+
+The v1 validator intentionally cannot admit the source. Send the approved
+custodian inquiry through the owner's authenticated mail client. A later
+reviewed protocol must authenticate the response, verify all four source
+findings, clear the separate fit-readiness gate, and implement an atomic
+one-run ledger before the frozen HCPA OFF baseline may run.
+
+**Exact local recheck:** `& '.venv/Scripts/python.exe' -m scripts.hcpa_source_admission`
+
 ## HCPA custodian recipient revalidated, 6 October 2026
 
 The [recipient revalidation](runs/u0-hcpa-custodian-revalidation-20261006-v1/report.md)

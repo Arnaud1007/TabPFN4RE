@@ -1,0 +1,61 @@
+{
+  "run_id": "u0-hcpa-source-admission-v1-20261006",
+  "status": "verified_pending",
+  "environment": {
+    "python": "3.11.6",
+    "pytest": "9.0.2",
+    "coverage": "7.16.2",
+    "ruff": "0.13.0",
+    "platform": "Windows"
+  },
+  "checks": [
+    {
+      "name": "focused_tests_and_branch_coverage",
+      "command": ".venv/Scripts/python.exe -m coverage run --branch --include=scripts/hcpa_source_admission.py -m pytest tests/test_hcpa_source_admission.py -q -rs",
+      "exit_code": 0,
+      "observed": "58 passed, 2 skipped in 0.95s; skips report file and directory symlink creation unavailable",
+      "output": "focused_tests.log"
+    },
+    {
+      "name": "coverage_report",
+      "command": ".venv/Scripts/python.exe -m coverage report -m scripts/hcpa_source_admission.py",
+      "exit_code": 0,
+      "observed": "92% branch-aware coverage (276 statements, 22 missed; 122 branches, 9 partial)",
+      "output": "coverage.log"
+    },
+    {
+      "name": "ruff_lint",
+      "command": ".venv/Scripts/ruff.exe check scripts/hcpa_source_admission.py tests/test_hcpa_source_admission.py",
+      "exit_code": 0,
+      "observed": "All checks passed",
+      "output": "ruff_check.log"
+    },
+    {
+      "name": "ruff_format",
+      "command": ".venv/Scripts/ruff.exe format --check scripts/hcpa_source_admission.py tests/test_hcpa_source_admission.py",
+      "exit_code": 0,
+      "observed": "2 files already formatted",
+      "output": "ruff_format.log"
+    },
+    {
+      "name": "production_cli_repeatability",
+      "command": ".venv/Scripts/python.exe -m scripts.hcpa_source_admission (run twice)",
+      "exit_code": 0,
+      "observed": "identical pending result; source_admitted=false; model_fit_permitted=false; three fit-readiness blockers",
+      "outputs": ["cli_first.json", "cli_second.json"],
+      "output_sha256": "8c3d8b36d220004f3a6a8b279e98926b3673fc0b7967c847bf6c81efe1410cd6"
+    }
+  ],
+  "model_fit_executed": false,
+  "private_data_accessed": false,
+  "gate": {
+    "source_admitted": false,
+    "model_fit_permitted": false,
+    "fit_readiness_status": "blocked",
+    "blockers": [
+      "semantic_feature_flags_pending",
+      "historical_property_attributes_pending",
+      "eligibility_rules_pending"
+    ]
+  }
+}

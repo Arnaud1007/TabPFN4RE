@@ -1,0 +1,32 @@
+{
+  "run_id": "u0-hcpa-source-admission-v1-20261006",
+  "captured_on": "2026-10-06",
+  "base_commit": "9311fb3baac3c1a8b5cc322b4f228d87632102dd",
+  "dirty_tree_during_verification": true,
+  "status": "verified_pending",
+  "inputs": {
+    "scripts/hcpa_source_admission.py": "fd835a5ac8162e826a1c63d961f13d4b9a2f9cf69fb16885b163d0548b30dd8d",
+    "tests/test_hcpa_source_admission.py": "6d90a224c80c941d335f532b5c3ea3e5f82450c3efe37e83250dfc990f2aa954",
+    "decisions/0109-hcpa-off-baseline-readiness.md": "12b422f03ee193e23c5d4289da51f0891f217abe860da12effff0e38a59c2ea3",
+    "data/source_admission/hcpa_allsales_v1.json": "f03f69f2cb8b660c2e80dbc89630a4346278fdbaf5deb2752e307cc34771a320",
+    "data/model_policies/hcpa_off_absolute_error_v1.json": "d397c7a07dc82d11ad629465acb17be99d98d54cdffd0d0835f57420e9f5f49d"
+  },
+  "outputs": {
+    "plan.md": "a15101ce905938222b2c13a40fd65fb994d8db0e1e0cfd8a2c9f15d3e5d2db82",
+    "report.md": "8e0b83ca9fa1af41850fde011902cd88618fed3d348d0402e67886c291f07c1e",
+    "test_gate.json": "69fcaa4874cc07e571bf780b3545157383a65cb3f39d1228cee845fc9a6faf67",
+    "focused_tests.log": "349811cc2f75ecc594fa7a70d1b52e4f7de5a9874d0647c6f1380ce1fc9fe5f1",
+    "coverage.log": "91971960a52b98b88a1c23925291518a60259a744c8a4761c6c258686ed91d94",
+    "ruff_check.log": "af352a86840ad0af3d37ea0d9197f868363a6dac6b1c2ef5d2722f6b41d2d9af",
+    "ruff_format.log": "1ba32d724ec0aa587aba7888f97338980bc34aae522616cf9f35d4e0b38e574d",
+    "cli_first.json": "8c3d8b36d220004f3a6a8b279e98926b3673fc0b7967c847bf6c81efe1410cd6",
+    "cli_second.json": "8c3d8b36d220004f3a6a8b279e98926b3673fc0b7967c847bf6c81efe1410cd6"
+  },
+  "privacy": {
+    "contains_raw_rows": false,
+    "contains_addresses": false,
+    "contains_private_ledger_data": false,
+    "contains_model_artifacts": false
+  },
+  "model_fit_executed": false
+}

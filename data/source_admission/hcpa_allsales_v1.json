@@ -1,0 +1,56 @@
+{
+    "schema_version":  "hcpa_source_admission_v1",
+    "source_id":  "hillsborough_hcpa_allsales",
+    "status":  "pending",
+    "admitted":  false,
+    "decision":  {
+                     "kind":  "decision",
+                     "path":  "decisions/0109-hcpa-off-baseline-readiness.md",
+                     "sha256":  "12b422f03ee193e23c5d4289da51f0891f217abe860da12effff0e38a59c2ea3"
+                 },
+    "evidence":  [
+
+                 ],
+    "findings":  [
+                     {
+                         "evidence_sha256":  [
+
+                                             ],
+                         "status":  "unknown",
+                         "type":  "closing_date_semantics"
+                     },
+                     {
+                         "evidence_sha256":  [
+
+                                             ],
+                         "status":  "unknown",
+                         "type":  "historical_availability"
+                     },
+                     {
+                         "evidence_sha256":  [
+
+                                             ],
+                         "status":  "unknown",
+                         "type":  "transaction_grouping_and_exclusion"
+                     },
+                     {
+                         "evidence_sha256":  [
+
+                                             ],
+                         "status":  "unknown",
+                         "type":  "use_rights"
+                     }
+                 ],
+    "requirements":  {
+                         "s_date_is_closing_date":  false,
+                         "conservative_availability_method":  false,
+                         "deterministic_grouping_and_exclusion":  false,
+                         "rights":  {
+                                        "research_training":  false,
+                                        "commercial_training":  false,
+                                        "commercial_serving":  false,
+                                        "derived_artifacts":  false,
+                                        "comparable_display":  false
+                                    }
+                     }
+}

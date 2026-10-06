@@ -6,6 +6,7 @@ import argparse
 import csv
 import hashlib
 import importlib.metadata
+import io
 import json
 import math
 import os
@@ -14,38 +15,58 @@ import shutil
 import subprocess
 import tempfile
 import time
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from contextlib import contextmanager
 from decimal import Decimal
 from pathlib import Path
 
-from scripts.king_historical_benchmark import Sale, encode_features
+from scripts.king_historical_benchmark import (
+    FEATURES,
+    SOURCE_SHA256,
+    Sale,
+    encode_features,
+)
 from scripts.private_review_io import real_directory, secure_directory, verify_acl
-from scripts.run_king_lightgbm_development import (
-    FROZEN_MANIFEST_SHA256,
-    FROZEN_PREDICTION_SHA256,
-    FROZEN_SPLIT_SHA256,
-    PRIVATE_ROOT,
-    WINDOWS,
-    load_frozen_manifest,
-    monthly_windows,
-    parse_frozen_incumbent,
+from scripts.run_king_absolute_error_development import (
+    MAX_MANIFEST_BYTES,
+    MAX_PREDICTION_BYTES,
     read_development_source,
-    read_frozen_prediction_snapshot,
-    verify_frozen_design,
+    read_regular_snapshot,
+)
+from scripts.run_king_comparable_development import (
+    membership_for,
     verify_frozen_membership,
 )
-from scripts.run_king_comparable_development import membership_for
 from scripts.run_king_historical_benchmark import (
+    PRIVATE_ROOT,
     _committed_code,
     _score,
     _score_summary,
 )
+from scripts.run_king_rolling_development import WINDOWS, monthly_windows
 
 ROOT = Path(__file__).resolve().parents[1]
+FROZEN_MANIFEST = (
+    ROOT / "runs/king-log-absolute-error-development-20261006-v1/manifest.json"
+)
+FROZEN_MANIFEST_SHA256 = (
+    "6b28a8bd0e22f9c0856c2faf15568992d2c139f24d51b63928d550f13bf108c5"
+)
+FROZEN_SPLIT_SHA256 = "47571792f8aa400a914169c4cd71f536942a0c9b1feb55d2b3ec1805608014ab"
+FROZEN_PREDICTION_SHA256 = (
+    "c895e704ce57526c76e015f377c6435f56ca9b8d6611c3026eabdc70d6d32ffe"
+)
+INCUMBENT_COLUMNS = (
+    "row_id",
+    "sale_date",
+    "window",
+    "actual_usd",
+    "xgboost_usd",
+    "xgboost_log_absolute_error_usd",
+)
 DECLARED_LOCK = ROOT / "locks/king-tabpfn-development.json"
 DECLARED_LOCK_SHA256 = (
-    "5fdad383cdaa8141f18783b5a3fd4383b3e464a7b7690a475c47612a9b7f187b"
+    "84ab3838a68e9a2802afcba2abf23964d54858b213d956a6f559be80896dc7f1"
 )
 MAX_LOCK_BYTES = 20_000
 MAX_LICENSE_BYTES = 20_000
@@ -100,6 +121,85 @@ def _load_lock() -> dict[str, object]:
     if not isinstance(value, dict):
         raise ValueError("Declared lock must be an object")
     return value
+
+
+def load_frozen_manifest() -> dict[str, object]:
+    content = read_regular_snapshot(
+        FROZEN_MANIFEST, MAX_MANIFEST_BYTES, "Frozen absolute-error manifest"
+    )
+    if hashlib.sha256(content).hexdigest() != FROZEN_MANIFEST_SHA256:
+        raise ValueError("Frozen absolute-error manifest hash is incompatible")
+    try:
+        value = json.loads(content.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("Frozen absolute-error manifest is invalid") from error
+    if not isinstance(value, dict):
+        raise TypeError("Frozen absolute-error manifest must be an object")
+    return value
+
+
+def verify_frozen_design(frozen: Mapping[str, object]) -> None:
+    expected_feature_hash = hashlib.sha256(
+        json.dumps(FEATURES, separators=(",", ":")).encode()
+    ).hexdigest()
+    if (
+        frozen.get("protocol") != "king_log_absolute_error_development_screen_v1"
+        or frozen.get("status") != "complete"
+        or frozen.get("source_sha256") != SOURCE_SHA256
+        or frozen.get("frozen_rolling_split_sha256") != FROZEN_SPLIT_SHA256
+        or frozen.get("feature_policy_sha256") != expected_feature_hash
+        or frozen.get("prediction_artifact_sha256") != FROZEN_PREDICTION_SHA256
+    ):
+        raise ValueError("Frozen incumbent design is incompatible")
+
+
+def read_frozen_prediction_snapshot(path: Path, frozen: Mapping[str, object]) -> bytes:
+    """Hash-bind the incumbent artifact before any source label is opened."""
+    content = read_regular_snapshot(
+        path, MAX_PREDICTION_BYTES, "Frozen absolute-error predictions"
+    )
+    outputs = frozen.get("outputs")
+    if (
+        frozen.get("prediction_artifact_sha256") != FROZEN_PREDICTION_SHA256
+        or not isinstance(outputs, dict)
+        or outputs.get("predictions.csv") != FROZEN_PREDICTION_SHA256
+        or hashlib.sha256(content).hexdigest() != FROZEN_PREDICTION_SHA256
+    ):
+        raise ValueError("Frozen incumbent prediction hash is incompatible")
+    return content
+
+
+def parse_frozen_incumbent(
+    content: bytes,
+    windows: Sequence[tuple[str, Sequence[Sale], Sequence[Sale]]],
+) -> dict[str, tuple[float, ...]]:
+    """Validate a hash-bound incumbent snapshot against frozen row membership."""
+    try:
+        reader = csv.DictReader(io.StringIO(content.decode("utf-8"), newline=""))
+    except UnicodeDecodeError as error:
+        raise ValueError("Frozen incumbent predictions are not UTF-8") from error
+    if tuple(reader.fieldnames or ()) != INCUMBENT_COLUMNS:
+        raise ValueError("Frozen incumbent prediction schema is incompatible")
+    rows = list(reader)
+    expected = tuple(
+        (name, row) for name, _, validation in windows for row in validation
+    )
+    if len(rows) != len(expected):
+        raise ValueError("Frozen incumbent prediction membership is incompatible")
+    loaded: dict[str, list[float]] = {name: [] for name, _, _ in windows}
+    for row, (expected_window, expected_sale) in zip(rows, expected, strict=True):
+        if (
+            row["row_id"] != expected_sale.row_id
+            or row["window"] != expected_window
+            or row["sale_date"] != expected_sale.sale_date.isoformat()
+            or Decimal(row["actual_usd"]) != expected_sale.price
+        ):
+            raise ValueError("Frozen incumbent prediction membership is incompatible")
+        prediction = float(row["xgboost_log_absolute_error_usd"])
+        if not math.isfinite(prediction) or prediction <= 0:
+            raise ValueError("Frozen incumbent prediction is invalid")
+        loaded[expected_window].append(prediction)
+    return {name: tuple(values) for name, values in loaded.items()}
 
 
 def package_version() -> str | None:
@@ -513,7 +613,8 @@ def run(
     frozen = load_frozen_manifest()
     verify_frozen_design(frozen)
     incumbent_snapshot = read_frozen_prediction_snapshot(incumbent_predictions, frozen)
-    sales, source_hash = read_development_source(source)
+    sales = read_development_source(source)
+    source_hash = SOURCE_SHA256
     windows = monthly_windows(sales)
     membership = membership_for(windows)
     verify_frozen_membership(membership, frozen)

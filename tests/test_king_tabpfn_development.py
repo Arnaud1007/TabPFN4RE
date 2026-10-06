@@ -22,6 +22,9 @@ def sale(row_id: str, when: date, price: str = "100000") -> Sale:
 
 
 class KingTabPFNDevelopmentTests(unittest.TestCase):
+    def test_committed_lock_matches_the_runner_hash(self) -> None:
+        self.assertEqual(tabpfn_run._load_lock(), tabpfn_run.EXPECTED_LOCK)
+
     def test_runtime_identity_and_exact_lock_validation(self) -> None:
         fake_torch = SimpleNamespace(
             __version__="2.10.0+cpu", version=SimpleNamespace(cuda=None)

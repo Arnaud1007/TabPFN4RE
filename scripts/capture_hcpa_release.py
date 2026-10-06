@@ -14,6 +14,7 @@ import re
 import secrets
 import subprocess
 from time import monotonic
+from typing import Any, Callable
 from urllib.parse import urlencode
 from urllib.request import (
     HTTPRedirectHandler,
@@ -22,6 +23,7 @@ from urllib.request import (
     build_opener,
 )
 
+from scripts import capture_hcpa_download_listing as hcpa_listing
 from scripts.private_review_io import (
     advisory_lock,
     new_file,
@@ -29,7 +31,7 @@ from scripts.private_review_io import (
     secure_directory,
     verify_acl,
 )
-from scripts.hcpa_release_observation_ledger import append_observation
+from scripts.hcpa_release_observation_ledger import append_observation, replay
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -365,26 +367,109 @@ def capture(
         )
 
 
+def capture_new_releases(
+    *,
+    opener: Callable[..., Any],
+    clock: Callable[[], datetime],
+    force: bool = False,
+) -> dict[str, object]:
+    """Capture only exact current filenames absent from the private ledger."""
+    prepare_private_root()
+    with _capture_session_lock():
+        _resume_pending_registrations()
+        checked_at = clock()
+        raw_listing = hcpa_listing.fetch_listing(opener)
+        observed = hcpa_listing.parse_listing(raw_listing)
+        for family in FILE_NAMES:
+            _validate_request(family, observed[family]["filename"])
+        entries = replay(PRIVATE_ROOT / "observations.jsonl", PRIVATE_ROOT)
+        represented = {(item["family"], item["listed_filename"]) for item in entries}
+        captured: list[str] = []
+        skipped: list[str] = []
+        rechecked: list[str] = []
+        for family in FILE_NAMES:
+            filename = observed[family]["filename"]
+            was_represented = (family, filename) in represented
+            if not force and was_represented:
+                skipped.append(family)
+                continue
+            run_id = (
+                f"hcpa-{family}-{clock().strftime('%Y%m%dT%H%M%SZ')}-"
+                f"{secrets.token_hex(4)}"
+            )
+            _capture_locked(
+                PRIVATE_ROOT / run_id,
+                family,
+                filename,
+                opener=opener,
+                clock=clock,
+                register_ledger=True,
+            )
+            captured.append(family)
+            if was_represented:
+                rechecked.append(family)
+        return {
+            "status": "complete",
+            "source_url": SOURCE_URL,
+            "checked_at_utc": _timestamp(checked_at),
+            "observed_filenames": {
+                family: observed[family]["filename"] for family in FILE_NAMES
+            },
+            "captured_families": captured,
+            "skipped_existing_families": skipped,
+            "rechecked_existing_families": rechecked,
+            "certified_sale_labels": 0,
+            "g_us_gate": "PENDING",
+        }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("family", choices=sorted(FILE_NAMES))
-    parser.add_argument("expected_filename")
-    args = parser.parse_args()
-    _validate_request(args.family, args.expected_filename)
-    prepare_private_root()
-    opener = build_opener(HTTPCookieProcessor(CookieJar()), _NoRedirect()).open
-    run_id = f"hcpa-{args.family}-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-{secrets.token_hex(4)}"
-    result = capture(
-        PRIVATE_ROOT / run_id,
-        args.family,
-        args.expected_filename,
-        opener=opener,
-        clock=lambda: datetime.now(UTC),
-        register_ledger=True,
+    parser.add_argument("family", nargs="?", choices=sorted(FILE_NAMES))
+    parser.add_argument("expected_filename", nargs="?")
+    parser.add_argument(
+        "--new-only",
+        action="store_true",
+        help="capture current filenames only when absent from the release ledger",
     )
+    parser.add_argument(
+        "--force-current",
+        action="store_true",
+        help="with --new-only, re-download current filenames to detect corrections",
+    )
+    args = parser.parse_args()
+    opener = build_opener(HTTPCookieProcessor(CookieJar()), _NoRedirect()).open
+    if args.new_only:
+        if args.family is not None or args.expected_filename is not None:
+            parser.error("--new-only does not accept family or filename")
+        result = capture_new_releases(
+            opener=opener,
+            clock=lambda: datetime.now(UTC),
+            force=args.force_current,
+        )
+    else:
+        if args.force_current:
+            parser.error("--force-current requires --new-only")
+        if args.family is None or args.expected_filename is None:
+            parser.error("family and expected_filename are required")
+        _validate_request(args.family, args.expected_filename)
+        prepare_private_root()
+        run_id = f"hcpa-{args.family}-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-{secrets.token_hex(4)}"
+        captured_result = capture(
+            PRIVATE_ROOT / run_id,
+            args.family,
+            args.expected_filename,
+            opener=opener,
+            clock=lambda: datetime.now(UTC),
+            register_ledger=True,
+        )
+        result = {
+            **captured_result,
+            "private_run_dir": str(PRIVATE_ROOT / run_id),
+        }
     print(
         json.dumps(
-            {**result, "private_run_dir": str(PRIVATE_ROOT / run_id)},
+            result,
             indent=2,
             sort_keys=True,
         )

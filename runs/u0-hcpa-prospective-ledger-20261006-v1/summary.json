@@ -1,0 +1,29 @@
+{
+  "certified_sale_labels": 0,
+  "counts_by_diff_status": {
+    "first_observation": 2
+  },
+  "counts_by_family": {
+    "allsales": 1,
+    "parcels": 1
+  },
+  "g_us_gate": "PENDING",
+  "implementation_commit": "3dce229736506d558b2ff948af7fc313847f1e83",
+  "latest_by_family": {
+    "allsales": {
+      "diff_status": "first_observation",
+      "file_sha256": "847854d9139fe3811506991d3c41d961581a92a648bb661c4bd9d166591366c7",
+      "listed_filename": "allsales_09_18_2026.zip",
+      "observed_at_utc": "2026-10-05T09:14:57Z"
+    },
+    "parcels": {
+      "diff_status": "first_observation",
+      "file_sha256": "1443f2068fe52d8d04d0d91da047a25b2868ec090f47a95cbac9c44d313c1f39",
+      "listed_filename": "parcels_10_02_2026.zip",
+      "observed_at_utc": "2026-10-05T09:12:00Z"
+    }
+  },
+  "ledger_sha256": "a8ce7c4d2a191a6f9d92a73c783a476f4dcce6d82dc7c97a93d9027a136e177d",
+  "observation_count": 2,
+  "schema_version": "hcpa_release_observation_v1"
+}

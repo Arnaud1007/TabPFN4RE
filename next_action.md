@@ -2,6 +2,22 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## HCPA prospective release ledger, 6 October 2026
+
+The [prospective ledger checkpoint](runs/u0-hcpa-prospective-ledger-20261006-v1/report.md)
+registered the two accepted exact-byte HCPA captures in independent parcel and
+All Sales chains. Nineteen focused tests passed with 86% branch coverage on
+the new ledger and changed capture path. Future capture commands now append
+new, repeated or corrected observations automatically and recover interrupted
+registration without a stale-lock dead end.
+
+This establishes this workspace's first-seen evidence from 5 October onward;
+it does not resolve closing-date meaning, one-home consideration, historical
+publication or commercial model-use rights. Keep the fast saved King predictor
+as the immediate runnable result. Capture HCPA again only when a new official
+release appears, and train one fixed HCPA OFF baseline only after source
+semantics, rights and matured prospective labels clear.
+
 ## HCPA retrospective no-go, 6 October 2026
 
 The [bounded HCPA review](runs/u0-hcpa-review-batch-20261006-v1/report.md)

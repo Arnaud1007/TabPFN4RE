@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+import csv
+import io
 import json
 import math
 import tempfile
@@ -24,6 +26,51 @@ def sale(row_id: str, when: date, price: str = "100000") -> Sale:
 class KingTabPFNDevelopmentTests(unittest.TestCase):
     def test_committed_lock_matches_the_runner_hash(self) -> None:
         self.assertEqual(tabpfn_run._load_lock(), tabpfn_run.EXPECTED_LOCK)
+
+    def test_frozen_incumbent_helpers_validate_design_snapshot_and_rows(self) -> None:
+        frozen = tabpfn_run.load_frozen_manifest()
+        tabpfn_run.verify_frozen_design(frozen)
+        validation = (sale("v", date(2014, 11, 1), "120000"),)
+        windows = (("2014-11", (), validation),)
+        buffer = io.StringIO(newline="")
+        writer = csv.DictWriter(buffer, fieldnames=tabpfn_run.INCUMBENT_COLUMNS)
+        writer.writeheader()
+        writer.writerow(
+            {
+                "row_id": "v",
+                "sale_date": "2014-11-01",
+                "window": "2014-11",
+                "actual_usd": "120000",
+                "xgboost_usd": "118000",
+                "xgboost_log_absolute_error_usd": "119000",
+            }
+        )
+        content = buffer.getvalue().encode()
+        self.assertEqual(
+            tabpfn_run.parse_frozen_incumbent(content, windows),
+            {"2014-11": (119000.0,)},
+        )
+        with self.assertRaisesRegex(ValueError, "membership"):
+            tabpfn_run.parse_frozen_incumbent(content, (("wrong", (), validation),))
+
+        with tempfile.TemporaryDirectory() as temporary:
+            artifact = Path(temporary) / "predictions.csv"
+            artifact.write_bytes(content)
+            digest = hashlib.sha256(content).hexdigest()
+            metadata = {
+                "prediction_artifact_sha256": digest,
+                "outputs": {"predictions.csv": digest},
+            }
+            with patch.object(tabpfn_run, "FROZEN_PREDICTION_SHA256", digest):
+                self.assertEqual(
+                    tabpfn_run.read_frozen_prediction_snapshot(artifact, metadata),
+                    content,
+                )
+            with self.assertRaisesRegex(ValueError, "hash"):
+                tabpfn_run.read_frozen_prediction_snapshot(artifact, metadata)
+
+        with self.assertRaisesRegex(ValueError, "design"):
+            tabpfn_run.verify_frozen_design({})
 
     def test_runtime_identity_and_exact_lock_validation(self) -> None:
         fake_torch = SimpleNamespace(

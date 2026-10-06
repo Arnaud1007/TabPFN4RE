@@ -95,3 +95,7 @@
 /runs/king-tabpfn-preflight-20261006-v1/preflight.json -text
 /runs/king-tabpfn-preflight-20261006-v1/report.md -text
 /runs/king-tabpfn-preflight-20261006-v1/test_gate.json -text
+/decisions/0111-king-lightgbm-development.md -text
+/locks/king-lightgbm-development.json -text
+/scripts/run_king_lightgbm_development.py -text
+/tests/test_king_lightgbm_development.py -text

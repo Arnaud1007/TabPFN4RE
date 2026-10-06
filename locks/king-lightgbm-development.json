@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "lightgbm": "4.7.0",
+    "narwhals": "2.26.0",
+    "numpy": "2.4.6",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.0"
+  },
+  "python": "3.11.6",
+  "purpose": "King County bounded LightGBM development screen",
+  "schema_version": 1
+}

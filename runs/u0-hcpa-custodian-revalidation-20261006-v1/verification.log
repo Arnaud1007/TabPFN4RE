@@ -1,0 +1,8 @@
+EML_PARSE_OK
+recipient=martinezm@hcpafl.org
+content_type=text/plain
+sender_header_absent=true
+approved_body_exact_match=true
+official_source_count=3
+delivery_status=not_sent
+crlf_only=true

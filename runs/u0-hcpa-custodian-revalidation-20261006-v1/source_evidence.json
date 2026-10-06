@@ -1,0 +1,26 @@
+{
+  "run_id": "u0-hcpa-custodian-revalidation-20261006-v1",
+  "checked_on": "2026-10-06",
+  "publisher": "Hillsborough County Property Appraiser",
+  "official_sources": [
+    {
+      "url": "https://www.hcpafl.org/Portals/HCPAFL/RecordsCustodianforHCPA_Marilyn.pdf?ver=2023-04-29-105106-420",
+      "observed_claim": "Names Marilyn Martinez as Records Custodian and directs HCPA records requests to martinezm@hcpafl.org."
+    },
+    {
+      "url": "https://www.hcpafl.org/Links/HCPA-Directors",
+      "observed_claim": "Lists Marilyn Martinez as Director of Administrative Services and Records Custodian."
+    },
+    {
+      "url": "https://hcpafl.org/Contact-Us/Email-Us-Feedback",
+      "observed_claim": "Lists custserv@hcpafl.org for general questions, concerns, or comments."
+    }
+  ],
+  "selected_recipient": "martinezm@hcpafl.org",
+  "general_feedback_fallback": "custserv@hcpafl.org",
+  "superseded_recipient": "shepherdw@hcpafl.org",
+  "draft_markdown": "data/requests/hcpa_all_sales_inquiry_draft.md",
+  "draft_email": "data/requests/hcpa_all_sales_inquiry.eml",
+  "delivery_status": "not_sent",
+  "delivery_blocker": "No authenticated mail surface is available in this workspace."
+}

@@ -2,6 +2,22 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## HCPA custodian recipient revalidated, 6 October 2026
+
+The [recipient revalidation](runs/u0-hcpa-custodian-revalidation-20261006-v1/report.md)
+confirms from current official HCPA sources that Marilyn Martinez is the
+Records Custodian and that records requests should use
+`martinezm@hcpafl.org`. The earlier recipient is superseded. A plain-text
+ready-to-import `.eml` now accompanies the approved Markdown inquiry. The
+owner's authenticated mail client must populate its intentionally absent
+`From` and `Reply-To` fields before delivery.
+
+The inquiry remains unsent because this workspace has no authenticated mail
+surface. Until an authoritative response resolves sale-date meaning,
+first-publication history, repeated consideration and permitted commercial
+use, do not admit HCPA sales to certified model training. Revalidate the
+recipient again immediately before any later send.
+
 ## Three-field King ablation rejected, 6 October 2026
 
 The [three-field development ablation](runs/king-three-field-ablation-20261006-v1/report.md)

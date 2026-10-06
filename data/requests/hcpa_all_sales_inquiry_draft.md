@@ -1,12 +1,20 @@
 # Draft: HCPA All Sales source clarification
 
-Status: local draft; not sent. Prepared 2026-09-28. The project owner approved
-sending it, then chose a ready-to-send email handoff because no authenticated
-mail account or mail window is available in this workspace. Delivery by the
-owner is unverified.
+Status: ready-to-import local draft; not sent. Prepared 2026-09-28 and recipient
+revalidated 2026-10-06. The project owner approved sending it, then chose a
+ready-to-send email handoff because no authenticated mail account or mail
+window is available in this workspace. Delivery by the owner is unverified.
+The `.eml` intentionally omits `From` and `Reply-To`; the sending mail client
+must populate them from the owner's authenticated account before delivery.
 
-To: shepherdw@hcpafl.org, the HCPA records custodian address listed in the
-[official custodian notice](https://www.hcpafl.org/Portals/HCPAFL/pdfs/RecordsCustodianforHCPA.pdf).
+To: martinezm@hcpafl.org. The current
+[official records-custodian notice](https://www.hcpafl.org/Portals/HCPAFL/RecordsCustodianforHCPA_Marilyn.pdf?ver=2023-04-29-105106-420)
+names Marilyn Martinez and directs HCPA records requests to this address. The
+[official directors page](https://www.hcpafl.org/Links/HCPA-Directors) lists
+her as Director of Administrative Services and Records Custodian. The
+[official feedback page](https://hcpafl.org/Contact-Us/Email-Us-Feedback)
+lists `custserv@hcpafl.org` for general questions, concerns or comments; it is
+retained as a fallback and is not the addressee of this records inquiry.
 
 ## Proposed message
 
@@ -59,3 +67,11 @@ Thank you.
   data request products, but does not establish historical All Sales vintages.
 - The local U0 audit currently treats these questions as unresolved and does
   not train a releasable model on this source.
+
+## Recipient provenance
+
+The recipient was revalidated against the three official HCPA sources above
+on 6 October 2026. The earlier `shepherdw@hcpafl.org` recipient is superseded
+and must not be used for this draft. The matching plain-text email artifact is
+`data/requests/hcpa_all_sales_inquiry.eml`. No authenticated mail surface was
+available, so neither draft was sent.

@@ -1,0 +1,36 @@
+To: martinezm@hcpafl.org
+Subject: All Sales data definitions, historical releases, and permitted use
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hello,
+
+I am assessing whether the Hillsborough County Property Appraiser's public
+All Sales files can support a research and potentially commercial residential
+sale-price prediction system. Could you please clarify the following or direct
+me to the responsible data and permissions staff?
+
+1. What event does `S_DATE` represent in the All Sales DBF: contractual closing,
+   deed execution, Clerk recording, an assessor-entered effective date, or
+   another event? Is that meaning consistent across historical releases?
+2. Is the date when an individual sale first entered the public All Sales file
+   recorded anywhere? Are prior dated ZIP releases, publication logs, correction
+   histories, or data dictionaries available, and how can they be requested?
+3. Does one All Sales row always represent the entire consideration for one
+   parcel, or can a multi-parcel deed repeat the full consideration on each
+   parcel? Which fields or rules identify those cases and later corrections?
+4. The general disclaimer in the root `_Documentation.doc` says users may
+   redistribute "this data," modified or unmodified, if all HCPA references
+   are removed from the final product. Does that permission cover the
+   standalone All Sales ZIP as well as the parcel layer, and does it cover
+   training and serving a commercial automated valuation model? Please
+   distinguish raw records, derived features or model weights, and display of
+   individual comparable-sale records. Are there additional fees or conditions?
+
+I can supply the exact public archive name and a small number of record
+examples through a suitable channel if they would help resolve the field
+definitions. I would appreciate any current data dictionary, release schedule,
+and applicable use terms.
+
+Thank you.

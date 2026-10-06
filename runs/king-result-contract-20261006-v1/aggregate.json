@@ -1,0 +1,25 @@
+{
+  "amount_usd": 553846.9739548098,
+  "cli_cold_seconds": [
+    2.444909,
+    2.253415,
+    2.4699471,
+    2.4290911,
+    2.3112807,
+    2.478191,
+    2.6357861,
+    2.36179,
+    1.9954367,
+    2.0312325
+  ],
+  "cli_cold_seconds_max": 2.6357861,
+  "cli_cold_seconds_median": 2.39544055,
+  "cold_two_second_target": "FAIL",
+  "g_us_gate": "PENDING",
+  "implementation_commit": "0d2b91002ca4a4a193c924ffe57578d854a08ab7",
+  "response_schema_version": "king_historical_prediction_response_v2",
+  "result_contract": "PASS",
+  "scope": "historical_research_only",
+  "service_area_status": "not_validated",
+  "uncertainty_status": "unavailable"
+}

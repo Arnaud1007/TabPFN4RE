@@ -2,7 +2,20 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
-## Fast cold prediction verified, 6 October 2026
+## Prediction result and latency verified, 6 October 2026
+
+The [historical result contract](runs/king-result-contract-20261006-v1/report.md)
+now makes the saved estimate's 2015 cutoff, historical freshness, unvalidated
+market support, unavailable intervals and evidence limits explicit in both CLI
+and form output. New receipts require the exact schema; older hash-valid
+receipts remain recoverable for commitment.
+
+Ten fresh CLI timings were 2.00-2.64 seconds (2.40-second median), so the cold
+two-second target is currently **not met** despite the earlier faster run.
+Keep the model resident in the form for repeated predictions. The next local
+performance task is profiling and reducing strict JSON bundle validation time
+without weakening checkpoint or schema verification.
+
 
 The [dependency-free inference checkpoint](runs/king-pure-inference-20261006-v1/report.md)
 verified the pinned 250-tree model against XGBoost on 31,285 rows with zero

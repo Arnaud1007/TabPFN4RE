@@ -4,6 +4,13 @@ Updated: 2026-10-06. Branch: `audit/u0`.
 
 ## Prediction result and latency verified, 6 October 2026
 
+The [batched ACL latency checkpoint](runs/king-batched-acl-latency-20261006-v1/report.md)
+removed the measured cold-start bottleneck without bypassing private-directory
+checks. Ten complete CLI predictions took 0.95-1.39 seconds (1.28-second
+median), all returned the exact same estimate, and all passed the two-second
+target. Continue using the resident form for repeated predictions.
+
+
 The [historical result contract](runs/king-result-contract-20261006-v1/report.md)
 now makes the saved estimate's 2015 cutoff, historical freshness, unvalidated
 market support, unavailable intervals and evidence limits explicit in both CLI

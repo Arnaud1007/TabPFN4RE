@@ -1,0 +1,22 @@
+{
+  "amount_usd": 553846.9739548098,
+  "cli_cold_seconds": [
+    1.0771746,
+    1.2213402,
+    1.2600356,
+    1.3924028,
+    1.3414793,
+    1.3408294,
+    0.9496742,
+    1.243569,
+    1.2934028,
+    1.3373054
+  ],
+  "cli_cold_seconds_max": 1.3924028,
+  "cli_cold_seconds_median": 1.2767192,
+  "cold_two_second_target": "PASS",
+  "implementation_commit": "adecc2a",
+  "manifest_sha256": "50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d",
+  "prediction_count": 10,
+  "status": "PASS"
+}

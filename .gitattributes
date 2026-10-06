@@ -88,3 +88,7 @@
 /decisions/0110-hcpa-off-runner-preflight.md -text
 /scripts/run_hcpa_off_baseline.py -text
 /tests/test_run_hcpa_off_baseline.py -text
+/decisions/0112-king-tabpfn-development.md -text
+/locks/king-tabpfn-development.json -text
+/scripts/run_king_tabpfn_development.py -text
+/tests/test_king_tabpfn_development.py -text

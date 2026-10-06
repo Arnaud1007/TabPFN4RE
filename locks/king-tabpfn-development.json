@@ -1,0 +1,25 @@
+﻿{
+  "checkpoint": {
+    "filename": "tabpfn-v3.5-20260909.safetensors",
+    "hugging_face_repository": "Prior-Labs/tabpfn_3_5",
+    "id": "tabpfn_3_5/tabpfn-v3.5-20260909.safetensors",
+    "revision": null,
+    "sha256": null
+  },
+  "dependencies": {
+    "numpy": "2.4.6",
+    "tabpfn": "9.1.0",
+    "torch": "2.10.0"
+  },
+  "license": {
+    "acceptance_automated": false,
+    "gated_weights": true,
+    "release_eligibility": "unresolved"
+  },
+  "python": "3.11.6",
+  "schema_version": 1,
+  "source": {
+    "commit": "0b1a081",
+    "release_tag": "v9.1.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "bitwise_mismatches": 0,
+  "checkpoint_sha256": "de9a7e8b1b6261a689070af200e4c4d1eb51a4fb5d77d8977341875bbf7d7357",
+  "cli_cold_seconds": [
+    1.6393838,
+    1.7736912,
+    1.2605337,
+    1.7352392,
+    1.1804068
+  ],
+  "cli_cold_seconds_max": 1.7736912,
+  "cli_cold_seconds_median": 1.6393838,
+  "example_amount_usd": 553846.9739548098,
+  "feature_count": 84,
+  "g_us_gate": "PENDING",
+  "implementation_commit": "9fee3ea193b5fbc35adcfac336692912e87d17f3",
+  "inference_runtime": "stdlib_xgboost_json_v1",
+  "manifest_sha256": "50ca467e61a52752e5ff9082297eeff1b294ef761aec383c8c7d2537c027941d",
+  "random_differential_rows": 1000,
+  "rows_compared": 31285,
+  "scope": "historical_research_only",
+  "status": "PASS",
+  "targeted_internal_nodes": 10095
+}

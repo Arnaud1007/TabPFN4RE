@@ -2,6 +2,18 @@
 
 Updated: 2026-10-06. Branch: `audit/u0`.
 
+## Fast cold prediction verified, 6 October 2026
+
+The [dependency-free inference checkpoint](runs/king-pure-inference-20261006-v1/report.md)
+verified the pinned 250-tree model against XGBoost on 31,285 rows with zero
+bitwise mismatches. Five complete CLI predictions took 1.18-1.77 seconds and
+all returned **$553,846.97** for the example request. Use
+`Launch-KingResearchForm.cmd`; model training is not performed for a request.
+
+The next model-critical task is one fixed OFF baseline on a source whose
+point-in-time fields, transaction scope and use rights have cleared. The saved
+King predictor remains historical research evidence and G-US is still pending.
+
 ## Resident prediction latency measured, 6 October 2026
 
 The [resident-latency checkpoint](runs/king-resident-latency-20261006-v1/report.md)
